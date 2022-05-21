@@ -4,6 +4,7 @@ En el siguiente repositorio iremos agregando todo el desarrollo que se van codif
  -Develop: Código fuente en desarrollo, pre productivo, se encuentra en etapa de testing, previo a la aprobación al cliente.
  -Feature/ otra rama: código en proceso de desarrollo.
 -Las ramas Main y Develops, son las ramas principales, por la cual tenemos que respetar y ante cualquier modificación informar al equipo.
+-Por cada commit que realice hacer comentario.
 -Herramientas:
 	- React v17.
 	- HTML5
