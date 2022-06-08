@@ -39,6 +39,7 @@ export default function LoginPage() {
                             </Typography>
                             <TextField
                                 fullWidth
+                                size="small"
                                 sx={{ my: 1 }}
                                 id="email"
                                 label="email"
@@ -47,6 +48,7 @@ export default function LoginPage() {
                             />
                             <TextField
                                 fullWidth
+                                size="small"
                                 sx={{ my: 1 }}
                                 type="password"
                                 id="password"
@@ -56,7 +58,7 @@ export default function LoginPage() {
                             />
                             <FormControlLabel
                                 label="Recordar mi usuario"
-                                size=""
+                                size="small"
                                 control={
                                     <Checkbox
                                         sx={{ '& .MuiSvgIcon-root': { fontSize: 14 } }}
