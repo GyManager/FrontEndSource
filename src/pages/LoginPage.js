@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 
-import { ThemeProvider } from '@mui/material/styles/'
-import themeConfig from '../themeConfig'
-
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -16,11 +13,8 @@ import Button from '@mui/material/Button'
 export default function LoginPage() {
     const [email, setEmail] = useState(() => '');
     const [password, setPassword] = useState(() => '')
-
     return (
-
         <div>
-
             <Box sx={{ width: '100%' }}
             >
                 <Container fluid>
