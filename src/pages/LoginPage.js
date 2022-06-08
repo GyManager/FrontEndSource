@@ -16,8 +16,9 @@ export default function LoginPage() {
     return (
         <div>
             <Box sx={{ width: '100%' }}
+                    
             >
-                <Container fluid>
+                <Container maxWidth="xs">
                     <Typography variant="h4" align="center" component="div" gutterBottom>
                         CorE
                     </Typography>
