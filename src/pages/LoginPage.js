@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import Link from '@mui/material/Link';
 import Button from '@mui/material/Button'
 
 
@@ -16,7 +17,6 @@ export default function LoginPage() {
     return (
         <div>
             <Box sx={{ width: '100%' }}
-                    
             >
                 <Container maxWidth="xs">
                     <Typography variant="h4" align="center" component="div" gutterBottom>
@@ -63,7 +63,6 @@ export default function LoginPage() {
                                 control={
                                     <Checkbox
                                         sx={{ '& .MuiSvgIcon-root': { fontSize: 14 } }}
-
                                         value="checkBox"
                                         //   onChange={()=}
                                         color="primary"
@@ -75,20 +74,18 @@ export default function LoginPage() {
                                 sx={{ mt: 2 }}
                                 variant="contained"
                                 type="submit"
-                                color="secondary"
+                                color="primary"
                             >
                                 Iniciar sesión
                             </Button>
-
                             <Typography
                                 sx={{ pt: 1, pb: 3 }}
                                 variant="caption"
                                 align="right"
                                 component="div"
-                                gutterBottom>
-                                Olvido su contraseña?
+                                >
+                                <Link href="">Olvido su contraseña?</Link>
                             </Typography>
-
                         </Container>
                     </Paper>
                 </Container>
