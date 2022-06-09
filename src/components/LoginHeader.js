@@ -6,7 +6,7 @@ function LoginHeader() {
         <div>
             <Typography
                 sx={{
-                    mt: { xs: 1, lg: 3, xl: 12 }
+                    mt: { xs: 1, lg: 0, xl: 12 }
                 }}
                 variant="h4"
                 align="center"
@@ -23,7 +23,7 @@ function LoginHeader() {
                 align="center"
                 component="div"
             >
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima aspernatur non ex  ea?
+                Bienvenidos a CorE! Hoy es un buen dia para entrenar.
             </Typography></div>
     )
 }

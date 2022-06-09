@@ -20,7 +20,7 @@ function LoginForm() {
             >
                 <Container component="form" sx={{ gap: 4 }}>
                     <Typography
-                        sx={{ pt: 5, pb: 1 }}
+                        sx={{ pt: 3, pb: 1 }}
                         variant="h6"
                         align="center"
                         component="div"
