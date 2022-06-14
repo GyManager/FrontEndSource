@@ -4,7 +4,6 @@ import AppBar from './components/Appbar'
 import Login from './pages/LoginPage'
 import Footer from './components/Footer';
 
-
 function App() {
   return (
     <div className="App" >

@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+
+import { Link } from 'react-router-dom'
+
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,10 +17,11 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 240;
 
@@ -65,7 +69,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 }));
-
 export default function PersistentDrawerLeft() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -73,10 +76,26 @@ export default function PersistentDrawerLeft() {
     const handleDrawerOpen = () => {
         setOpen(true);
     };
-
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const menuItem = [
+        {
+            text: "Home",
+            icon: <HomeIcon />,
+            url: "/"
+        },
+        {
+            text: "Clientes",
+            icon: <InboxIcon />,
+            url: "/"
+        },
+        {
+            text: "Planes",
+            icon: <MailIcon />,
+            url: "/"
+        }]
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -117,34 +136,25 @@ export default function PersistentDrawerLeft() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
+                    {menuItem.map((object) => (
+                        <Link to={object.url} className={'Link'}>
+                            <ListItem key={object.text} disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {object.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={object.text} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
                 <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
+
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
             </Main>
-        </Box>
+        </Box >
     );
 }
