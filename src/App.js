@@ -1,6 +1,6 @@
 import './App.css';
 
-import Drawer from './components/Drawer'
+import Drawer from './components/drawer/Drawer'
 import Login from './pages/LoginPage'
 import Footer from './components/Footer';
 
