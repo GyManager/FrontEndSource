@@ -7,12 +7,13 @@ const login = (email, password) => {
     var bodyFormData  = new FormData();
     bodyFormData.append('mail', email);
     bodyFormData.append('pass', password);
-    
 
+console.log('llegue')
     return axios
         .post(API_URL + "/auth", bodyFormData)
         .then((response) => {
-            if (response.data.accessToken) {
+            console.log(response, response.data)
+            if (response.data.access_token) {
                 localStorage.setItem("user", JSON.stringify(response.data));
             }
             else{

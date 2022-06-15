@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 
 import Header from '../components/loginPage/LoginHeader';
 // import Form from '../components/loginPage/LoginForm';
-import FormWithFormik from '../components/loginPage/LoginFormWithFormik';
+// import FormWithFormik from '../components/loginPage/LoginFormWithFormik';
 import Aux from '../components/loginPage/LoginFormF'
 
 export default function LoginPage() {
@@ -16,8 +16,8 @@ export default function LoginPage() {
                 <Container maxWidth="xs">
                     <Header/>
                     {/* <Form/> */}
-                    <FormWithFormik/>
-                    {/* <Aux/> */}
+                    {/* <FormWithFormik/> */}
+                    <Aux/>
                 </Container>
             </Box>
         </div>
