@@ -3,8 +3,8 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
-import Header from '../components/LoginHeader';
-import Form from '../components/LoginForm';
+import Header from '../components/loginPage/LoginHeader';
+import Form from '../components/loginPage/LoginForm';
 
 export default function LoginPage() {
     return (
