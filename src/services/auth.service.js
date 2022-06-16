@@ -7,8 +7,6 @@ const login = (email, password) => {
     var bodyFormData  = new FormData();
     bodyFormData.append('mail', email);
     bodyFormData.append('pass', password);
-
-console.log('llegue')
     return axios
         .post(API_URL + "/auth", bodyFormData)
         .then((response) => {
@@ -19,7 +17,6 @@ console.log('llegue')
             else{
                 console.log("error en la peticion")
             }
-
             return response.data;
         });
 };

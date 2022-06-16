@@ -1,39 +1,76 @@
-import React from 'react'
-
+// Todo hacer el checkbox "Recordar usuario"
+// Todo hacer que la sesion sea persistente. Ver video2 del JWT
+// Todo separa mejor por capas la funcion connectToServices() y llevar su 
+//      codigo al componente AuthService
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+
+import AuthService from '../../services/auth.service';
 
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-
-
+import LoginModal from './LoginModal';
 
 const validationSchema = yup.object({
     email: yup
-        .string('Enter your email')
-        .email('Enter a valid email')
-        .required('Email is required'),
+        .string('Ingrese su email')
+        .email('Ingrese un email válido')
+        .required('El email es obligatorio'),
     password: yup
-        .string('Enter your password')
-        .min(8, 'Password should be of minimum 8 characters length')
-        .required('Password is required'),
+        .string('Ingrese su contraseña')
+        .min(8, 'La contraseña debería tener como mínimo 8 caracteres')
+        .required('La contraseña es obligatoria'),
 });
 
 const LoginFormWithFormik = () => {
+    const [modal, setModal] = useState(false);
+    const [modalMsj, setModalMsj] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
+
+    const navigate = useNavigate();
+    const connectToServices = async (mail, pass) => {
+        console.log(AuthService)
+
+        try {
+            await AuthService.login(mail, pass).then(
+                () => {
+                    navigate("/Ok");
+                    window.location.reload();
+                },
+                (error) => {
+                    setModal(true);
+                    setModalTitle('Error: ' + error.response.data.status)
+                    if (error.response.data.status === 401) {
+                        setModalMsj("Usuario o contraseña incorrecta");
+                    } else {
+                        console.log("Error en el servidor")
+                        setModalMsj(" Error en el servidor");
+                    }
+                }
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const formik = useFormik({
         initialValues: {
-            email: 'JuanCarlos@gmail.com',
-            password: 'foobar',
+            // email: 'fedeg@gmail.com',
+            // password: '12345678',
+            email: '',
+            password: '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            setModal(true)
+            connectToServices(values.email, values.password)
         },
     });
 
@@ -43,17 +80,31 @@ const LoginFormWithFormik = () => {
                 sx={{ borderRadius: 3 }}
                 elevation={3}
             >
-                <Container component="form" sx={{ gap: 4 }} onSubmit={formik.handleSubmit}>
+                <Container
+                    component="form"
+                    sx={{ gap: 4 }}
+                    onSubmit={formik.handleSubmit}>
                     <Typography
-                        sx={{ pt: 3, pb: 1 }}
+                        sx={{ pt: 3, pb: 0 }}
                         variant="h6"
                         align="center"
                         component="div"
                         gutterBottom>
                         Iniciar Sesión
                     </Typography>
-
-                    {/* --------------------------Aca con formik-------------------------- */}
+                    {modal ?
+                        <Typography
+                        sx={{ pt: 0, pb: 0 }}
+                            color='error.main'
+                            variant="body2"
+                            align="center"
+                            component="div"
+                            gutterBottom>
+                            {modalMsj}
+                        </Typography> 
+                        :
+                    null
+                    }
                     <TextField
                         fullWidth
                         size="small"
@@ -70,10 +121,10 @@ const LoginFormWithFormik = () => {
                         fullWidth
                         size="small"
                         sx={{ my: 1 }}
-                        name="password"
-                        type="password"
                         id="password"
+                        name="password"
                         label="Contraseña"
+                        type="password"
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         error={formik.touched.password && Boolean(formik.errors.password)}
@@ -91,7 +142,6 @@ const LoginFormWithFormik = () => {
                             />
                         }
                     />
-
                     <Button
                         fullWidth
                         sx={{ mt: 2 }}
@@ -111,6 +161,9 @@ const LoginFormWithFormik = () => {
                     </Typography>
                 </Container>
             </Paper>
+            {/* <LoginModal onSubmit={{ modal? {() => handleOpen} : {()=>handleClose} serverTitle={modalTitle} serverMsj={modalMsj}/> */}
+            {/* } */}
+            {/* <LoginFormWithFormik onSubmit={() => handleOpen('') }/> */}
         </div>
     )
 }

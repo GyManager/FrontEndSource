@@ -8,7 +8,11 @@ import {
 } from "react-router-dom";
 
 import App from './App';
+
 import Acceso from './components/accesoOk'
+import Drawer from './components/drawer/Drawer'
+
+import Footer from './components/Footer';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
