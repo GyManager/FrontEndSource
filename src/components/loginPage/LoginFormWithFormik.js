@@ -1,6 +1,6 @@
 // Todo hacer el checkbox "Recordar usuario"
 // Todo hacer que la sesion sea persistente. Ver video2 del JWT
-// Todo separa mejor por capas la funcion connectToServices() y llevar su 
+// Todo separa mejor por capas la funcion connectToServices() y llevar su
 //      codigo al componente AuthService
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -34,8 +34,22 @@ const LoginFormWithFormik = () => {
     const [modal, setModal] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
     const [modalTitle, setModalTitle] = useState("");
+    //Levantar estado de LoginModal
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {setOpen(false); console.log(open)}
 
+    /*const closeModal = () => {
+        mostrar = false;
+
+    }*/
+    //Hasta lenvantar estado de LoginModal
     const navigate = useNavigate();
+
+    const handleModal = () => {
+        setModal(!modal)
+    }
+
     const connectToServices = async (mail, pass) => {
         console.log(AuthService)
 
@@ -47,6 +61,7 @@ const LoginFormWithFormik = () => {
                 },
                 (error) => {
                     setModal(true);
+                    setOpen(true)
                     setModalTitle('Error: ' + error.response.data.status)
                     if (error.response.data.status === 401) {
                         setModalMsj("Usuario o contraseña incorrecta");
@@ -58,14 +73,18 @@ const LoginFormWithFormik = () => {
             );
         } catch (err) {
             console.log(err);
+        } finally {
+            console.log(modal)
         }
     };
+
+
     const formik = useFormik({
         initialValues: {
-            // email: 'fedeg@gmail.com',
-            // password: '12345678',
-            email: '',
-            password: '',
+            email: 'fedeg@gmail.com',
+            password: '12345678aA',
+            // email: '',
+            // password: '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -92,19 +111,17 @@ const LoginFormWithFormik = () => {
                         gutterBottom>
                         Iniciar Sesión
                     </Typography>
-                    {modal ?
-                        <Typography
+
+                    <Typography
                         sx={{ pt: 0, pb: 0 }}
-                            color='error.main'
-                            variant="body2"
-                            align="center"
-                            component="div"
-                            gutterBottom>
-                            {modalMsj}
-                        </Typography> 
-                        :
-                    null
-                    }
+                        color='error.main'
+                        variant="body2"
+                        align="center"
+                        component="div"
+                        gutterBottom>
+                        {modalMsj}
+                    </Typography>
+
                     <TextField
                         fullWidth
                         size="small"
@@ -161,9 +178,12 @@ const LoginFormWithFormik = () => {
                     </Typography>
                 </Container>
             </Paper>
-            {/* <LoginModal onSubmit={{ modal? {() => handleOpen} : {()=>handleClose} serverTitle={modalTitle} serverMsj={modalMsj}/> */}
-            {/* } */}
-            {/* <LoginFormWithFormik onSubmit={() => handleOpen('') }/> */}
+            <LoginModal
+                abierto={open}
+                cerrar={handleClose}
+                serverTitle={modalTitle}
+                serverMsj={modalMsj} />
+            :
         </div>
     )
 }
