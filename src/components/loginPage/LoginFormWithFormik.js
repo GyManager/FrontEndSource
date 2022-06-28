@@ -31,24 +31,14 @@ const validationSchema = yup.object({
 });
 
 const LoginFormWithFormik = () => {
-    const [modal, setModal] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     //Levantar estado de LoginModal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {setOpen(false); console.log(open)}
-
-    /*const closeModal = () => {
-        mostrar = false;
-
-    }*/
+    const handleClose = () => { setOpen(false); console.log(open) }
     //Hasta lenvantar estado de LoginModal
     const navigate = useNavigate();
-
-    const handleModal = () => {
-        setModal(!modal)
-    }
 
     const connectToServices = async (mail, pass) => {
         console.log(AuthService)
@@ -60,24 +50,19 @@ const LoginFormWithFormik = () => {
                     window.location.reload();
                 },
                 (error) => {
-                    setModal(true);
-                    setOpen(true)
+                    setOpen(true);
                     setModalTitle('Error: ' + error.response.data.status)
                     if (error.response.data.status === 401) {
                         setModalMsj("Usuario o contraseña incorrecta");
                     } else {
-                        console.log("Error en el servidor")
                         setModalMsj(" Error en el servidor");
                     }
                 }
             );
         } catch (err) {
             console.log(err);
-        } finally {
-            console.log(modal)
         }
     };
-
 
     const formik = useFormik({
         initialValues: {
@@ -88,7 +73,6 @@ const LoginFormWithFormik = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            setModal(true)
             connectToServices(values.email, values.password)
         },
     });
@@ -154,7 +138,6 @@ const LoginFormWithFormik = () => {
                             <Checkbox
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 14 } }}
                                 value="checkBox"
-                                //   onChange={()=}
                                 color="primary"
                             />
                         }
@@ -183,7 +166,7 @@ const LoginFormWithFormik = () => {
                 cerrar={handleClose}
                 serverTitle={modalTitle}
                 serverMsj={modalMsj} />
-            :
+
         </div>
     )
 }
