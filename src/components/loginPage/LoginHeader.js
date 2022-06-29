@@ -6,7 +6,7 @@ function LoginHeader() {
         <div>
             <Typography
                 sx={{
-                    mt: { xs: 1, lg: 0, xl: 12 }
+                    mt: { xs: 5, sm:12, md: 12, lg: 1, xl: 8 }
                 }}
                 variant="h4"
                 align="center"
@@ -16,8 +16,8 @@ function LoginHeader() {
             </Typography>
             <Typography
                 sx={{
-                    mt: { xs: 2, sm: 4, md: 3, lg: 3, xl: 4 },
-                    mb: { xs: 4, sm: 4, md: 6, lg: 3, xl: 10 }
+                    mt: { xs: 4, sm: 5, md: 1, lg: 1, xl: 4 },
+                    mb: { xs: 5, sm: 4, md: 6, lg: 3, xl: 10 }
                 }}
                 variant="body2"
                 align="center"

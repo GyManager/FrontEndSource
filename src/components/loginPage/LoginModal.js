@@ -2,13 +2,16 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Stack from '@mui/material/Stack';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: '25vw',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -26,12 +29,12 @@ export default function LoginModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {props.serverTitle}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Stack direction='row' spacing={2}>
+            <ReportGmailerrorredIcon color='warning'/>
+            <Typography id="modal-modal-description">
             {props.serverMsj}
-          </Typography>
+            </Typography>
+          </Stack>
         </Box>
       </Modal>
     </div>

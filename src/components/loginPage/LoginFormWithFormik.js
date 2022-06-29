@@ -12,6 +12,7 @@ import AuthService from '../../services/auth.service';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -32,7 +33,6 @@ const validationSchema = yup.object({
 
 const LoginFormWithFormik = () => {
     const [modalMsj, setModalMsj] = useState("");
-    const [modalTitle, setModalTitle] = useState("");
     //Levantar estado de LoginModal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -51,7 +51,6 @@ const LoginFormWithFormik = () => {
                 },
                 (error) => {
                     setOpen(true);
-                    setModalTitle('Error: ' + error.response.data.status)
                     if (error.response.data.status === 401) {
                         setModalMsj("Usuario o contraseña incorrecta");
                     } else {
@@ -96,15 +95,19 @@ const LoginFormWithFormik = () => {
                         Iniciar Sesión
                     </Typography>
 
-                    <Typography
-                        sx={{ pt: 0, pb: 0 }}
-                        color='error.main'
-                        variant="body2"
-                        align="center"
-                        component="div"
-                        gutterBottom>
-                        {modalMsj}
-                    </Typography>
+                    {modalMsj === '' ?
+                        <Typography
+                            sx={{ pt: 0, pb: 0 }}
+                            color='error.main'
+                            variant="body2"
+                            align="center"
+                            component="div"
+                            gutterBottom>
+                        </Typography>
+                    :
+                    <Alert severity="error"
+                        sx={{ mb: 2 }}>{modalMsj}</Alert>
+                    }
 
                     <TextField
                         fullWidth
@@ -164,7 +167,6 @@ const LoginFormWithFormik = () => {
             <LoginModal
                 abierto={open}
                 cerrar={handleClose}
-                serverTitle={modalTitle}
                 serverMsj={modalMsj} />
 
         </div>
