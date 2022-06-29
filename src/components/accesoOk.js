@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 function accesoOk() {
   return (
     <div>
-      <Drawer />
+
       <Typography
         sx={{ pt: 3, pb: 1 }}
         variant="h6"
@@ -16,7 +16,6 @@ function accesoOk() {
         Ud ha iniciado sesion (...En construccion)
       </Typography>
 
-      <Footer />
     </div>
   )
 }
