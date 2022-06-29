@@ -23,8 +23,8 @@ export default function LoginModal(props) {
   return (
     <div>
       <Modal
-        open={props.abierto}
-        onClose={props.cerrar}
+        open={props.show}
+        onClose={props.hide}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

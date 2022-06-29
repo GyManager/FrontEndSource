@@ -19,6 +19,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import LoginModal from './LoginModal';
+import LoginBackdrop from './LoginBackdrop'
 
 const validationSchema = yup.object({
     email: yup
@@ -34,23 +35,33 @@ const validationSchema = yup.object({
 const LoginFormWithFormik = () => {
     const [modalMsj, setModalMsj] = useState("");
     //Levantar estado de LoginModal
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => { setOpen(false); console.log(open) }
-    //Hasta lenvantar estado de LoginModal
+    const [openModal, setOpenModal] = useState(false);
+    const handleCloseModal = () => { setOpenModal(false) }
+    //Hasta aca lenvantar estado de LoginModal
+    //Levantar estado de LoginBackdrop
+    const [openBackdrop, setOpenBackdrop] = useState(false);
+    const handleCloseBackdrop = () => {
+        setOpenBackdrop(false);
+    };
+    //Hasta aca lenvantar estado de LoginBackdrop
+
     const navigate = useNavigate();
+
+
 
     const connectToServices = async (mail, pass) => {
         console.log(AuthService)
-
+        setOpenBackdrop(true)
         try {
             await AuthService.login(mail, pass).then(
                 () => {
+                    setOpenBackdrop(false)
                     navigate("/Ok");
                     window.location.reload();
                 },
                 (error) => {
-                    setOpen(true);
+                    setOpenBackdrop(false)
+                    setOpenModal(true);
                     if (error.response.data.status === 401) {
                         setModalMsj("Usuario o contraseña incorrecta");
                     } else {
@@ -104,9 +115,9 @@ const LoginFormWithFormik = () => {
                             component="div"
                             gutterBottom>
                         </Typography>
-                    :
-                    <Alert severity="error"
-                        sx={{ mb: 2 }}>{modalMsj}</Alert>
+                        :
+                        <Alert severity="error"
+                            sx={{ mb: 2 }}>{modalMsj}</Alert>
                     }
 
                     <TextField
@@ -165,9 +176,12 @@ const LoginFormWithFormik = () => {
                 </Container>
             </Paper>
             <LoginModal
-                abierto={open}
-                cerrar={handleClose}
+                show={openModal}
+                hide={handleCloseModal}
                 serverMsj={modalMsj} />
+            <LoginBackdrop
+                show={openBackdrop}
+                hide={handleCloseBackdrop} />
 
         </div>
     )
