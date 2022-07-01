@@ -56,7 +56,7 @@ const LoginFormWithFormik = () => {
             await AuthService.login(mail, pass).then(
                 () => {
                     setOpenBackdrop(false)
-                    navigate("/Ok");
+                    navigate("/")
                     window.location.reload();
                 },
                 (error) => {

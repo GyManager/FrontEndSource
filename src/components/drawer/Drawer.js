@@ -4,8 +4,6 @@ import { styled, useTheme } from '@mui/material/styles';
 // y otro (drawer) (quizas llamar a este archivo navbar) ver componente contenedor del
 // curso MUI ya esta implementado.
 
-import { Link } from 'react-router-dom'
-
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,13 +16,10 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
+import DrawerItem from './DrawerItem';
 
 const drawerWidth = 240;
 
@@ -72,7 +67,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 }));
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({showMenu, token}) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -87,17 +82,26 @@ export default function PersistentDrawerLeft() {
         {
             text: "Home",
             icon: <HomeIcon />,
-            url: "/"
+            url: "/",
+            permiso: ""
+        },
+        {
+            text: "Mis Planes",
+            icon: <MailIcon />,
+            url: "/mis-planes",
+            permiso: "mis-planes"
         },
         {
             text: "Clientes",
             icon: <InboxIcon />,
-            url: "/"
+            url: "/clientes",
+            permiso: "gestion-clientes"
         },
         {
             text: "Planes",
-            icon: <MailIcon />,
-            url: "/"
+            icon: <InboxIcon />,
+            url: "/planes",
+            permiso: "gestion-planes"
         }]
 
     return (
@@ -105,6 +109,7 @@ export default function PersistentDrawerLeft() {
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
+                    { showMenu &&
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -114,12 +119,13 @@ export default function PersistentDrawerLeft() {
                     >
                         <MenuIcon />
                     </IconButton>
+                    }
                     <Typography variant="h6" noWrap component="div">
                         CorE
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Drawer
+            { showMenu && <Drawer 
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -139,21 +145,13 @@ export default function PersistentDrawerLeft() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {menuItem.map((object) => (
-                        <Link to={object.url} className={'Link'}>
-                            <ListItem key={object.text} disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        {object.icon}
-                                    </ListItemIcon>
-                                    <ListItemText primary={object.text} />
-                                </ListItemButton>
-                            </ListItem>
-                        </Link>
+                    {menuItem.filter((object) => token.permisos.includes(object.permiso) || object.permiso == "").map((object) => (
+                        <DrawerItem key={object.text} {...object}/>
                     ))}
                 </List>
                 <Divider />
             </Drawer>
+            }
             <Main open={open}>
                 <DrawerHeader />
             </Main>

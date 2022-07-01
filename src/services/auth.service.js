@@ -12,7 +12,7 @@ const login = (email, password) => {
         .then((response) => {
             console.log(response, response.data)
             if (response.data.access_token) {
-                localStorage.setItem("user", JSON.stringify(response.data));
+                sessionStorage.setItem("user", JSON.stringify(response.data));
             }
             else{
                 console.log("error en la peticion")
@@ -21,8 +21,21 @@ const login = (email, password) => {
         });
 };
 
+const getStoredSession = () => {
+    const storageToken = sessionStorage.getItem("user");
+    const parsedToken = JSON.parse(storageToken);
+    return parsedToken ? parsedToken : null;
+}
+
+const logout = () => {
+    sessionStorage.removeItem("user");
+    window.location.reload();
+}
+
 const authService = {
-    login
+    login,
+    getStoredSession,
+    logout
 };
 
 export default authService;
