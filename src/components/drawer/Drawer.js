@@ -19,7 +19,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
 import DrawerItem from './DrawerItem';
+import { Container } from '@mui/system';
+import Stack from '@mui/material/Stack';
+
+import AuthService from '../../services/auth.service'
+
 
 const drawerWidth = 240;
 
@@ -67,7 +73,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 }));
-export default function PersistentDrawerLeft({showMenu, token}) {
+export default function PersistentDrawerLeft({ showMenu, token }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -77,6 +83,10 @@ export default function PersistentDrawerLeft({showMenu, token}) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const handleLogout = () => {
+        AuthService.logout()
+    }
 
     const menuItem = [
         {
@@ -105,27 +115,42 @@ export default function PersistentDrawerLeft({showMenu, token}) {
         }]
 
     return (
-        <Box sx={{ display: 'flex' , height: '9.5vh'}}>
+        <Box sx={{ display: 'flex', height: '9.5vh' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    { showMenu &&
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{ mr: 2, ...(open && { display: 'none' }) }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    }
-                    <Typography variant="h6" noWrap component="div">
-                        CorE
-                    </Typography>
-                </Toolbar>
+                <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} >
+                    <Toolbar>
+                        {showMenu &&
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleDrawerOpen}
+                                edge="start"
+                                sx={{ mr: 2, ...(open && { display: 'none' }) }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        }
+                        <Typography variant="h6" noWrap component="div">
+                            CorE
+                        </Typography>
+                    </Toolbar>
+                    {showMenu &&
+                        <div>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleLogout}
+                                edge="start"
+                                sx={{ mr: 2, ...(open && { display: 'none' }) }}
+                            >
+                                <LogoutIcon />
+                            </IconButton>
+                           
+                        </div>}
+                </Stack>
             </AppBar>
-            { showMenu && <Drawer 
+            {showMenu && <Drawer
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -146,7 +171,7 @@ export default function PersistentDrawerLeft({showMenu, token}) {
                 <Divider />
                 <List>
                     {menuItem.filter((object) => token.permisos.includes(object.permiso) || object.permiso == "").map((object) => (
-                        <DrawerItem key={object.text} {...object}/>
+                        <DrawerItem key={object.text} {...object} />
                     ))}
                 </List>
                 <Divider />

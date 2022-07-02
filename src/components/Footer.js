@@ -2,8 +2,6 @@ import React from 'react'
 
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 function footer() {
@@ -24,8 +22,6 @@ function footer() {
                 backgroundColor: 'primary.main',
             }}
         >
-            <Chip icon={<FacebookIcon />} color="primary" onClick={handleClick} />
-            <Chip icon={<TwitterIcon />} color="primary" onClick={handleClick} />
             <Chip icon={<InstagramIcon />} color="primary" onClick={handleClick} />
         </Stack>
     );
