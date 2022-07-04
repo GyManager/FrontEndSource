@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 //Todo (Doing) separar el drawer hacer que importe un componente Appbar (ya creado)
 // y otro (drawer) (quizas llamar a este archivo navbar) ver componente contenedor del
 // curso MUI ya esta implementado.
@@ -25,7 +26,6 @@ import { Container } from '@mui/system';
 import Stack from '@mui/material/Stack';
 
 import AuthService from '../../services/auth.service'
-
 
 const drawerWidth = 240;
 
@@ -76,6 +76,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft({ showMenu, token }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -85,7 +86,8 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
     };
 
     const handleLogout = () => {
-        AuthService.logout()
+        navigate('/login')
+        AuthService.logout();
     }
 
     const menuItem = [

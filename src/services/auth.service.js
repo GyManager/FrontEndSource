@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 //TODO IMPLEMENTAR DOTENV PARA API_URL
 const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
 
@@ -30,6 +31,7 @@ const getStoredSession = () => {
 const logout = () => {
     sessionStorage.removeItem("user");
     window.location.reload();
+
 }
 
 const authService = {

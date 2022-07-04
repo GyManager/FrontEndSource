@@ -8,9 +8,10 @@ import {
 import Drawer from './components/drawer/Drawer'
 import Footer from './components/Footer';
 
-import Login from './pages/LoginPage'
-import AuthService from './services/auth.service';
 import { Navigate } from "react-router-dom";
+import AuthService from './services/auth.service';
+import LoginPage from './pages/LoginPage'
+import ClientsConsultPage from './pages/ClientConsultPage'
 
 function App() {
 
@@ -22,7 +23,8 @@ function App() {
         <BrowserRouter>
           <Drawer showMenu={false}/>
           <Routes>
-            <Route path="/login" element={<Login/>} />
+            <Route path="/login" element={<LoginPage/>} />
+            <Route path="/clientes" element={<ClientsConsultPage/>} />
             <Route path="/*" element={<Navigate to="/login" />} />
           </Routes>
           <Footer />
