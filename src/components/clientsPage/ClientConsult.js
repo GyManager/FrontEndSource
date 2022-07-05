@@ -1,6 +1,6 @@
 import React from 'react'
-import { Grid, Paper, Typography } from '@mui/material/'
-
+import { Grid, Box, Paper, Typography } from '@mui/material/'
+import { Container } from '@mui/material'
 
 import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
@@ -9,11 +9,21 @@ import TablesClient from './TablesClient'
 
 export default function ClientConsult() {
     return (
-        <div>
-            {/* TODO Agregar en el drawer un elemento vacio de la misma altura que el drawer para no tener que andar posicionando los elementos
-        y para que funcione mejor el responsive */}
-            <Paper width='100%' >
-                <Grid container spacing={1} sx={{ mt: 1, mb: 1, mx: 2 }} alignItems='center'  >
+
+        <Box sx={{
+            display: 'flex', flexwrap: 'wrap',
+            // backgroundColor: 'lightgray'
+        }}
+            justifyContent='center'>
+            <Paper
+                elevation={12}
+                // variant='outlined'
+                sx={{
+                    // backgroundColor: 'darkblue'
+                }}
+
+            >
+                <Grid container width='97%' spacing={1} sx={{ mt: 1, mb: 1, mx: 2, backgroundColor: 'red' }} alignItems='center'  >
                     <Grid container item justifyContent='space-between' alignItems='center'>
                         <Grid item xs={12} md={3}
                         // sx={{ backgroundColor: 'blue' }}
@@ -27,7 +37,7 @@ export default function ClientConsult() {
                                 // backgroundColor: 'yellow',
                                 display: { xs: 'none', md: 'block' }
                             }}
-                            justifyContent='flex-end'>
+                            justifyContent='end'>
                             <ButtonAddClientDesktop />
                         </Grid>
                     </Grid>
@@ -41,10 +51,10 @@ export default function ClientConsult() {
                             <SearchBar />
                         </Grid>
                     </Grid>
-                    <Grid container justifyContent='start' alignItem='end'>
-                        <Grid item xs={10.5} md={12}
+                    <Grid container justifyContent='start' sx={{ backgroundColor: 'blue' }}>
+                        <Grid item xs={12} md={12}
                             sx={{
-                                // backgroundColor: 'lightGreen',
+                                backgroundColor: 'lightGreen',
                                 height: { xs: '77vh', md: '70vh', lg: '68vh' }
                             }}
                         >
@@ -66,7 +76,7 @@ export default function ClientConsult() {
                     </Grid>
                 </Grid>
             </Paper>
-        </div >
+        </Box >
     )
 }
 

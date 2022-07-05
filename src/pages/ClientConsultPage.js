@@ -7,13 +7,8 @@ import Clients from '../components/clientsPage/ClientConsult'
 
 export default function ClientConsultPage() {
     return (
-        <div>
-            <Box sx={{ width: '100%', backgroundColor:'lightgray'}}
-            >
-                <Container maxWidth="xl">
-                    <Clients/>
-                </Container>
-            </Box>
-        </div>
+        <Container fixed sx={{ backgroundColor: 'green' }}>
+            <Clients />
+        </Container>
     )
 }

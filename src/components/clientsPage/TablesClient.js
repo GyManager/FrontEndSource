@@ -12,37 +12,37 @@ const columns = [
   {
     id: 'avatar',
     label: 'Avatar',
-    minWidth: 50,
+    minWidth: 0,
     align: 'left',
   },
   {
     id: 'name',
     label: 'Nombre',
-    minWidth: 130,
+    minWidth: 30,
     align: 'left',
   },
   {
     id: 'lastName',
     label: 'Apellido',
-    minWidth: 130,
+    minWidth: 30,
     align: 'left',
   },
   {
     id: 'numDocument',
     label: 'Nro. de Documento',
-    minWidth: 60,
+    minWidth: 30,
     align: 'left',
   },
   {
     id: 'email',
     label: 'Email',
-    minWidth: 170,
+    minWidth: 0,
     align: 'left',
   },
   {
     id: 'state',
     label: 'Estado',
-    minWidth: 70,
+    minWidth: 0,
     align: 'left',
   },
 ];
@@ -87,7 +87,7 @@ export default function TablesClient() {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', backgroundColor: 'yellow' }}>
       <TableContainer sx={{ maxHeight: {xs:'55vh', md:'50vh'} }} >
         <Table stickyHeader aria-label="sticky table" size='small' >
           <TableHead>
