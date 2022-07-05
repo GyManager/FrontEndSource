@@ -24,7 +24,6 @@ function App() {
           <Drawer showMenu={false}/>
           <Routes>
             <Route path="/login" element={<LoginPage/>} />
-            <Route path="/clientes" element={<ClientsConsultPage/>} />
             <Route path="/*" element={<Navigate to="/login" />} />
           </Routes>
           <Footer />
@@ -40,7 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={ <h1>Logeado</h1> } />
 
-          {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<h1>Gestion de clientes</h1>} />}
+          {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsConsultPage/>} />}
           {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
           {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
 
