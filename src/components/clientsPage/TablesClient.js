@@ -156,9 +156,9 @@ export default function TablesClient() {
 
  */}
       {/* <Grid Container justifyContent={isSmallDevice?'Left':'Right'}> */}
-      <Grid Container justifyContent='Left'  direction='row' >
-        <Grid item xs={12} justifyContent='Left'>
-          <TablePagination shape="rounded"
+      <Grid Container  >
+        <Grid item xs={12} >
+          <TablePagination
             rowsPerPageOptions={isSmallDevice ? [] : [10, 25, 100]}
             component="div"
             count={rows.length}

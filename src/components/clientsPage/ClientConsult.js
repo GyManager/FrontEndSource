@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Box, Paper, Typography } from '@mui/material/'
+import { Grid, Box, Paper, Typography, Button } from '@mui/material/'
 import { Container } from '@mui/material'
 
 import ButtonAddClientMobile from './ButtonAddClientMobile'
@@ -7,7 +7,31 @@ import ButtonAddClientDesktop from './ButtonAddClientDesktop'
 import SearchBar from './SearchBar'
 import TablesClient from './TablesClient'
 
+import ClientService from '../../services/clients.service'
+
 export default function ClientConsult() {
+
+const handleClick = async () => {
+        try {
+            await ClientService.getClients().then(
+                (response) => {
+                    console.log(response)
+                },
+                (error) => {
+                    if (error.response.data.status === 401) {
+                        console.log("Usuario o contraseña incorrecta");
+                    } else {
+                        console.log(" Error en el servidor");
+                    }
+                }
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+
+
     return (
 
         <Box sx={{
@@ -39,6 +63,7 @@ export default function ClientConsult() {
                             }}
                             justifyContent='end'>
                             <ButtonAddClientDesktop />
+                            <Button onClick={handleClick}>Probar Clientes</Button>
                         </Grid>
                     </Grid>
                     <Grid container justifyContent='start' alignItem='center'>
