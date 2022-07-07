@@ -1,11 +1,18 @@
-import React from 'react'
+import React from 'react';
+import { useState } from 'react';
+
+
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
 
-export default function SearchBar() {
+function SearchBar(props) {
+    
+
+
+
     return (
         <Paper
             component="form"
@@ -14,8 +21,12 @@ export default function SearchBar() {
 
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Buscar un cliente"
                 inputProps={{ 'aria-label': 'search google maps' }}
+                placeholder='Ingrese su busqueda'
+                autoFocus={true}
+                name='inputSearch'
+                value={props.stateSearch}
+                onChange={props.onChangeSearch}
             />
             <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
                 <SearchIcon />
@@ -23,5 +34,7 @@ export default function SearchBar() {
 
         </Paper>
     );
-  
+
 }
+
+export default SearchBar

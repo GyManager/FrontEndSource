@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import {Avatar} from '@mui/material'
 
 import { useMediaQuery, Grid } from '@mui/material';
 import { Container } from '@mui/system';
@@ -62,30 +63,13 @@ function columnasTodas(col) {
   return col
 }
 
+export default function TablesClient(props) {
 
+  console.log(props.clientes)
 
-const rows = [
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '290000020', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '290700000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '290060000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '2900030500', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '290003000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '2900340000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
-  createData('avatar', 'Federico', 'Garip', '29000000', 'garip.federico@gmail.com', 'Activo'),
+  const rows = props.clientes.map((cliente) => ( 
+    createData(cliente.image, cliente.name.split(' ')[0], cliente.name.split(' ')[1], cliente.id, cliente.created, cliente.status)))
 
-];
-
-export default function TablesClient() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -99,6 +83,13 @@ export default function TablesClient() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+
+
+  // const rows = props.clientes.map((cliente) => ({
+  //   cliente.
+
+  // })
 
 
 
@@ -129,7 +120,13 @@ export default function TablesClient() {
                     {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
                       .map((column) => {
                         const value = row[column.id];
+                        console.log(row.avatar)
                         return (
+                          column.id === 'avatar' ?
+                          <TableCell  key={column.id} align={column.align}>
+                          <Avatar alt="Remy Sharp" src={row.avatar} />
+                          </TableCell>
+:
                           <TableCell key={column.id} align={column.align}>
                             {column.format && typeof value === 'number'
                               ? column.format(value)

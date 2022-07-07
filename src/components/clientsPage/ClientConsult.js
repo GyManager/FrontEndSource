@@ -1,6 +1,6 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { Grid, Box, Paper, Typography, Button } from '@mui/material/'
-import { Container } from '@mui/material'
 
 import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
@@ -9,14 +9,26 @@ import TablesClient from './TablesClient'
 
 import ClientService from '../../services/clients.service'
 
-export default function ClientConsult() {
 
-const handleClick = async () => {
-    console.log(ClientService)
+
+export default function ClientConsult() {
+    const [clientes, setClientes] = useState([]);
+    // Barra de busqueda
+    const [search, setSearch] = useState('');
+    const handleSearchChange = (e) => {
+            setSearch(e.target.value)
+    }
+    
+
+useEffect(()=>{handleClick()},[])
+
+
+
+    const handleClick = async () => {
         try {
             await ClientService.getClients().then(
-                (response) => {
-                    console.log(response)
+                (responseArray) => {
+                    setClientes(responseArray)
                 },
                 (error) => {
                     if (error.response.data.status === 401) {
@@ -30,8 +42,6 @@ const handleClick = async () => {
             console.log(err);
         }
     };
-
-
 
     return (
 
@@ -74,7 +84,10 @@ const handleClick = async () => {
                                 mb: 2
                             }}
                         >
-                            <SearchBar />
+                            <SearchBar 
+                                stateSearch={search}
+                                onChangeSearch={handleSearchChange}
+                            />
                         </Grid>
                     </Grid>
                     <Grid container justifyContent='start' sx={{ backgroundColor: 'blue' }}>
@@ -84,7 +97,8 @@ const handleClick = async () => {
                                 height: { xs: '77vh', md: '70vh', lg: '68vh' }
                             }}
                         >
-                            <TablesClient />
+                            <TablesClient 
+                            clientes={clientes}/>
                         </Grid>
                     </Grid>
                     {/* Boton solo para vista mobile */}

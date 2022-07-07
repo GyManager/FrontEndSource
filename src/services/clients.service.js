@@ -12,15 +12,13 @@ const getClients = () => {
     return axios
         .get(API_URL, bodyFormData)
         // return axios.get(API_URL + '/clientes?fuzzySearch=')
-        .then((response) => (
-            console.log(response)
-        ).catch((error) => (
-            console.log(error)
-        ).then(() => (console.log('siempre sere ejecutada')))
+        .then((response) => {
+            console.log('recibi la respuesta')
+            return response.data.results;
+        }
+        )
+    }
 
-        )
-        )
-}
 
 const clientsService = {
     getClients
