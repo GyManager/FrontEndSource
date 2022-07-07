@@ -12,6 +12,7 @@ import ClientService from '../../services/clients.service'
 export default function ClientConsult() {
 
 const handleClick = async () => {
+    console.log(ClientService)
         try {
             await ClientService.getClients().then(
                 (response) => {
@@ -19,9 +20,9 @@ const handleClick = async () => {
                 },
                 (error) => {
                     if (error.response.data.status === 401) {
-                        console.log("Usuario o contraseña incorrecta");
+                        console.log("Consolelog=401");
                     } else {
-                        console.log(" Error en el servidor");
+                        console.log(" Consolelog!=401");
                     }
                 }
             );
