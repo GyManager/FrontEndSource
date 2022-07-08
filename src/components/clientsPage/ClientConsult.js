@@ -17,7 +17,36 @@ export default function ClientConsult() {
     const [search, setSearch] = useState('');
     const handleSearchChange = (e) => {
             setSearch(e.target.value)
+            console.log(e.target.value)
+            console.log(e.target.name)
     }
+    
+    const handleSearchButtonClick = async (search) => {
+        search.preventDefault()
+        
+        
+        try {
+            await ClientService.getClient(search).then(
+                (response) => {
+                    const arr = []
+                    arr.push(response)
+                    console.log(arr)
+                    setClientes(arr)
+                },
+                (error) => {
+                    if (error.response.data.status === 401) {
+                        console.log("Consolelog=401");
+                    } else {
+                        console.log(" Consolelog!=401");
+                    }
+                }
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    
     
 
 useEffect(()=>{handleClick()},[])
@@ -87,6 +116,7 @@ useEffect(()=>{handleClick()},[])
                             <SearchBar 
                                 stateSearch={search}
                                 onChangeSearch={handleSearchChange}
+                                onClickSearchButton={handleSearchButtonClick}
                             />
                         </Grid>
                     </Grid>

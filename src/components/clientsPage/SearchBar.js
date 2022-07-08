@@ -28,7 +28,11 @@ function SearchBar(props) {
                 value={props.stateSearch}
                 onChange={props.onChangeSearch}
             />
-            <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+            <IconButton 
+            type="submit" 
+            sx={{ p: '10px' }} 
+            aria-label="search"
+            onClick={props.onClickSearchButton}>
                 <SearchIcon />
             </IconButton>
 
