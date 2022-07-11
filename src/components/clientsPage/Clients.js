@@ -11,7 +11,7 @@ import ClientService from '../../services/clients.service'
 
 
 
-export default function ClientConsult() {
+export default function Clients() {
     const [clientes, setClientes] = useState([]);
     // Barra de busqueda
     const [search, setSearch] = useState('');
@@ -94,6 +94,7 @@ useEffect(()=>{handleClick()},[])
                         <Grid item xs={12} md={3}
                         // sx={{ backgroundColor: 'blue' }}
                         >
+                        {/* TODO HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA REDUCIR MANTENIMINETO Y MEJORAR CONSISTENCIA   */}
                             <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 42 } }} >
                                 Clientes
                             </Typography>

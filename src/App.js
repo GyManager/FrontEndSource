@@ -10,8 +10,10 @@ import Footer from './components/Footer';
 
 import { Navigate } from "react-router-dom";
 import AuthService from './services/auth.service';
-import LoginPage from './pages/LoginPage'
-import ClientsConsultPage from './pages/ClientConsultPage'
+import LoginPage from './pages/LoginPage';
+import ClientsConsultPage from './pages/ClientsPage';
+import ClientPage from './pages/ClientPage'
+
 
 function App() {
 
@@ -41,7 +43,7 @@ function App() {
 
           {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsConsultPage/>} />}
           {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
-          {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
+          {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<ClientPage/>} />}
 
           <Route path="/*" element={ <h1>Error no autorizado</h1> } />
 
