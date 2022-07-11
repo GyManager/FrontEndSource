@@ -4,14 +4,28 @@ import axios from 'axios';
 // const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
 const API_URL = "https://rickandmortyapi.com/api/character"
 
+const access_token = JSON.parse(sessionStorage.getItem('user'))
+// const access_token = sessionStorage.getItem('user')
 
 
 const getClients = () => {
+    console.log('aca va el accesstoken:')
+    console.log(access_token)
+    // Consulta R&M
+    return axios.get(API_URL)
+    //  Consulta GyManager
     // var bodyFormData = new FormData();
-    // return axios.get(API_URL + '/clientes?fuzzySearch=1', bodyFormData)
-    return axios
-        .get(API_URL)
-        // return axios.get(API_URL + '/clientes?fuzzySearch=')
+    // return axios.get(API_URL + '/clientes?fuzzySearch=', bodyFormData, {
+        // headers: {
+            // 'Authorization': `token ${access_token}`,
+            // 'Authorization': `Bearer  ${access_token}`,
+        // }
+    // }
+    // )
+        // Consulta Gymanager 2
+        // return axios.get(API_URL + '/clientes?fuzzySearch=', bodyFormData)
+
+
         .then((response) => {
             console.log('recibi la respuesta')
             return response.data.results;
@@ -22,7 +36,7 @@ const getClients = () => {
 const getClient = (id) => {
     return axios
         // .get(API_URL + '/2')
-        .get('https://rickandmortyapi.com/api/character/2')
+        .get(' ')
         .then((response) => {
             console.log(id)
             console.log('AcaEstarialaRespuesta')
@@ -30,7 +44,6 @@ const getClient = (id) => {
             // return response.data.results
         })
 }
-
 
 const clientsService = {
     getClients,

@@ -16,14 +16,16 @@ export default function ClientConsult() {
     // Barra de busqueda
     const [search, setSearch] = useState('');
     const handleSearchChange = (e) => {
+        console.log('OnChange')
             setSearch(e.target.value)
             console.log(e.target.value)
             console.log(e.target.name)
     }
     
     const handleSearchButtonClick = async (search) => {
-        search.preventDefault()
-        
+       
+        console.log('Onsubmit')
+        // console.log(search)
         
         try {
             await ClientService.getClient(search).then(
@@ -63,7 +65,7 @@ useEffect(()=>{handleClick()},[])
                     if (error.response.data.status === 401) {
                         console.log("Consolelog=401");
                     } else {
-                        console.log(" Consolelog!=401");
+                        console.log("Consolelog!=401");
                     }
                 }
             );

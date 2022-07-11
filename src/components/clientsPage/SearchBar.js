@@ -16,6 +16,7 @@ function SearchBar(props) {
     return (
         <Paper
             component="form"
+            onSubmit={props.onClickSearchButton}
             sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}
         >
 
@@ -24,6 +25,7 @@ function SearchBar(props) {
                 inputProps={{ 'aria-label': 'search google maps' }}
                 placeholder='Ingrese su busqueda'
                 autoFocus={true}
+                id='inputSearch'
                 name='inputSearch'
                 value={props.stateSearch}
                 onChange={props.onChangeSearch}
@@ -32,7 +34,7 @@ function SearchBar(props) {
             type="submit" 
             sx={{ p: '10px' }} 
             aria-label="search"
-            onClick={props.onClickSearchButton}>
+            >
                 <SearchIcon />
             </IconButton>
 
