@@ -6,22 +6,22 @@ import Clients from '../components/clientsPage/Clients'
 
 export default function ClientConsultPage() {
     return (
-        <Container fixed sx={{ backgroundColor: 'green' }}>
-            <Box sx={{
-                display: 'flex', flexwrap: 'wrap',
-                // backgroundColor: 'lightgray'
-            }}
-                justifyContent='center'>
+        <Container fixed 
+        sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'green',
+            height: { xs: '90vh', sm: '90vh', md: '82vh' }
+        }}>
                 <Paper
                     elevation={12}
-                    // variant='outlined'
                     sx={{
-                        // backgroundColor: 'darkblue'
-                    }}
+                        height:'90%',
+                        }}
                 >
                     <Clients />
                 </Paper>
-            </Box>
         </Container>
     )
 }
