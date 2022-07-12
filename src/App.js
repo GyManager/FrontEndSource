@@ -21,7 +21,7 @@ function App() {
 
   if(!token){
     return (
-      <div className="App" >
+      <div className="fondo" >
         <BrowserRouter>
           <Drawer showMenu={false}/>
           <Routes>
@@ -35,11 +35,11 @@ function App() {
   }
 
   return (
-    <div className="App" >
-      <BrowserRouter>
+    <div className="fondo">
+      <BrowserRouter >
         <Drawer showMenu={true} token={token} />
-        <Routes>
-          <Route path="/" element={ <h1>Logeado</h1> } />
+        <Routes >
+          <Route  path="/" element={ <h1>Logeado</h1> } />
 
           {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsConsultPage/>} />}
           {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}

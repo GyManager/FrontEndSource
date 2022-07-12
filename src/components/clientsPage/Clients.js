@@ -102,7 +102,7 @@ useEffect(()=>{handleClick()},[])
                         <Grid item xs={12} md={2}
                             sx={{
                                 // backgroundColor: 'yellow',
-                                display: { xs: 'none', md: 'block' }
+                                display: { xs: 'none',  sm:'none',  md: 'block' }
                             }}
                             justifyContent='end'>
                             <ButtonAddClientDesktop />
