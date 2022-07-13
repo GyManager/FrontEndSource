@@ -2,13 +2,13 @@ import React from 'react'
 import { Button } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 
-export default function ButtonAddClientDesktop() {
+export default function ButtonAddClientDesktop(props) {
   return (
     <div>
       <Button
         variant='contained'
         startIcon={<AddIcon />}
-        size='large'
+        size={props.size}
       >Crear Cliente
       </Button>
     </div>

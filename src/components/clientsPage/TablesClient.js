@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import {Avatar} from '@mui/material'
+import { Avatar } from '@mui/material'
 
 import { useMediaQuery, Grid } from '@mui/material';
 import { Container } from '@mui/system';
@@ -65,10 +65,9 @@ function columnasTodas(col) {
 
 export default function TablesClient(props) {
 
-  console.log(props.clientes)
 
-  const rows = props.clientes.map((cliente) => ( 
-    createData(cliente.image, cliente.name.split(' ')[0], cliente.name.split(' ')[1], cliente.id, cliente.created, cliente.status)))
+  const rows = props.clientes.map((cliente) => (
+    createData('AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo)))
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -85,18 +84,11 @@ export default function TablesClient(props) {
   };
 
 
-
-  // const rows = props.clientes.map((cliente) => ({
-  //   cliente.
-
-  // })
-
-
-
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', backgroundColor: 'yellow' }}>
-      <TableContainer sx={{ maxHeight: { xs: '55vh', md: '50vh' } }} >
-        <Table stickyHeader aria-label="sticky table"   >
+      <TableContainer sx={{ height: { xs: '55vh', md: '35vh', lg: '40vh', xl: '52vh' } }} >
+        {/* <TableContainer sx={{height :'90%'}} > */}
+        <Table stickyHeader aria-label="sticky table" size={isSmallDevice ? "small" : "medium"}  >
           <TableHead>
             <TableRow>
               {/* {columns.map((column) => ( */}
@@ -120,18 +112,17 @@ export default function TablesClient(props) {
                     {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
                       .map((column) => {
                         const value = row[column.id];
-                        console.log(row.avatar)
                         return (
                           column.id === 'avatar' ?
-                          <TableCell  key={column.id} align={column.align}>
-                          <Avatar alt="Remy Sharp" src={row.avatar} />
-                          </TableCell>
-:
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
+                            <TableCell key={column.id} align={column.align}>
+                              <Avatar alt="Remy Sharp" src={row.avatar} />
+                            </TableCell>
+                            :
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === 'number'
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
                         );
                       })}
 
@@ -142,6 +133,7 @@ export default function TablesClient(props) {
               })}
           </TableBody>
         </Table>
+
       </TableContainer>
 
       {/*       
@@ -154,7 +146,7 @@ export default function TablesClient(props) {
  */}
       {/* <Grid Container justifyContent={isSmallDevice?'Left':'Right'}> */}
       <Grid Container  >
-        <Grid item xs={12} >
+        <Grid item xs={8} >
           <TablePagination
             rowsPerPageOptions={isSmallDevice ? [] : [10, 25, 100]}
             component="div"
@@ -166,7 +158,7 @@ export default function TablesClient(props) {
           />
         </Grid>
       </Grid>
-    </Paper>
+    </Paper >
   );
 }
 

@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 
 import Drawer from './components/drawer/Drawer'
+//  Cambiar nombre footer por footer2 y vice versa
 import Footer from './components/Footer';
 
 import { Navigate } from "react-router-dom";
