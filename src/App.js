@@ -12,7 +12,7 @@ import Footer from './components/Footer';
 import { Navigate } from "react-router-dom";
 import AuthService from './services/auth.service';
 import LoginPage from './pages/LoginPage';
-import ClientsConsultPage from './pages/ClientsPage';
+import ClientsPage from './pages/ClientsPage';
 import ClientPage from './pages/ClientPage'
 
 
@@ -20,13 +20,13 @@ function App() {
 
   const token = AuthService.getStoredSession();
 
-  if(!token){
+  if (!token) {
     return (
       <div className="fondo" >
         <BrowserRouter>
-          <Drawer showMenu={false}/>
+          <Drawer showMenu={false} />
           <Routes>
-            <Route path="/login" element={<LoginPage/>} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/*" element={<Navigate to="/login" />} />
           </Routes>
           <Footer />
@@ -40,14 +40,26 @@ function App() {
       <BrowserRouter >
         <Drawer showMenu={true} token={token} />
         <Routes >
-          <Route  path="/" element={ <h1>Logeado</h1> } />
+          <Route path="/" element={<h1>Logeado</h1>} >
 
-          {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsConsultPage/>} />}
+          {/* {token.permisos.includes("gestion-clientes") &&
+            <Route path="/clientes" element={<ClientsConsultPage />} >
+              <Route path=":clienteId" element={<ClientPage />} />
+            </Route>
+          } */}
+
+
+          <Route path="clientes" element={<ClientsPage />} >
+          <Route path=":clienteId" element={<ClientPage />} >
+          </Route>
+
+          </Route>
+
           {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
-          {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<ClientPage/>} />}
+          {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<ClientPage />} />}
 
-          <Route path="/*" element={ <h1>Error no autorizado</h1> } />
-
+          </Route>
+          <Route path="/*" element={<h1>Error no autorizado</h1>} />
         </Routes>
         <Footer />
       </BrowserRouter>

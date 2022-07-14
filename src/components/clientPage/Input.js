@@ -17,7 +17,7 @@ export default function Input(props) {
                 id="standard-basic"
                 label={props.label}
                 variant="standard"
-                value={props.numeroDoc}
+                value={props.value}
                 onChange={props.handleChange}
             />
         </Box>
