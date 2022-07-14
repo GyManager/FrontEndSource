@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar } from '@mui/material'
+import { Avatar, Typography } from '@mui/material'
 
 import { useMediaQuery, Grid } from '@mui/material';
 import { Container } from '@mui/system';
@@ -51,9 +53,8 @@ const columns = [
   },
 ];
 
-// function createData(name, code, population, size) {
-function createData(avatar, name, lastName, numDocument, email, state) {
-  return { avatar, name, lastName, numDocument, email, state };
+function createData(avatar, name, lastName, numDocument, email, state, idPersona) {
+  return { avatar, name, lastName, numDocument, email, state, idPersona };
 }
 
 function columnasReducidas(col) {
@@ -64,15 +65,18 @@ function columnasTodas(col) {
 }
 
 export default function TablesClient(props) {
-
+  
+  const navigate = useNavigate()
 
   const rows = props.clientes.map((cliente) => (
-    createData('AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo)))
+   createData( 'AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo, cliente.idPersona ))
+    )
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  
   const isSmallDevice = useMediaQuery('(max-width:600px');
+  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -83,6 +87,14 @@ export default function TablesClient(props) {
     setPage(0);
   };
 
+  const handleClick = (idPerson) => {
+    navigate('/clientes/' + idPerson)
+  }
+
+  //TODO ver que pasa, si es con el console.log o que, que me manda props.clientes[0].message = undefined
+  // Me esta llegando un array vacio SOlucionado? Probarlo mas
+  console.log('Aca van los clientes:', props.clientes)
+
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', backgroundColor: 'yellow' }}>
@@ -91,16 +103,16 @@ export default function TablesClient(props) {
         <Table stickyHeader aria-label="sticky table" size={isSmallDevice ? "small" : "medium"}  >
           <TableHead>
             <TableRow>
-              {/* {columns.map((column) => ( */}
-              {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas).map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
+              {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
+                .map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -108,43 +120,38 @@ export default function TablesClient(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
-                      .map((column) => {
-                        const value = row[column.id];
-                        return (
-                          column.id === 'avatar' ?
-                            <TableCell key={column.id} align={column.align}>
-                              <Avatar alt="Remy Sharp" src={row.avatar} />
-                            </TableCell>
-                            :
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                        );
-                      })}
-
-
-
-                  </TableRow>
+                  props.clientes[0].status === 404
+                    ?
+                    <TableCell colSpan={6} variant='body'>
+                      <Typography variant='subtitle1' align='center'>
+                        {props.clientes[0].message}
+                      </Typography>
+                    </TableCell>
+                    :
+                    <TableRow  onClick={() => handleClick(row.idPersona)} hover role="checkbox" tabIndex={-1} key={row.code}>
+                      {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
+                        .map((column) => {
+                          const value = row[column.id];
+                          return (
+                            column.id === 'avatar'
+                              ?
+                              <TableCell key={column.id} align={column.align}>
+                                <Avatar alt="Remy Sharp" src={row.avatar} />
+                              </TableCell>
+                              :
+                              <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === 'number'
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                          );
+                        })}
+                    </TableRow>
                 );
               })}
           </TableBody>
         </Table>
-
       </TableContainer>
-
-      {/*       
-
-      {
-        isSmallDevice ?
-          null
-          :
-
- */}
-      {/* <Grid Container justifyContent={isSmallDevice?'Left':'Right'}> */}
       <Grid Container  >
         <Grid item xs={8} >
           <TablePagination
@@ -158,7 +165,6 @@ export default function TablesClient(props) {
           />
         </Grid>
       </Grid>
-    </Paper >
+    </Paper>
   );
 }
-

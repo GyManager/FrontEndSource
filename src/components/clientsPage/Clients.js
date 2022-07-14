@@ -16,7 +16,7 @@ import { useMediaQuery } from '@mui/material';
 
 export default function Clients() {
     const isMediumDevice = useMediaQuery('(max-width:900px');
-    const [clientes, setClientes] = useState([]);
+    const [clientes, setClientes] = useState([{}]);
     const getClients = async () => {
         try {
             await ClientService.getClients().then(
@@ -81,6 +81,8 @@ export default function Clients() {
                             }}
                         >
                             <SearchBar
+                             clientes={clientes}
+                             setClientes={setClientes}
                                 // stateSearch={search}
                                 // onChangeSearch={handleSearchChange}
                                 // onClickSearchButton={handleSearchButtonClick}

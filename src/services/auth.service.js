@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import { useNavigate } from 'react-router-dom'
 
 //TODO IMPLEMENTAR DOTENV PARA API_URL
 const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
@@ -25,7 +26,7 @@ const login = (email, password) => {
 const getStoredSession = () => {
     const storageToken = sessionStorage.getItem("user");
     const parsedToken = JSON.parse(storageToken);
-    return parsedToken ? parsedToken : null;
+    return parsedToken ? parsedToken : null
 }
 
 const logout = () => {

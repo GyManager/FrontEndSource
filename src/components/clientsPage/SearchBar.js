@@ -1,5 +1,5 @@
 import { React, useState }  from 'react';
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -9,23 +9,20 @@ import ClientsService from '../../services/clients.service';
 
 function SearchBar(props) {
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const [valueToSearch, setValueToSearch] = useState('');
     const handleValueToSearchChange = (e) => {
-        console.log('OnChange')
         setValueToSearch(e.target.value)
-            console.log(e.target.value)
-            console.log(e.target.name)
     }
 
-    const handleSearchButtonClick = async (search) => {
+    /*
+    const handleSearchButtonClick = async () => {
         try {
-            await ClientsService.getClient(search).then(
+            await ClientsService.getClient().then(
                 (response) => {
                     const arr = []
                     arr.push(response)
-                    console.log(arr)
-                    setClientes(arr)
+                    props.setClientes(arr)
                 },
                 (error) => {
                     navigate('../login')
@@ -40,13 +37,27 @@ function SearchBar(props) {
             console.log(err);
         }
     };
+    */
 
+const onSubmit = async (e) => {
+    e.preventDefault()
+    try {
+        await ClientsService
+        .getClient(valueToSearch)
+        .then(
+            (response) => {
+                props.setClientes(response)
+            }
+        )
+    } catch (err) {
+        console.log(err)
+    }
+}
 
-    
     return (
         <Paper
             component="form"
-            onSubmit={handleSearchButtonClick}
+            onSubmit={onSubmit}
             sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}
         >
 
