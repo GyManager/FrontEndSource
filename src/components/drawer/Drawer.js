@@ -173,7 +173,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                 <Divider />
                 <List>
                     {menuItem.filter((object) => token.permisos.includes(object.permiso) || object.permiso == "").map((object) => (
-                        <DrawerItem key={object.text} {...object} />
+                        <DrawerItem key={object.text} {...object} handleDrawerClose={handleDrawerClose}/>
                     ))}
                 </List>
                 <Divider />
