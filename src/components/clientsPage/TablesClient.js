@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom';
+
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -65,18 +66,18 @@ function columnasTodas(col) {
 }
 
 export default function TablesClient(props) {
-  
+
   const navigate = useNavigate()
 
   const rows = props.clientes.map((cliente) => (
-   createData( 'AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo, cliente.idPersona ))
-    )
+    createData('AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo, cliente.idPersona))
+  )
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+
   const isSmallDevice = useMediaQuery('(max-width:600px');
-  
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -97,7 +98,9 @@ export default function TablesClient(props) {
 
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden', backgroundColor: 'yellow' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden',
+    //  backgroundColor: 'yellow'
+      }}>
       <TableContainer sx={{ height: { xs: '55vh', md: '35vh', lg: '40vh', xl: '52vh' } }} >
         {/* <TableContainer sx={{height :'90%'}} > */}
         <Table stickyHeader aria-label="sticky table" size={isSmallDevice ? "small" : "medium"}  >
@@ -128,22 +131,31 @@ export default function TablesClient(props) {
                       </Typography>
                     </TableCell>
                     :
-                    <TableRow  onClick={() => handleClick(row.idPersona)} hover role="checkbox" tabIndex={-1} key={row.code}>
+
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                       {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
                         .map((column) => {
                           const value = row[column.id];
                           return (
                             column.id === 'avatar'
                               ?
-                              <TableCell key={column.id} align={column.align}>
-                                <Avatar alt="Remy Sharp" src={row.avatar} />
-                              </TableCell>
+                              <Link to={'/clientes/' + row.idPersona}>
+                                <TableCell key={column.id} align={column.align}>
+                                  <Avatar alt="Remy Sharp" src={row.avatar} />
+                                </TableCell>
+                              </Link>
                               :
+//TODO:003 preguntar a nico: Porque se rompe el la tabla si envuelvo el table cell y en el link. 
+// O sea arriba me lo toma, (para el primer parametro del condicional elvis), pero para el segundo, (el de abajo) no
                               <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === 'number'
-                                  ? column.format(value)
-                                  : value}
+                                <Link to={'/clientes/' + row.idPersona}>
+                                  {column.format && typeof value === 'number'
+                                    ? column.format(value)
+                                    : value}
+                                </Link>
                               </TableCell>
+
+
                           );
                         })}
                     </TableRow>

@@ -11,7 +11,7 @@ export default function ClientConsultPage() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'green',
+            // backgroundColor: 'green',
             height: { xs: '90vh', sm: '90vh', md: '82vh' }
         }}>
                 <Paper

@@ -60,9 +60,14 @@ const getClient = (id) => {
         })
 }
 
+const putClient = (cliente) => {
+    return axios.put('clientes')
+}
+
 const clientsService = {
     getClients,
-    getClient
+    getClient,
+    putClient
 }
 
 export default clientsService

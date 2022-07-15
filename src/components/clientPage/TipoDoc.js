@@ -17,13 +17,15 @@ export default function TipoDoc(props) {
           onChange={props.handleChange}
           autoWidth
           label="Tipo de documento"
+          // readOnly={props.editable? false: true }
+          disabled={props.editable? false: true }
         >
           <MenuItem value="">
             <em>Tipo de Documento</em>
           </MenuItem>
-          <MenuItem value={10}>DNI</MenuItem>
-          <MenuItem value={21}>Pasaporte</MenuItem>
-          <MenuItem value={22}>Otro</MenuItem>
+          <MenuItem value={1}>DNI</MenuItem>
+          <MenuItem value={2}>Pasaporte</MenuItem>
+          <MenuItem value={3}>Otro</MenuItem>
         </Select>
       </FormControl>
     </div>

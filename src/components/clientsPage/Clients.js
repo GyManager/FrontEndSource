@@ -47,13 +47,18 @@ export default function Clients() {
             justifyContent='center'>
             <Paper
                 elevation={12}
+                // TODO  006
                 sx={{
-                    backgroundColor: 'darkblue',
+                    // backgroundColor: 'darkblue',
                     height: '83vh'
                 }}
 
             >
-                <Grid container width='100%' spacing={1} sx={{ mt: 1, mb: 1, mx: 2, backgroundColor: 'red' }} alignItems='center'  >
+                <Grid container width='100%' spacing={1} 
+                sx={{ mt: 1, mb: 1, mx: 2,
+                //  backgroundColor: 'red' 
+                 }} 
+                 alignItems='center'  >
                     <Grid container item justifyContent='space-between' alignItems='center'>
                         <Grid item xs={12} md={3}
                         // sx={{ backgroundColor: 'blue' }}
@@ -69,8 +74,7 @@ export default function Clients() {
                                 display: { xs: 'none', sm: 'none', md: 'block' }
                             }}
                             justifyContent='end'>
-                            <ButtonAddClientDesktop size={isMediumDevice ? "small" : "large"} />
-                            <Button onClick={getClients}>Probar Clientes</Button>
+                            <ButtonAddClientDesktop size={isMediumDevice ? "small" : "medium"} />
                         </Grid>
                     </Grid>
                     <Grid container justifyContent='start' alignItem='center'>
@@ -92,7 +96,7 @@ export default function Clients() {
                     <Grid container justifyContent='start' sx={{ backgroundColor: '' }} >
                         <Grid item xs={12} sm={10} md={12}
                             sx={{
-                                backgroundColor: 'lightGreen',
+                                // backgroundColor: 'lightGreen',
                                 // height: { xs: '77vh', md: '30vh', lg: '68vh' }
                                 height: '100%'
                             }}
