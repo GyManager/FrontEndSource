@@ -17,56 +17,110 @@ catch (error) {
 
 
 
-const getClients = () => {
-    console.log('aca va el accesstoken:')
-    console.log(access_token)
-    return axios.get(API_URL + '/clientes?fuzzySearch=', {
+const getClients = (search) => {
+    if(search === undefined){
+        search = ''
+    } 
+    
+    return axios.get(API_URL + '/clientes?fuzzySearch=' + search, {
         headers: {
             'Authorization': `Bearer ${access_token}`,
         }
     }
     )
         .then((response) => {
-            console.log('recibi la respuesta')
-            const ret = response.data.content
-            console.log(ret)
-            return ret;
+            const usuariosPlano = response.data.content.map((usuMap) => (
+                {
+                    "idCliente": usuMap.idCliente,
+                    "idUsuario": usuMap.usuario.idUsuario,
+                    "numeroDocumento": usuMap.usuario.numeroDocumento,
+                    "tipoDocumento": usuMap.usuario.tipoDocumento,
+                    "apellido": usuMap.usuario.apellido,
+                    "nombre": usuMap.usuario.nombre,
+                    "sexo": usuMap.usuario.sexo,
+                    "mail": usuMap.usuario.mail,
+                    "celular": usuMap.usuario.celular,
+                    "fechaAlta": usuMap.usuario.fechaAlta,
+                    "fechaBaja": usuMap.usuario.fechaBaja,
+                    "objetivo": usuMap.objetivo,
+                    "direccion": usuMap.direccion,
+                    "fechaNacimiento": usuMap.fechaNacimiento,
+                    "observaciones": usuMap.observaciones
+                }
+            )
+            )
+            return usuariosPlano;
         }
         )
 }
-
-const getClient = (id) => {
+// busca un cliente por id
+const getClientById = (id) => {
+    console.log('id')
+    console.log(id)
     return axios
         .get(API_URL + '/clientes/' + id, {
             headers: {
                 'Authorization': `Bearer ${access_token}`,
             }
         }
-            )
+        )
         .then((response) => {
-            console.log('AcaEstarialaRespuesta')
-            const ret = []
-            ret.push(response.data)
-            console.log(ret)
-            return ret
-        })
-        .catch(error => {
-            if(error.response.status === 404){
-            console.log(error.response.data.message)
-            return [{message: 'Cliente no encontrado', status: 404 } ]
+            // console.log('AcaEstariala response:')
+            // console.log(response)
+            // console.log('AcaEstarialaRespuesta de getClient')
+            // const ret = []
+            // ret.push(response.data.content)
+            // console.log(ret)
+
+            const usu = response.data
+            const usuariosPlano = {
+                "direccion": usu.direccion,
+                "fechaNacimiento": usu.fechaNacimiento,
+                "idCliente": usu.idCliente,
+                "objetivo": usu.objetivo,
+                "observaciones": usu.observaciones,
+
+                "idUsuario": usu.usuario.idUsuario,
+                "numeroDocumento": usu.usuario.numeroDocumento,
+                "tipoDocumento": usu.usuario.tipoDocumento,
+                "apellido": usu.usuario.apellido,
+                "nombre": usu.usuario.nombre,
+                "sexo": usu.usuario.sexo,
+                "mail": usu.usuario.mail,
+                "celular": usu.usuario.celular,
+                "fechaAlta": usu.usuario.fechaAlta,
+                "fechaBaja": usu.usuario.fechaBaja
+            }
+
+            // console.log('usuariosPlano')
+            // console.log(usuariosPlano)
+            return [usuariosPlano]
+
         }
-        return [{message: error.response.data.message}]
+        ) //Aca cierra el then
+        .catch((error) => {
+            console.log('Hubo un error')
+            console.log(error)
+            if (error.response.status === 404) {
+            console.log(error.response.data.message)
+            return [{ message: 'Cliente no encontrado', status: 404 }]
+            }
+            return [{ message: error.response.data.message }]
             // return [{}]
-        })
+        }
+        )
+
 }
+
 
 const putClient = (cliente) => {
     return axios.put('clientes')
 }
 
+
 const clientsService = {
     getClients,
-    getClient,
+    getClientById,
     putClient
 }
 

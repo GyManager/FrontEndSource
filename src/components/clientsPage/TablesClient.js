@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -13,7 +13,6 @@ import TableRow from '@mui/material/TableRow';
 import { Avatar, Typography } from '@mui/material'
 
 import { useMediaQuery, Grid } from '@mui/material';
-import { Container } from '@mui/system';
 
 const columns = [
   {
@@ -67,10 +66,8 @@ function columnasTodas(col) {
 
 export default function TablesClient(props) {
 
-  const navigate = useNavigate()
-
   const rows = props.clientes.map((cliente) => (
-    createData('AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo, cliente.idPersona))
+    createData('AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo, cliente.idCliente))
   )
 
   const [page, setPage] = useState(0);
@@ -88,19 +85,11 @@ export default function TablesClient(props) {
     setPage(0);
   };
 
-  const handleClick = (idPerson) => {
-    navigate('/clientes/' + idPerson)
-  }
-
-  //TODO ver que pasa, si es con el console.log o que, que me manda props.clientes[0].message = undefined
-  // Me esta llegando un array vacio SOlucionado? Probarlo mas
-  console.log('Aca van los clientes:', props.clientes)
-
-
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden',
-    //  backgroundColor: 'yellow'
-      }}>
+    <Paper sx={{
+      width: '100%', overflow: 'hidden',
+      //  backgroundColor: 'yellow'
+    }}>
       <TableContainer sx={{ height: { xs: '55vh', md: '35vh', lg: '40vh', xl: '52vh' } }} >
         {/* <TableContainer sx={{height :'90%'}} > */}
         <Table stickyHeader aria-label="sticky table" size={isSmallDevice ? "small" : "medium"}  >
@@ -125,40 +114,39 @@ export default function TablesClient(props) {
                 return (
                   props.clientes[0].status === 404
                     ?
-                    <TableCell colSpan={6} variant='body'>
+                    <TableCell colSpan={6} variant='body' key={row.code}>
                       <Typography variant='subtitle1' align='center'>
                         {props.clientes[0].message}
                       </Typography>
                     </TableCell>
                     :
-
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                      {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
-                        .map((column) => {
-                          const value = row[column.id];
-                          return (
-                            column.id === 'avatar'
-                              ?
-                              <Link to={'/clientes/' + row.idPersona}>
+                    <Link to={'/clientes/' + row.idPersona}>
+                      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                        {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
+                          .map((column) => {
+                            const value = row[column.id];
+                            return (
+                              column.id === 'avatar'
+                                ?
                                 <TableCell key={column.id} align={column.align}>
-                                  <Avatar alt="Remy Sharp" src={row.avatar} />
+                                  <Link to={'/clientes/' + row.idPersona}>
+                                    <Avatar alt="Remy Sharp" src={row.avatar} />
+                                  </Link>
                                 </TableCell>
-                              </Link>
-                              :
-//TODO:003 preguntar a nico: Porque se rompe el la tabla si envuelvo el table cell y en el link. 
-// O sea arriba me lo toma, (para el primer parametro del condicional elvis), pero para el segundo, (el de abajo) no
-                              <TableCell key={column.id} align={column.align}>
-                                <Link to={'/clientes/' + row.idPersona}>
-                                  {column.format && typeof value === 'number'
-                                    ? column.format(value)
-                                    : value}
-                                </Link>
-                              </TableCell>
-
-
-                          );
-                        })}
-                    </TableRow>
+                                :
+                                //TODO:003 preguntar a nico: Porque se rompe el la tabla si envuelvo el table cell y en el link. 
+                                // O sea arriba me lo toma, (para el primer parametro del condicional elvis), pero para el segundo, (el de abajo) no
+                                <TableCell key={column.id} align={column.align}>
+                                  <Link to={'/clientes/' + row.idPersona}>
+                                    {column.format && typeof value === 'number'
+                                      ? column.format(value)
+                                      : value}
+                                  </Link>
+                                </TableCell>
+                            );
+                          })}
+                      </TableRow>
+                    </Link>
                 );
               })}
           </TableBody>

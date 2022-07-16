@@ -22,10 +22,12 @@ export default function Input(props) {
                 // Forma original
                 // inputProps={{ readOnly: true, }}
                 // Metiendo js en el objeto
-                // inputProps={{ readOnly: [!props.editable? 'true' : 'false'], }}
+                // {!props.editable?readOnly: null}
+                // TODO 007 Solved
+                inputProps={{ readOnly: Boolean(!props.editable)}}
 
                 // Esta es una opcion alternativa que no se ve muy bien
-                disabled={props.editable? false : true }
+                // disabled={props.editable? false : true }
             />
         </Box>
     );

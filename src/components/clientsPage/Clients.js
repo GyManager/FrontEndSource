@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 // import { useNavigate } from 'react-router-dom'
-import { Grid, Box, Paper, Typography, Button } from '@mui/material/'
+import { Grid, Box, Paper, Typography } from '@mui/material/'
 
 import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
@@ -77,7 +77,7 @@ export default function Clients() {
                             <ButtonAddClientDesktop size={isMediumDevice ? "small" : "medium"} />
                         </Grid>
                     </Grid>
-                    <Grid container justifyContent='start' alignItem='center'>
+                    <Grid container justifyContent='start' alignItems='center'>
                         <Grid item xs={10.5} md={5}
                             sx={{
                                 // backgroundColor: 'lightBlue',

@@ -4,7 +4,7 @@ import { Container, Box, Paper } from '@mui/material/';
 import Clients from '../components/clientsPage/Clients'
 
 
-export default function ClientConsultPage() {
+export default function ClientPage() {
     return (
         <Container fixed 
         sx={{

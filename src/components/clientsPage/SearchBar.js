@@ -43,7 +43,7 @@ const onSubmit = async (e) => {
     e.preventDefault()
     try {
         await ClientsService
-        .getClient(valueToSearch)
+        .getClients(valueToSearch)
         .then(
             (response) => {
                 props.setClientes(response)

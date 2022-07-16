@@ -56,9 +56,9 @@ function Client() {
         setObjetivo(e.target.value)
     }
 
-    const getClient = async () => {
+    const getClientById = async () => {
         try {
-            await clientsService.getClient(clienteId).then(
+            await clientsService.getClientById(clienteId).then(
                 (arrayPerson) => {
                     console.log(arrayPerson)
                     const per = arrayPerson[0]
@@ -113,7 +113,7 @@ function Client() {
         if (clienteId === 'new') {
             setEditable(true)
         } else {
-            getClient()
+            getClientById()
         }
     }, [])
     return (

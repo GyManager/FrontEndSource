@@ -12,7 +12,6 @@ const login = (email, password) => {
     return axios
         .post(API_URL + "/auth", bodyFormData)
         .then((response) => {
-            console.log(response, response.data)
             if (response.data.access_token) {
                 sessionStorage.setItem("user", JSON.stringify(response.data));
             }
