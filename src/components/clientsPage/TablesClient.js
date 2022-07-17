@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -66,6 +66,8 @@ function columnasTodas(col) {
 
 export default function TablesClient(props) {
 
+  const navigate = useNavigate()
+
   const rows = props.clientes.map((cliente) => (
     createData('AvatarUrl', cliente.nombre, cliente.apellido, cliente.numeroDocumento, cliente.mail, cliente.objetivo, cliente.idCliente))
   )
@@ -73,7 +75,7 @@ export default function TablesClient(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const isSmallDevice = useMediaQuery('(max-width:600px');
+  const isMediumDevice = useMediaQuery('(max-width:900px');
 
 
   const handleChangePage = (event, newPage) => {
@@ -85,6 +87,11 @@ export default function TablesClient(props) {
     setPage(0);
   };
 
+  const handleClickRow = (id) => {
+    navigate('/clientes/' + id)
+
+  }
+
   return (
     <Paper sx={{
       width: '100%', overflow: 'hidden',
@@ -92,10 +99,10 @@ export default function TablesClient(props) {
     }}>
       <TableContainer sx={{ height: { xs: '55vh', md: '35vh', lg: '40vh', xl: '52vh' } }} >
         {/* <TableContainer sx={{height :'90%'}} > */}
-        <Table stickyHeader aria-label="sticky table" size={isSmallDevice ? "small" : "medium"}  >
+        <Table stickyHeader aria-label="sticky table" size={isMediumDevice ? "small" : "medium"}  >
           <TableHead>
             <TableRow>
-              {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
+              {columns.filter(isMediumDevice ? columnasReducidas : columnasTodas)
                 .map((column) => (
                   <TableCell
                     key={column.id}
@@ -112,41 +119,46 @@ export default function TablesClient(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  props.clientes[0].status === 404
+                  // Para el caso de que devuelva un 404, retorna mensaje de que no se encontraron clientes
+                 /*
+                  
+                   props.clientes[0].status === 404
                     ?
-                    <TableCell colSpan={6} variant='body' key={row.code}>
-                      <Typography variant='subtitle1' align='center'>
-                        {props.clientes[0].message}
-                      </Typography>
-                    </TableCell>
-                    :
-                    <Link to={'/clientes/' + row.idPersona}>
-                      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.filter(isSmallDevice ? columnasReducidas : columnasTodas)
-                          .map((column) => {
-                            const value = row[column.id];
-                            return (
-                              column.id === 'avatar'
-                                ?
-                                <TableCell key={column.id} align={column.align}>
-                                  <Link to={'/clientes/' + row.idPersona}>
-                                    <Avatar alt="Remy Sharp" src={row.avatar} />
-                                  </Link>
-                                </TableCell>
-                                :
-                                //TODO:003 preguntar a nico: Porque se rompe el la tabla si envuelvo el table cell y en el link. 
-                                // O sea arriba me lo toma, (para el primer parametro del condicional elvis), pero para el segundo, (el de abajo) no
-                                <TableCell key={column.id} align={column.align}>
-                                  <Link to={'/clientes/' + row.idPersona}>
-                                    {column.format && typeof value === 'number'
-                                      ? column.format(value)
-                                      : value}
-                                  </Link>
-                                </TableCell>
-                            );
-                          })}
-                      </TableRow>
-                    </Link>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                      <TableCell colSpan={6} variant='body' key={props.clientes[0].message}>
+                        <Typography variant='subtitle1' align='center'>
+                          {props.clientes[0].message}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+
+                    : 
+                    
+                    */
+
+
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.idPersona}
+                      onClick={() => handleClickRow(row.idPersona)} sx={{ cursor: 'pointer' }}>
+                      {columns.filter(isMediumDevice ? columnasReducidas : columnasTodas)
+                        .map((column) => {
+                          const value = row[column.id];
+                          return (
+                            column.id === 'avatar'
+                              ?
+                              <TableCell key={column.id} align={column.align}>
+                                <Avatar alt="Remy Sharp" src={row.avatar} />
+                              </TableCell>
+                              :
+                              //TODO:003 preguntar a nico: Porque se rompe el la tabla si envuelvo el table cell y en el link. 
+                              // O sea arriba me lo toma, (para el primer parametro del condicional elvis), pero para el segundo, (el de abajo) no
+                              <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === 'number'
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                          );
+                        })}
+                    </TableRow>
                 );
               })}
           </TableBody>
@@ -155,7 +167,7 @@ export default function TablesClient(props) {
       <Grid Container  >
         <Grid item xs={8} >
           <TablePagination
-            rowsPerPageOptions={isSmallDevice ? [] : [10, 25, 100]}
+            rowsPerPageOptions={isMediumDevice ? [] : [10, 25, 100]}
             component="div"
             count={rows.length}
             rowsPerPage={rowsPerPage}

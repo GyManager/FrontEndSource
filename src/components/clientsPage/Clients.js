@@ -7,6 +7,7 @@ import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
 import SearchBar from './SearchBar'
 import TablesClient from './TablesClient'
+import StickyHeadTable from './StickyHeadTable'
 
 import ClientService from '../../services/clients.service'
 
@@ -54,11 +55,12 @@ export default function Clients() {
                 }}
 
             >
-                <Grid container width='100%' spacing={1} 
-                sx={{ mt: 1, mb: 1, mx: 2,
-                //  backgroundColor: 'red' 
-                 }} 
-                 alignItems='center'  >
+                <Grid container width='100%' spacing={1}
+                    sx={{
+                        mt: 1, mb: 1, mx: 2,
+                        //  backgroundColor: 'red' 
+                    }}
+                    alignItems='center'  >
                     <Grid container item justifyContent='space-between' alignItems='center'>
                         <Grid item xs={12} md={3}
                         // sx={{ backgroundColor: 'blue' }}
@@ -85,11 +87,11 @@ export default function Clients() {
                             }}
                         >
                             <SearchBar
-                             clientes={clientes}
-                             setClientes={setClientes}
-                                // stateSearch={search}
-                                // onChangeSearch={handleSearchChange}
-                                // onClickSearchButton={handleSearchButtonClick}
+                                clientes={clientes}
+                                setClientes={setClientes}
+                            // stateSearch={search}
+                            // onChangeSearch={handleSearchChange}
+                            // onClickSearchButton={handleSearchButtonClick}
                             />
                         </Grid>
                     </Grid>
@@ -101,9 +103,11 @@ export default function Clients() {
                                 height: '100%'
                             }}
                         >
-                            <TablesClient
-                                clientes={clientes}
-                            />
+                            <TablesClient clientes={clientes} />
+
+                            {/* <StickyHeadTable /> */}
+
+
                         </Grid>
                     </Grid>
                     {/* Boton solo para vista mobile */}
@@ -121,7 +125,7 @@ export default function Clients() {
                     </Grid>
                 </Grid>
             </Paper>
-        </Box >
+        </Box>
     )
 }
 
