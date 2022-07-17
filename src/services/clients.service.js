@@ -14,45 +14,80 @@ catch (error) {
     access_token = ''
 }
 
+const getTotalElements = async (response) => {
+    return response.data.totalElements
+}
 
+const makeClientsResponsePlain = (response) => {
+    const ret = response.data.content.map((usuMap) => (
+        {
+            "idCliente": usuMap.idCliente,
+            "idUsuario": usuMap.usuario.idUsuario,
+            "numeroDocumento": usuMap.usuario.numeroDocumento,
+            "tipoDocumento": usuMap.usuario.tipoDocumento,
+            "apellido": usuMap.usuario.apellido,
+            "nombre": usuMap.usuario.nombre,
+            "sexo": usuMap.usuario.sexo,
+            "mail": usuMap.usuario.mail,
+            "celular": usuMap.usuario.celular,
+            "fechaAlta": usuMap.usuario.fechaAlta,
+            "fechaBaja": usuMap.usuario.fechaBaja,
+            "objetivo": usuMap.objetivo,
+            "direccion": usuMap.direccion,
+            "fechaNacimiento": usuMap.fechaNacimiento,
+            "observaciones": usuMap.observaciones
+        }
+    )
+    )
+    return ret
+}
 
 
 const getClients = (search) => {
-    if(search === undefined){
+    if (search === undefined) {
         search = ''
-    } 
-    
-    return axios.get(API_URL + '/clientes?fuzzySearch=' + search, {
+    }
+    return axios.get(API_URL + '/clientes?fuzzySearch='+ search, {
+    // return axios.get(API_URL + '/clientes?fuzzySearch=nico&pageSize=20', {
+    // return axios.get(API_URL + '/clientes?pageSize=20&?fuzzySearch=' + search , {
         headers: {
             'Authorization': `Bearer ${access_token}`,
         }
     }
     )
         .then((response) => {
-            const usuariosPlano = response.data.content.map((usuMap) => (
-                {
-                    "idCliente": usuMap.idCliente,
-                    "idUsuario": usuMap.usuario.idUsuario,
-                    "numeroDocumento": usuMap.usuario.numeroDocumento,
-                    "tipoDocumento": usuMap.usuario.tipoDocumento,
-                    "apellido": usuMap.usuario.apellido,
-                    "nombre": usuMap.usuario.nombre,
-                    "sexo": usuMap.usuario.sexo,
-                    "mail": usuMap.usuario.mail,
-                    "celular": usuMap.usuario.celular,
-                    "fechaAlta": usuMap.usuario.fechaAlta,
-                    "fechaBaja": usuMap.usuario.fechaBaja,
-                    "objetivo": usuMap.objetivo,
-                    "direccion": usuMap.direccion,
-                    "fechaNacimiento": usuMap.fechaNacimiento,
-                    "observaciones": usuMap.observaciones
-                }
-            )
-            )
+            const usuariosPlano = makeClientsResponsePlain(response)
+            const elementosTotales = getTotalElements(response)
+            console.log(usuariosPlano)
+            console.log(elementosTotales)
+            console.log(response.data.totalElements)
+            return [usuariosPlano, response.data.totalElements]
+        }
+        )
+}
+
+
+const getClientsPerPage = (rowsPerPage, page) => {
+    return axios.get(API_URL + '/clientes?pageSize=' + rowsPerPage + '&page=' + page, {
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+        }
+    }
+    )
+        .then((response) => {
+            const usuariosPlano = makeClientsResponsePlain(response)
             return usuariosPlano;
         }
         )
 }
+
+
+
+
+
+
+
+
 // busca un cliente por id
 const getClientById = (id) => {
     console.log('id')
@@ -102,8 +137,8 @@ const getClientById = (id) => {
             console.log('Hubo un error')
             console.log(error)
             if (error.response.status === 404) {
-            console.log(error.response.data.message)
-            return [{ message: 'Cliente no encontrado', status: 404 }]
+                console.log(error.response.data.message)
+                return [{ message: 'Cliente no encontrado', status: 404 }]
             }
             return [{ message: error.response.data.message }]
             // return [{}]

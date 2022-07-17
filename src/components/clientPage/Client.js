@@ -120,8 +120,10 @@ function Client() {
         <div>
             {/* TODO 001 HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA 
         REDUCIR MANTENIMINETO Y MEJORAR CONSISTENCIA   */}
-            <Stack direction='row' justifyContent='space-between' alignItems='center'>
-                <Typography sx={{ fontSize: { xs: 20, md: 24, lg: 32 } }} >
+            <Stack direction='row' justifyContent='space-between' alignItems='center'
+                sx={{ width: '90vw' }}
+            >
+                <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 42 }, mb: '1vh'}} >
                     Cliente: {nombre} {apellido}
                 </Typography>
                 <div sx={{ display: { xs: 'none', sm: 'none', md: 'inline-block' } }}>
@@ -153,16 +155,17 @@ function Client() {
                 display='flex'
                 flexWrap='flexwrap'
                 justifyContent='center'
-            >
-                <Paper
-                    elevation='3'
-                    // TODO 007
 
-                >
+            >
+                <div>
                     <Paper
-                        elevation='3'
+                        elevation='12'
                     >
-                        <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }}>
+                        <Stack direction={{ xs: 'column', sm: 'column', md: 'row', }}
+                            sx={{
+                                // backgroundColor: 'red',
+                                width: '80vw'
+                            }}>
                             <TipoDoc
                                 tipoDoc={tipoDoc}
                                 handleChange={handleChangeTipoDoc}
@@ -176,9 +179,12 @@ function Client() {
                         </Stack>
                     </Paper>
                     <Paper
-                        elevation='1'
+                        elevation='12'
                     >
-                        <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }}>
+                        <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }}
+                            sx={{
+                                my: '1vh'
+                            }} >
                             <Input label="Nombre"
                                 value={nombre}
                                 handleChange={handleChangeNombre}
@@ -193,9 +199,9 @@ function Client() {
                         </Stack>
                     </Paper>
                     <Paper
-                        elevation='1'
+                        elevation='12'
                     >
-                        <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }}>
+                        <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} >
                             <Input label="Email"
                                 value={email}
                                 handleChange={handleChangeEmail}
@@ -214,7 +220,7 @@ function Client() {
                         </Stack>
                     </Paper>
                     <Paper
-                        elevation='1'
+                        elevation='12'
                     >
                         <Input label="Objetivo"
                             value={objetivo}
@@ -223,25 +229,25 @@ function Client() {
                         />
                     </Paper>
                     <Paper
-                        elevation='1'
+                        elevation='12'
                     >
                         <Typography>Input - Medidas</Typography>
                     </Paper>
                     <Paper
-                        elevation='1'
+                        elevation='12'
                         sx={{
                             backgroundColor: 'orange'
                         }}>
                         <Typography>Input - Planes</Typography>
                     </Paper>
                     <Paper
-                        elevation='1'
+                        elevation='12'
                         sx={{
                             backgroundColor: 'lightblue'
                         }}>
                         <Typography>Input - Matriculas</Typography>
                     </Paper>
-                </Paper>
+                </div>
             </Box>
             <ButtonClientMobile></ButtonClientMobile>
         </div>

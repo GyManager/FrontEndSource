@@ -18,37 +18,38 @@ const columns = [
   {
     id: 'avatar',
     label: 'Avatar',
-    minWidth: 0,
+    minWidth: 20,
     align: 'left',
   },
   {
     id: 'name',
     label: 'Nombre',
-    minWidth: 30,
+    minWidth: 20,
     align: 'left',
   },
   {
     id: 'lastName',
     label: 'Apellido',
-    minWidth: 30,
+    minWidth: 20,
     align: 'left',
   },
   {
     id: 'numDocument',
     label: 'Nro. de Documento',
-    minWidth: 30,
+    minWidth: 8,
     align: 'left',
   },
   {
     id: 'email',
     label: 'Email',
-    minWidth: 0,
+    minWidth: 30,
     align: 'left',
   },
   {
+
     id: 'state',
     label: 'Estado',
-    minWidth: 0,
+    minWidth: 30,
     align: 'left',
   },
 ];
@@ -95,9 +96,13 @@ export default function TablesClient(props) {
   return (
     <Paper sx={{
       width: '100%', overflow: 'hidden',
-      //  backgroundColor: 'yellow'
+      //  backgroundColor: 'yellow',
     }}>
-      <TableContainer sx={{ height: { xs: '55vh', md: '35vh', lg: '40vh', xl: '52vh' } }} >
+      <TableContainer sx={{
+         height: { xs: '55vh', md: '35vh', lg: '40vh', xl: '52vh'},
+         
+         
+           }} >
         {/* <TableContainer sx={{height :'90%'}} > */}
         <Table stickyHeader aria-label="sticky table" size={isMediumDevice ? "small" : "medium"}  >
           <TableHead>
@@ -164,14 +169,15 @@ export default function TablesClient(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid Container  >
+      <Grid container  >
         <Grid item xs={8} >
           <TablePagination
             rowsPerPageOptions={isMediumDevice ? [] : [10, 25, 100]}
             component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            // count={rows.length}
+            count={props.clientesTotal}
+            rowsPerPage={rowsPerPage} //Size
+            page={page} 
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />

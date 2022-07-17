@@ -18,11 +18,14 @@ import { useMediaQuery } from '@mui/material';
 export default function Clients() {
     const isMediumDevice = useMediaQuery('(max-width:900px');
     const [clientes, setClientes] = useState([{}]);
+    const [clientesTotal, setClientesTotal] = useState('')
+
     const getClients = async () => {
         try {
             await ClientService.getClients().then(
                 (responseArray) => {
-                    setClientes(responseArray)
+                    setClientes(responseArray[0])
+                    setClientesTotal(responseArray[1])
                 },
                 (error) => {
                     if (error.response.data.status === 401) {
@@ -43,19 +46,20 @@ export default function Clients() {
 
         <Box sx={{
             display: 'flex', flexwrap: 'wrap',
-            // backgroundColor: 'lightgray'
+            // backgroundColor: 'green'
         }}
             justifyContent='center'>
             <Paper
                 elevation={12}
                 // TODO  006
                 sx={{
-                    // backgroundColor: 'darkblue',
-                    height: '83vh'
+                    // backgroundColor: 'yellow',
+                    height: '83vh',
+
                 }}
 
             >
-                <Grid container width='100%' spacing={1}
+                <Grid container width='90vw'
                     sx={{
                         mt: 1, mb: 1, mx: 2,
                         //  backgroundColor: 'red' 
@@ -95,15 +99,16 @@ export default function Clients() {
                             />
                         </Grid>
                     </Grid>
-                    <Grid container justifyContent='start' sx={{ backgroundColor: '' }} >
-                        <Grid item xs={12} sm={10} md={12}
+                    <Grid container justifyContent='start' sx={{ backgroundColor: 'green' }} >
+                        <Grid item xs={12}
                             sx={{
-                                // backgroundColor: 'lightGreen',
+                                backgroundColor: 'lightGreen',
                                 // height: { xs: '77vh', md: '30vh', lg: '68vh' }
-                                height: '100%'
+                                height: '100%',
+
                             }}
                         >
-                            <TablesClient clientes={clientes} />
+                            <TablesClient clientes={clientes} clientesTotal={clientesTotal} />
 
                             {/* <StickyHeadTable /> */}
 

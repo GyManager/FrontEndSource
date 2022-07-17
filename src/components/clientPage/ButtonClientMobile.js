@@ -8,12 +8,13 @@ import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const actions = [
-    { icon: <FileCopyIcon />, name: 'Copy' },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
+    { icon: <EditIcon />, name: 'Editar' },
+    { icon: <DeleteIcon />, name: 'Borrar' },
+   
 ];
 
 export default function ButtonClientMobile() {
@@ -30,7 +31,7 @@ export default function ButtonClientMobile() {
 
             position: 'fixed',
             right: '4vw',
-            bottom: '-50vh',
+            bottom: '-74vh',
         }}>
             <Backdrop open={open} />
             <SpeedDial
