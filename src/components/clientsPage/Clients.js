@@ -9,7 +9,7 @@ import SearchBar from './SearchBar'
 import TablesClient from './TablesClient'
 import StickyHeadTable from './StickyHeadTable'
 
-import ClientService from '../../services/clients.service'
+import clientsService from '../../services/clients.service'
 
 import { useMediaQuery } from '@mui/material';
 
@@ -22,10 +22,12 @@ export default function Clients() {
 
     const getClients = async () => {
         try {
-            await ClientService.getClients().then(
+            await clientsService.getClients().then(
                 (responseArray) => {
                     setClientes(responseArray[0])
                     setClientesTotal(responseArray[1])
+                    console.log(clientes)
+                    console.log(clientesTotal)
                 },
                 (error) => {
                     if (error.response.data.status === 401) {
@@ -93,6 +95,7 @@ export default function Clients() {
                             <SearchBar
                                 clientes={clientes}
                                 setClientes={setClientes}
+                                setClientesTotal={setClientesTotal}
                             // stateSearch={search}
                             // onChangeSearch={handleSearchChange}
                             // onClickSearchButton={handleSearchButtonClick}

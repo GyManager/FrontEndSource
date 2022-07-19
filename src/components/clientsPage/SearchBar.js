@@ -46,7 +46,8 @@ const onSubmit = async (e) => {
         .getClients(valueToSearch)
         .then(
             (response) => {
-                props.setClientes(response)
+                props.setClientes(response[0])
+                props.setClientesTotal(response[1])
             }
         )
     } catch (err) {

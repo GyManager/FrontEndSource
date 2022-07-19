@@ -6,6 +6,7 @@ import Select from '@mui/material/Select';
 
 export default function TipoDoc(props) {
 
+  
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 200 }} >
