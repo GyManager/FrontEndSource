@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Button } from '@mui/material'
 import { Edit, Delete, Save } from '@mui/icons-material/';
-// import clientsService from '../../services/clients.service';
+import clientsService from '../../services/clients.service';
 
 function ButtonClientDesktop(props) {
 /*
@@ -30,13 +30,7 @@ function ButtonClientDesktop(props) {
             }
         }
 
-*/
-
-
         // navigate al id del cliente
-
-
-
 
         //Si estaba en modo de edicion, quiero hacer un post con los nuevos datos. pero arriba cambie el modo de edicion asi que:
         // me voy por la rama del false
@@ -46,9 +40,9 @@ function ButtonClientDesktop(props) {
         //     // TODO 005
         // }
         // editable ? null : putClient
-    // }
+    }
 
-
+*/
 
     return (
         <div>

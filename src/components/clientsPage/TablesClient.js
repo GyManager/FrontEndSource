@@ -141,7 +141,10 @@ export default function TablesClient(props) {
                     
                     */
 
-
+ //TODO NICO 003 La tabla esta tirando como que hay un problema con una key, 
+ // segun entiendo las key que deben ser diferentes son las de las filas, ya que las de las 
+ // columnas sirven para identificar, o al menos asi hacen en la documentacion. Pero bueno 
+ // no me esta saliendo
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.idPersona}
                       onClick={() => handleClickRow(row.idPersona)} sx={{ cursor: 'pointer' }}>
                       {columns.filter(isMediumDevice ? columnasReducidas : columnasTodas)
@@ -154,8 +157,7 @@ export default function TablesClient(props) {
                                 <Avatar alt="Remy Sharp" src={row.avatar} />
                               </TableCell>
                               :
-                              //TODO:003 preguntar a nico: Porque se rompe el la tabla si envuelvo el table cell y en el link. 
-                              // O sea arriba me lo toma, (para el primer parametro del condicional elvis), pero para el segundo, (el de abajo) no
+                             
                               <TableCell key={column.id} align={column.align}>
                                 {column.format && typeof value === 'number'
                                   ? column.format(value)

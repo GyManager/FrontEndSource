@@ -3,8 +3,6 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
@@ -17,7 +15,8 @@ export default function DatePicker() {
     const handleChange = (newValue) => {
         setCalendarValue(newValue);
     };
-
+// TODO NICO 001 DatePicker no esta cambiando el dia, se queda en el dia actual.
+// hay que sacar los parametros al padre, en el codigo del padre lo hice y lo deje comentado: TODO NICO 001a y 00b
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={3}>
@@ -28,7 +27,7 @@ export default function DatePicker() {
                     calendarValue={calendarValue}
                     onChange={handleChange}
                     renderInput={(params) => <TextField {...params} />}
-                />
+                /> 
                 :<DesktopDatePicker
                     label="Date desktop"
                     inputFormat="MM/dd/yyyy"

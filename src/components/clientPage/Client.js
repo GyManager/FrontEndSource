@@ -5,12 +5,10 @@ import { Typography, Box, Paper, Stack, Button } from '@mui/material'
 
 import DatePicker from './DatePicker'
 
-
 import ButtonClientMobile from './ButtonClientMobile';
 import ButtonClientDesktop from './ButtonClientDesktop';
 import TipoDoc from './TipoDoc';
 import Input from './Input';
-
 
 import clientsService from '../../services/clients.service';
 import { Container } from '@mui/system';
@@ -30,7 +28,6 @@ function Client() {
         tipoDoc === 1 ? setNombreTipoDoc('DNI') :
             tipoDoc === 2 ? setNombreTipoDoc('Pasaporte') :
                 tipoDoc === 3 ? setNombreTipoDoc('Otro') : console.log()
-
     };
 
     const [nroDoc, setNroDoc] = useState('');
@@ -48,6 +45,7 @@ function Client() {
         setApellido(e.target.value)
     }
 
+    // TODO NICO 001a
     // const [calendarValue, setCalendarValue] = useState(new Date('2014-08-18T21:11:54'));
 
     // const handleChangeCalendarValue = (newValue) => {
@@ -94,28 +92,9 @@ function Client() {
             console.log(error)
         }
     }
-    /*
-        const putClient = async () => {
-            const cliente = {
-                "mail": email,
-                "numeroDocumento": nroDoc,
-                "idTipoDocumento": tipoDoc,
-                "nombre": nombre,
-                "apellido": apellido,
-                "direccion": direccion,
-                "fechaNacimiento": "1995-05-30T03:00:00.000+00:00",
-                "celular": celular,
-                "objetivo": objetivo
-            }
-            try {
-                await clientsService.putClient(clienteId, cliente)
-            } catch (error) {
-                console.log('Error ')
-            }
-        }
-        */
-
+    //TODO NICO 005 Ver tema de formatos de fecha
     const handleSubmit = async (e) => {
+        e.preventDefault();
         const actualTime = new Date();
         let actualTimeString = actualTime.toUTCString();
         console.log(actualTimeString)
@@ -137,8 +116,6 @@ function Client() {
             "observaciones": "Algo gil"
         }
         console.log(cliente)
-
-        e.preventDefault();
         setEditable(editable)
         if (clienteId === 'new') {
             // const postClient = async () => {
@@ -147,16 +124,12 @@ function Client() {
             try {
                 await clientsService.postClient(cliente).then(
                     () => {
-                        // console.log(response)
-                        console.log('Correcto');
+                        console.log('El cliente se cargo con exito');
                     },
-                    // (error) => {
-                    //     console.log('recibi el error nuevo')
-                    //     console.log(error)
-                    // }
-
                 );
-                // TODO 008
+                //TODO NICO 4 No entiendo porque se viene por la rama del error y no me lo renderiza...
+                // Si bien no jode para terminar de cargar el cliente, si necesitase recuperar 
+                // su id si me joderia.
             } catch (err) {
                 console.log('Error en componente client')
                 console.log(err)
@@ -183,7 +156,6 @@ function Client() {
 
     return (
         <form
-            // component="form"
             method="post"
             onSubmit={handleSubmit}>
             {/* TODO 001 HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA 
@@ -252,9 +224,10 @@ function Client() {
                                 handleChange={handleChangeApellido}
                                 editable={editable}
                             />
+                            {/* TODO NICO 001b */}
                             <DatePicker
-                                // calendarValue={calendarValue}
-                                // handleChangeCalendarValue={handleChangeCalendarValue}
+                            // calendarValue={calendarValue}
+                            // handleChangeCalendarValue={handleChangeCalendarValue}
 
                             />
 
