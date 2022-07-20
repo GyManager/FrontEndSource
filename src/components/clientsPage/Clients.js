@@ -18,16 +18,17 @@ import { useMediaQuery } from '@mui/material';
 export default function Clients() {
     const isMediumDevice = useMediaQuery('(max-width:900px');
     const [clientes, setClientes] = useState([{}]);
-    const [clientesTotal, setClientesTotal] = useState('')
+    const [clientesTotal, setClientesTotal] = useState(() => 0)
+    const [page, setPage] = useState(() => 0);
+    const [rowsPerPage, setRowsPerPage] = useState(() => 10);
+    const [valueToSearch, setValueToSearch] = useState('');
 
-    const getClients = async () => {
+    const getClients = async (search, pageSize, page) => {
         try {
-            await clientsService.getClients().then(
-                (responseArray) => {
-                    setClientes(responseArray[0])
-                    setClientesTotal(responseArray[1])
-                    console.log(clientes)
-                    console.log(clientesTotal)
+            await clientsService.getClients(search, pageSize, page).then(
+                (response) => {
+                    setClientes(response.content)
+                    setClientesTotal(response.totalElements)
                 },
                 (error) => {
                     if (error.response.data.status === 401) {
@@ -42,7 +43,26 @@ export default function Clients() {
         }
     };
 
-    useEffect(() => { getClients() }, [])
+    useEffect(() => { 
+        getClients(null, rowsPerPage, page);
+    }, [])
+
+    const searchClientes = () => {
+        setPage(0)
+        getClients(valueToSearch, rowsPerPage, 0)
+    }
+
+    const changePage = (page) => {
+        console.log(page)
+        setPage(page)
+        getClients(valueToSearch, rowsPerPage, page);
+    }
+
+    const changeRowsPerPage = (rowsPerPage) => {
+        setRowsPerPage(rowsPerPage)
+        setPage(0)
+        getClients(valueToSearch, rowsPerPage, page);
+    }
 
     return (
 
@@ -93,12 +113,9 @@ export default function Clients() {
                             }}
                         >
                             <SearchBar
-                                clientes={clientes}
-                                setClientes={setClientes}
-                                setClientesTotal={setClientesTotal}
-                            // stateSearch={search}
-                            // onChangeSearch={handleSearchChange}
-                            // onClickSearchButton={handleSearchButtonClick}
+                                searchClientes={searchClientes}
+                                setValueToSearch={setValueToSearch}
+                                valueToSearch={valueToSearch}
                             />
                         </Grid>
                     </Grid>
@@ -111,7 +128,14 @@ export default function Clients() {
 
                             }}
                         >
-                            <TablesClient clientes={clientes} clientesTotal={clientesTotal} />
+                            <TablesClient 
+                                clientes={clientes} 
+                                clientesTotal={clientesTotal} 
+                                page={page}
+                                changePage={changePage}
+                                rowsPerPage={rowsPerPage}
+                                changeRowsPerPage={changeRowsPerPage}
+                            />
 
                             {/* <StickyHeadTable /> */}
 

@@ -14,44 +14,44 @@ catch (error) {
     access_token = ''
 }
 
-const getClients = (search) => {
-    if (search === undefined) {
-        search = ''
+const getClients = (fuzzySearch, pageSize, page) => {
+    let params = {}
+    if(fuzzySearch !== undefined){
+        params['fuzzySearch'] = fuzzySearch;
     }
-    return axios.get(API_URL + '/clientes?pageSize=100&fuzzySearch=' + search, {
-        // return axios.get(API_URL + '/clientes?fuzzySearch=nico&pageSize=20', {
-        // return axios.get(API_URL + '/clientes?pageSize=20&?fuzzySearch=' + search , {
+    if(pageSize !== undefined){
+        params['pageSize'] = pageSize;
+    }
+    if(page !== undefined){
+        params['page'] = page;
+    }
+
+    return axios.get(API_URL + '/clientes', {
         headers: {
             'Authorization': `Bearer ${access_token}`,
-        }
-    }
-    )
-        .then((response) => {
-            console.log(response)
-            const usuariosPlano = response.data.content.map((usuMap) => (
-                {
-                    "idCliente": usuMap.idCliente,
-                    "idUsuario": usuMap.usuario.idUsuario,
-                    "numeroDocumento": usuMap.usuario.numeroDocumento,
-                    "tipoDocumento": usuMap.usuario.tipoDocumento,
-                    "apellido": usuMap.usuario.apellido,
-                    "nombre": usuMap.usuario.nombre,
-                    "sexo": usuMap.usuario.sexo,
-                    "mail": usuMap.usuario.mail,
-                    "celular": usuMap.usuario.celular,
-                    "fechaAlta": usuMap.usuario.fechaAlta,
-                    "fechaBaja": usuMap.usuario.fechaBaja,
-                    "objetivo": usuMap.objetivo,
-                    "direccion": usuMap.direccion,
-                    "fechaNacimiento": usuMap.fechaNacimiento,
-                    "observaciones": usuMap.observaciones
-                }))
-            const elementosTotales = response.data.totalElements
-            console.log(usuariosPlano)
-            console.log(elementosTotales)
-            return [usuariosPlano, elementosTotales]
-        }
-        )
+        },
+        params
+    }).then((response) => {
+        response.data.content = response.data.content.map((usuMap) => (
+            {
+                "idCliente": usuMap.idCliente,
+                "idUsuario": usuMap.usuario.idUsuario,
+                "numeroDocumento": usuMap.usuario.numeroDocumento,
+                "tipoDocumento": usuMap.usuario.tipoDocumento,
+                "apellido": usuMap.usuario.apellido,
+                "nombre": usuMap.usuario.nombre,
+                "sexo": usuMap.usuario.sexo,
+                "mail": usuMap.usuario.mail,
+                "celular": usuMap.usuario.celular,
+                "fechaAlta": usuMap.usuario.fechaAlta,
+                "fechaBaja": usuMap.usuario.fechaBaja,
+                "objetivo": usuMap.objetivo,
+                "direccion": usuMap.direccion,
+                "fechaNacimiento": usuMap.fechaNacimiento,
+                "observaciones": usuMap.observaciones
+            }))
+        return response.data;
+    })
 }
 
 
