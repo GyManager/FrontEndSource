@@ -45,7 +45,6 @@ function Client() {
 
     const [sexo, setSexo] = useState('');
 
-    // TODO NICO 001a
     const [fechaNacimiento, setFechaNacimiento] = useState(null);
 
     const [email, setEmail] = useState('');
