@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Typography, Box, Paper, Stack, Button } from '@mui/material'
 
@@ -17,6 +17,8 @@ import { date } from 'yup/lib/locale';
 
 function Client() {
     
+    const navigate = useNavigate()
+
     let { clienteId } = useParams();
 
     const [editable, setEditable] = useState(false)
@@ -91,7 +93,7 @@ function Client() {
             console.log(error)
         }
     }
-    //TODO NICO 005 Ver tema de formatos de fecha
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         const actualTime = new Date();
@@ -113,11 +115,9 @@ function Client() {
             "observaciones": observaciones
         }
         console.log(cliente)
-        setEditable(editable)
-        if (clienteId === 'new') {
-            // const postClient = async () => {
-            console.log(clienteId)
+        console.log(clienteId)
 
+        if (clienteId === 'new') {
             try {
                 await clientsService.postClient(cliente).then(
                     () => {
@@ -133,8 +133,21 @@ function Client() {
             } finally {
                 // esto deberia estar en la rama true (try/then)
                 // console.log(response)
+                navigate("/clientes")
             }
-
+        } else {
+            try {
+                await clientsService.putClient(cliente, clienteId).then(
+                    () => {
+                        console.log('El cliente se actualizo con exito');
+                    },
+                );
+            } catch (err) {
+                console.log('Error en componente client')
+                console.log(err)
+            } finally {
+                setEditable(false)
+            }
         }
     }
 
@@ -166,7 +179,8 @@ function Client() {
                 <div sx={{ display: { xs: 'none', sm: 'none', md: 'inline-block' } }}>
                     <ButtonClientDesktop
                         editable={editable}
-                        setEditable={setEditable}
+                        handleEditClick={() => setEditable(true)}
+                        handleDeleteClick={() => {}} 
                         clienteId={clienteId}
                         handleSubmit={handleSubmit}
 

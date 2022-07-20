@@ -3,7 +3,7 @@ import authService from './auth.service';
 
 //TODO IMPLEMENTAR DOTENV PARA API_URL
 const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
-// const API_URL = "https://rickandmortyapi.com/api/character"
+
 let access_token = ''
 
 try {
@@ -55,69 +55,12 @@ const getClients = (search) => {
 }
 
 
-/*
-const getClientsPerPage = (rowsPerPage, page) => {
-    return axios.get(API_URL + '/clientes?pageSize=' + rowsPerPage + '&page=' + page, {
-        headers: {
-            'Authorization': `Bearer ${access_token}`,
-        }
-    }
-    )
-        .then((response) => {
-            const usuariosPlano = response.data.content.map((usuMap) => (
-                {
-                    "idCliente": usuMap.idCliente,
-                    "idUsuario": usuMap.usuario.idUsuario,
-                    "numeroDocumento": usuMap.usuario.numeroDocumento,
-                    "tipoDocumento": usuMap.usuario.tipoDocumento,
-                    "apellido": usuMap.usuario.apellido,
-                    "nombre": usuMap.usuario.nombre,
-                    "sexo": usuMap.usuario.sexo,
-                    "mail": usuMap.usuario.mail,
-                    "celular": usuMap.usuario.celular,
-                    "fechaAlta": usuMap.usuario.fechaAlta,
-                    "fechaBaja": usuMap.usuario.fechaBaja,
-                    "objetivo": usuMap.objetivo,
-                    "direccion": usuMap.direccion,
-                    "fechaNacimiento": usuMap.fechaNacimiento,
-                    "observaciones": usuMap.observaciones
-                }))
-            return usuariosPlano;
-        }
-        )
-}
-*/
-
-
-
 const postClient = (cliente) => {
-    const client = {
-        "usuario": {
-            "numeroDocumento": 390723673,
-            "tipoDocumento": "Pasaporte",
-            "nombre": "Federico",
-            "apellido": "Garip",
-            "sexo": "Masculino",
-            "mail": "garip.federico@gmail.com",
-            "celular": 3513851126,
-            "fechaAlta": "2022-07-18",
-            "fechaBaja": null
-        },
-        "objetivo": "Ganar masa muscular",
-        "direccion": "Av Colon 4933",
-        "fechaNacimiento": "1995-05-29T00:00:00.000+00:00",
-        "observaciones": "Algo gil"
-    }
-
-
-    axios.post(API_URL + '/clientes', {
-        ...cliente
-    }, {
-        headers: {
-            'Authorization': `Bearer ${access_token}`,
+    axios.post(API_URL + '/clientes', {...cliente}, 
+        {
+            headers: {'Authorization': `Bearer ${access_token}`}
         }
-
-    }).then((response) => {
+    ).then((response) => {
         console.log('Recibida correctamente')
         console.log(response.data)
         return response.data
@@ -128,10 +71,20 @@ const postClient = (cliente) => {
 }
 
 
-
-
-
-
+const putClient = (cliente, idCliente) => {
+    axios.put(API_URL + '/clientes/' + idCliente, {...cliente}, 
+        {
+            headers: {'Authorization': `Bearer ${access_token}`}
+        }
+    ).then((response) => {
+        console.log('Recibida correctamente')
+        console.log(response.data)
+        return response.data
+    }).catch((error) => {
+        console.log('Hubo un error en la peticion put')
+        console.log(error)
+    })
+}
 
 
 // busca un cliente por id
@@ -192,12 +145,6 @@ const getClientById = (id) => {
         )
 
 }
-
-
-const putClient = (cliente) => {
-    return axios.put('clientes')
-}
-
 
 const clientsService = {
     getClients,
