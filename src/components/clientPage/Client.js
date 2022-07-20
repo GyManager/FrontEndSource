@@ -41,11 +41,7 @@ function Client() {
     }
 
     // TODO NICO 001a
-    // const [calendarValue, setCalendarValue] = useState(new Date('2014-08-18T21:11:54'));
-
-    // const handleChangeCalendarValue = (newValue) => {
-    //     setCalendarValue(newValue);
-    // };
+    const [fechaNacimiento, setFechaNacimiento] = useState(null);
 
     const [email, setEmail] = useState('');
     const handleChangeEmail = (e) => {
@@ -80,6 +76,7 @@ function Client() {
                     setCelular(persona.celular)
                     setDireccion(persona.direccion)
                     setObjetivo(persona.objetivo)
+                    setFechaNacimiento(persona.fechaNacimiento)
                 }
             )
         } catch (error) {
@@ -106,7 +103,7 @@ function Client() {
             },
             "objetivo": "Ganar masa muscular",
             "direccion": "Av Colon 4933",
-            // "fechaNacimiento": calendarValue,
+            "fechaNacimiento": fechaNacimiento,
             "observaciones": "Algo gil"
         }
         console.log(cliente)
@@ -218,11 +215,11 @@ function Client() {
                                 handleChange={handleChangeApellido}
                                 editable={editable}
                             />
-                            {/* TODO NICO 001b */}
+                            
                             <DatePicker
-                            // calendarValue={calendarValue}
-                            // handleChangeCalendarValue={handleChangeCalendarValue}
-
+                                calendarValue={fechaNacimiento}
+                                handleChange={setFechaNacimiento}
+                                editable={editable}
                             />
 
                         </Stack>
