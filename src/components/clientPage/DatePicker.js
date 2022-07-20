@@ -12,26 +12,25 @@ export default function DatePicker(props) {
 
     const isMediumDevice = useMediaQuery('(max-width:900px');
 
+    const datePickerCommonProperties = {
+        label: "Fecha de nacimiento",
+        inputFormat: "MM/dd/yyyy",
+        readOnly: !props.editable,
+        value: props.calendarValue,
+        onChange: props.handleChange,
+        renderInput: (params) => <TextField {...params} />
+    }
+
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={3}>
             {isMediumDevice ?
                 <MobileDatePicker
-                    readOnly={!props.editable}
-                    label="Date mobile"
-                    inputFormat="MM/dd/yyyy"
-                    value={props.calendarValue}
-                    onChange={props.handleChange}
-                    renderInput={(params) => <TextField {...params} />}
+                    {...datePickerCommonProperties}
                 /> 
                 :
                 <DesktopDatePicker
-                    readOnly={!props.editable}
-                    label="Date desktop"
-                    inputFormat="MM/dd/yyyy"
-                    value={props.calendarValue}
-                    onChange={props.handleChange}
-                    renderInput={(params) => <TextField {...params} />}
+                    {...datePickerCommonProperties}
                 />
             }
             </Stack>
