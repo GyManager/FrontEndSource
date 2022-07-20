@@ -16,11 +16,12 @@ import { date } from 'yup/lib/locale';
 // import EditIcon from '@mui/icons-material/Edit';
 
 function Client() {
+    
     let { clienteId } = useParams();
+
     const [editable, setEditable] = useState(false)
 
     const [tipoDoc, setTipoDoc] = useState('');
-
     const handleChangeTipoDoc = (event) => {
         setTipoDoc(event.target.value);
     };
@@ -39,6 +40,8 @@ function Client() {
     const handleChangeApellido = (e) => {
         setApellido(e.target.value)
     }
+
+    const [sexo, setSexo] = useState('');
 
     // TODO NICO 001a
     const [fechaNacimiento, setFechaNacimiento] = useState(null);
@@ -62,6 +65,8 @@ function Client() {
     const handleChangeObjetivo = (e) => {
         setObjetivo(e.target.value)
     }
+    
+    const [observaciones, setObservaciones] = useState('');
 
     const getClientById = async () => {
         try {
@@ -74,9 +79,12 @@ function Client() {
                     setApellido(persona.apellido)
                     setEmail(persona.mail)
                     setCelular(persona.celular)
+                    setSexo(persona.sexo)
+
                     setDireccion(persona.direccion)
                     setObjetivo(persona.objetivo)
                     setFechaNacimiento(persona.fechaNacimiento)
+                    setObservaciones(persona.observaciones)
                 }
             )
         } catch (error) {
@@ -95,16 +103,14 @@ function Client() {
                 "tipoDocumento": tipoDoc,
                 "nombre": nombre,
                 "apellido": apellido,
-                "sexo": "Femenino",
+                "sexo": sexo,
                 "mail": email,
-                "celular": Number(celular),
-                "fechaAlta": "2022-07-18",
-                "fechaBaja": null
+                "celular": Number(celular)
             },
-            "objetivo": "Ganar masa muscular",
-            "direccion": "Av Colon 4933",
+            "objetivo": objetivo,
+            "direccion": direccion,
             "fechaNacimiento": fechaNacimiento,
-            "observaciones": "Algo gil"
+            "observaciones": observaciones
         }
         console.log(cliente)
         setEditable(editable)
