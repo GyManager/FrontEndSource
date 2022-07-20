@@ -24,9 +24,8 @@ export default function TipoDoc(props) {
           <MenuItem value="">
             <em>Tipo de Documento</em>
           </MenuItem>
-          <MenuItem value={1}>DNI</MenuItem>
-          <MenuItem value={2}>Pasaporte</MenuItem>
-          <MenuItem value={3}>Otro</MenuItem>
+          <MenuItem value={"DNI"}>DNI</MenuItem>
+          <MenuItem value={"Pasaporte"}>Pasaporte</MenuItem>
         </Select>
       </FormControl>
     </div>

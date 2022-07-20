@@ -21,13 +21,8 @@ function Client() {
 
     const [tipoDoc, setTipoDoc] = useState('');
 
-    const [nombreTipoDoc, setNombreTipoDoc] = useState('')
-
     const handleChangeTipoDoc = (event) => {
         setTipoDoc(event.target.value);
-        tipoDoc === 1 ? setNombreTipoDoc('DNI') :
-            tipoDoc === 2 ? setNombreTipoDoc('Pasaporte') :
-                tipoDoc === 3 ? setNombreTipoDoc('Otro') : console.log()
     };
 
     const [nroDoc, setNroDoc] = useState('');
@@ -75,17 +70,16 @@ function Client() {
     const getClientById = async () => {
         try {
             await clientsService.getClientById(clienteId).then(
-                (arrayPerson) => {
-                    console.log(arrayPerson)
-                    const per = arrayPerson[0]
-                    setTipoDoc(per.idTipoDocumento)
-                    setNroDoc(per.numeroDocumento)
-                    setNombre(per.nombre)
-                    setApellido(per.apellido)
-                    setEmail(per.mail)
-                    setCelular(per.celular)
-                    setDireccion(per.direccion)
-                    setObjetivo(per.objetivo)
+                (persona) => {
+                    console.log(persona)
+                    setTipoDoc(persona.tipoDocumento)
+                    setNroDoc(persona.numeroDocumento)
+                    setNombre(persona.nombre)
+                    setApellido(persona.apellido)
+                    setEmail(persona.mail)
+                    setCelular(persona.celular)
+                    setDireccion(persona.direccion)
+                    setObjetivo(persona.objetivo)
                 }
             )
         } catch (error) {
@@ -101,7 +95,7 @@ function Client() {
         const cliente = {
             "usuario": {
                 "numeroDocumento": Number(nroDoc),
-                "tipoDocumento": nombreTipoDoc,
+                "tipoDocumento": tipoDoc,
                 "nombre": nombre,
                 "apellido": apellido,
                 "sexo": "Femenino",

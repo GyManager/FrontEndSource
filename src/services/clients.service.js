@@ -175,7 +175,7 @@ const getClientById = (id) => {
 
             // console.log('usuariosPlano')
             // console.log(usuariosPlano)
-            return [usuariosPlano]
+            return usuariosPlano
 
         }
         ) //Aca cierra el then
