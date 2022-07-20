@@ -86,6 +86,21 @@ const putClient = (cliente, idCliente) => {
     })
 }
 
+const deleteClientById = (idCliente) => {
+    axios.delete(API_URL + '/clientes/' + idCliente,
+        {
+            headers: {'Authorization': `Bearer ${access_token}`}
+        }
+    ).then((response) => {
+        console.log('Recibida correctamente')
+        console.log(response.data)
+        return response.data
+    }).catch((error) => {
+        console.log('Hubo un error en la peticion delete')
+        console.log(error)
+    })
+}
+
 
 // busca un cliente por id
 const getClientById = (id) => {
@@ -150,6 +165,7 @@ const clientsService = {
     getClients,
     getClientById,
     putClient,
+    deleteClientById,
     postClient
 }
 

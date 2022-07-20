@@ -151,6 +151,11 @@ function Client() {
         }
     }
 
+    const deleteCliente = () => {
+        clientsService.deleteClientById(clienteId);
+        navigate("/clientes");
+    }
+
 
 
     // TODO 004 ver el error y leer sobre los hooks useEffect, debe estar vacia?
@@ -180,7 +185,7 @@ function Client() {
                     <ButtonClientDesktop
                         editable={editable}
                         handleEditClick={() => setEditable(true)}
-                        handleDeleteClick={() => {}} 
+                        handleDeleteClick={deleteCliente} 
                         clienteId={clienteId}
                         handleSubmit={handleSubmit}
 
