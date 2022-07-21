@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -10,7 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Avatar, Typography } from '@mui/material'
 
 import { useMediaQuery, Grid } from '@mui/material';
 import TablesClientRow from './TablesClientRow';
@@ -20,17 +18,6 @@ export default function TablesClient(props) {
   const navigate = useNavigate()
 
   const isMediumDevice = useMediaQuery('(max-width:900px');
-
-  const handleChangePage = (event, newPage) => {
-    console.log(event.target)
-    console.log(newPage)
-    props.changePage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    console.log(event.target.value)
-    props.changeRowsPerPage(event.target.value);
-  };
 
   const handleClickRow = (id) => {
     navigate('/clientes/' + id)
@@ -55,7 +42,11 @@ export default function TablesClient(props) {
 
           <TableBody>
             {props.clientes.map((row) => (
-              <TablesClientRow key={row.idCliente} {...row} handleClickRow={handleClickRow}/>
+              <TablesClientRow key={row.idCliente} 
+              {...row} 
+              handleClickRow={handleClickRow}
+              isMediumDevice={isMediumDevice}
+              />
             ))}
           </TableBody>
 
@@ -70,8 +61,8 @@ export default function TablesClient(props) {
             count={props.clientesTotal}
             rowsPerPage={props.rowsPerPage}
             page={props.page} 
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+            onPageChange={props.handleChangePage}
+            onRowsPerPageChange={props.handleChangeRowsPerPage}
           />
         </Grid>
       </Grid>

@@ -1,13 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
 import { Grid, Box, Paper, Typography } from '@mui/material/'
 
 import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
 import SearchBar from './SearchBar'
 import TablesClient from './TablesClient'
-import StickyHeadTable from './StickyHeadTable'
 
 import clientsService from '../../services/clients.service'
 
@@ -17,6 +15,7 @@ import { useMediaQuery } from '@mui/material';
 
 export default function Clients() {
     const isMediumDevice = useMediaQuery('(max-width:900px');
+
     const [clientes, setClientes] = useState([{}]);
     const [clientesTotal, setClientesTotal] = useState(() => 0)
     const [page, setPage] = useState(() => 0);
@@ -43,26 +42,28 @@ export default function Clients() {
         }
     };
 
+    const searchClientes = () => {
+        let newPage = 0;
+        setPage(newPage)
+        getClients(valueToSearch, rowsPerPage, newPage)
+    }
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage)
+        getClients(valueToSearch, rowsPerPage, newPage);
+    }
+
+    const handleChangeRowsPerPage = (event) => {
+        let newRowsPerPage = event.target.value;
+        let newPage = 0;
+        setRowsPerPage(newRowsPerPage)
+        setPage(newPage)
+        getClients(valueToSearch, newRowsPerPage, newPage);
+    }
+
     useEffect(() => { 
         getClients(null, rowsPerPage, page);
     }, [])
-
-    const searchClientes = () => {
-        setPage(0)
-        getClients(valueToSearch, rowsPerPage, 0)
-    }
-
-    const changePage = (page) => {
-        console.log(page)
-        setPage(page)
-        getClients(valueToSearch, rowsPerPage, page);
-    }
-
-    const changeRowsPerPage = (rowsPerPage) => {
-        setRowsPerPage(rowsPerPage)
-        setPage(0)
-        getClients(valueToSearch, rowsPerPage, page);
-    }
 
     return (
 
@@ -132,9 +133,9 @@ export default function Clients() {
                                 clientes={clientes} 
                                 clientesTotal={clientesTotal} 
                                 page={page}
-                                changePage={changePage}
+                                handleChangePage={handleChangePage}
                                 rowsPerPage={rowsPerPage}
-                                changeRowsPerPage={changeRowsPerPage}
+                                handleChangeRowsPerPage={handleChangeRowsPerPage}
                             />
 
                             {/* <StickyHeadTable /> */}
