@@ -155,6 +155,15 @@ function Client() {
         navigate("/clientes");
     }
 
+    const handleCancelEdit = () => {
+        if(clienteId === 'new'){
+            navigate("/clientes");
+        } else {
+            setEditable(false)
+            getClientById();
+        }   
+    }
+
 
 
     // TODO 004 ver el error y leer sobre los hooks useEffect, debe estar vacia?
@@ -185,6 +194,7 @@ function Client() {
                         editable={editable}
                         handleEditClick={() => setEditable(true)}
                         handleDeleteClick={deleteCliente} 
+                        handleCancelEdit={handleCancelEdit} 
                         clienteId={clienteId}
                         handleSubmit={handleSubmit}
 

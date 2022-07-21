@@ -22,6 +22,16 @@ export default function ButtonClientDesktop(props) {
             </Button>
             }
 
+            { props.editable &&
+            <Button
+                {...buttonCommonProperties}
+                startIcon={<Save />}
+                onClick={props.handleCancelEdit}
+            >
+                Cancelar
+            </Button>
+            }
+
             { props.clienteId != 'new' && !props.editable &&
             <Button
                 {...buttonCommonProperties}
