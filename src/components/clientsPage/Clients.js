@@ -10,6 +10,7 @@ import TablesClient from './TablesClient'
 import clientsService from '../../services/clients.service'
 
 import { useMediaQuery } from '@mui/material';
+import { AxiosError } from 'axios'
 
 
 
@@ -18,52 +19,42 @@ export default function Clients() {
 
     const [clientes, setClientes] = useState([{}]);
     const [clientesTotal, setClientesTotal] = useState(() => 0)
+    
     const [page, setPage] = useState(() => 0);
     const [rowsPerPage, setRowsPerPage] = useState(() => 10);
     const [valueToSearch, setValueToSearch] = useState('');
 
-    const getClients = async (search, pageSize, page) => {
-        try {
-            await clientsService.getClients(search, pageSize, page).then(
-                (response) => {
-                    setClientes(response.content)
-                    setClientesTotal(response.totalElements)
-                },
-                (error) => {
-                    if (error.response.data.status === 401) {
-                        console.log("Consolelog=401");
-                    } else {
-                        console.log("Consolelog!=401");
-                    }
-                }
-            );
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
-    const searchClientes = () => {
-        let newPage = 0;
-        setPage(newPage)
-        getClients(valueToSearch, rowsPerPage, newPage)
+    const searchClientes = (newValueToSearch) => {
+        setValueToSearch(newValueToSearch)
+        setPage(0)
     }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
-        getClients(valueToSearch, rowsPerPage, newPage);
     }
 
     const handleChangeRowsPerPage = (event) => {
-        let newRowsPerPage = event.target.value;
-        let newPage = 0;
-        setRowsPerPage(newRowsPerPage)
-        setPage(newPage)
-        getClients(valueToSearch, newRowsPerPage, newPage);
+        setRowsPerPage(event.target.value)
+        setPage(0)
     }
 
-    useEffect(() => { 
-        getClients(null, rowsPerPage, page);
-    }, [])
+    useEffect(() => {
+        const fetchData = async () => {
+            const respuesta = await clientsService.getClients(valueToSearch, rowsPerPage, page);
+
+            if(respuesta instanceof AxiosError){
+                // TODO mejorar un metodo generico de mostrar errores en backend
+                alert(respuesta?.message)
+            } else {
+                setClientes(respuesta.content)
+                setClientesTotal(respuesta.totalElements)
+            }
+        }
+        
+        fetchData();
+
+    }, [valueToSearch, rowsPerPage, page])
 
     return (
 
@@ -115,8 +106,6 @@ export default function Clients() {
                         >
                             <SearchBar
                                 searchClientes={searchClientes}
-                                setValueToSearch={setValueToSearch}
-                                valueToSearch={valueToSearch}
                             />
                         </Grid>
                     </Grid>

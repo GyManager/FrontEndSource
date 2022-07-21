@@ -51,6 +51,8 @@ const getClients = (fuzzySearch, pageSize, page) => {
                 "observaciones": usuMap.observaciones
             }))
         return response.data;
+    }).catch((error) => {
+        return handleError(error);
     })
 }
 
@@ -161,6 +163,23 @@ const getClientById = (id) => {
 
 }
 
+const handleError = (error) => {
+    if(error.response) {
+        console.log("Error in response, message: ", error.response.data);
+        console.log("Status code: ", error.response.status);
+        console.log("Headers: ", error.response.headers);
+
+        if(error.response.status === 403 ){
+            authService.refreshToken()
+        }
+    } else if (error.request) {
+        console.log("Error in request:", error.request);
+    } else {
+        console.log("Unknown error: ", error.message);
+    }
+  
+    return error;
+}
 const clientsService = {
     getClients,
     getClientById,

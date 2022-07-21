@@ -1,4 +1,4 @@
-import { React }  from 'react';
+import { React, useState }  from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -6,13 +6,15 @@ import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchBar(props) {
 
+    const [valueToSearch, setValueToSearch] = useState('');
+
     const handleValueToSearchChange = (e) => {
-        props.setValueToSearch(e.target.value)
+        setValueToSearch(e.target.value)
     }
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        props.searchClientes();
+        props.searchClientes(valueToSearch);
     }
 
     return (
@@ -28,7 +30,7 @@ export default function SearchBar(props) {
                 autoFocus={true}
                 id='inputSearch'
                 name='inputSearch'
-                value={props.valueToSearch}
+                value={valueToSearch}
                 onChange={handleValueToSearchChange}
             />
                 <IconButton 

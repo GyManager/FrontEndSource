@@ -28,15 +28,20 @@ const getStoredSession = () => {
     return parsedToken ? parsedToken : null
 }
 
+const refreshToken = () => {
+    console.log("Refreshing token (For now it just logs out)")
+    logout()
+}
+
 const logout = () => {
     sessionStorage.removeItem("user");
     window.location.reload();
-
 }
 
 const authService = {
     login,
     getStoredSession,
+    refreshToken,
     logout
 };
 
