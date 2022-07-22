@@ -16,7 +16,9 @@ export default function ButtonClientMobile(props) {
             onClose={handleClose}
             onOpen={handleOpen}
             open={open}
-            sx={{ position: 'fixed', bottom: 16, right: 16 }}
+            sx={{ position: 'fixed', bottom: 16, right: 16 ,
+                display: { md: 'none', lg: 'none', xl: 'none' }
+            }}
         >
 
             { props.editable &&
