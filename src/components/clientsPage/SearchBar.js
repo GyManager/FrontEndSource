@@ -27,7 +27,6 @@ export default function SearchBar(props) {
                 sx={{ ml: 1, flex: 1 }}
                 inputProps={{ 'aria-label': 'search google maps' }}
                 placeholder='Ingrese su busqueda'
-                autoFocus={true}
                 id='inputSearch'
                 name='inputSearch'
                 value={valueToSearch}
