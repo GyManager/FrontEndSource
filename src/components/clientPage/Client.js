@@ -11,6 +11,7 @@ import TipoDoc from './TipoDoc';
 import Input from './Input';
 
 import clientsService from '../../services/clients.service';
+import GenericComboBox from '../reusable/GenericComboBox';
 // import EditIcon from '@mui/icons-material/Edit';
 
 function Client() {
@@ -252,6 +253,16 @@ function Client() {
                                 calendarValue={fechaNacimiento}
                                 handleChange={setFechaNacimiento}
                                 editable={editable}
+                            />
+
+                            <GenericComboBox
+                                label="Sexo"
+                                value={sexo}
+                                handleChange={(event) => setSexo(event.target.value)}
+                                editable={editable}
+                                valueForNone=""
+                                labelForNone="Seleccionar sexo"
+                                values={["Masculino", "Femenino", "No especifica"]}
                             />
 
                         </Stack>
