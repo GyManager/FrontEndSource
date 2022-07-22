@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Typography, Box, Paper, Stack } from '@mui/material'
+import { Typography, Box, Paper, Stack, TextField } from '@mui/material'
 
 import DatePicker from './DatePicker'
 
@@ -62,9 +62,6 @@ function Client() {
     }
 
     const [objetivo, setObjetivo] = useState('');
-    const handleChangeObjetivo = (e) => {
-        setObjetivo(e.target.value)
-    }
     
     const [observaciones, setObservaciones] = useState('');
 
@@ -291,11 +288,28 @@ function Client() {
                     <Paper
                         elevation='12'
                     >
-                        <Input label="Objetivo"
+                        <GenericComboBox
+                            label="Objetivo"
                             value={objetivo}
-                            handleChange={handleChangeObjetivo}
+                            handleChange={(event) => setObjetivo(event.target.value)}
                             editable={editable}
+                            valueForNone=""
+                            labelForNone="Seleccionar objetivo"
+                            values={["Ganar masa muscular", "Perder peso", "Tonificar", "No especifica"]}
                         />
+
+                    <TextField 
+                         
+                        id="standard-textarea"
+                        label="Observaciones"
+                        variant="standard"
+                        value={observaciones}
+                        onChange={(event) => setObservaciones(event.target.value)}
+                        inputProps={{ readOnly: Boolean(!editable) }}
+                        multiline
+                        sx={{ width: '98%', marginLeft: '1%', marginRight: '1%'  }}
+                    />
+
                     </Paper>
                     <Paper
                         elevation='12'
