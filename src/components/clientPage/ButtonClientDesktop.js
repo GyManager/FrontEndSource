@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@mui/material'
-import { Edit, Delete, Save } from '@mui/icons-material/';
+import { Edit, Delete, Save, Cancel } from '@mui/icons-material/';
 
 export default function ButtonClientDesktop(props) {
 
@@ -25,14 +25,14 @@ export default function ButtonClientDesktop(props) {
             { props.editable &&
             <Button
                 {...buttonCommonProperties}
-                startIcon={<Save />}
+                startIcon={<Cancel />}
                 onClick={props.handleCancelEdit}
             >
                 Cancelar
             </Button>
             }
 
-            { props.clienteId != 'new' && !props.editable &&
+            { props.clienteId !== 'new' && !props.editable &&
             <Button
                 {...buttonCommonProperties}
                 onClick={props.handleEditClick}
@@ -42,7 +42,7 @@ export default function ButtonClientDesktop(props) {
             </Button>
             }
 
-            { props.clienteId != 'new' && !props.editable &&
+            { props.clienteId !== 'new' && !props.editable &&
             <Button
                 {...buttonCommonProperties}
                 onClick={props.handleDeleteClick}

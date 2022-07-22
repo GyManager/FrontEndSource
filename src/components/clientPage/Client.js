@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Typography, Box, Paper, Stack, Button } from '@mui/material'
+import { Typography, Box, Paper, Stack } from '@mui/material'
 
 import DatePicker from './DatePicker'
 
@@ -11,8 +11,6 @@ import TipoDoc from './TipoDoc';
 import Input from './Input';
 
 import clientsService from '../../services/clients.service';
-import { Container } from '@mui/system';
-import { date } from 'yup/lib/locale';
 // import EditIcon from '@mui/icons-material/Edit';
 
 function Client() {
@@ -94,7 +92,8 @@ function Client() {
     }
     
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e?.preventDefault();
+        console.log("asd")
         const actualTime = new Date();
         let actualTimeString = actualTime.toUTCString();
         console.log(actualTimeString)
@@ -197,7 +196,6 @@ function Client() {
                         handleCancelEdit={handleCancelEdit} 
                         clienteId={clienteId}
                         handleSubmit={handleSubmit}
-
                     />
                 </div>
             </Stack>
@@ -309,7 +307,14 @@ function Client() {
                     </Paper>
                 </div>
             </Box>
-            <ButtonClientMobile></ButtonClientMobile>
+            <ButtonClientMobile
+                editable={editable}
+                handleEditClick={() => setEditable(true)}
+                handleDeleteClick={deleteCliente} 
+                handleCancelEdit={handleCancelEdit} 
+                clienteId={clienteId}
+                handleSubmit={handleSubmit}
+            />
         </form>
     )
 }
