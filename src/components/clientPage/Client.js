@@ -201,7 +201,6 @@ function Client() {
                 display='flex'
                 flexWrap='flexwrap'
                 justifyContent='center'
-
             >
                 <div>
                     <Paper
@@ -260,6 +259,7 @@ function Client() {
                                 valueForNone=""
                                 labelForNone="Seleccionar sexo"
                                 values={["Masculino", "Femenino", "No especifica"]}
+                                minWidth={200}
                             />
 
                         </Stack>
@@ -285,8 +285,10 @@ function Client() {
                             />
                         </Stack>
                     </Paper>
+
                     <Paper
                         elevation='12'
+                        sx={{p:2, display:'flex', flexDirection:'column', gap:1}}
                     >
                         <GenericComboBox
                             label="Objetivo"
@@ -296,21 +298,18 @@ function Client() {
                             valueForNone=""
                             labelForNone="Seleccionar objetivo"
                             values={["Ganar masa muscular", "Perder peso", "Tonificar", "No especifica"]}
+                            minWidth={200}
                         />
-
-                    <TextField 
-                         
-                        id="standard-textarea"
-                        label="Observaciones"
-                        variant="standard"
-                        value={observaciones}
-                        onChange={(event) => setObservaciones(event.target.value)}
-                        inputProps={{ readOnly: Boolean(!editable) }}
-                        multiline
-                        sx={{ width: '98%', marginLeft: '1%', marginRight: '1%'  }}
-                    />
-
+                        <TextField fullWidth
+                            label="Observaciones"
+                            variant="standard"
+                            value={observaciones}
+                            onChange={(event) => setObservaciones(event.target.value)}
+                            inputProps={{ readOnly: Boolean(!editable) }}
+                            multiline
+                        />
                     </Paper>
+
                     <Paper
                         elevation='12'
                     >
