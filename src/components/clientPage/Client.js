@@ -35,6 +35,8 @@ function Client() {
 
     const [editable, setEditable] = useState(false)
 
+    const [fechaNacimiento, setFechaNacimiento] = useState('')
+
     const getClientById = async () => {
         try {
             await clientsService.getClientById(clienteId).then(
@@ -45,7 +47,7 @@ function Client() {
                     formik.setFieldValue('apellido', persona.apellido || '', false)
                     formik.setFieldValue('nombre', persona.nombre || '', false)
                     formik.setFieldValue('mail', persona.mail || '', false)
-                    formik.setFieldValue('fechaNacimiento', persona.fechaNacimiento || '', false)
+                    setFechaNacimiento(persona.fechaNacimiento)
                     formik.setFieldValue('sexo', persona.sexo || '', false)
                     formik.setFieldValue('objetivo', persona.objetivo || '', false)
                     formik.setFieldValue('celular', persona.celular || '', false)
@@ -71,7 +73,7 @@ function Client() {
                 "nombre": formik.values.nombre,
                 "apellido": formik.values.apellido,
                 "sexo": formik.values.sexo,
-                "mail": formik.values.email,
+                "mail": formik.values.mail,
                 "celular": Number(formik.values.celular)
             },
             "objetivo": formik.values.objetivo,
@@ -88,6 +90,7 @@ function Client() {
                     () => {
                         console.log('El cliente se cargo con exito');
                     },
+                    navigate("/clientes")
                 );
                 //TODO NICO 4 No entiendo porque se viene por la rama del error y no me lo renderiza...
                 // Si bien no jode para terminar de cargar el cliente, si necesitase recuperar 
@@ -95,10 +98,7 @@ function Client() {
             } catch (err) {
                 console.log('Error en componente client')
                 console.log(err)
-            } finally {
-                // esto deberia estar en la rama true (try/then)
-                // console.log(response)
-                navigate("/clientes")
+                alert(err)
             }
         } else {
             try {
@@ -148,7 +148,6 @@ function Client() {
             apellido: "",
             nombre: "",
             mail: "",
-            fechaNacimiento: "",
             sexo: "",
             objetivo: "",
             celular: "",
@@ -233,7 +232,7 @@ function Client() {
                         <Stack {...stackStyle}sx={{mt:2}}>
                             <DatePicker
                                 calendarValue={formik.values.fechaNacimiento}
-                                handleChange={formik.handleChange}
+                                setFieldValue={formik.setFieldValue}
                                 editable={editable}
                             />
 

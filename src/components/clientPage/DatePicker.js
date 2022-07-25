@@ -16,10 +16,7 @@ export default function DatePicker(props) {
         label: "Fecha de nacimiento",
         inputFormat: "MM/dd/yyyy",
         readOnly: !props.editable,
-        value: props.calendarValue,
-        onChange: props.handleChange,
         id: "fechaNacimiento",
-        renderInput: (params) => <TextField {...params} />,
     }
 
     return (
@@ -28,10 +25,16 @@ export default function DatePicker(props) {
             {isMediumDevice ?
                 <MobileDatePicker
                     {...datePickerCommonProperties}
+                    value={props.calendarValue}
+                    onChange={value => props.setFieldValue("fechaNacimiento", value)}
+                    renderInput={(params) => <TextField {...params} />}
                 /> 
                 :
                 <DesktopDatePicker
                     {...datePickerCommonProperties}
+                    value={props.calendarValue}
+                    onChange={value => props.setFieldValue("fechaNacimiento", value)}
+                    renderInput={(params) => <TextField {...params} />}
                 />
             }
             </Stack>
