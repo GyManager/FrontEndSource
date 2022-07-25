@@ -35,8 +35,6 @@ function Client() {
 
     const [editable, setEditable] = useState(false)
 
-    const [fechaNacimiento, setFechaNacimiento] = useState('')
-
     const getClientById = async () => {
         try {
             await clientsService.getClientById(clienteId).then(
@@ -47,7 +45,7 @@ function Client() {
                     formik.setFieldValue('apellido', persona.apellido || '', false)
                     formik.setFieldValue('nombre', persona.nombre || '', false)
                     formik.setFieldValue('mail', persona.mail || '', false)
-                    setFechaNacimiento(persona.fechaNacimiento)
+                    formik.setFieldValue('fechaNacimiento', persona.fechaNacimiento || '', false)
                     formik.setFieldValue('sexo', persona.sexo || '', false)
                     formik.setFieldValue('objetivo', persona.objetivo || '', false)
                     formik.setFieldValue('celular', persona.celular || '', false)
