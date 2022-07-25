@@ -161,7 +161,7 @@ function Client() {
     return (
         <form
             method="post"
-            onSubmit={handleSubmit}>
+            onSubmit={formik.handleSubmit}>
             {/* TODO 001 HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA 
         REDUCIR MANTENIMINETO Y MEJORAR CONSISTENCIA   */}
             <Stack direction='row' justifyContent='space-between' alignItems='center'
@@ -177,7 +177,7 @@ function Client() {
                         handleDeleteClick={deleteCliente} 
                         handleCancelEdit={handleCancelEdit} 
                         clienteId={clienteId}
-                        handleSubmit={handleSubmit}
+                        handleSubmit={formik.handleSubmit}
                     />
                 </div>
             </Stack>
@@ -329,7 +329,7 @@ function Client() {
                 handleDeleteClick={deleteCliente} 
                 handleCancelEdit={handleCancelEdit} 
                 clienteId={clienteId}
-                handleSubmit={handleSubmit}
+                handleSubmit={formik.handleSubmit}
             />
         </form>
     )
