@@ -13,6 +13,8 @@ export default function GenericComboBox(props) {
                 <InputLabel id={props.label}>{props.label}</InputLabel>
 
                 <Select
+                    id={props.id}
+                    name={props.id}
                     labelId={props.label}
                     value={props.value}
                     onChange={props.handleChange}
@@ -20,8 +22,8 @@ export default function GenericComboBox(props) {
                     label={props.label}
                     readOnly={props.editable? false: true }
                 >
-                    <MenuItem value={props.valueForNone}>{props.labelForNone}</MenuItem>
-                    { props.values.map(value => (<MenuItem value={value}>{value}</MenuItem>)) }
+                    <MenuItem name={props.id} value={props.valueForNone}>{props.labelForNone}</MenuItem>
+                    { props.values.map(value => (<MenuItem name={props.id} value={value} key={value}>{value}</MenuItem>)) }
                 </Select>
 
             </FormControl>

@@ -18,7 +18,8 @@ export default function DatePicker(props) {
         readOnly: !props.editable,
         value: props.calendarValue,
         onChange: props.handleChange,
-        renderInput: (params) => <TextField {...params} />
+        id: "fechaNacimiento",
+        renderInput: (params) => <TextField {...params} />,
     }
 
     return (
