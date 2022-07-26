@@ -20,15 +20,15 @@ function Client() {
 
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
-        spacing: { xs: 2, sm: 2, md:1},
-        sx: { mt:2 }
+        spacing: { xs: 2, sm: 2, md: 1 },
+        sx: { mt: 2 }
     }
 
     const paperStyle = {
         elevation: 12,
-        sx: { p:2 } 
+        sx: { p: 2 }
     }
-    
+
     const navigate = useNavigate()
 
     let { clienteId } = useParams();
@@ -57,7 +57,7 @@ function Client() {
             console.log(error)
         }
     }
-    
+
     const handleSubmit = async (e) => {
         e?.preventDefault();
         console.log("asd")
@@ -67,7 +67,7 @@ function Client() {
         const clienteSubmit = {
             "usuario": {
                 "numeroDocumento": Number(formik.values.numeroDocumento),
-                "tipoDocumento": formik.values.tipoDocumento ,
+                "tipoDocumento": formik.values.tipoDocumento,
                 "nombre": formik.values.nombre,
                 "apellido": formik.values.apellido,
                 "sexo": formik.values.sexo,
@@ -77,7 +77,7 @@ function Client() {
             "objetivo": formik.values.objetivo,
             "direccion": formik.values.direccion,
             "fechaNacimiento": formik.values.fechaNacimiento,
-            "observaciones": formik.values.observaciones 
+            "observaciones": formik.values.observaciones
         }
         console.log(clienteSubmit)
         console.log(clienteId)
@@ -120,12 +120,12 @@ function Client() {
     }
 
     const handleCancelEdit = () => {
-        if(clienteId === 'new'){
+        if (clienteId === 'new') {
             navigate("/clientes");
         } else {
             setEditable(false)
             getClientById();
-        }   
+        }
     }
 
     // TODO 004 ver el error y leer sobre los hooks useEffect, debe estar vacia?
@@ -174,8 +174,8 @@ function Client() {
                     <ButtonClientDesktop
                         editable={editable}
                         handleEditClick={() => setEditable(true)}
-                        handleDeleteClick={deleteCliente} 
-                        handleCancelEdit={handleCancelEdit} 
+                        handleDeleteClick={deleteCliente}
+                        handleCancelEdit={handleCancelEdit}
                         clienteId={clienteId}
                         handleSubmit={formik.handleSubmit}
                     />
@@ -225,9 +225,9 @@ function Client() {
                                 onChange={formik.handleChange}
                                 inputProps={{ readOnly: Boolean(!editable) }}
                             />
-                        </Stack>                        
-                        
-                        <Stack {...stackStyle}sx={{mt:2}}>
+                        </Stack>
+
+                        <Stack {...stackStyle} sx={{ mt: 2 }}>
                             <DatePicker
                                 calendarValue={formik.values.fechaNacimiento}
                                 setFieldValue={formik.setFieldValue}
@@ -247,7 +247,7 @@ function Client() {
                             />
                         </Stack>
                     </Paper>
-                    
+
                     <Paper {...paperStyle}>
                         <Stack {...stackStyle}>
                             <TextField fullWidth
@@ -326,8 +326,8 @@ function Client() {
             <ButtonClientMobile
                 editable={editable}
                 handleEditClick={() => setEditable(true)}
-                handleDeleteClick={deleteCliente} 
-                handleCancelEdit={handleCancelEdit} 
+                handleDeleteClick={deleteCliente}
+                handleCancelEdit={handleCancelEdit}
                 clienteId={clienteId}
                 handleSubmit={formik.handleSubmit}
             />
