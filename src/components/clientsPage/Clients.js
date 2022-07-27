@@ -19,7 +19,7 @@ export default function Clients() {
 
     const [clientes, setClientes] = useState([{}]);
     const [clientesTotal, setClientesTotal] = useState(() => 0)
-    
+
     const [page, setPage] = useState(() => 0);
     const [rowsPerPage, setRowsPerPage] = useState(() => 10);
     const [valueToSearch, setValueToSearch] = useState('');
@@ -43,7 +43,7 @@ export default function Clients() {
         const fetchData = async () => {
             const respuesta = await clientsService.getClients(valueToSearch, rowsPerPage, page);
 
-            if(respuesta instanceof AxiosError){
+            if (respuesta instanceof AxiosError) {
                 // TODO mejorar un metodo generico de mostrar errores en backend
                 alert(respuesta?.message)
             } else {
@@ -51,7 +51,7 @@ export default function Clients() {
                 setClientesTotal(respuesta.totalElements)
             }
         }
-        
+
         fetchData();
 
     }, [valueToSearch, rowsPerPage, page])
@@ -118,9 +118,9 @@ export default function Clients() {
 
                             }}
                         >
-                            <TablesClient 
-                                clientes={clientes} 
-                                clientesTotal={clientesTotal} 
+                            <TablesClient
+                                clientes={clientes}
+                                clientesTotal={clientesTotal}
                                 page={page}
                                 handleChangePage={handleChangePage}
                                 rowsPerPage={rowsPerPage}

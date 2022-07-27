@@ -40,7 +40,7 @@ export default function TablesClient(props) {
             </TableRow>
           </TableHead>
 
-          <TableBody>
+          <TableBody id='tbClient'>
             {props.clientes.map((row) => (
               <TablesClientRow key={row.idCliente} 
               {...row} 
