@@ -34,7 +34,7 @@ export default function DatePicker(props) {
                     {...datePickerCommonProperties}
                     value={props.calendarValue}
                     onChange={value => props.setFieldValue("fechaNacimiento", value)}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => <TextField {...params} helperText={props.helperTextProp}/>}
                 />
             }
             </Stack>

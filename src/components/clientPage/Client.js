@@ -203,6 +203,9 @@ function Client() {
                                 value={formik.values.numeroDocumento}
                                 onChange={formik.handleChange}
                                 inputProps={{ readOnly: Boolean(!editable) }}
+                                error={formik.touched.numeroDocumento && Boolean(formik.errors.numeroDocumento)}
+                                helperText={formik.touched.numeroDocumento && formik.errors.numeroDocumento}
+
                             />
                         </Stack>
                     </Paper>
@@ -216,6 +219,8 @@ function Client() {
                                 value={formik.values.nombre}
                                 onChange={formik.handleChange}
                                 inputProps={{ readOnly: Boolean(!editable) }}
+                                error={formik.touched.nombre && Boolean(formik.errors.nombre)}
+                                helperText={formik.touched.nombre && formik.errors.nombre}
                             />
                             <TextField fullWidth
                                 label="Apellido"
@@ -224,6 +229,8 @@ function Client() {
                                 value={formik.values.apellido}
                                 onChange={formik.handleChange}
                                 inputProps={{ readOnly: Boolean(!editable) }}
+                                error={formik.touched.apellido && Boolean(formik.errors.apellido)}
+                                helperText={formik.touched.apellido && formik.errors.apellido}
                             />
                         </Stack>
 
@@ -232,6 +239,9 @@ function Client() {
                                 calendarValue={formik.values.fechaNacimiento}
                                 setFieldValue={formik.setFieldValue}
                                 editable={editable}
+                                error={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
+                                // helperText={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
+                                helperText="Hola mundo"
                             />
 
                             <GenericComboBox
@@ -257,6 +267,9 @@ function Client() {
                                 value={formik.values.mail}
                                 onChange={formik.handleChange}
                                 inputProps={{ readOnly: Boolean(!editable) }}
+                                error={formik.touched.mail && Boolean(formik.errors.mail)}
+                                helperText={formik.touched.mail && formik.errors.mail}
+                               
                             />
                             <TextField fullWidth
                                 label="Celular"
@@ -265,6 +278,8 @@ function Client() {
                                 value={formik.values.celular}
                                 onChange={formik.handleChange}
                                 inputProps={{ readOnly: Boolean(!editable) }}
+                                error={formik.touched.celular && Boolean(formik.errors.celular)}
+                                helperText={formik.touched.celular && formik.errors.celular}
                             />
                             <TextField fullWidth
                                 label="Direccion"
