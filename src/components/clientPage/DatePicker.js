@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
-import { useMediaQuery } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 
 export default function DatePicker(props) {
 
@@ -22,21 +22,33 @@ export default function DatePicker(props) {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={3}>
-            {isMediumDevice ?
-                <MobileDatePicker
-                    {...datePickerCommonProperties}
-                    value={props.calendarValue}
-                    onChange={value => props.setFieldValue("fechaNacimiento", value)}
-                    renderInput={(params) => <TextField {...params} />}
-                /> 
-                :
-                <DesktopDatePicker
-                    {...datePickerCommonProperties}
-                    value={props.calendarValue}
-                    onChange={value => props.setFieldValue("fechaNacimiento", value)}
-                    renderInput={(params) => <TextField {...params} helperText={props.helperTextProp}/>}
-                />
-            }
+                {isMediumDevice ?
+                    <MobileDatePicker
+                        {...datePickerCommonProperties}
+                        value={props.calendarValue}
+                        onChange={value => props.setFieldValue("fechaNacimiento", value)}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                    :
+                    <div>
+                        <DesktopDatePicker
+                            {...datePickerCommonProperties}
+                            value={props.calendarValue}
+                            onChange={value => props.setFieldValue("fechaNacimiento", value)}
+                            renderInput={(params) =>
+                                <TextField {...params}
+                                // Version de las variables que vienen por parametro
+                                    error={props.errorProp}
+                                    helperText={props.helperTextProp} />}
+                                    // Version harcodeada
+                                    // error={true}
+                                    // helperText={'Hola Mundo'} />}
+                        
+
+                        />
+                        <Typography> Hola undo  {props.helperText} </Typography>
+                    </div>
+                }
             </Stack>
         </LocalizationProvider>
     );

@@ -239,10 +239,12 @@ function Client() {
                                 calendarValue={formik.values.fechaNacimiento}
                                 setFieldValue={formik.setFieldValue}
                                 editable={editable}
-                                error={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
-                                // helperText={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
-                                helperText="Hola mundo"
+                                // error={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
+                                errorProp={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
+                                helperTextProp={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
+                            // helperText="Hola mundo"
                             />
+
 
                             <GenericComboBox
                                 label="Sexo"
@@ -256,6 +258,7 @@ function Client() {
                                 minWidth={250}
                             />
                         </Stack>
+                        <Typography>holisclient {formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}</Typography>
                     </Paper>
 
                     <Paper {...paperStyle}>
@@ -269,7 +272,7 @@ function Client() {
                                 inputProps={{ readOnly: Boolean(!editable) }}
                                 error={formik.touched.mail && Boolean(formik.errors.mail)}
                                 helperText={formik.touched.mail && formik.errors.mail}
-                               
+
                             />
                             <TextField fullWidth
                                 label="Celular"
