@@ -27,7 +27,10 @@ export default function DatePicker(props) {
                         {...datePickerCommonProperties}
                         value={props.calendarValue}
                         onChange={value => props.setFieldValue("fechaNacimiento", value)}
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) =>
+                            <TextField {...params}
+                                error={props.errorProp}
+                                helperText={props.helperTextProp} />}
                     />
                     :
                     <div>
@@ -37,16 +40,9 @@ export default function DatePicker(props) {
                             onChange={value => props.setFieldValue("fechaNacimiento", value)}
                             renderInput={(params) =>
                                 <TextField {...params}
-                                // Version de las variables que vienen por parametro
                                     error={props.errorProp}
                                     helperText={props.helperTextProp} />}
-                                    // Version harcodeada
-                                    // error={true}
-                                    // helperText={'Hola Mundo'} />}
-                        
-
                         />
-                        <Typography> Hola undo  {props.helperText} </Typography>
                     </div>
                 }
             </Stack>

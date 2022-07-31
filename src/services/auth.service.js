@@ -33,8 +33,8 @@ const refreshToken = () => {
     logout()
 }
 
-const logout = () => {
-    sessionStorage.removeItem("user");
+const logout = async() => {
+    await sessionStorage.removeItem("user");
     window.location.reload();
 }
 

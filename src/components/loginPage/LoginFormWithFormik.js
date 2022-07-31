@@ -18,8 +18,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import LoginModal from './LoginModal';
-import LoginBackdrop from './LoginBackdrop'
+import LoginModal from '../reusable/Modal';
+import LoginBackdrop from '../reusable/Backdrop'
 
 const validationSchema = yup.object({
     email: yup
@@ -48,16 +48,16 @@ const LoginFormWithFormik = () => {
     const navigate = useNavigate();
 
 
-//Todo hacer refactor de connectToServices a Login
+    //Todo hacer refactor de connectToServices a Login
     const connectToServices = async (mail, pass) => {
         console.log(AuthService)
         setOpenBackdrop(true)
         try {
             await AuthService.login(mail, pass).then(
                 () => {
-                    setOpenBackdrop(false)
                     navigate("/clientes")
                     window.location.reload();
+                    setOpenBackdrop(false)
                 },
                 (error) => {
                     setOpenBackdrop(false)
@@ -69,6 +69,7 @@ const LoginFormWithFormik = () => {
                     }
                 }
             );
+
         } catch (err) {
             console.log(err);
         }

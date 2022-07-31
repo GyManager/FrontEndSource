@@ -25,7 +25,6 @@ const getClients = (fuzzySearch, pageSize, page) => {
     if(page !== undefined){
         params['page'] = page;
     }
-
     return axios.get(API_URL + '/clientes', {
         headers: {
             'Authorization': `Bearer ${access_token}`,
@@ -67,8 +66,7 @@ const postClient = (cliente) => {
         console.log(response.data)
         return response.data
     }).catch((error) => {
-        console.log('Hubo un error en la peticion post')
-        console.log(error)
+        return handleError(error)
     })
 }
 
@@ -116,13 +114,6 @@ const getClientById = (id) => {
         }
         )
         .then((response) => {
-            // console.log('AcaEstariala response:')
-            // console.log(response)
-            // console.log('AcaEstarialaRespuesta de getClient')
-            // const ret = []
-            // ret.push(response.data.content)
-            // console.log(ret)
-
             const usu = response.data
             const usuariosPlano = {
                 "direccion": usu.direccion,
@@ -130,7 +121,6 @@ const getClientById = (id) => {
                 "idCliente": usu.idCliente,
                 "objetivo": usu.objetivo,
                 "observaciones": usu.observaciones,
-
                 "idUsuario": usu.usuario.idUsuario,
                 "numeroDocumento": usu.usuario.numeroDocumento,
                 "tipoDocumento": usu.usuario.tipoDocumento,
@@ -142,13 +132,9 @@ const getClientById = (id) => {
                 "fechaAlta": usu.usuario.fechaAlta,
                 "fechaBaja": usu.usuario.fechaBaja
             }
-
-            // console.log('usuariosPlano')
-            // console.log(usuariosPlano)
             return usuariosPlano
-
         }
-        ) //Aca cierra el then
+        )
         .catch((error) => {
             console.log('Hubo un error')
             console.log(error)
@@ -157,10 +143,8 @@ const getClientById = (id) => {
                 return [{ message: 'Cliente no encontrado', status: 404 }]
             }
             return [{ message: error.response.data.message }]
-            // return [{}]
         }
         )
-
 }
 
 const handleError = (error) => {
@@ -168,7 +152,6 @@ const handleError = (error) => {
         console.log("Error in response, message: ", error.response.data);
         console.log("Status code: ", error.response.status);
         console.log("Headers: ", error.response.headers);
-
         if(error.response.status === 403 ){
             authService.refreshToken()
         }
@@ -177,9 +160,9 @@ const handleError = (error) => {
     } else {
         console.log("Unknown error: ", error.message);
     }
-  
     return error;
 }
+
 const clientsService = {
     getClients,
     getClientById,

@@ -6,6 +6,8 @@ import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
 import SearchBar from './SearchBar'
 import TablesClient from './TablesClient'
+import LoginModal from '../reusable/Modal';
+import LoginBackdrop from '../reusable/Backdrop'
 
 import clientsService from '../../services/clients.service'
 
@@ -17,13 +19,23 @@ import { AxiosError } from 'axios'
 export default function Clients() {
     const isMediumDevice = useMediaQuery('(max-width:900px');
 
+    const [modalMsj, setModalMsj] = useState("");
+    //Estados de LoginModal
+    const [openModal, setOpenModal] = useState(false);
+    const handleCloseModal = () => { setOpenModal(false) }
+
+    //Estados de Backdrop
+    const [openBackdrop, setOpenBackdrop] = useState(false);
+    const handleCloseBackdrop = () => {
+        setOpenBackdrop(false);
+    };
+
     const [clientes, setClientes] = useState([{}]);
     const [clientesTotal, setClientesTotal] = useState(() => 0)
 
     const [page, setPage] = useState(() => 0);
     const [rowsPerPage, setRowsPerPage] = useState(() => 10);
     const [valueToSearch, setValueToSearch] = useState('');
-
 
     const searchClientes = (newValueToSearch) => {
         setValueToSearch(newValueToSearch)
@@ -41,11 +53,12 @@ export default function Clients() {
 
     useEffect(() => {
         const fetchData = async () => {
+            setOpenBackdrop(true)
             const respuesta = await clientsService.getClients(valueToSearch, rowsPerPage, page);
-
+            setOpenBackdrop(false)
             if (respuesta instanceof AxiosError) {
-                // TODO mejorar un metodo generico de mostrar errores en backend
-                alert(respuesta?.message)
+                setModalMsj(respuesta?.message)
+                setOpenModal(true)
             } else {
                 setClientes(respuesta.content)
                 setClientesTotal(respuesta.totalElements)
@@ -147,6 +160,13 @@ export default function Clients() {
                     </Grid>
                 </Grid>
             </Paper>
+            <LoginModal
+                show={openModal}
+                hide={handleCloseModal}
+                serverMsj={modalMsj} />
+            <LoginBackdrop
+                show={openBackdrop}
+                hide={handleCloseBackdrop} />
         </Box>
     )
 }

@@ -1,9 +1,7 @@
 import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Backdrop, CircularProgress, Typography, Stack } from '@mui/material/'
 
 export default function LoginBackdrop(props) {
-
   return (
     <div>
       <Backdrop
@@ -11,7 +9,10 @@ export default function LoginBackdrop(props) {
         open={props.show}
         onClick={props.hide}
       >
-        <CircularProgress color="inherit" />
+        <Stack direction="column" alignItems='center'>
+          <CircularProgress color="inherit" />
+          <Typography>Un momento por favor</Typography>
+        </Stack>
       </Backdrop>
     </div>
   );

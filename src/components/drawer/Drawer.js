@@ -85,9 +85,11 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
         setOpen(false);
     };
 
-    const handleLogout = () => {
-        navigate('/login')
-        AuthService.logout();
+    const handleLogout = async() => {
+// const BorrarStorage = new Promise()
+
+        await AuthService.logout();
+        setTimeout(()=>{navigate('/login')},100)
     }
 
     const menuItem = [
