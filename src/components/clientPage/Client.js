@@ -8,12 +8,12 @@ import DatePicker from './DatePicker'
 
 import ButtonClientMobile from './ButtonClientMobile';
 import ButtonClientDesktop from './ButtonClientDesktop';
-import TipoDoc from './TipoDoc';
-import Input from './Input';
+import parametersService from '../../services/parameter.service';
 
 import clientsService from '../../services/clients.service';
 import GenericComboBox from '../reusable/GenericComboBox';
 import clientSchema from './clientSchema';
+import GenericComboBoxSync from '../reusable/GenericComboBoxSync';
 // import EditIcon from '@mui/icons-material/Edit';
 
 function Client() {
@@ -185,16 +185,18 @@ function Client() {
                 <div>
                     <Paper {...paperStyle}>
                         <Stack {...stackStyle}>
-                            <GenericComboBox
+                            <GenericComboBoxSync
                                 label="Tipo de documento"
                                 id="tipoDocumento"
                                 value={formik.values.tipoDocumento}
                                 handleChange={formik.handleChange}
                                 editable={editable}
-                                valueForNone=""
-                                labelForNone="Seleccionar tipo de documento"
-                                values={["DNI", "Pasaporte"]}
                                 minWidth={250}
+                                
+                                error={formik.touched.tipoDocumento && Boolean(formik.errors.tipoDocumento)}
+                                helperText={formik.touched.tipoDocumento && formik.errors.tipoDocumento}
+                                
+                                loadData={parametersService.getTipoDocumentos}
                             />
                             <TextField fullWidth
                                 label="Numero de documento"
@@ -246,16 +248,18 @@ function Client() {
                             />
 
 
-                            <GenericComboBox
+                            <GenericComboBoxSync
                                 label="Sexo"
                                 id="sexo"
                                 value={formik.values.sexo}
                                 handleChange={formik.handleChange}
                                 editable={editable}
-                                valueForNone=""
-                                labelForNone="Seleccionar sexo"
-                                values={["Masculino", "Femenino", "No especifica"]}
                                 minWidth={250}
+                                                                
+                                error={formik.touched.sexo && Boolean(formik.errors.sexo)}
+                                helperText={formik.touched.sexo && formik.errors.sexo}
+                                
+                                loadData={parametersService.getSexos}
                             />
                         </Stack>
                         <Typography>holisclient {formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}</Typography>
@@ -297,16 +301,17 @@ function Client() {
 
                     <Paper {...paperStyle}>
                         <Stack direction={'column'} spacing={2}>
-                            <GenericComboBox
+                            <GenericComboBoxSync
                                 label="Objetivo"
                                 id="objetivo"
                                 value={formik.values.objetivo}
                                 handleChange={formik.handleChange}
                                 editable={editable}
-                                valueForNone=""
-                                labelForNone="Seleccionar objetivo"
-                                values={["Ganar masa muscular", "Perder peso", "Tonificar", "No especifica"]}
                                 minWidth={250}
+                                error={formik.touched.objetivo && Boolean(formik.errors.objetivo)}
+                                helperText={formik.touched.objetivo && formik.errors.objetivo}
+                                
+                                loadData={parametersService.getObjetivos}
                             />
                             <TextField fullWidth
                                 label="Observaciones"

@@ -25,7 +25,12 @@ const validationSchema = yup.object({
     celular: yup.number()
         .typeError('El celular debe ser un numero'),
     observaciones: yup.string(),
-    direccion: yup.string()
+    direccion: yup.string(),
+    tipoDocumento: yup.string()
+        .required('El tipo de documento es obligatorio'),
+    sexo: yup.string(),
+    objetivo: yup.string()
+        .required('El objetivo es obligatorio')
 });
 
 
