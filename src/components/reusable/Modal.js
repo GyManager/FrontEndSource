@@ -20,6 +20,19 @@ const style = {
 
 export default function LoginModal(props) {
 
+/*
+//Estados de LoginModal -> Para levantar estado
+const [modalMsj, setModalMsj] = useState("");
+const [openModal, setOpenModal] = useState(false);
+const handleCloseModal = () => { setOpenModal(false) }
+
+// Componente
+<Modal
+                show={openModal}
+                hide={handleCloseModal}
+                serverMsj={modalMsj} />
+*/
+
   return (
     <div>
       <Modal

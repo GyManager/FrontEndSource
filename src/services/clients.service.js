@@ -57,7 +57,7 @@ const getClients = (fuzzySearch, pageSize, page) => {
 
 
 const postClient = (cliente) => {
-    axios.post(API_URL + '/clientes', {...cliente}, 
+    return axios.post(API_URL + '/clientes', {...cliente}, 
         {
             headers: {'Authorization': `Bearer ${access_token}`}
         }
@@ -87,7 +87,7 @@ const putClient = (cliente, idCliente) => {
 }
 
 const deleteClientById = (idCliente) => {
-    axios.delete(API_URL + '/clientes/' + idCliente,
+    return axios.delete(API_URL + '/clientes/' + idCliente,
         {
             headers: {'Authorization': `Bearer ${access_token}`}
         }
@@ -97,7 +97,7 @@ const deleteClientById = (idCliente) => {
         return response.data
     }).catch((error) => {
         console.log('Hubo un error en la peticion delete')
-        console.log(error)
+        return handleError(error)
     })
 }
 

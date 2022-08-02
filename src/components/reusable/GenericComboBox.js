@@ -22,6 +22,7 @@ export default function GenericComboBox(props) {
                     autoWidth
                     label={props.label}
                     readOnly={props.editable ? false : true}
+                    autoFocus={props.autoFocusProp? true : false}
                 >
                     <MenuItem name={props.id} value={props.valueForNone}>{props.labelForNone}</MenuItem>
                     {props.values.map(value => (<MenuItem name={props.id} value={value} key={value}>{value}</MenuItem>))}

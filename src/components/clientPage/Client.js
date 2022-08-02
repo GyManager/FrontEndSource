@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { AxiosError } from 'axios';
 
 import { Typography, Box, Paper, Stack, TextField } from '@mui/material'
 
@@ -9,15 +10,35 @@ import DatePicker from './DatePicker'
 import ButtonClientMobile from './ButtonClientMobile';
 import ButtonClientDesktop from './ButtonClientDesktop';
 import Breadcumbs from '../reusable/Breadcumbs'
+import Modal from '../reusable/Modal'
+import AlertDialog from '../reusable/AlertDialog';
+import Snackbar from '../reusable/Snackbar'
+
 import TipoDoc from './TipoDoc';
 import Input from './Input';
+import GenericComboBox from '../reusable/GenericComboBox';
 
 import clientsService from '../../services/clients.service';
-import GenericComboBox from '../reusable/GenericComboBox';
 import clientSchema from './clientSchema';
 // import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function Client() {
+    //Estados de Modal
+    const [modalMsj, setModalMsj] = useState("");
+    const [openModal, setOpenModal] = useState(false);
+    const handleCloseModal = () => { setOpenModal(false) }
+
+    //Estados del AlertDialog
+    const [openAlertDialog, setOpenAlertDialog] = useState(false);
+    const handleClickOpenAlertDialog = () => {
+        setOpenAlertDialog(true);
+    };
+
+    //Estados del Snackbar
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
+    // Estados del ...
 
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
@@ -59,9 +80,9 @@ function Client() {
         }
     }
 
+
     const handleSubmit = async (e) => {
         e?.preventDefault();
-        console.log("asd")
         const actualTime = new Date();
         let actualTimeString = actualTime.toUTCString();
         console.log(actualTimeString)
@@ -82,31 +103,18 @@ function Client() {
         }
         console.log(clienteSubmit)
         console.log(clienteId)
-
         if (clienteId === 'new') {
-            try {
-                await clientsService.postClient(clienteSubmit).then(
-                    () => {
-                        console.log('El cliente se cargo con exito');
-
-                    },
-                    navigate("/clientes")
-                );
-                //TODO NICO 4 No entiendo porque se viene por la rama del error y no me lo renderiza...
-                // Si bien no jode para terminar de cargar el cliente, si necesitase recuperar 
-                // su id si me joderia.
-            } catch (err) {
-                console.log('Error en componente client')
-                console.log(err)
-                alert(err)
+            const respuesta = await clientsService.postClient(clienteSubmit)
+            if (respuesta instanceof AxiosError) {
+                setModalMsj(respuesta.response.data.message)
+                setOpenModal(true)
+            } else {
+                setOpenModal(true)
+                navigate("/clientes")
             }
         } else {
             try {
-                await clientsService.putClient(clienteSubmit, clienteId).then(
-                    () => {
-                        console.log('El cliente se actualizo con exito');
-                    },
-                );
+                await clientsService.putClient(clienteSubmit, clienteId)
             } catch (err) {
                 console.log('Error en componente client')
                 console.log(err)
@@ -116,9 +124,18 @@ function Client() {
         }
     }
 
-    const deleteCliente = () => {
-        clientsService.deleteClientById(clienteId);
-        navigate("/clientes");
+    const handleError = (error) => {
+        if (error instanceof AxiosError) {
+            setModalMsj(error?.message)
+            setOpenModal(true)
+        }
+    }
+
+    const deleteCliente = async() => {
+        const respuesta = await clientsService.deleteClientById(clienteId);
+        // openSnackbar()
+        navigate("/clients?statusCode=deleted")
+
     }
 
     const handleCancelEdit = () => {
@@ -130,8 +147,6 @@ function Client() {
         }
     }
 
-    // TODO 004 ver el error y leer sobre los hooks useEffect, debe estar vacia?
-    // debe tener un array
     useEffect(() => {
         if (clienteId === 'new') {
             setEditable(true)
@@ -165,7 +180,7 @@ function Client() {
         <div>
             <Breadcumbs
                 names={['Clientes', 'Cliente']}
-                urls={['../clientes/' ]}
+                urls={['../clientes/']}
 
             />
             <form
@@ -183,7 +198,7 @@ function Client() {
                         <ButtonClientDesktop
                             editable={editable}
                             handleEditClick={() => setEditable(true)}
-                            handleDeleteClick={deleteCliente}
+                            handleDeleteClick={handleClickOpenAlertDialog}
                             handleCancelEdit={handleCancelEdit}
                             clienteId={clienteId}
                             handleSubmit={formik.handleSubmit}
@@ -206,6 +221,8 @@ function Client() {
                                     minWidth={250}
                                     errorProp={formik.touched.tipoDocumento && Boolean(formik.errors.tipoDocumento)}
                                     helperTextProp={formik.touched.tipoDocumento && formik.errors.tipoDocumento}
+                                    autoFocusProp={true}
+
                                 />
                                 <TextField fullWidth
                                     label="Numero de documento"
@@ -331,15 +348,12 @@ function Client() {
                                     multiline
                                     error={formik.touched.observaciones && Boolean(formik.errors.observaciones)}
                                     helperText={formik.touched.observaciones && formik.errors.observaciones}
-
                                 />
                             </Stack>
                         </Paper>
-
                         <Paper elevation={12}>
                             <Typography>Input - Medidas</Typography>
                         </Paper>
-
                         <Paper
                             elevation={12}
                             sx={{
@@ -347,7 +361,6 @@ function Client() {
                             }}>
                             <Typography>Input - Planes</Typography>
                         </Paper>
-
                         <Paper
                             elevation={12}
                             sx={{
@@ -366,7 +379,34 @@ function Client() {
                     handleSubmit={formik.handleSubmit}
                 />
             </form>
+            <Modal
+                show={openModal}
+                hide={handleCloseModal}
+                serverMsj={modalMsj} />
+
+            <AlertDialog
+                openProp={openAlertDialog}
+                handleClickProp={handleClickOpenAlertDialog}
+                setProp={setOpenAlertDialog}
+                titleProp='Está por eliminar al cliente '
+                nameProp={formik.values.nombre + ' ' + formik.values.apellido}
+                contentProp='¿Seguro desea eliminarlo?'
+                buttonTextAccept='Borrar'
+                buttonTextDeny='Cancelar'
+                buttonActionAccept={deleteCliente}
+            >
+                <DeleteForeverIcon color="warning" fontSize="medium" />
+            </AlertDialog>
+           
+            <Snackbar
+                severity='success'
+                message='Usuario eliminado'>
+                open={openSnackbar}
+                setOpen={setOpenSnackbar}
+            </Snackbar>
+           
         </div>
+
     )
 }
 

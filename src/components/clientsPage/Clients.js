@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Grid, Box, Paper, Typography } from '@mui/material/'
 
 import ButtonAddClientMobile from './ButtonAddClientMobile'
@@ -19,8 +20,8 @@ import { AxiosError } from 'axios'
 export default function Clients() {
     const isMediumDevice = useMediaQuery('(max-width:900px');
 
-    const [modalMsj, setModalMsj] = useState("");
     //Estados de LoginModal
+    const [modalMsj, setModalMsj] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const handleCloseModal = () => { setOpenModal(false) }
 
@@ -29,6 +30,9 @@ export default function Clients() {
     const handleCloseBackdrop = () => {
         setOpenBackdrop(false);
     };
+
+    // 
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [clientes, setClientes] = useState([{}]);
     const [clientesTotal, setClientesTotal] = useState(() => 0)
@@ -50,6 +54,9 @@ export default function Clients() {
         setRowsPerPage(event.target.value)
         setPage(0)
     }
+
+    alert(searchParams.get("statusCode"))
+
 
     useEffect(() => {
         const fetchData = async () => {
