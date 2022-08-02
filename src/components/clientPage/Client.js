@@ -1,27 +1,27 @@
-import { React, useState, useEffect } from 'react'
+// Import Librerias
+import { React, useState, useEffect, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { AxiosError } from 'axios';
 
+// Imports Vista
 import { Typography, Box, Paper, Stack, TextField } from '@mui/material'
-
 import DatePicker from './DatePicker'
-
 import ButtonClientMobile from './ButtonClientMobile';
 import ButtonClientDesktop from './ButtonClientDesktop';
 import Breadcumbs from '../reusable/Breadcumbs'
 import Modal from '../reusable/Modal'
 import AlertDialog from '../reusable/AlertDialog';
 import Snackbar from '../reusable/Snackbar'
-
 import TipoDoc from './TipoDoc';
 import Input from './Input';
 import GenericComboBox from '../reusable/GenericComboBox';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
+// Imports Datos
 import clientsService from '../../services/clients.service';
 import clientSchema from './clientSchema';
-// import EditIcon from '@mui/icons-material/Edit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { DataContext } from "../../context/DataContext";
 
 function Client() {
     //Estados de Modal
@@ -35,10 +35,9 @@ function Client() {
         setOpenAlertDialog(true);
     };
 
-    //Estados del Snackbar
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-
     // Estados del ...
+    const { setData }  = useContext(DataContext)
+
 
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
@@ -83,9 +82,7 @@ function Client() {
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
-        const actualTime = new Date();
-        let actualTimeString = actualTime.toUTCString();
-        console.log(actualTimeString)
+        //TODO HACER ESTE MAPEO DESDE EL SERVICE
         const clienteSubmit = {
             "usuario": {
                 "numeroDocumento": Number(formik.values.numeroDocumento),
@@ -111,6 +108,7 @@ function Client() {
             } else {
                 setOpenModal(true)
                 navigate("/clientes")
+                setData('El cliente ha sido creado con exito')
             }
         } else {
             try {
@@ -131,11 +129,12 @@ function Client() {
         }
     }
 
-    const deleteCliente = async() => {
+    const deleteCliente = async () => {
         const respuesta = await clientsService.deleteClientById(clienteId);
         // openSnackbar()
-        navigate("/clients?statusCode=deleted")
-
+        setData('El cliente ha sido borrado con exito')
+        navigate("/clientes")
+        
     }
 
     const handleCancelEdit = () => {
@@ -397,14 +396,9 @@ function Client() {
             >
                 <DeleteForeverIcon color="warning" fontSize="medium" />
             </AlertDialog>
+
            
-            <Snackbar
-                severity='success'
-                message='Usuario eliminado'>
-                open={openSnackbar}
-                setOpen={setOpenSnackbar}
-            </Snackbar>
-           
+
         </div>
 
     )

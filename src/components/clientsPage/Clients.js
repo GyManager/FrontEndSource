@@ -1,23 +1,26 @@
-import React from 'react'
+// Imports Librerias
+import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Grid, Box, Paper, Typography } from '@mui/material/'
+import { AxiosError } from 'axios'
 
+// Imports Data
+import { DataContext } from "../../context/DataContext";
+import clientsService from '../../services/clients.service'
+
+// Imports Vista
+import { useMediaQuery } from '@mui/material';
+import { Grid, Box, Paper, Typography } from '@mui/material/'
 import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
 import SearchBar from './SearchBar'
 import TablesClient from './TablesClient'
 import LoginModal from '../reusable/Modal';
 import LoginBackdrop from '../reusable/Backdrop'
-
-import clientsService from '../../services/clients.service'
-
-import { useMediaQuery } from '@mui/material';
-import { AxiosError } from 'axios'
-
-
+import Snackbar from '../reusable/Snackbar'
 
 export default function Clients() {
+
     const isMediumDevice = useMediaQuery('(max-width:900px');
 
     //Estados de LoginModal
@@ -31,8 +34,12 @@ export default function Clients() {
         setOpenBackdrop(false);
     };
 
-    // 
-    const [searchParams, setSearchParams] = useSearchParams();
+    //Estados del Snackbar
+    const { data, setData } = useContext(DataContext)
+    const [openSnackbar, setOpenSnackbar] = useState();
+
+    // Importo el value data que se define en el contextProvider, podria ser
+    // otro estado o metodo
 
     const [clientes, setClientes] = useState([{}]);
     const [clientesTotal, setClientesTotal] = useState(() => 0)
@@ -55,8 +62,6 @@ export default function Clients() {
         setPage(0)
     }
 
-    alert(searchParams.get("statusCode"))
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,10 +76,12 @@ export default function Clients() {
                 setClientesTotal(respuesta.totalElements)
             }
         }
+        setOpenSnackbar(data !== '' ? true : false)
+        setTimeout(()=>setData(''),6100)
 
         fetchData();
 
-    }, [valueToSearch, rowsPerPage, page])
+    }, [valueToSearch, rowsPerPage, page, data, setData])
 
     return (
 
@@ -88,7 +95,7 @@ export default function Clients() {
                 // TODO  006
                 sx={{
                     // backgroundColor: 'yellow',
-                    height: '83vh',
+                    height: '70vh',
 
                 }}
 
@@ -174,6 +181,12 @@ export default function Clients() {
             <LoginBackdrop
                 show={openBackdrop}
                 hide={handleCloseBackdrop} />
+            <Snackbar
+                severity='success'
+                message={data}
+                open={openSnackbar}
+                setOpen={setOpenSnackbar}>
+            </Snackbar>
         </Box>
     )
 }
