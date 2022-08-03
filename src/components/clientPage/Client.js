@@ -35,10 +35,10 @@ function Client() {
         setOpenAlertDialog(true);
     };
 
-    // Estados del ...
-    const { setData }  = useContext(DataContext)
+    // Estados compartidos del Snackbar (Contexto)
+    const { setData } = useContext(DataContext)
 
-
+    // Estilos compartidos
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
         spacing: { xs: 2, sm: 2, md: 1 },
@@ -49,11 +49,9 @@ function Client() {
         elevation: 12,
         sx: { p: 2 }
     }
-
+    // Variables generales
     const navigate = useNavigate()
-
     let { clienteId } = useParams();
-
     const [editable, setEditable] = useState(false)
 
     const getClientById = async () => {
@@ -79,7 +77,6 @@ function Client() {
         }
     }
 
-
     const handleSubmit = async (e) => {
         e?.preventDefault();
         //TODO HACER ESTE MAPEO DESDE EL SERVICE
@@ -102,39 +99,28 @@ function Client() {
         console.log(clienteId)
         if (clienteId === 'new') {
             const respuesta = await clientsService.postClient(clienteSubmit)
-            if (respuesta instanceof AxiosError) {
-                setModalMsj(respuesta.response.data.message)
-                setOpenModal(true)
-            } else {
-                setOpenModal(true)
-                navigate("/clientes")
-                setData('El cliente ha sido creado con exito')
-            }
+            handleRespuesta(respuesta, 'El cliente ha sido creado con exito')
         } else {
-            try {
-                await clientsService.putClient(clienteSubmit, clienteId)
-            } catch (err) {
-                console.log('Error en componente client')
-                console.log(err)
-            } finally {
-                setEditable(false)
-            }
+            const respuesta = await clientsService.putClient(clienteSubmit, clienteId)
+            handleRespuesta(respuesta, 'El cliente ha sido modificado con exito')
         }
-    }
-
-    const handleError = (error) => {
-        if (error instanceof AxiosError) {
-            setModalMsj(error?.message)
-            setOpenModal(true)
-        }
+        setEditable(false)
     }
 
     const deleteCliente = async () => {
         const respuesta = await clientsService.deleteClientById(clienteId);
-        // openSnackbar()
-        setData('El cliente ha sido borrado con exito')
-        navigate("/clientes")
-        
+        handleRespuesta(respuesta, 'El cliente ha sido borrado con exito')
+    }
+
+    const handleRespuesta = (respuesta, mensaje) => {
+        if (respuesta instanceof AxiosError) {
+            setModalMsj(respuesta.response.data.message)
+            setOpenModal(true)
+        } else {
+            setOpenModal(true)
+            navigate("/clientes")
+            setData(mensaje)
+        }
     }
 
     const handleCancelEdit = () => {
@@ -270,7 +256,6 @@ function Client() {
                                     helperTextProp={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
                                 />
 
-
                                 <GenericComboBox
                                     label="Sexo"
                                     id="sexo"
@@ -396,12 +381,7 @@ function Client() {
             >
                 <DeleteForeverIcon color="warning" fontSize="medium" />
             </AlertDialog>
-
-           
-
         </div>
-
     )
 }
-
 export default Client

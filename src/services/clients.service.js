@@ -14,6 +14,27 @@ catch (error) {
     access_token = ''
 }
 
+const aplanadora = (response) => {
+    return response.data.content.map((usuMap) => (
+        {
+            "idCliente": usuMap.idCliente,
+            "idUsuario": usuMap.usuario.idUsuario,
+            "numeroDocumento": usuMap.usuario.numeroDocumento,
+            "tipoDocumento": usuMap.usuario.tipoDocumento,
+            "apellido": usuMap.usuario.apellido,
+            "nombre": usuMap.usuario.nombre,
+            "sexo": usuMap.usuario.sexo,
+            "mail": usuMap.usuario.mail,
+            "celular": usuMap.usuario.celular,
+            "fechaAlta": usuMap.usuario.fechaAlta,
+            "fechaBaja": usuMap.usuario.fechaBaja,
+            "objetivo": usuMap.objetivo,
+            "direccion": usuMap.direccion,
+            "fechaNacimiento": usuMap.fechaNacimiento,
+            "observaciones": usuMap.observaciones
+        }))
+}
+
 const getClients = (fuzzySearch, pageSize, page) => {
     let params = {}
     if(fuzzySearch !== undefined){
@@ -31,6 +52,9 @@ const getClients = (fuzzySearch, pageSize, page) => {
         },
         params
     }).then((response) => {
+        response.data.content = aplanadora(response)
+
+        /*
         response.data.content = response.data.content.map((usuMap) => (
             {
                 "idCliente": usuMap.idCliente,
@@ -49,6 +73,8 @@ const getClients = (fuzzySearch, pageSize, page) => {
                 "fechaNacimiento": usuMap.fechaNacimiento,
                 "observaciones": usuMap.observaciones
             }))
+            */
+
         return response.data;
     }).catch((error) => {
         return handleError(error);
@@ -62,8 +88,7 @@ const postClient = (cliente) => {
             headers: {'Authorization': `Bearer ${access_token}`}
         }
     ).then((response) => {
-        console.log('Recibida correctamente')
-        console.log(response.data)
+        
         return response.data
     }).catch((error) => {
         return handleError(error)

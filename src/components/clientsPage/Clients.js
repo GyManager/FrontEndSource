@@ -76,10 +76,9 @@ export default function Clients() {
                 setClientesTotal(respuesta.totalElements)
             }
         }
+        fetchData();
         setOpenSnackbar(data !== '' ? true : false)
         setTimeout(()=>setData(''),6100)
-
-        fetchData();
 
     }, [valueToSearch, rowsPerPage, page, data, setData])
 
