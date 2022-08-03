@@ -14,14 +14,14 @@ export default function ClientPage() {
                 // backgroundColor: 'green',
                 height: { xs: '90vh', sm: '90vh', md: '82vh' }
             }}>
-            <Paper
+            {/* <Paper
                 elevation={12}
                 sx={{
                     height: '90%',
                 }}
-            >
+            > */}
                 <Clients />
-            </Paper>
+            {/* </Paper> */}
         </Container>
     )
 }

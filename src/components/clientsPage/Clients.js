@@ -92,7 +92,7 @@ export default function Clients() {
                 // TODO  006
                 sx={{
                     // backgroundColor: 'yellow',
-                    height: '70vh',
+                    height: '80vh',
                 }}
             >
                 <Grid container width='90vw'
@@ -168,7 +168,6 @@ export default function Clients() {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Paper>
             <GenericModal
                 show={openModal}
                 hide={handleCloseModal}
@@ -182,6 +181,7 @@ export default function Clients() {
                 open={openSnackbar}
                 setOpen={setOpenSnackbar}>
             </Snackbar>
+            </Paper>
         </Box>
     )
 }
