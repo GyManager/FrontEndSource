@@ -1,8 +1,13 @@
 import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar';
+// import { Stack, Snackbar, Alert } from '@mui/material';
+
+import { Snackbar, Stack }  from '@mui/material';
+
 import MuiAlert from '@mui/material/Alert';
-import Button from '@mui/material/Button'
+
+// --> Boton, se usa como prueba al importar
+// import Button from '@mui/material/Button'
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -16,18 +21,22 @@ export default function Snackbars(props) {
     props.setOpen(false);
   };
 
-  const handleClick = () => {
-    props.setOpen(true);
-  };
+  // --> Boton, se usa como prueba al importar
+  // const handleClick = () => {
+  //   props.setOpen(true);
+  // };
 
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
+
      {/*
+       // --> Boton, se usa como prueba al importar
      <Button variant="outlined" onClick={handleClick}>
         Open success snackbar
       </Button>
       */}
+
       <Snackbar open={props.open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={props.severity} sx={{ width: '100%' }}>
           {props.message}

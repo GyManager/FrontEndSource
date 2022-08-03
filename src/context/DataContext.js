@@ -2,7 +2,6 @@ import { createContext, useState } from "react";
 
 //Informacion de Hardcodeada inicial
 const dataFixed = ''
-
 /*
 {
     

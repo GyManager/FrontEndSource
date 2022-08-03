@@ -93,9 +93,7 @@ export default function Clients() {
                 sx={{
                     // backgroundColor: 'yellow',
                     height: '70vh',
-
                 }}
-
             >
                 <Grid container width='90vw'
                     sx={{
