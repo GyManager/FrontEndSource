@@ -18,7 +18,8 @@ function footer() {
                     sx={{
                         backgroundColor: 'primary.main',
                         justifyContent: 'left',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        display: { xs: 'none', md: 'flex' },
                     }}>
                     <Chip icon={<InstagramIcon />} color="primary" onClick={handleClick} />
                 </BottomNavigation>

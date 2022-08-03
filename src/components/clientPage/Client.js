@@ -159,10 +159,6 @@ function Client() {
 
     return (
         <div>
-            <Breadcumbs
-                names={['Clientes', 'Cliente']}
-                urls={['../clientes/']}
-            />
 
             <form
                 method="post"
@@ -172,10 +168,19 @@ function Client() {
                 <Stack direction='row' justifyContent='space-between' alignItems='center'
                     sx={{ width: { xs: '90vw', lg: '50vw' } }}
                 >
+                    <div>
+                    <Breadcumbs
+                        names={['Clientes', 'Cliente']}
+                        urls={['../clientes/']}
+                    />
                     <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 42 }, mb: '1vh' }} >
                         Cliente: {formik.values.nombre} {formik.values.apellido}
                     </Typography>
-                    <div sx={{ display: { xs: 'none', sm: 'none', md: 'inline-block' } }}>
+                    </div>
+                    <div sx={{
+                        display: { xs: 'none', sm: 'none', md: 'inline-block' },
+                        justifyContent:'right'
+                    }}>
                         <ButtonClientDesktop
                             editable={editable}
                             handleEditClick={() => setEditable(true)}

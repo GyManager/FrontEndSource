@@ -7,8 +7,9 @@ export default function ButtonClientDesktop(props) {
     const buttonCommonProperties = {
         size:'medium',
         variant: 'contained',
-        sx: { display: { xs: 'none', sm: 'none', md: 'inline-block' } }
-    }
+        sx: { display: { xs: 'none', sm: 'none', md: 'inline' },
+        mr:{md:'4vw', lg:'1vw'}
+    }}
 
     return (
         <div>
@@ -18,7 +19,7 @@ export default function ButtonClientDesktop(props) {
                 startIcon={<Save />}
                 type='submit'
             >
-                Guardar {props.clienteId === 'new' && "Nuevo "}Cliente
+                {props.clienteId === 'new' ? 'Crear ' : 'Guardar '}Cliente
             </Button>
             }
 
