@@ -4,12 +4,9 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
 import { useNavigate } from 'react-router-dom'
 
-
-
-export default function CustomSeparator(props) {
+export default function Breadcumbs(props) {
 
     const navigate = useNavigate()
 
@@ -46,3 +43,14 @@ export default function CustomSeparator(props) {
         </Stack>
     );
 }
+/* 
+// Copiar para implementar
+// Recibe los nombres a mostrar y los url a redireccionar. El ultimo nombre es
+// la pagina actual por lo que no recibe url
+
+<Breadcumbs
+                names={['Clientes', 'Cliente']}
+                urls={['../clientes/']}
+            />
+
+*/

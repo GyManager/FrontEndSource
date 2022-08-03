@@ -16,11 +16,7 @@ import ClientsPage from './pages/ClientsPage';
 import ClientPage from './pages/ClientPage'
 
 //Probando context below
-
 import { DataProvider } from "./context/DataContext";
-
-
-//Probando context above
 
 function App() {
 

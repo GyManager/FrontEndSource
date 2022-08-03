@@ -5,13 +5,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Stack } from '@mui/material'
 
-export default function AlertDialog(props) {
+function AlertDialog(props) {
 
   const handleCloseAlertDialog = () => {
-    props.setProp(false);
+    props.setOpen(false);
   };
 
   const handleAcceptButton = () => {
@@ -22,18 +21,18 @@ export default function AlertDialog(props) {
   return (
     <div>
       <Dialog
-        open={props.openProp}
+        open={props.open}
         onClose={handleCloseAlertDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" alignItems='center' aligntContent='center'>
-          {props.titleProp + props.nameProp}
+          {props.title}
         </DialogTitle>
         <DialogContent>
           <Stack direction='row' justifyContent='center' alignItems='center'>
             <DialogContentText id="alert-dialog-description">
-              {props.contentProp}
+              {props.content}
             </DialogContentText>
             {props.children}
           </Stack>
@@ -52,23 +51,24 @@ export default function AlertDialog(props) {
   );
 }
 
+export default AlertDialog
 
 /*
+// Copiar para implementar
 
 //Estados del AlertDialog a usar en el padre
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
+// Evento que abre el dialogo
     const handleClickOpenAlertDialog = () => {
         setOpenAlertDialog(true);
     };
 
 // Componente a usar en el padre
 <AlertDialog
-                openProp={openAlertDialog}
-                handleClickProp={handleClickOpenAlertDialog}
-                setProp={setOpenAlertDialog}
-                titleProp='Está por eliminar al cliente '
-                nameProp={formik.values.nombre + ' ' + formik.values.apellido}
-                contentProp='¿Seguro desea eliminarlo?'
+                open={openAlertDialog}
+                setOpen={setOpenAlertDialog}
+                title={ 'Está por eliminar al cliente' + formik.values.nombre'}
+                content='¿Seguro desea eliminarlo?'
                 buttonTextAccept='Borrar'
                 buttonTextDeny='Cancelar'
                 buttonActionAccept={deleteCliente}

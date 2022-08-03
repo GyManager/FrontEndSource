@@ -5,7 +5,6 @@ import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -18,20 +17,7 @@ const style = {
   p: 4,
 };
 
-export default function LoginModal(props) {
-
-/*
-//Estados de LoginModal -> Para levantar estado
-const [modalMsj, setModalMsj] = useState("");
-const [openModal, setOpenModal] = useState(false);
-const handleCloseModal = () => { setOpenModal(false) }
-
-// Componente
-<Modal
-                show={openModal}
-                hide={handleCloseModal}
-                serverMsj={modalMsj} />
-*/
+export default function GenericModal(props) {
 
   return (
     <div>
@@ -53,3 +39,19 @@ const handleCloseModal = () => { setOpenModal(false) }
     </div>
   );
 }
+
+
+/*
+
+//Estados de LoginModal -> Para levantar estado
+const [modalMsj, setModalMsj] = useState("");
+const [openModal, setOpenModal] = useState(false);
+const handleCloseModal = () => { setOpenModal(false) }
+
+// Componente
+<Modal
+                show={openModal}
+                hide={handleCloseModal}
+                serverMsj={modalMsj} />
+
+*/

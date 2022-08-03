@@ -17,3 +17,20 @@ export default function LoginBackdrop(props) {
     </div>
   );
 }
+
+/*
+// Copiar para implementar
+
+//Estados de Backdrop (En padre)
+    const [openBackdrop, setOpenBackdrop] = useState(false);
+    const handleCloseBackdrop = () => {
+        setOpenBackdrop(false);
+    };
+
+// En jsx
+<Backdrop
+                show={openBackdrop}
+                hide={handleCloseBackdrop} />
+
+
+*/

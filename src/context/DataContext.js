@@ -14,14 +14,14 @@ const dataFixed = ''
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-const [data, setData] = useState(dataFixed)
+    const [dataSnackbar, setDataSnackbar] = useState(dataFixed)
 
     return (
         <DataContext.Provider value={{
-            data,
-            setData
+            dataSnackbar,
+            setDataSnackbar
         }}>
-            { children }
+            {children}
         </DataContext.Provider>
     )
 }

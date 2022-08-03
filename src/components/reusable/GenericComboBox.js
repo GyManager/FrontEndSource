@@ -22,7 +22,7 @@ export default function GenericComboBox(props) {
                     autoWidth
                     label={props.label}
                     readOnly={props.editable ? false : true}
-                    autoFocus={props.autoFocusProp? true : false}
+                    autoFocus={props.autoFocusProp ? true : false}
                 >
                     <MenuItem name={props.id} value={props.valueForNone}>{props.labelForNone}</MenuItem>
                     {props.values.map(value => (<MenuItem name={props.id} value={value} key={value}>{value}</MenuItem>))}
@@ -32,3 +32,20 @@ export default function GenericComboBox(props) {
         </div>
     );
 }
+
+/*
+// Salvo los estados de las variables, no hay estados que subir al padre
+
+<GenericComboBox
+    label="Sexo"
+    id="sexo"
+    value={formik.values.sexo}
+    handleChange={formik.handleChange}
+    editable={editable}
+    valueForNone=""
+    labelForNone="Seleccionar sexo"
+    values={["Masculino", "Femenino", "No especifica"]}
+    minWidth={250}
+/>
+
+*/

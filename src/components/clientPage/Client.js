@@ -6,16 +6,16 @@ import { AxiosError } from 'axios';
 
 // Imports Vista
 import { Typography, Box, Paper, Stack, TextField } from '@mui/material'
+import { AlertDialog, Breadcumbs, GenericComboBox } from '../reusable'
+// import AlertDialog from '../reusable/AlertDialog'
+// import Breadcumbs from '../reusable/Breadcumbs'
+// import GenericComboBox from '../reusable/GenericComboBox'
+import GenericModal from '../reusable/GenericModal'
+
+// import { , Breadcumbs, GenericComboBox, Modal } from '../reusable/'
 import DatePicker from './DatePicker'
 import ButtonClientMobile from './ButtonClientMobile';
 import ButtonClientDesktop from './ButtonClientDesktop';
-import Breadcumbs from '../reusable/Breadcumbs'
-import Modal from '../reusable/Modal'
-import AlertDialog from '../reusable/AlertDialog';
-import Snackbar from '../reusable/Snackbar'
-import TipoDoc from './TipoDoc';
-import Input from './Input';
-import GenericComboBox from '../reusable/GenericComboBox';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Imports Datos
@@ -36,8 +36,8 @@ function Client() {
     };
 
     // Estados compartidos del Snackbar (Contexto)
-    const { setData } = useContext(DataContext)
-
+    const { setDataSnackbar } = useContext(DataContext)
+   
     // Estilos compartidos
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
@@ -58,7 +58,6 @@ function Client() {
         try {
             await clientsService.getClientById(clienteId).then(
                 (persona) => {
-                    console.log(persona)
                     formik.setFieldValue('numeroDocumento', persona.numeroDocumento || '', false)
                     formik.setFieldValue('tipoDocumento', persona.tipoDocumento || '', false)
                     formik.setFieldValue('apellido', persona.apellido || '', false)
@@ -79,7 +78,7 @@ function Client() {
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
-        //TODO HACER ESTE MAPEO DESDE EL SERVICE
+        //TODO HACER ESTE MAPEO DESDE EL SERVICE??? Hay que mandar la info...
         const clienteSubmit = {
             "usuario": {
                 "numeroDocumento": Number(formik.values.numeroDocumento),
@@ -95,8 +94,6 @@ function Client() {
             "fechaNacimiento": formik.values.fechaNacimiento,
             "observaciones": formik.values.observaciones
         }
-        console.log(clienteSubmit)
-        console.log(clienteId)
         if (clienteId === 'new') {
             const respuesta = await clientsService.postClient(clienteSubmit)
             handleRespuesta(respuesta, 'El cliente ha sido creado con exito')
@@ -119,7 +116,7 @@ function Client() {
         } else {
             setOpenModal(true)
             navigate("/clientes")
-            setData(mensaje)
+            setDataSnackbar(mensaje)
         }
     }
 
@@ -139,7 +136,6 @@ function Client() {
             getClientById()
         }
     }, [])
-
 
     const formik = useFormik({
         initialValues: {
@@ -166,8 +162,8 @@ function Client() {
             <Breadcumbs
                 names={['Clientes', 'Cliente']}
                 urls={['../clientes/']}
-
             />
+
             <form
                 method="post"
                 onSubmit={formik.handleSubmit}>
@@ -363,18 +359,19 @@ function Client() {
                     handleSubmit={formik.handleSubmit}
                 />
             </form>
-            <Modal
+            <GenericModal
                 show={openModal}
                 hide={handleCloseModal}
                 serverMsj={modalMsj} />
 
             <AlertDialog
-                openProp={openAlertDialog}
-                handleClickProp={handleClickOpenAlertDialog}
-                setProp={setOpenAlertDialog}
-                titleProp='Está por eliminar al cliente '
-                nameProp={formik.values.nombre + ' ' + formik.values.apellido}
-                contentProp='¿Seguro desea eliminarlo?'
+                open={openAlertDialog}
+                setOpen={setOpenAlertDialog}
+                title={
+                    'Está por eliminar al cliente '
+                    + formik.values.nombre + ' ' + formik.values.apellido
+                }
+                content='¿Seguro desea eliminarlo?'
                 buttonTextAccept='Borrar'
                 buttonTextDeny='Cancelar'
                 buttonActionAccept={deleteCliente}

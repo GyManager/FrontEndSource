@@ -1,7 +1,6 @@
 // Imports Librerias
 import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import { AxiosError } from 'axios'
 
 // Imports Data
@@ -11,13 +10,12 @@ import clientsService from '../../services/clients.service'
 // Imports Vista
 import { useMediaQuery } from '@mui/material';
 import { Grid, Box, Paper, Typography } from '@mui/material/'
+import { Backdrop, GenericModal, Snackbar } from '../reusable/'
+
 import ButtonAddClientMobile from './ButtonAddClientMobile'
 import ButtonAddClientDesktop from './ButtonAddClientDesktop'
 import SearchBar from './SearchBar'
 import TablesClient from './TablesClient'
-import LoginModal from '../reusable/Modal';
-import LoginBackdrop from '../reusable/Backdrop'
-import Snackbar from '../reusable/Snackbar'
 
 export default function Clients() {
 
@@ -35,7 +33,7 @@ export default function Clients() {
     };
 
     //Estados del Snackbar
-    const { data, setData } = useContext(DataContext)
+    const { dataSnackbar, setDataSnackbar } = useContext(DataContext)
     const [openSnackbar, setOpenSnackbar] = useState();
 
     // Importo el value data que se define en el contextProvider, podria ser
@@ -77,10 +75,10 @@ export default function Clients() {
             }
         }
         fetchData();
-        setOpenSnackbar(data !== '' ? true : false)
-        setTimeout(()=>setData(''),6100)
+        setOpenSnackbar(dataSnackbar !== '' ? true : false)
+        setTimeout(()=>setDataSnackbar(''),6100)
 
-    }, [valueToSearch, rowsPerPage, page, data, setData])
+    }, [valueToSearch, rowsPerPage, page, dataSnackbar, setDataSnackbar])
 
     return (
 
@@ -173,16 +171,16 @@ export default function Clients() {
                     </Grid>
                 </Grid>
             </Paper>
-            <LoginModal
+            <GenericModal
                 show={openModal}
                 hide={handleCloseModal}
                 serverMsj={modalMsj} />
-            <LoginBackdrop
+            <Backdrop
                 show={openBackdrop}
                 hide={handleCloseBackdrop} />
             <Snackbar
                 severity='success'
-                message={data}
+                message={dataSnackbar}
                 open={openSnackbar}
                 setOpen={setOpenSnackbar}>
             </Snackbar>
