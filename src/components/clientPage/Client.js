@@ -37,7 +37,7 @@ function Client() {
 
     // Estados compartidos del Snackbar (Contexto)
     const { setDataSnackbar } = useContext(DataContext)
-   
+
     // Estilos compartidos
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
