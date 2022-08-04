@@ -43,7 +43,7 @@ export default function Clients() {
     const [clientesTotal, setClientesTotal] = useState(() => 0)
 
     const [page, setPage] = useState(() => 0);
-    const [rowsPerPage, setRowsPerPage] = useState(() => 10);
+    const [rowsPerPage, setRowsPerPage] = useState(() => isMediumDevice ? 10 : 15);
     const [valueToSearch, setValueToSearch] = useState('');
 
     const searchClientes = (newValueToSearch) => {
@@ -76,7 +76,7 @@ export default function Clients() {
         }
         fetchData();
         setOpenSnackbar(dataSnackbar !== '' ? true : false)
-        setTimeout(()=>setDataSnackbar(''),6100)
+        setTimeout(() => setDataSnackbar(''), 6100)
 
     }, [valueToSearch, rowsPerPage, page, dataSnackbar, setDataSnackbar])
 
@@ -92,18 +92,25 @@ export default function Clients() {
                 // TODO  006
                 sx={{
                     // backgroundColor: 'yellow',
-                    height: '80vh',
+                    height: '87vh',
                 }}
             >
                 <Grid container width='90vw'
                     sx={{
                         mt: 1, mb: 1, mx: 2,
-                        //  backgroundColor: 'red' 
+                        //  backgroundColor: 'red' ,
                     }}
                     alignItems='center'  >
                     <Grid container item justifyContent='space-between' alignItems='center'>
                         <Grid item xs={12} md={3}
-                        // sx={{ backgroundColor: 'blue' }}
+
+                            sx={{
+                                display:'flex',
+                                // backgroundColor: 'blue', 
+                                height: '7vh',
+                                // justifyContent:'center',
+                                alignItems:'center'
+                            }}
                         >
                             {/* TODO HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA REDUCIR MANTENIMINETO Y MEJORAR CONSISTENCIA   */}
                             <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 42 } }} >
@@ -123,6 +130,7 @@ export default function Clients() {
                         <Grid item xs={10.5} md={5}
                             sx={{
                                 // backgroundColor: 'lightBlue',
+                                height: '7vh',
                                 mb: 2
                             }}
                         >
@@ -168,19 +176,19 @@ export default function Clients() {
                         </Grid>
                     </Grid>
                 </Grid>
-            <GenericModal
-                show={openModal}
-                hide={handleCloseModal}
-                serverMsj={modalMsj} />
-            <Backdrop
-                show={openBackdrop}
-                hide={handleCloseBackdrop} />
-            <Snackbar
-                severity='success'
-                message={dataSnackbar}
-                open={openSnackbar}
-                setOpen={setOpenSnackbar}>
-            </Snackbar>
+                <GenericModal
+                    show={openModal}
+                    hide={handleCloseModal}
+                    serverMsj={modalMsj} />
+                <Backdrop
+                    show={openBackdrop}
+                    hide={handleCloseBackdrop} />
+                <Snackbar
+                    severity='success'
+                    message={dataSnackbar}
+                    open={openSnackbar}
+                    setOpen={setOpenSnackbar}>
+                </Snackbar>
             </Paper>
         </Box>
     )

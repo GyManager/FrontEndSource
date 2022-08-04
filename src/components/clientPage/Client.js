@@ -47,7 +47,7 @@ function Client() {
 
     const paperStyle = {
         elevation: 12,
-        sx: { p: 2 }
+        sx: { p: 2 , my: 2}
     }
     // Variables generales
     const navigate = useNavigate()
@@ -159,7 +159,6 @@ function Client() {
 
     return (
         <div>
-
             <form
                 method="post"
                 onSubmit={formik.handleSubmit}>

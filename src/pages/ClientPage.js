@@ -21,7 +21,7 @@ export default function ClientPage() {
             <Paper
                 sx={{
                     width: {xs:'90vw', lg:'60vw'},
-                    // height:'100%',
+                    height: { xs: '90vh', sm: '90vh', md: '82vh' },
                     p:'1vw'
                 }}
             >
