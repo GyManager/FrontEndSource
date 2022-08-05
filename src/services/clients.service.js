@@ -97,7 +97,7 @@ const postClient = (cliente) => {
 
 
 const putClient = (cliente, idCliente) => {
-    axios.put(API_URL + '/clientes/' + idCliente, {...cliente}, 
+    return axios.put(API_URL + '/clientes/' + idCliente, {...cliente}, 
         {
             headers: {'Authorization': `Bearer ${access_token}`}
         }
@@ -108,6 +108,7 @@ const putClient = (cliente, idCliente) => {
     }).catch((error) => {
         console.log('Hubo un error en la peticion put')
         console.log(error)
+        return handleError(error)
     })
 }
 

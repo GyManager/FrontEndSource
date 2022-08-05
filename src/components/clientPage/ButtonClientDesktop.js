@@ -5,7 +5,7 @@ import { Edit, Delete, Save, Cancel } from '@mui/icons-material/';
 export default function ButtonClientDesktop(props) {
 
     const buttonCommonProperties = {
-        size:'medium',
+        size:'large',
         variant: 'contained',
         sx: { display: { xs: 'none', sm: 'none', md: 'inline' },
         mr:{md:'4vw', lg:'1vw'}
@@ -19,7 +19,7 @@ export default function ButtonClientDesktop(props) {
                 startIcon={<Save />}
                 type='submit'
             >
-                {props.clienteId === 'new' ? 'Crear ' : 'Guardar '}Cliente
+                {props.clienteId === 'new' ? 'Crear ' : 'Guardar '}
             </Button>
             }
 
@@ -37,9 +37,9 @@ export default function ButtonClientDesktop(props) {
             <Button
                 {...buttonCommonProperties}
                 onClick={props.handleEditClick}
-                startIcon={<Edit />}
+                startIcon={<Edit/>}
             >
-                Editar Cliente
+                Editar
             </Button>
             }
 
@@ -49,7 +49,7 @@ export default function ButtonClientDesktop(props) {
                 onClick={props.handleDeleteClick}
                 startIcon={<Delete />}
             >
-                Borrar Cliente
+                Borrar
             </Button>
             }
         </div>

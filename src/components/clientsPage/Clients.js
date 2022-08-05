@@ -92,7 +92,7 @@ export default function Clients() {
                 // TODO  006
                 sx={{
                     // backgroundColor: 'yellow',
-                    height: '87vh',
+                    height: {xs:'87vh', md: '75vh' },
                 }}
             >
                 <Grid container width='90vw'
@@ -113,17 +113,18 @@ export default function Clients() {
                             }}
                         >
                             {/* TODO HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA REDUCIR MANTENIMINETO Y MEJORAR CONSISTENCIA   */}
-                            <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 42 } }} >
+                            <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }} >
                                 Clientes
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} md={2}
+                        <Grid item xs={12} md={3}
                             sx={{
                                 // backgroundColor: 'yellow',
-                                display: { xs: 'none', sm: 'none', md: 'block' }
+                                display: { xs: 'none', sm: 'none', md: 'flex' }
                             }}
-                            justifyContent='end'>
-                            <ButtonAddClientDesktop size={isMediumDevice ? "small" : "medium"} />
+                            justifyContent='flex-end'>
+                            {/* <ButtonAddClientDesktop size={isMediumDevice ? "small" : "medium"} /> */}
+                            <ButtonAddClientDesktop />
                         </Grid>
                     </Grid>
                     <Grid container justifyContent='start' alignItems='center'>
@@ -156,10 +157,6 @@ export default function Clients() {
                                 rowsPerPage={rowsPerPage}
                                 handleChangeRowsPerPage={handleChangeRowsPerPage}
                             />
-
-                            {/* <StickyHeadTable /> */}
-
-
                         </Grid>
                     </Grid>
                     {/* Boton solo para vista mobile */}

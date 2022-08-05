@@ -25,7 +25,7 @@ export default function TablesClient(props) {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ height:'62vh'}} >
+      <TableContainer sx={{ height:{xs:'62vh', md:'48vh'}}} >
         <Table stickyHeader aria-label="sticky table" size={isMediumDevice ? "medium" : "small"}  >
           
           <TableHead>

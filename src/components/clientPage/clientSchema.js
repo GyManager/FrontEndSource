@@ -11,7 +11,7 @@ const validationSchema = yup.object({
         .positive(nroDocTxt + 'debe ser un valor positivo')
         .integer(nroDocTxt + 'debe ser un numero entero')
         .min(999999, nroDocTxt + 'debe ser tener como minimo 7 caracteres')
-        .max(99999999, nroDocTxt + 'debe ser tener como maximo 8 caracteres')
+        .max(999999999999, nroDocTxt + 'debe ser tener como maximo 12 caracteres')
         .required(nroDocTxt + 'es obligatorio'),
     nombre: yup.string()
         .required('El nombre es obligatorio')

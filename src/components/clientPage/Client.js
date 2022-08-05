@@ -24,6 +24,27 @@ import clientSchema from './clientSchema';
 import { DataContext } from "../../context/DataContext";
 
 function Client() {
+    // Estados de Formik
+    const formik = useFormik({
+        initialValues: {
+            tipoDocumento: "",
+            numeroDocumento: "",
+            nombre: "",
+            apellido: "",
+            fechaNacimiento: "",
+            sexo: "",
+            mail: "",
+            celular: "",
+            direccion: "",
+            objetivo: "",
+            observaciones: ""
+        },
+        validationSchema: clientSchema.validationSchema,
+        onSubmit: () => {
+            handleSubmit()
+        },
+    });
+
     //Estados de Modal
     const [modalMsj, setModalMsj] = useState("");
     const [openModal, setOpenModal] = useState(false);
@@ -38,17 +59,6 @@ function Client() {
     // Estados compartidos del Snackbar (Contexto)
     const { setDataSnackbar } = useContext(DataContext)
 
-    // Estilos compartidos
-    const stackStyle = {
-        direction: { xs: 'column', sm: 'column', md: 'row' },
-        spacing: { xs: 2, sm: 2, md: 1 },
-        sx: { mt: 2 }
-    }
-
-    const paperStyle = {
-        elevation: 12,
-        sx: { p: 2 , my: 2}
-    }
     // Variables generales
     const navigate = useNavigate()
     let { clienteId } = useParams();
@@ -101,7 +111,6 @@ function Client() {
             const respuesta = await clientsService.putClient(clienteSubmit, clienteId)
             handleRespuesta(respuesta, 'El cliente ha sido modificado con exito')
         }
-        setEditable(false)
     }
 
     const deleteCliente = async () => {
@@ -137,48 +146,51 @@ function Client() {
         }
     }, [])
 
-    const formik = useFormik({
-        initialValues: {
-            tipoDocumento: "",
-            numeroDocumento: "",
-            nombre: "",
-            apellido: "",
-            fechaNacimiento: "",
-            sexo: "",
-            mail: "",
-            celular: "",
-            direccion: "",
-            objetivo: "",
-            observaciones: ""
-        },
-        validationSchema: clientSchema.validationSchema,
-        onSubmit: () => {
-            handleSubmit()
-        },
-    });
+    // Estilos compartidos
+    const stackStyle = {
+        direction: { xs: 'column', sm: 'column', md: 'row' },
+        spacing: { xs: 2, sm: 2, md: 5 },
+        sx: { mt: 2 }
+    }
+
+    const paperStyle = {
+        elevation: 2,
+        sx: {
+            p: 2, my: 2,
+            width: { xs: '80vw', md: '50vw' }
+        }
+    }
+
+    const TextFieldStyle = {
+        disabled: !editable,
+        inputProps: { readOnly: Boolean(!editable) },
+        variant: "standard",
+        onChange: formik.handleChange
+    }
 
     return (
         <div>
             <form
                 method="post"
                 onSubmit={formik.handleSubmit}>
-                {/* TODO 001 HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA 
-        REDUCIR MANTENIMINETO Y MEJORAR CONSISTENCIA   */}
                 <Stack direction='row' justifyContent='space-between' alignItems='center'
-                    sx={{ width: { xs: '90vw', lg: '50vw' } }}
                 >
                     <div>
-                    <Breadcumbs
-                        names={['Clientes', 'Cliente']}
-                        urls={['../clientes/']}
-                    />
-                    <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 42 }, mb: '1vh' }} >
-                        Cliente: {formik.values.nombre} {formik.values.apellido}
-                    </Typography>
+                        <Breadcumbs
+                            names={['Clientes', 'Cliente']}
+                            urls={['../clientes/']}
+                        />
+                        <Typography noWrap={true} sx={{
+                            width: { xs: '88vw', md: '45vw', lg: '40vw' },
+                            fontSize: { xs: 24, md: 28, lg: 30, xl: 34 },
+                            mb: '1vh',
+                        }} >
+                            Cliente: {formik.values.nombre} {formik.values.apellido}
+                        </Typography>
                     </div>
                     <div sx={{
                         display: { xs: 'none', sm: 'none', md: 'inline-block' },
-                        justifyContent:'right'
+                        justifyContent: 'right'
                     }}>
                         <ButtonClientDesktop
                             editable={editable}
@@ -210,12 +222,10 @@ function Client() {
 
                                 />
                                 <TextField fullWidth
+                                    {...TextFieldStyle}
                                     label="Numero de documento"
                                     id="numeroDocumento"
-                                    variant="standard"
                                     value={formik.values.numeroDocumento}
-                                    onChange={formik.handleChange}
-                                    inputProps={{ readOnly: Boolean(!editable) }}
                                     error={formik.touched.numeroDocumento && Boolean(formik.errors.numeroDocumento)}
                                     helperText={formik.touched.numeroDocumento && formik.errors.numeroDocumento}
 
@@ -225,23 +235,19 @@ function Client() {
 
                         <Paper {...paperStyle}>
                             <Stack {...stackStyle}>
-                                <TextField fullWidth
+                                <TextField fullwidth
+                                    {...TextFieldStyle}
                                     label="Nombre"
                                     id="nombre"
-                                    variant="standard"
                                     value={formik.values.nombre}
-                                    onChange={formik.handleChange}
-                                    inputProps={{ readOnly: Boolean(!editable) }}
                                     error={formik.touched.nombre && Boolean(formik.errors.nombre)}
                                     helperText={formik.touched.nombre && formik.errors.nombre}
                                 />
-                                <TextField fullWidth
+                                <TextField fullwidth
+                                    {...TextFieldStyle}
                                     label="Apellido"
                                     id="apellido"
-                                    variant="standard"
                                     value={formik.values.apellido}
-                                    onChange={formik.handleChange}
-                                    inputProps={{ readOnly: Boolean(!editable) }}
                                     error={formik.touched.apellido && Boolean(formik.errors.apellido)}
                                     helperText={formik.touched.apellido && formik.errors.apellido}
                                 />
@@ -273,33 +279,27 @@ function Client() {
                         <Paper {...paperStyle}>
                             <Stack {...stackStyle}>
                                 <TextField fullWidth
+                                    {...TextFieldStyle}
                                     label="Email"
                                     id="mail"
-                                    variant="standard"
                                     value={formik.values.mail}
-                                    onChange={formik.handleChange}
-                                    inputProps={{ readOnly: Boolean(!editable) }}
                                     error={formik.touched.mail && Boolean(formik.errors.mail)}
                                     helperText={formik.touched.mail && formik.errors.mail}
 
                                 />
                                 <TextField fullWidth
+                                    {...TextFieldStyle}
                                     label="Celular"
                                     id="celular"
-                                    variant="standard"
                                     value={formik.values.celular}
-                                    onChange={formik.handleChange}
-                                    inputProps={{ readOnly: Boolean(!editable) }}
                                     error={formik.touched.celular && Boolean(formik.errors.celular)}
                                     helperText={formik.touched.celular && formik.errors.celular}
                                 />
                                 <TextField fullWidth
+                                    {...TextFieldStyle}
                                     label="Direccion"
                                     id="direccion"
-                                    variant="standard"
                                     value={formik.values.direccion}
-                                    onChange={formik.handleChange}
-                                    inputProps={{ readOnly: Boolean(!editable) }}
                                     error={formik.touched.direccion && Boolean(formik.errors.direccion)}
                                     helperText={formik.touched.direccion && formik.errors.direccion}
                                 />

@@ -9,18 +9,15 @@ export default function ClientPage() {
     
 
     return (
-        <Container fixed
+        <Container
             sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                // alignItems: 'center',
-                // backgroundColor: 'green',
-                // height: { xs: '90vh', sm: '90vh', md: '82vh' }
                 height: { xs: '90vh', sm: '90vh', md: '110vh' }
             }}>
             <Paper
                 sx={{
-                    width: {xs:'90vw', lg:'60vw'},
+                    width: {xs:'90vw', lg:'70vw'},
                     height: { xs: '90vh', sm: '90vh', md: '82vh' },
                     p:'1vw'
                 }}
