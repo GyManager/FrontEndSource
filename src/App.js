@@ -37,9 +37,6 @@ function App() {
     )
   }
 
-  
-
-
   return (
     <DataProvider>
       <div className="fondo">
