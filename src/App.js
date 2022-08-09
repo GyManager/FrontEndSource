@@ -6,23 +6,29 @@ import {
 } from "react-router-dom";
 
 import Drawer from './components/drawer/Drawer'
+//  Cambiar nombre footer por footer2 y vice versa
 import Footer from './components/Footer';
 
-import Login from './pages/LoginPage'
-import AuthService from './services/auth.service';
 import { Navigate } from "react-router-dom";
+import AuthService from './services/auth.service';
+import LoginPage from './pages/LoginPage';
+import ClientsPage from './pages/ClientsPage';
+import ClientPage from './pages/ClientPage'
+
+//Probando context below
+import { DataProvider } from "./context/DataContext";
 
 function App() {
 
   const token = AuthService.getStoredSession();
 
-  if(!token){
+  if (!token) {
     return (
-      <div className="App" >
+      <div className="fondo" >
         <BrowserRouter>
-          <Drawer showMenu={false}/>
+          <Drawer showMenu={false} />
           <Routes>
-            <Route path="/login" element={<Login/>} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/*" element={<Navigate to="/login" />} />
           </Routes>
           <Footer />
@@ -32,22 +38,24 @@ function App() {
   }
 
   return (
-    <div className="App" >
-      <BrowserRouter>
-        <Drawer showMenu={true} token={token} />
-        <Routes>
-          <Route path="/" element={ <h1>Logeado</h1> } />
+    <DataProvider>
+      <div className="fondo">
+        <BrowserRouter >
+          <Drawer showMenu={true} token={token} />
+          <Routes >
+            <Route path="/" element={<h1>Logeado</h1>} />
 
-          {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<h1>Gestion de clientes</h1>} />}
-          {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
-          {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
+            {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
+            {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
+            {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
+            {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
 
-          <Route path="/*" element={ <h1>Error no autorizado</h1> } />
-
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </div>
+            <Route path="/*" element={<h1>Error no autorizado</h1>} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </div>
+    </DataProvider>
   );
 }
 

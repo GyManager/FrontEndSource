@@ -1,5 +1,4 @@
 // Todo hacer el checkbox "Recordar usuario"
-// Todo hacer que la sesion sea persistente. Ver video2 del JWT
 // Todo separa mejor por capas la funcion connectToServices() y llevar su
 //      codigo al componente AuthService
 import React, { useState } from 'react';
@@ -9,17 +8,12 @@ import * as yup from 'yup';
 
 import AuthService from '../../services/auth.service';
 
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import LoginModal from './LoginModal';
-import LoginBackdrop from './LoginBackdrop'
+import {
+    Alert, Button, Checkbox, Container, FormControlLabel,
+    Link, Paper, TextField, Typography
+} from '@mui/material';
+
+import { Backdrop, GenericModal } from '../reusable';
 
 const validationSchema = yup.object({
     email: yup
@@ -34,30 +28,28 @@ const validationSchema = yup.object({
 
 const LoginFormWithFormik = () => {
     const [modalMsj, setModalMsj] = useState("");
-    //Levantar estado de LoginModal
+    //Levantar estado de Modal
     const [openModal, setOpenModal] = useState(false);
     const handleCloseModal = () => { setOpenModal(false) }
-    //Hasta aca lenvantar estado de LoginModal
-    //Levantar estado de LoginBackdrop
+    //Levantar estado de Backdrop
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const handleCloseBackdrop = () => {
         setOpenBackdrop(false);
     };
-    //Hasta aca lenvantar estado de LoginBackdrop
 
     const navigate = useNavigate();
 
 
-//Todo hacer refactor de connectToServices a Login
+    //Todo hacer refactor de connectToServices a Login
     const connectToServices = async (mail, pass) => {
         console.log(AuthService)
         setOpenBackdrop(true)
         try {
             await AuthService.login(mail, pass).then(
                 () => {
-                    setOpenBackdrop(false)
-                    navigate("/")
+                    navigate("/clientes")
                     window.location.reload();
+                    setOpenBackdrop(false)
                 },
                 (error) => {
                     setOpenBackdrop(false)
@@ -69,6 +61,7 @@ const LoginFormWithFormik = () => {
                     }
                 }
             );
+
         } catch (err) {
             console.log(err);
         }
@@ -155,6 +148,7 @@ const LoginFormWithFormik = () => {
                         }
                     />
                     <Button
+                        id='IniciarSesion'
                         fullWidth
                         sx={{ mt: 2 }}
                         variant="contained"
@@ -173,11 +167,11 @@ const LoginFormWithFormik = () => {
                     </Typography>
                 </Container>
             </Paper>
-            <LoginModal
+            <GenericModal
                 show={openModal}
                 hide={handleCloseModal}
                 serverMsj={modalMsj} />
-            <LoginBackdrop
+            <Backdrop
                 show={openBackdrop}
                 hide={handleCloseBackdrop} />
 

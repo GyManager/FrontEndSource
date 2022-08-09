@@ -1,7 +1,6 @@
 import React from 'react'
 
-import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
+import { Box, BottomNavigation, Chip, Paper, } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 function footer() {
@@ -9,21 +8,23 @@ function footer() {
         console.info('You clicked the Chip.');
     };
     return (
-        <Stack
-            direction="row"
-            alignItems="center"
-            spacing={2}
-            sx={{
-                width: "100%",
-                height: 50,
-                display: { xs: 'none', md: 'flex' },
-                position: 'absolute',
-                bottom: '0',
-                backgroundColor: 'primary.main',
+        <Box sx={{ pb: 7 }}>
+            <Paper sx={{
+                position: 'fixed',
+                bottom: 0, left: 0, right: 0,
             }}
-        >
-            <Chip icon={<InstagramIcon />} color="primary" onClick={handleClick} />
-        </Stack>
+                elevation={3}>
+                <BottomNavigation
+                    sx={{
+                        backgroundColor: 'primary.main',
+                        justifyContent: 'left',
+                        alignItems: 'center',
+                        display: { xs: 'none', md: 'flex' },
+                    }}>
+                    <Chip icon={<InstagramIcon />} color="primary" onClick={handleClick} />
+                </BottomNavigation>
+            </Paper>
+        </Box>
     );
 }
 

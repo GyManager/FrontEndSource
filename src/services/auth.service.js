@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwt from 'jwt-decode';
 
+
 //TODO IMPLEMENTAR DOTENV PARA API_URL
 const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
 
@@ -12,7 +13,6 @@ const login = (email, password) => {
     return axios
         .post(API_URL + "/auth", bodyFormData)
         .then((response) => {
-            console.log(response, response.data)
             if (response.data.access_token) {
                 localStorage.setItem("user", JSON.stringify(response.data));
             }
@@ -26,7 +26,7 @@ const login = (email, password) => {
 const getStoredSession = () => {
     const storageToken = localStorage.getItem("user");
     const parsedToken = JSON.parse(storageToken);
-    
+
     if(!parsedToken?.hasOwnProperty('access_token')){
         return null
     }
