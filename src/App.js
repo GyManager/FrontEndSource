@@ -48,6 +48,7 @@ function App() {
             {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
             {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
             {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
+            {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<h1>Micro planes</h1>} />}
             {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
 
             <Route path="/*" element={<h1>Error no autorizado</h1>} />
