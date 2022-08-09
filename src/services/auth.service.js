@@ -1,5 +1,6 @@
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom'
+import jwt from 'jwt-decode';
+
 
 //TODO IMPLEMENTAR DOTENV PARA API_URL
 const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
@@ -13,7 +14,7 @@ const login = (email, password) => {
         .post(API_URL + "/auth", bodyFormData)
         .then((response) => {
             if (response.data.access_token) {
-                sessionStorage.setItem("user", JSON.stringify(response.data));
+                localStorage.setItem("user", JSON.stringify(response.data));
             }
             else{
                 console.log("error en la peticion")
@@ -23,25 +24,29 @@ const login = (email, password) => {
 };
 
 const getStoredSession = () => {
-    const storageToken = sessionStorage.getItem("user");
+    const storageToken = localStorage.getItem("user");
     const parsedToken = JSON.parse(storageToken);
-    return parsedToken ? parsedToken : null
+
+    if(!parsedToken?.hasOwnProperty('access_token')){
+        return null
+    }
+
+    let tokenExpirationDateInMillis = jwt(parsedToken.access_token).exp * 1000;
+    if(tokenExpirationDateInMillis < Date.now()){
+        logout()
+    } 
+
+    return parsedToken;
 }
 
-const refreshToken = () => {
-    console.log("Refreshing token (For now it just logs out)")
-    logout()
-}
-
-const logout = async() => {
-    await sessionStorage.removeItem("user");
+const logout = () => {
+    localStorage.removeItem("user");
     window.location.reload();
 }
 
 const authService = {
     login,
     getStoredSession,
-    refreshToken,
     logout
 };
 
