@@ -106,31 +106,25 @@ export default function Clients() {
 
                             sx={{
                                 display:'flex',
-                                // backgroundColor: 'blue', 
                                 height: '7vh',
-                                // justifyContent:'center',
                                 alignItems:'center'
                             }}
                         >
-                            {/* TODO HACER UN COMPONENTE TIPOGRAPHY CON LOS TAMAÑOS DE LAS LETRAS PARA REDUCIR MANTENIMINETO Y MEJORAR CONSISTENCIA   */}
                             <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }} >
                                 Clientes
                             </Typography>
                         </Grid>
                         <Grid item xs={12} md={3}
                             sx={{
-                                // backgroundColor: 'yellow',
                                 display: { xs: 'none', sm: 'none', md: 'flex' }
                             }}
                             justifyContent='flex-end'>
-                            {/* <ButtonAddClientDesktop size={isMediumDevice ? "small" : "medium"} /> */}
                             <ButtonAddClientDesktop />
                         </Grid>
                     </Grid>
                     <Grid container justifyContent='start' alignItems='center'>
                         <Grid item xs={10.5} md={5}
                             sx={{
-                                // backgroundColor: 'lightBlue',
                                 height: '7vh',
                                 mb: 2
                             }}
@@ -140,11 +134,9 @@ export default function Clients() {
                             />
                         </Grid>
                     </Grid>
-                    <Grid container justifyContent='start' sx={{ backgroundColor: 'green' }} >
+                    <Grid container justifyContent='start'>
                         <Grid item xs={12}
                             sx={{
-                                backgroundColor: 'lightGreen',
-                                // height: { xs: '77vh', md: '30vh', lg: '68vh' }
                                 height: '100%',
 
                             }}

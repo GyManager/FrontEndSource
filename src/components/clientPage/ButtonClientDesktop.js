@@ -17,7 +17,7 @@ export default function ButtonClientDesktop(props) {
         <div>
             {props.editable &&
                 <Button
-                    id='crearGuardar'
+                    id='crearGuardarCliente'
                     {...buttonCommonProperties}
                     startIcon={<Save />}
                     type='submit'
@@ -28,7 +28,7 @@ export default function ButtonClientDesktop(props) {
 
             {props.editable &&
                 <Button
-                    id='cancelar'
+                    id='cancelarCliente'
                     {...buttonCommonProperties}
                     startIcon={<Cancel />}
                     onClick={props.handleCancelEdit}
@@ -39,7 +39,7 @@ export default function ButtonClientDesktop(props) {
 
             {props.clienteId !== 'new' && !props.editable &&
                 <Button
-                    id='editar'
+                    id='editarCliente'
                     {...buttonCommonProperties}
                     onClick={props.handleEditClick}
                     startIcon={<Edit />}
@@ -50,6 +50,7 @@ export default function ButtonClientDesktop(props) {
 
             {props.clienteId !== 'new' && !props.editable &&
                 <Button
+                id='borrarCliente'
                     {...buttonCommonProperties}
                     onClick={props.handleDeleteClick}
                     startIcon={<Delete />}

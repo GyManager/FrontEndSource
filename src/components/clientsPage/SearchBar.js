@@ -1,4 +1,4 @@
-import { React, useState }  from 'react';
+import { React, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -27,18 +27,19 @@ export default function SearchBar(props) {
                 sx={{ ml: 1, flex: 1 }}
                 inputProps={{ 'aria-label': 'search google maps' }}
                 placeholder='Ingrese su busqueda'
-                id='inputSearch'
+                id='inputSearchClientes'
                 name='inputSearch'
                 value={valueToSearch}
                 onChange={handleValueToSearchChange}
             />
-                <IconButton 
-                    type="submit" 
-                    sx={{ p: '10px' }} 
-                    aria-label="search"
-                >
-                    <SearchIcon />
-                </IconButton>
+            <IconButton
+                id='buttonSearchClientes'
+                type="submit"
+                sx={{ p: '10px' }}
+                aria-label="search"
+            >
+                <SearchIcon />
+            </IconButton>
         </Paper>
     );
 

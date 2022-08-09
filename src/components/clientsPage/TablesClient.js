@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -25,26 +25,26 @@ export default function TablesClient(props) {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ height:{xs:'62vh', md:'48vh'}}} >
+      <TableContainer sx={{ height: { xs: '62vh', md: '48vh' } }} >
         <Table stickyHeader aria-label="sticky table" size={isMediumDevice ? "medium" : "small"}  >
-          
+
           <TableHead>
             <TableRow>
-                { !isMediumDevice && <TableCell align='left' style={{ minWidth: 20}}> Avatar </TableCell> }
-                <TableCell align='left' style={{ minWidth: 20}}> Nombre </TableCell>
-                <TableCell align='left' style={{ minWidth: 20}}> Apellido </TableCell>
-                <TableCell align='left' style={{ minWidth: 8}}> Nro. de Documento </TableCell>
-                { !isMediumDevice && <TableCell align='left' style={{ minWidth: 30}}> Email </TableCell> }
-                { !isMediumDevice && <TableCell align='left' style={{ minWidth: 30}}> Estado </TableCell> }
+              {!isMediumDevice && <TableCell align='left' style={{ minWidth: 20 }}> Avatar </TableCell>}
+              <TableCell align='left' style={{ minWidth: 20 }}> Nombre </TableCell>
+              <TableCell align='left' style={{ minWidth: 20 }}> Apellido </TableCell>
+              <TableCell align='left' style={{ minWidth: 8 }}> Nro. de Documento </TableCell>
+              {!isMediumDevice && <TableCell align='left' style={{ minWidth: 30 }}> Email </TableCell>}
+              {!isMediumDevice && <TableCell align='left' style={{ minWidth: 30 }}> Estado </TableCell>}
             </TableRow>
           </TableHead>
 
           <TableBody id='tbClient'>
             {props.clientes.map((row) => (
-              <TablesClientRow key={row.idCliente} 
-              {...row} 
-              handleClickRow={handleClickRow}
-              isMediumDevice={isMediumDevice}
+              <TablesClientRow key={row.idCliente}
+                {...row}
+                handleClickRow={handleClickRow}
+                isMediumDevice={isMediumDevice}
               />
             ))}
           </TableBody>
@@ -55,13 +55,17 @@ export default function TablesClient(props) {
       <Grid container  >
         <Grid item xs={8} >
           <TablePagination
-            rowsPerPageOptions={isMediumDevice ? [] : [10, 25, 100]}
+            id='paginacionClientes'
+            rowsPerPageOptions={isMediumDevice ? [] : [15, 25, 100]}
             component="div"
             count={props.clientesTotal}
             rowsPerPage={props.rowsPerPage}
-            page={props.page} 
+            page={props.page}
             onPageChange={props.handleChangePage}
             onRowsPerPageChange={props.handleChangeRowsPerPage}
+            backIconButtonProps={{id:'backPageButtonClients'}}
+            nextIconButtonProps={{id:'nextPageButtonClients'}}
+            SelectProps={{id:'selectRowsPropsClients'}}
           />
         </Grid>
       </Grid>
