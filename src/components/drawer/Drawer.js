@@ -4,26 +4,27 @@ import { useNavigate } from 'react-router-dom';
 //Todo (Doing) separar el drawer hacer que importe un componente Appbar (ya creado)
 // y otro (drawer) (quizas llamar a este archivo navbar) ver componente contenedor del
 // curso MUI ya esta implementado.
-
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
+// import { Box, CssBaseline, Divider, IconButton, List, MenuIcon, MuiAppBar, Stack, Typography, Toolbar } from '@mui/material/';
+import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
 import MenuIcon from '@mui/icons-material/Menu';
+import MuiAppBar from '@mui/material/AppBar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Toolbar from '@mui/material/Toolbar';
+
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
+
 import DrawerItem from './DrawerItem';
-import { Container } from '@mui/system';
-import Stack from '@mui/material/Stack';
 
 import AuthService from '../../services/auth.service'
 
@@ -85,11 +86,11 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
         setOpen(false);
     };
 
-    const handleLogout = async() => {
-// const BorrarStorage = new Promise()
+    const handleLogout = async () => {
+        // const BorrarStorage = new Promise()
 
         await AuthService.logout();
-        setTimeout(()=>{navigate('/login')},100)
+        setTimeout(() => { navigate('/login') }, 100)
     }
 
     const menuItem = [
@@ -116,7 +117,14 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             icon: <InboxIcon />,
             url: "/planes",
             permiso: "gestion-planes"
-        }]
+        },
+        {
+            text: "Mis ejercicios",
+            icon: <InboxIcon />,
+            url: "/ejercicios",
+            permiso: "gestion-ejercicios"
+        }
+    ]
 
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>
@@ -150,7 +158,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                             >
                                 <LogoutIcon />
                             </IconButton>
-                           
+
                         </div>}
                 </Stack>
             </AppBar>
@@ -175,7 +183,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                 <Divider />
                 <List>
                     {menuItem.filter((object) => token.permisos.includes(object.permiso) || object.permiso == "").map((object) => (
-                        <DrawerItem key={object.text} {...object} handleDrawerClose={handleDrawerClose}/>
+                        <DrawerItem key={object.text} {...object} handleDrawerClose={handleDrawerClose} />
                     ))}
                 </List>
                 <Divider />
