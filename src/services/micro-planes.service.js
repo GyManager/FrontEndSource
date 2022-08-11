@@ -1,7 +1,8 @@
 import axios from 'axios';
 import authService from './auth.service';
 
-const API_URL = "https://gymanager-dev-api.herokuapp.com/api";
+// const API_URL = "https://gymanager-dev-api.herokuapp.com/api";
+const API_URL = "http://localhost:8081/api";
 const API_PATH = "/micro-planes";
 
 const getMicroPlanes = (search, pageSize, page) => {
@@ -28,6 +29,19 @@ const getMicroPlanes = (search, pageSize, page) => {
     })
 }
 
+const getMicroPlanById = (idMicroPlan) => {
+
+    return axios.get(API_URL + API_PATH + `/${idMicroPlan}`, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        return handleError(error);
+    })
+}
+
 const handleError = (error) => {
     if(error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -45,7 +59,8 @@ const handleError = (error) => {
 }
 
 const microPlanesService = {
-    getMicroPlanes
+    getMicroPlanes,
+    getMicroPlanById
 }
 
 export default microPlanesService
