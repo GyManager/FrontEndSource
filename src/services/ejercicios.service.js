@@ -23,8 +23,11 @@ const getEjercicios = (search, pageSize, page) => {
             'Authorization': `Bearer ${access_token}`,
         },
         params
-    }).then((response) => console.log(response.data.content))
-        .catch((error) => {return handleError(error)})
+    }).then((response) => {
+        const res = response.data.content
+        console.log(res)
+        return res
+    }).catch((error) => {return handleError(error)})
 }
 
 

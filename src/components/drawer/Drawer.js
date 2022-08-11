@@ -192,6 +192,6 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             <Main open={open}>
                 <DrawerHeader />
             </Main>
-        </Box >
+        </Box>
     );
 }
