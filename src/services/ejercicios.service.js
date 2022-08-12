@@ -24,13 +24,12 @@ const getEjercicios = (search, pageSize, page) => {
         },
         params
     }).then((response) => {
-        const res = response.data.content
+        // const res = response.data.content
+        const res = response.data
         console.log(res)
         return res
     }).catch((error) => {return handleError(error)})
 }
-
-
 
 const handleError = (error) => {
     if (error.response) {

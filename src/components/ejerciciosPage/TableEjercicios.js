@@ -26,6 +26,37 @@ const columns = [
 
 
 export default function StickyHeadTable(props) {
+
+    const SinResultados = () => {
+        return (
+            <TableRow>
+                <TableCell colSpan={2} align='center'>
+                    No  se encontraron resultados
+                </TableCell>
+            </TableRow>
+        )
+    }
+    const ConResultados = () => {
+        return (
+            <TableRow>
+                <TableCell colSpan={2} align='center'>
+                    Si se encontraron resultados
+                </TableCell>
+            </TableRow>
+        )
+    }
+
+    const EskeletonEspera = () => {
+
+        skeletonArray.map(() => {
+            return (
+                <Skeleton variant='rectangular' animation="wave" />
+            )
+        })
+
+    }
+
+
     const navigate = useNavigate()
     const isMediumDevice = useMediaQuery('(max-width:900px');
     const rows = props.ejercicios
@@ -44,7 +75,7 @@ export default function StickyHeadTable(props) {
     const handleRowClick = (id) => {
         navigate('/ejercicios/' + id)
     }
-
+    console.log(rows.content)
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             {/* <TableContainer sx={{ minHeight:'40vh', maxHeight: '90vh', backgroundColor:'yellow' }}> */}
@@ -66,36 +97,38 @@ export default function StickyHeadTable(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => {
-                                return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.idEjercicio}
-                                        sx={{ cursor: 'pointer' }}
-                                        onClick={() => handleRowClick(row.idEjercicio)}
-                                    >
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                // TODO Sprint 4.1 Hacer que funcione el skeleton
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {props.isLoading ?
-                                                        skeletonArray.map(() => {
-                                                            return (
-                                                                <Skeleton variant='rectangular' animation="wave" />
-                                                            )
-                                                        })
-                                                        :
-                                                        column.format && typeof value === 'number'
-                                                            ? column.format(value)
-                                                            : value
-                                                    }
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
+
+                        {
+                            (rows.empty) ?
+                                <SinResultados />
+                                :
+                                rows.content
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row) => {
+                                        return (
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.idEjercicio}
+                                                sx={{ cursor: 'pointer' }}
+                                                onClick={() => handleRowClick(row.idEjercicio)}
+                                            >
+                                                {columns.map((column) => {
+                                                    const value = row[column.id];
+                                                    return (
+                                                        // TODO Sprint 4.1 Hacer que funcione el skeleton
+                                                        <TableCell key={column.id} align={column.align}>
+                                                            {props.isLoading ?
+                                                                <Skeleton></Skeleton>
+                                                                :
+                                                                column.format && typeof value === 'number'
+                                                                    ? column.format(value)
+                                                                    : value
+                                                            }
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        );
+                                    })
+                        }
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -112,7 +145,7 @@ export default function StickyHeadTable(props) {
                     />
                 </Grid>
             </Grid>
-        </Paper >
+        </Paper>
     );
 }
 
