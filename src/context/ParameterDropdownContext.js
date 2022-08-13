@@ -22,7 +22,7 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque }) =
             fetchData();
         }
 
-    }, [bloque])
+    }, [tipoEjercicio])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,7 +38,7 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque }) =
             fetchData();
         }
 
-    }, [tipoEjercicio])
+    }, [bloque])
 
     return (
         <ParameterDropdownContext.Provider value={{
