@@ -8,6 +8,7 @@ import { Breadcumbs, GenericModal } from "../reusable";
 import { AxiosError } from "axios";
 import Rutina from "./Rutina";
 import { ParameterDropdownProvider } from "../../context/ParameterDropdownContext";
+import { useFormik } from "formik";
 
 export default function MicroPlan() {
 
@@ -17,7 +18,16 @@ export default function MicroPlan() {
     let { idMicroPlan } = useParams();
 
     const [editable, setEditable] = useState(() => false);
-    const [microPlan, setMicroPlan] = useState(() => ({nombre:'', rutinas: []}));
+    const formik = useFormik({
+        initialValues: {
+            nombre: "",
+            rutinas: []
+        },
+        // validationSchema: clientSchema.validationSchema,
+        onSubmit: () => {
+            // handleSubmit()
+        },
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,7 +38,8 @@ export default function MicroPlan() {
                 console.log(respuesta)
                 setModalMsj(respuesta?.message)
             } else {
-                setMicroPlan(respuesta)
+                formik.setValues(respuesta, false);
+                console.log(formik)
             }
         }
         fetchData();
@@ -46,11 +57,11 @@ export default function MicroPlan() {
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'column'}}>
                     <Breadcumbs
-                        names={['Micro Planes', microPlan.nombre]}
+                        names={['Micro Planes', formik.values.nombre]}
                         urls={['../micro-planes/']}
                     />
                     <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>
-                        {loading ? <Skeleton/> : `Micro Plan: ${microPlan.nombre}`}
+                        {loading ? <Skeleton/> : `Micro Plan: ${formik.values.nombre}`}
                     </Typography>
                 </Box>
             </Box>
@@ -60,7 +71,7 @@ export default function MicroPlan() {
                 <TextField 
                     label="Nombre"
                     id="nombre"
-                    value={microPlan.nombre}
+                    value={formik.values.nombre}
                     disabled={!editable}
                     variant="standard"
                     sx={{ minWidth:{ xs:'100%', md:'35%'}}}
@@ -70,8 +81,8 @@ export default function MicroPlan() {
             <ParameterDropdownProvider tipoEjercicio={true} bloque={true}>
                 <div>
                     {loading?  <Skeleton/> :
-                        microPlan.rutinas.map(rutina => 
-                            <Rutina key={rutina.idRutia} {...rutina} paperStyle={paperStyle} editable={editable}/>
+                        formik.values.rutinas.map(rutina => 
+                            <Rutina key={rutina.idRutina} {...rutina} paperStyle={paperStyle} editable={editable}/>
                         )
                     }
                 </div>

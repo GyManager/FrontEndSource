@@ -57,37 +57,37 @@ export default function EjercicioAplicado(props){
                 <TextField 
                     {...textFieldProps}
                     label="Series"
-                    value={props.series}
+                    value={props.series || ''}
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
                 <TextField 
                     {...textFieldProps}
                     label="Repeticiones"
-                    value={props.repeticiones}
+                    value={props.repeticiones || ''}
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
                 <TextField 
                     {...textFieldProps}
                     label="Pausa Micro"
-                    value={props.pausaMicro}
+                    value={props.pausaMicro || ''}
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
                 <TextField 
                     {...textFieldProps}
                     label="Pausa Macro"
-                    value={props.pausaMacro}
+                    value={props.pausaMacro || ''}
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
                 <TextField 
                     {...textFieldProps}
                     label="Tiempo"
-                    value={props.tiempo}
+                    value={props.tiempo || ''}
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
                 <TextField 
                     {...textFieldProps}
                     label="Carga"
-                    value={props.carga}
+                    value={props.carga || ''}
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
             </Stack>
