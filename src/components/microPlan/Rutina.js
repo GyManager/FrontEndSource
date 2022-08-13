@@ -3,6 +3,8 @@ import { Paper, TextField, Typography } from "@mui/material";
 import EjercicioAplicado from "./EjercicioAplicado";
 
 export default function Rutina(props){
+
+    console.log("reload rutina")
     return(
         <Paper {...props.paperStyle}>
 
@@ -13,7 +15,11 @@ export default function Rutina(props){
             <TextField 
                 {...props.textFieldProps}
                 label="Nombre de la rutina"
-                id="nombreRutina"
+                id={`${props.namePrefix}.nombre`}
+                name={`${props.namePrefix}.nombre`}
+                error={props.touched.nombre && props.errors !== undefined && Boolean(props.errors.nombre)}
+                helperText={props.touched.nombre && props.errors !== undefined && props.errors.nombre}
+                onChange={props.handleChange}
                 value={props.nombre}
                 disabled={!props.editable}
                 variant="standard"
@@ -25,8 +31,16 @@ export default function Rutina(props){
                     Ejercicios
                 </Typography>
                 
-                {props.ejerciciosAplicados.map((ejercicio) => 
-                    <EjercicioAplicado key={ejercicio.idEjercicioAplicado} paperStyle={props.paperStyle} {...ejercicio}/>
+                {props.ejerciciosAplicados.map((ejercicio, index) => 
+                    <EjercicioAplicado key={ejercicio.idEjercicioAplicado}
+                        {...ejercicio}
+                        paperStyle={props.paperStyle} 
+                        editable={props.editable} 
+                        handleChange={props.handleChange}
+                        namePrefix={`${props.namePrefix}.ejerciciosAplicados[${index}]`}
+                        touched={props.touched?.ejerciciosAplicados? props.touched.ejerciciosAplicados[index] : {}}
+                        errors={props.errors?.ejerciciosAplicados? props.errors.ejerciciosAplicados[index] : {}}
+                    />
                 )}
             </Paper>
 

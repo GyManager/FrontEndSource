@@ -9,6 +9,8 @@ import { AxiosError } from "axios";
 import Rutina from "./Rutina";
 import { ParameterDropdownProvider } from "../../context/ParameterDropdownContext";
 import { useFormik } from "formik";
+import FormOptions from "../reusable/FormOptions";
+import microPlanSchema from "./microPlanSchema";
 
 export default function MicroPlan() {
 
@@ -23,9 +25,9 @@ export default function MicroPlan() {
             nombre: "",
             rutinas: []
         },
-        // validationSchema: clientSchema.validationSchema,
-        onSubmit: () => {
-            // handleSubmit()
+        validationSchema: microPlanSchema.validationSchema,
+        onSubmit: (e) => {
+            e?.preventDefault();
         },
     });
 
@@ -39,7 +41,6 @@ export default function MicroPlan() {
                 setModalMsj(respuesta?.message)
             } else {
                 formik.setValues(respuesta, false);
-                console.log(formik)
             }
         }
         fetchData();
@@ -51,8 +52,9 @@ export default function MicroPlan() {
         sx: { p: 2, my: 2}
     }
 
+    console.log("reload microplan")
     return (
-        <Paper sx={{p:2, gap:3, display:'flex', flexDirection:'column'}}>
+        <Paper sx={{p:2, gap:3, display:'flex', flexDirection:'column'}} component="form" onSubmit={formik.handleSubmit}>
 
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Box sx={{ display: 'flex', flexDirection: 'column'}}>
@@ -60,10 +62,23 @@ export default function MicroPlan() {
                         names={['Micro Planes', formik.values.nombre]}
                         urls={['../micro-planes/']}
                     />
-                    <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>
+                    <Typography noWrap={true} 
+                        sx={{
+                            width: { xs: '88vw', md: '100%', lg: '100%' },
+                            fontSize: { xs: 24, md: 28, lg: 30, xl: 34 },
+                        }}
+                    >
                         {loading ? <Skeleton/> : `Micro Plan: ${formik.values.nombre}`}
                     </Typography>
                 </Box>
+                <FormOptions
+                    editable={editable}
+                    handleEditClick={() => setEditable(true)}
+                    handleDeleteClick={null}
+                    handleCancelEdit={() => setEditable(false)}
+                    id={idMicroPlan}
+                    handleSubmit={formik.handleSubmit}
+                />
             </Box>
 
             <Paper {...paperStyle}>
@@ -71,8 +86,12 @@ export default function MicroPlan() {
                 <TextField 
                     label="Nombre"
                     id="nombre"
+                    name="nombre"
+                    onChange={formik.handleChange}
                     value={formik.values.nombre}
                     disabled={!editable}
+                    error={formik.touched.nombre && Boolean(formik.errors.nombre)}
+                    helperText={formik.touched.nombre && formik.errors.nombre}
                     variant="standard"
                     sx={{ minWidth:{ xs:'100%', md:'35%'}}}
                 />}
@@ -81,8 +100,16 @@ export default function MicroPlan() {
             <ParameterDropdownProvider tipoEjercicio={true} bloque={true}>
                 <div>
                     {loading?  <Skeleton/> :
-                        formik.values.rutinas.map(rutina => 
-                            <Rutina key={rutina.idRutina} {...rutina} paperStyle={paperStyle} editable={editable}/>
+                        formik.values.rutinas.map((rutina, index) => 
+                            <Rutina key={rutina.idRutina} 
+                                {...rutina} 
+                                paperStyle={paperStyle} 
+                                editable={editable} 
+                                handleChange={formik.handleChange}
+                                namePrefix={`rutinas[${index}]`}
+                                touched={formik.touched.rutinas? formik.touched.rutinas[index] : {}}
+                                errors={formik.errors.rutinas? formik.errors.rutinas[index] : {}}
+                            />
                         )
                     }
                 </div>
