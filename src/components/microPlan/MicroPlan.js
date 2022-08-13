@@ -7,6 +7,7 @@ import microPlanesService from "../../services/micro-planes.service";
 import { Breadcumbs, GenericModal } from "../reusable";
 import { AxiosError } from "axios";
 import Rutina from "./Rutina";
+import { ParameterDropdownProvider } from "../../context/ParameterDropdownContext";
 
 export default function MicroPlan() {
 
@@ -66,11 +67,15 @@ export default function MicroPlan() {
                 />}
             </Paper>
 
-            {loading?  <Skeleton/> :
-                microPlan.rutinas.map(rutina => 
-                    <Rutina {...rutina} paperStyle={paperStyle} editable={editable}/>
-                )
-            }
+            <ParameterDropdownProvider tipoEjercicio={true} bloque={true}>
+                <div>
+                    {loading?  <Skeleton/> :
+                        microPlan.rutinas.map(rutina => 
+                            <Rutina key={rutina.idRutia} {...rutina} paperStyle={paperStyle} editable={editable}/>
+                        )
+                    }
+                </div>
+            </ParameterDropdownProvider>
 
             <GenericModal
                 show={modalMsj !== ""}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Paper, TextField, Typography } from "@mui/material";
 import EjercicioAplicado from "./EjercicioAplicado";
 
@@ -26,7 +26,7 @@ export default function Rutina(props){
                 </Typography>
                 
                 {props.ejerciciosAplicados.map((ejercicio) => 
-                    <EjercicioAplicado paperStyle={props.paperStyle} {...ejercicio}/>
+                    <EjercicioAplicado key={ejercicio.idEjercicioAplicado} paperStyle={props.paperStyle} {...ejercicio}/>
                 )}
             </Paper>
 

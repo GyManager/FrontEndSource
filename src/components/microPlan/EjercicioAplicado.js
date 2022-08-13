@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Paper, Stack, TextField, Typography } from "@mui/material";
+import { useContext } from "react";
+import { Paper, Stack, TextField } from "@mui/material";
 import { GenericComboBox } from "../reusable";
+import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
 
 export default function EjercicioAplicado(props){
+
+    const { tipoEjercicios, bloques } = useContext(ParameterDropdownContext)
 
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
@@ -23,8 +26,9 @@ export default function EjercicioAplicado(props){
                     id="tipoEjercicio"
                     value={props.tipoEjercicio}
                     valueForNone=""
-                    labelForNone="Seleccionar..."
-                    values={["Musculacion", "Cardio", props.tipoEjercicio]}
+                    labelForNone=""
+                    values={tipoEjercicios}
+                    editable={!props.editable}
                     minWidth={250}
                 />
                 <GenericComboBox
@@ -32,8 +36,9 @@ export default function EjercicioAplicado(props){
                     id="ejercicio"
                     value={props.nombreEjercicio}
                     valueForNone=""
-                    labelForNone="Seleccionar..."
+                    labelForNone=""
                     values={["", props.nombreEjercicio]}
+                    editable={!props.editable}
                     minWidth={250}
                 />
                 <GenericComboBox
@@ -41,8 +46,9 @@ export default function EjercicioAplicado(props){
                     id="bloque"
                     value={props.bloque}
                     valueForNone=""
-                    labelForNone="Seleccionar..."
-                    values={["", props.bloque]}
+                    labelForNone=""
+                    values={bloques}
+                    editable={!props.editable}
                     minWidth={250}
                 />
             </Stack>
