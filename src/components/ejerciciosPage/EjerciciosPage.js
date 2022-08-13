@@ -17,20 +17,29 @@ import ejerciciosService from '../../services/ejercicios.service'
 function EjerciciosPage() {
     const Navigate = useNavigate()
 
-    const [ejercicios, setEjercicios] = useState([{}]);
-    
+    const [ejercicios, setEjercicios] = useState(()=>[]);
+
     //Estados de LoginModal -> Para levantar estado
     const [modalMsj, setModalMsj] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const handleCloseModal = () => { setOpenModal(false) }
 
     const [isLoading, setIsLoading] = useState(true)
+    //Estados de TableEjercicios
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
 
+  
     useEffect(() => {
+        console.log('estoy en el useEffect')
         const fetchData = async () => {
             setIsLoading(true)
             const res = await ejerciciosService.getEjercicios()
+            console.log(res)
             setIsLoading(false)
             if (res instanceof AxiosError) {
                 setModalMsj(res.message)
@@ -43,7 +52,7 @@ function EjerciciosPage() {
         }
         fetchData()
         console.log(ejercicios)
-    }, [])
+    }, [ejercicios])
 
     return (
         <Container
@@ -70,9 +79,21 @@ function EjerciciosPage() {
                     </Grid>
                     <Grid item sx={{ display: 'flex' }} xs={12}>
                         <Search setEjercicios={setEjercicios} />
-                        </Grid>
+                    </Grid>
                     <Grid item sx={{ display: 'flex' }} xs={12}>
-                        <TableEjercicios isLoading={isLoading} ejercicios={ejercicios} />
+
+
+                        <TableEjercicios
+                            isLoading={isLoading}
+                            ejercicios={ejercicios}
+                            page={page}
+                            setPage={setPage}
+                            rowsPerPage={rowsPerPage}
+                            setRowsPerPage={setRowsPerPage}
+                            handleChangePage={handleChangePage}
+                        />
+
+
                     </Grid>
                     <Grid item xs={12}
                         sx={{

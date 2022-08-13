@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -23,7 +25,6 @@ const columns = [
         align: 'left',
     }
 ];
-
 
 export default function StickyHeadTable(props) {
 
@@ -56,26 +57,22 @@ export default function StickyHeadTable(props) {
 
     }
 
-
     const navigate = useNavigate()
     const isMediumDevice = useMediaQuery('(max-width:900px');
     const rows = props.ejercicios
-    const skeletonArray = new Array(25)
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    const skeletonArray = new Array(10)
+   
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+        props.setRowsPerPage(+event.target.value);
+        props.setPage(0);
     };
 
     const handleRowClick = (id) => {
         navigate('/ejercicios/' + id)
     }
     console.log(rows.content)
+    console.log(props.ejercicios)
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             {/* <TableContainer sx={{ minHeight:'40vh', maxHeight: '90vh', backgroundColor:'yellow' }}> */}
@@ -103,7 +100,7 @@ export default function StickyHeadTable(props) {
                                 <SinResultados />
                                 :
                                 rows.content
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
                                     .map((row) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.idEjercicio}
@@ -115,9 +112,12 @@ export default function StickyHeadTable(props) {
                                                     return (
                                                         // TODO Sprint 4.1 Hacer que funcione el skeleton
                                                         <TableCell key={column.id} align={column.align}>
+                                                           {
+                                                            /*
                                                             {props.isLoading ?
                                                                 <Skeleton></Skeleton>
                                                                 :
+                                                                */
                                                                 column.format && typeof value === 'number'
                                                                     ? column.format(value)
                                                                     : value
@@ -135,12 +135,12 @@ export default function StickyHeadTable(props) {
             <Grid container>
                 <Grid item xs='8'>
                     <TablePagination
-                        rowsPerPageOptions={isMediumDevice ? [] : [15, 30, 100]}
+                        rowsPerPageOptions={isMediumDevice ? [] : [10, 25, 100]}
                         component="div"
-                        count={rows.length}
-                        rowsPerPage={isMediumDevice ? '' : rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
+                        count={rows.content.length}
+                        rowsPerPage={isMediumDevice ? '' : props.rowsPerPage}
+                        page={props.page}
+                        onPageChange={props.handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </Grid>
