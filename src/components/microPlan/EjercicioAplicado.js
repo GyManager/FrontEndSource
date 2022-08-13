@@ -28,7 +28,7 @@ export default function EjercicioAplicado(props){
                     valueForNone=""
                     labelForNone=""
                     values={tipoEjercicios}
-                    editable={!props.editable}
+                    editable={props.editable}
                     minWidth={250}
                 />
                 <GenericComboBox
@@ -38,7 +38,7 @@ export default function EjercicioAplicado(props){
                     valueForNone=""
                     labelForNone=""
                     values={["", props.nombreEjercicio]}
-                    editable={!props.editable}
+                    editable={props.editable}
                     minWidth={250}
                 />
                 <GenericComboBox
@@ -48,7 +48,7 @@ export default function EjercicioAplicado(props){
                     valueForNone=""
                     labelForNone=""
                     values={bloques}
-                    editable={!props.editable}
+                    editable={props.editable}
                     minWidth={250}
                 />
             </Stack>
