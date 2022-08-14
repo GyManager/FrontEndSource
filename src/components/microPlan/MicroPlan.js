@@ -26,7 +26,7 @@ export default function MicroPlan() {
             nombre: "",
             rutinas: []
         },
-        validateOnChange: true,
+        validateOnChange: false,
         validateOnBlur: true,
         validationSchema: microPlanSchema.validationSchema,
         onSubmit: (e) => {
