@@ -19,12 +19,15 @@ export default function MicroPlan() {
 
     let { idMicroPlan } = useParams();
 
+    const [expanded, setExpanded] = useState(() => false);
     const [editable, setEditable] = useState(() => false);
     const formik = useFormik({
         initialValues: {
             nombre: "",
             rutinas: []
         },
+        validateOnChange: true,
+        validateOnBlur: true,
         validationSchema: microPlanSchema.validationSchema,
         onSubmit: (e) => {
             e?.preventDefault();
@@ -52,7 +55,6 @@ export default function MicroPlan() {
         sx: { p: 2, my: 2}
     }
 
-    console.log("reload microplan")
     return (
         <Paper sx={{p:2, gap:3, display:'flex', flexDirection:'column'}} component="form" onSubmit={formik.handleSubmit}>
 
@@ -109,6 +111,8 @@ export default function MicroPlan() {
                                 namePrefix={`rutinas[${index}]`}
                                 touched={formik.touched.rutinas? formik.touched.rutinas[index] : {}}
                                 errors={formik.errors.rutinas? formik.errors.rutinas[index] : {}}
+                                expanded={expanded}
+                                handleAccordion={setExpanded}
                             />
                         )
                     }

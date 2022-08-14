@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { Paper, Stack, TextField } from "@mui/material";
+import { Divider, Paper, Stack, TextField } from "@mui/material";
 import { GenericComboBox } from "../reusable";
 import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
+import { Box } from "@mui/system";
 
 export default function EjercicioAplicado(props){
 
@@ -18,9 +19,8 @@ export default function EjercicioAplicado(props){
         variant: "standard",
     }
 
-    console.log("reload ejercicio")
     return(
-        <Paper {...props.paperStyle}>
+        <Box sx={{mt:3}}>
             <Stack {...stackStyle}>
                 <GenericComboBox
                     label="Tipo de Ejercicio"
@@ -38,14 +38,16 @@ export default function EjercicioAplicado(props){
                 />
                 <GenericComboBox
                     label="Ejercicio"
-                    id={`${props.namePrefix}.ejercicio`}
-                    name={`${props.namePrefix}.ejercicio`}
+                    id={`${props.namePrefix}.nombreEjercicio`}
+                    name={`${props.namePrefix}.nombreEjercicio`}
                     value={props.nombreEjercicio}
                     handleChange={props.handleChange}
                     valueForNone=""
                     labelForNone=""
-                    values={["", props.nombreEjercicio]}
+                    values={[props.nombreEjercicio]}
                     editable={props.editable}
+                    errorProp={props.touched.nombreEjercicio && props.errors !== undefined && Boolean(props.errors.nombreEjercicio)}
+                    helperTextProp={props.touched.nombreEjercicio && props.errors !== undefined && props.errors.nombreEjercicio}
                     minWidth={250}
                 />
                 <GenericComboBox
@@ -58,6 +60,8 @@ export default function EjercicioAplicado(props){
                     labelForNone=""
                     values={bloques}
                     editable={props.editable}
+                    errorProp={props.touched.bloque && props.errors !== undefined && Boolean(props.errors.bloque)}
+                    helperTextProp={props.touched.bloque && props.errors !== undefined && props.errors.bloque}
                     minWidth={250}
                 />
             </Stack>
@@ -118,6 +122,7 @@ export default function EjercicioAplicado(props){
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
             </Stack>
-        </Paper>
+            <Divider sx={{mt:3}}/>
+        </Box>
     )
 }
