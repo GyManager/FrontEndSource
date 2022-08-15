@@ -1,5 +1,5 @@
 import React from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Paper, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Divider, Paper, TextField, Typography } from "@mui/material";
 import EjercicioAplicado from "./EjercicioAplicado";
 import { ExpandMore, WarningAmberRounded } from "@mui/icons-material";
 import { Box } from "@mui/system";
@@ -49,15 +49,19 @@ export default function Rutina(props){
                     </Typography>
                     
                     {props.ejerciciosAplicados.map((ejercicio, index) => 
-                        <EjercicioAplicado key={ejercicio.idEjercicioAplicado}
-                            {...ejercicio}
-                            paperStyle={props.paperStyle} 
-                            editable={props.editable} 
-                            handleChange={props.handleChange}
-                            namePrefix={`${props.namePrefix}.ejerciciosAplicados[${index}]`}
-                            touched={props.touched?.ejerciciosAplicados? props.touched.ejerciciosAplicados[index] : {}}
-                            errors={props.errors?.ejerciciosAplicados? props.errors.ejerciciosAplicados[index] : {}}
-                        />
+                        <div>
+                            <EjercicioAplicado key={ejercicio.idEjercicioAplicado}
+                                {...ejercicio}
+                                paperStyle={props.paperStyle} 
+                                editable={props.editable} 
+                                handleChange={props.handleChange}
+                                namePrefix={`${props.namePrefix}.ejerciciosAplicados[${index}]`}
+                                touched={props.touched?.ejerciciosAplicados? props.touched.ejerciciosAplicados[index] : {}}
+                                errors={props.errors?.ejerciciosAplicados? props.errors.ejerciciosAplicados[index] : {}}
+                            />
+
+                            {index !== props.ejerciciosAplicados.length - 1 && <Divider sx={{my:4}}/>}
+                        </div>
                     )}
                 </Paper>
             </AccordionDetails>

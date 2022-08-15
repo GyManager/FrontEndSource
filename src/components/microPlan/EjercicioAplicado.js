@@ -20,7 +20,7 @@ export default function EjercicioAplicado(props){
     }
 
     return(
-        <Box sx={{mt:3}}>
+        <Box>
             <Stack {...stackStyle}>
                 <GenericComboBox
                     label="Tipo de Ejercicio"
@@ -122,7 +122,6 @@ export default function EjercicioAplicado(props){
                     sx={{ minWidth:{ xs:'100%', md:'10%'}}}
                 />
             </Stack>
-            <Divider sx={{mt:3}}/>
         </Box>
     )
 }
