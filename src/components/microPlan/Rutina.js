@@ -14,16 +14,10 @@ export default function Rutina(props){
             onChange={(event, isExpanded) => props.handleAccordion(isExpanded ? props.idRutina : false)}
             expanded={props.expanded === props.idRutina}
         >
-            <AccordionSummary
-                expandIcon={<ExpandMore />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-            >
-                <Box sx={{display: 'flex', flexDirection: 'row', gap:1, alignItems: 'center'}}>
-                    {
-                        !errorPresent ? '' : 
-                        <WarningAmberRounded color='error'/>
-                    }
+            <AccordionSummary expandIcon={<ExpandMore />}>
+                {/* <Box sx={{display: 'flex', flexDirection: 'row', gap:1, alignItems: 'center'}}> */}
+                <Box sx={{display: 'flex'}}>
+                    {!errorPresent ? '' : <WarningAmberRounded color='error' sx={{mr: 1}}/>}
                     <Typography color={!errorPresent ? '' : 'error'}>
                         Rutina {props.nombre}
                     </Typography>
@@ -45,10 +39,10 @@ export default function Rutina(props){
                     helperText={props.touched.nombre && props.errors !== undefined && props.errors.nombre}
                     disabled={!props.editable}
                     variant="standard"
-                    sx={{ minWidth:{ xs:'100%', md:'35%'}}}
+                    sx={{ minWidth:{ xs:'100%', md:'40%'}}}
                 />
 
-                <Paper elevation={1} sx={{ p: 2, my: 2}}>
+                <Paper elevation={1} sx={{ p: 2, my: 1}}>
                     <Typography sx={{fontSize: { xs: 12, md: 18, lg: 24, xl: 30 }}}>
                         Ejercicios
                     </Typography>

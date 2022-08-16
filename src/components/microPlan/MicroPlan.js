@@ -55,8 +55,8 @@ export default function MicroPlan() {
             component="form" 
             onSubmit={formik.handleSubmit}
         >
-            <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Box>
                     <Breadcumbs
                         names={['Micro Planes', formik.values.nombre]}
                         urls={['../micro-planes/']}
@@ -82,7 +82,7 @@ export default function MicroPlan() {
                 />
             </Box>
 
-            <Paper elevation={1} sx={{ p: 2, my: 2}}>
+            <Paper elevation={1} sx={{ p: 2}}>
                 {
                     loading ? <Skeleton/> :
                         <TextField 
@@ -95,7 +95,7 @@ export default function MicroPlan() {
                             helperText={formik.touched.nombre && formik.errors.nombre}
                             disabled={!editable}
                             variant="standard"
-                            sx={{ minWidth:{ xs:'100%', md:'35%'}}}
+                            sx={{ minWidth:{ xs:'100%', md:'40%'}}}
                         />
                 }
             </Paper>
