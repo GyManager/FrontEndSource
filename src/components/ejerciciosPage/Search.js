@@ -6,29 +6,17 @@ import {
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
-import { AxiosError } from 'axios';
-
-import ejerciciosService from '../../services/ejercicios.service';
-import { boolean } from 'yup';
 
 export default function CustomizedInputBase(props) {
   const [search, setSearch] = useState();
 
   const handleChange = (e) => {
     setSearch(e.target.value)
-    console.log(search)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const res = await ejerciciosService.getEjercicios(search)
-    if (res instanceof AxiosError) {
-      console.log('error')
-    }
-    else {
-      props.setEjercicios(res)
-    }
-    console.log(res)
+    props.setEjercicios(search)
   }
 
   return (

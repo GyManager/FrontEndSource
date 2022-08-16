@@ -17,7 +17,8 @@ import ejerciciosService from '../../services/ejercicios.service'
 function EjerciciosPage() {
     const Navigate = useNavigate()
 
-    const [ejercicios, setEjercicios] = useState(()=>[]);
+    const [ejercicios, setEjercicios] = useState(() => []);
+    const [ejerciciosTotal, setEjerciciosTotal] = useState(() => 0)
 
     //Estados de LoginModal -> Para levantar estado
     const [modalMsj, setModalMsj] = useState("");
@@ -32,27 +33,34 @@ function EjerciciosPage() {
         setPage(newPage);
     };
 
+    const [valueToSearch, setValueToSearch] = useState('');
 
-  
+    const searchEjercicios = (valueToSearch) => {
+        setValueToSearch(valueToSearch)
+        setPage(0)
+    }
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(event.target.value)
+        setPage(0)
+    }
+
     useEffect(() => {
-        console.log('estoy en el useEffect')
         const fetchData = async () => {
             setIsLoading(true)
-            const res = await ejerciciosService.getEjercicios()
-            console.log(res)
+            const res = await ejerciciosService.getEjercicios(valueToSearch, rowsPerPage, page)
             setIsLoading(false)
             if (res instanceof AxiosError) {
-                setModalMsj(res.message)
-                setOpenModal('true')
+                setModalMsj(res?.message)
+                setOpenModal(true)
                 console.log(res)
             } else {
-                setEjercicios(res)
-                console.log(res)
+                setEjercicios(res.content)
+                setEjerciciosTotal(res.totalElements)
             }
         }
         fetchData()
-        console.log(ejercicios)
-    }, [ejercicios])
+    }, [valueToSearch, rowsPerPage, page])
 
     return (
         <Container
@@ -82,17 +90,14 @@ function EjerciciosPage() {
                     </Grid>
                     <Grid item sx={{ display: 'flex' }} xs={12}>
 
-
                         <TableEjercicios
-                            isLoading={isLoading}
                             ejercicios={ejercicios}
+                            ejerciciosTotal={ejerciciosTotal}
                             page={page}
-                            setPage={setPage}
-                            rowsPerPage={rowsPerPage}
-                            setRowsPerPage={setRowsPerPage}
                             handleChangePage={handleChangePage}
+                            rowsPerPage={rowsPerPage}
+                            handleChangeRowsPerPage={handleChangeRowsPerPage}
                         />
-
 
                     </Grid>
                     <Grid item xs={12}

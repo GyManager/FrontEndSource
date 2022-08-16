@@ -15,9 +15,17 @@ catch (error) {
 
 const getEjercicios = (search, pageSize, page) => {
     let params = {}
-    search !== undefined && (params['search'] = search)
-    pageSize !== undefined && (params['search'] = pageSize)
-    page !== undefined && (params['page'] = page)
+
+        if (search !== undefined) {
+            params['search'] = search;
+        }
+        if (pageSize !== undefined) {
+            params['pageSize'] = pageSize;
+        }
+        if (page !== undefined) {
+            params['page'] = page;
+        }
+
     return axios.get(API_URL + '/ejercicios', {
         headers: {
             'Authorization': `Bearer ${access_token}`,
@@ -28,7 +36,7 @@ const getEjercicios = (search, pageSize, page) => {
         const res = response.data
         console.log(res)
         return res
-    }).catch((error) => {return handleError(error)})
+    }).catch((error) => { return handleError(error) })
 }
 
 const handleError = (error) => {
