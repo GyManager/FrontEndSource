@@ -39,6 +39,24 @@ const getParameters = (urlPath) => {
     })
 }
 
+const getEjercicios = () => {
+    const urlPath = '/ejercicios'
+    const options =  {
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+        },
+        params: {
+            pageSize: 1_000_000
+        }
+    }
+
+    return axios.get(API_URL + urlPath, options).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error);
+    })
+}
+
 
 const handleError = (error) => {
     if(error.response) {
@@ -67,7 +85,8 @@ const parametersService = {
     getSexos,
     getBloques,
     getObjetivos,
-    getTipoEjercicios
+    getTipoEjercicios,
+    getEjercicios
 }
 
 

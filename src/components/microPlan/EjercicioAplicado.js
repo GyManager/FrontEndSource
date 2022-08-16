@@ -3,11 +3,12 @@ import { Box } from "@mui/system";
 import { Stack, TextField } from "@mui/material";
 import { GenericComboBox } from "../reusable";
 import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
+import GenericComboBoxWithIds from "../reusable/GenericComboBoxWithIds";
 
 export default function EjercicioAplicado(props){
 
     const {errors = {}, touched = {}} = props;
-    const { tipoEjercicios, bloques } = useContext(ParameterDropdownContext)
+    const { tipoEjercicios, bloques, ejercicios } = useContext(ParameterDropdownContext)
 
     const stackStyle = {
         direction: { xs: 'column', sm: 'column', md: 'row' },
@@ -30,6 +31,14 @@ export default function EjercicioAplicado(props){
         editable: props.editable
     }
 
+    const ejerciciosOptions = ejercicios.filter(ejercicio => ejercicio.tipoEjercicio == props.tipoEjercicio)
+        .map(ejercicio => {
+            return {
+                id:ejercicio.idEjercicio,
+                value:ejercicio.nombre
+            };
+        })
+
     return (
         <Box>
             <Stack {...stackStyle}>
@@ -44,14 +53,14 @@ export default function EjercicioAplicado(props){
                     {...genericComboBoxProps}
                     
                 />
-                <GenericComboBox
+                <GenericComboBoxWithIds
                     label="Ejercicio"
-                    id={`${props.namePrefix}.nombreEjercicio`}
-                    name={`${props.namePrefix}.nombreEjercicio`}
-                    value={props.nombreEjercicio || ''}
-                    values={[props.nombreEjercicio]}
-                    errorProp={touched.nombreEjercicio && Boolean(errors.nombreEjercicio)}
-                    helperTextProp={touched.nombreEjercicio && errors.nombreEjercicio}
+                    id={`${props.namePrefix}.idEjercicio`}
+                    name={`${props.namePrefix}.idEjercicio`}
+                    value={ejerciciosOptions.some(option => option.id === props.idEjercicio)? props.idEjercicio : ''}
+                    values={ejerciciosOptions}
+                    errorProp={touched.idEjercicio && Boolean(errors.idEjercicio)}
+                    helperTextProp={touched.idEjercicio && errors.idEjercicio}
                     {...genericComboBoxProps}
                 />
                 <GenericComboBox

@@ -4,9 +4,10 @@ import parametersService from "../services/parameter.service";
 
 export const ParameterDropdownContext = createContext();
 
-export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque }) => {
+export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, ejercicio }) => {
     const [tipoEjercicios, setTipoEjercicios] = useState(() => [])
     const [bloques, setBloques] = useState(() => [])
+    const [ejercicios, setEjercicios] = useState(() => [])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,10 +41,27 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque }) =
 
     }, [bloque])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const respuesta = await parametersService.getEjercicios();
+            if (respuesta instanceof AxiosError) {
+                console.log(respuesta)
+            } else {
+                setEjercicios(respuesta.content)
+            }
+        }
+
+        if(bloque){
+            fetchData();
+        }
+
+    }, [ejercicio])
+
     return (
         <ParameterDropdownContext.Provider value={{
             tipoEjercicios,
-            bloques
+            bloques,
+            ejercicios
         }}>
             {children}
         </ParameterDropdownContext.Provider>

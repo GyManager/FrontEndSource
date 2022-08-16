@@ -100,7 +100,7 @@ export default function MicroPlan() {
                 }
             </Paper>
 
-            <ParameterDropdownProvider tipoEjercicio={true} bloque={true}>
+            <ParameterDropdownProvider tipoEjercicio bloque>
                 <Fragment>
                     {loading?  <Skeleton/> :
                         formik.values.rutinas.map((rutina, index) => 

@@ -18,9 +18,8 @@ const validationSchema = yup.object(
                                 tipoEjercicio: yup.string()
                                     .required('El tipo de ejercicio es obligatorio')
                                     .typeError('El tipo de ejercicio debe ser un una cadena de texto'),
-                                nombreEjercicio: yup.string()
-                                    .required('El ejercicio es obligatorio')
-                                    .typeError('El nombre de ejercicio debe ser un una cadena de texto'),
+                                idEjercicio: yup.number()
+                                    .required('El ejercicio es obligatorio'),
                                 bloque: yup.string()
                                     .required('El bloque es obligatorio')
                                     .typeError('El bloque debe ser un una cadena de texto'),
