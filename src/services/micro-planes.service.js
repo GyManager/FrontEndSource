@@ -40,6 +40,42 @@ const getMicroPlanById = (idMicroPlan) => {
     })
 }
 
+const postMicroPlan = (microPlan) => {
+    return axios.post(API_URL + API_PATH, microPlan, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error)
+    })
+}
+
+const putMicroPlan = (microPlan, idMicroPlan) => {
+    return axios.put(API_URL + API_PATH + `/${idMicroPlan}`, microPlan, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error)
+    })
+}
+
+const deleteMicroPlanById = (idMicroPlan) => {
+    return axios.delete(API_URL + API_PATH + `/${idMicroPlan}`, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error)
+    })
+}
+
 const handleError = (error) => {
     if(error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -58,7 +94,10 @@ const handleError = (error) => {
 
 const microPlanesService = {
     getMicroPlanes,
-    getMicroPlanById
+    getMicroPlanById,
+    postMicroPlan,
+    putMicroPlan,
+    deleteMicroPlanById
 }
 
 export default microPlanesService

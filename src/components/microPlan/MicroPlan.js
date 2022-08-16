@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { AxiosError } from "axios";
 import { Box } from "@mui/system";
@@ -20,6 +20,8 @@ export default function MicroPlan() {
     const [expanded, setExpanded] = useState(() => false);
     const [editable, setEditable] = useState(() => false);
 
+    const navigate = useNavigate()
+
     const formik = useFormik({
         initialValues: {
             nombre: "",
@@ -28,25 +30,61 @@ export default function MicroPlan() {
         validateOnChange: false,
         validateOnBlur: true,
         validationSchema: microPlanSchema.validationSchema,
-        onSubmit: (e) => {
-            e?.preventDefault();
+        onSubmit: () => {
+            handleSubmit();
         },
     });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
-            setLoading(false)
-            if (respuesta instanceof AxiosError) {
-                console.log(respuesta)
-                setModalMsj(respuesta?.message)
-            } else {
-                formik.setValues(respuesta, false);
-            }
+    const getMicroPlanById = async () => {
+        setLoading(true)
+        const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
+        setLoading(false)
+        if (respuesta instanceof AxiosError) {
+            setModalMsj(respuesta?.message)
+        } else {
+            formik.setValues(respuesta, false);
         }
+    }
 
-        fetchData();
+    const handleSubmit = async (e) => {
+        e?.preventDefault();
+        if (idMicroPlan === 'new') {
+            const respuesta = await microPlanesService.postMicroPlan(formik.values)
+            handleRespuesta(respuesta, 'El micro plan ha sido creado con exito')
+        } else {
+            const respuesta = await microPlanesService.putMicroPlan(formik.values, idMicroPlan)
+            handleRespuesta(respuesta, 'El micro plan ha sido modificado con exito')
+        }
+    }
+
+    const handleDelete = async () => {
+        const respuesta = await microPlanesService.deleteMicroPlanById(idMicroPlan);
+        handleRespuesta(respuesta, 'El micro plan ha sido borrado con exito')
+    }
+
+    const handleCancel = () => {
+        if (idMicroPlan === 'new') {
+            navigate("/micro-planes");
+        } else {
+            setEditable(false)
+            getMicroPlanById()
+        }
+    }
+
+    const handleRespuesta = (respuesta, mensaje) => {
+        if (respuesta instanceof AxiosError) {
+            setModalMsj(respuesta.response.data.message)
+        } else {
+            navigate("/micro-planes")
+        }
+    }
+
+    useEffect(() => {
+        if (idMicroPlan === 'new') {
+            setEditable(true)
+        } else {
+            getMicroPlanById()
+        }
     }, [idMicroPlan])
 
     return (
@@ -75,8 +113,8 @@ export default function MicroPlan() {
                 <FormOptions
                     editable={editable}
                     handleEditClick={() => setEditable(true)}
-                    handleCancelEdit={() => setEditable(false)}
-                    handleDeleteClick={null}
+                    handleCancelEdit={handleCancel}
+                    handleDeleteClick={handleDelete}
                     handleSubmit={formik.handleSubmit}
                     id={idMicroPlan}
                 />
@@ -100,7 +138,7 @@ export default function MicroPlan() {
                 }
             </Paper>
 
-            <ParameterDropdownProvider tipoEjercicio bloque>
+            <ParameterDropdownProvider tipoEjercicio bloque ejercicio>
                 <Fragment>
                     {loading?  <Skeleton/> :
                         formik.values.rutinas.map((rutina, index) => 

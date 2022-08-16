@@ -52,7 +52,7 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, eje
             }
         }
 
-        if(bloque){
+        if(ejercicio){
             fetchData();
         }
 

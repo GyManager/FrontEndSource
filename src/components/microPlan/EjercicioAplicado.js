@@ -31,7 +31,7 @@ export default function EjercicioAplicado(props){
         editable: props.editable
     }
 
-    const ejerciciosOptions = ejercicios.filter(ejercicio => ejercicio.tipoEjercicio == props.tipoEjercicio)
+    const ejerciciosOptions = ejercicios.filter(ejercicio => ejercicio.tipoEjercicio === props.tipoEjercicio)
         .map(ejercicio => {
             return {
                 id:ejercicio.idEjercicio,

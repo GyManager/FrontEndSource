@@ -74,6 +74,7 @@ export default function MicroPlanes() {
                         variant='contained'
                         startIcon={<AddIcon />}
                         size='medium'
+                        onClick={() => navigate(`/micro-planes/new`)}
                     >
                         Crear Micro Plan
                     </Button>
