@@ -6,7 +6,8 @@ import EjercicioAplicado from "./EjercicioAplicado";
 
 export default function Rutina(props){
 
-    const errorPresent = props.errors !== undefined && (props.errors.nombre || props.errors.ejerciciosAplicados);
+    const {errors = {}, touched = {}} = props;
+    const errorPresent = (errors.nombre || errors.ejerciciosAplicados);
     
     return (
         <Accordion 
@@ -15,7 +16,6 @@ export default function Rutina(props){
             expanded={props.expanded === props.idRutina}
         >
             <AccordionSummary expandIcon={<ExpandMore />}>
-                {/* <Box sx={{display: 'flex', flexDirection: 'row', gap:1, alignItems: 'center'}}> */}
                 <Box sx={{display: 'flex'}}>
                     {!errorPresent ? '' : <WarningAmberRounded color='error' sx={{mr: 1}}/>}
                     <Typography color={!errorPresent ? '' : 'error'}>
@@ -35,8 +35,8 @@ export default function Rutina(props){
                     name={`${props.namePrefix}.nombre`}
                     value={props.nombre}
                     onChange={props.handleChange}
-                    error={props.touched.nombre && props.errors !== undefined && Boolean(props.errors.nombre)}
-                    helperText={props.touched.nombre && props.errors !== undefined && props.errors.nombre}
+                    error={touched.nombre && Boolean(errors.nombre)}
+                    helperText={touched.nombre && errors.nombre}
                     disabled={!props.editable}
                     variant="standard"
                     sx={{ minWidth:{ xs:'100%', md:'40%'}}}
@@ -55,8 +55,8 @@ export default function Rutina(props){
                                     {...ejercicio}
                                     namePrefix={`${props.namePrefix}.ejerciciosAplicados[${index}]`}
                                     handleChange={props.handleChange}
-                                    touched={props.touched?.ejerciciosAplicados? props.touched.ejerciciosAplicados[index] : {}}
-                                    errors={props.errors?.ejerciciosAplicados? props.errors.ejerciciosAplicados[index] : {}}
+                                    touched={touched.ejerciciosAplicados? touched.ejerciciosAplicados[index] : {}}
+                                    errors={errors.ejerciciosAplicados? errors.ejerciciosAplicados[index] : {}}
                                     editable={props.editable} 
                                 />
                                 {(index !== props.ejerciciosAplicados.length - 1) && <Divider sx={{my:4}}/>}

@@ -6,6 +6,7 @@ import { ParameterDropdownContext } from "../../context/ParameterDropdownContext
 
 export default function EjercicioAplicado(props){
 
+    const {errors = {}, touched = {}} = props;
     const { tipoEjercicios, bloques } = useContext(ParameterDropdownContext)
 
     const stackStyle = {
@@ -36,10 +37,10 @@ export default function EjercicioAplicado(props){
                     label="Tipo de Ejercicio"
                     id={`${props.namePrefix}.tipoEjercicio`}
                     name={`${props.namePrefix}.tipoEjercicio`}
-                    value={props.tipoEjercicio}
+                    value={props.tipoEjercicio || ''}
                     values={tipoEjercicios}
-                    errorProp={props.touched.tipoEjercicio && props.errors !== undefined && Boolean(props.errors.tipoEjercicio)}
-                    helperTextProp={props.touched.tipoEjercicio && props.errors !== undefined && props.errors.tipoEjercicio}
+                    errorProp={touched.tipoEjercicio  && Boolean(errors.tipoEjercicio)}
+                    helperTextProp={touched.tipoEjercicio && errors.tipoEjercicio}
                     {...genericComboBoxProps}
                     
                 />
@@ -47,20 +48,20 @@ export default function EjercicioAplicado(props){
                     label="Ejercicio"
                     id={`${props.namePrefix}.nombreEjercicio`}
                     name={`${props.namePrefix}.nombreEjercicio`}
-                    value={props.nombreEjercicio}
+                    value={props.nombreEjercicio || ''}
                     values={[props.nombreEjercicio]}
-                    errorProp={props.touched.nombreEjercicio && props.errors !== undefined && Boolean(props.errors.nombreEjercicio)}
-                    helperTextProp={props.touched.nombreEjercicio && props.errors !== undefined && props.errors.nombreEjercicio}
+                    errorProp={touched.nombreEjercicio && Boolean(errors.nombreEjercicio)}
+                    helperTextProp={touched.nombreEjercicio && errors.nombreEjercicio}
                     {...genericComboBoxProps}
                 />
                 <GenericComboBox
                     label="Bloque"
                     id={`${props.namePrefix}.bloque`}
                     name={`${props.namePrefix}.bloque`}
-                    value={props.bloque}
+                    value={props.bloque || ''}
                     values={bloques}
-                    errorProp={props.touched.bloque && props.errors !== undefined && Boolean(props.errors.bloque)}
-                    helperTextProp={props.touched.bloque && props.errors !== undefined && props.errors.bloque}
+                    errorProp={touched.bloque && Boolean(errors.bloque)}
+                    helperTextProp={touched.bloque && errors.bloque}
                     {...genericComboBoxProps}
                 />
             </Stack>
