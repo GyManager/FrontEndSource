@@ -15,7 +15,7 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, eje
             if (respuesta instanceof AxiosError) {
                 console.log(respuesta)
             } else {
-                setTipoEjercicios(respuesta)
+                setTipoEjercicios(respuesta.sort())
             }
         }
 
@@ -31,7 +31,7 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, eje
             if (respuesta instanceof AxiosError) {
                 console.log(respuesta)
             } else {
-                setBloques(respuesta)
+                setBloques(respuesta.sort())
             }
         }
 
@@ -47,7 +47,8 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, eje
             if (respuesta instanceof AxiosError) {
                 console.log(respuesta)
             } else {
-                setEjercicios(respuesta.content)
+                const ejerciciosRespuesta = respuesta.content
+                setEjercicios(ejerciciosRespuesta.sort((a,b) => a.nombre < b.nombre? -1 : 1));
             }
         }
 
