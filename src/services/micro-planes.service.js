@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authService from './auth.service';
 
-const API_URL = "https://gymanager-dev-api.herokuapp.com/api";
+const API_URL = process.env.REACT_APP_API_URL;
 const API_PATH = "/micro-planes";
 
 const getMicroPlanes = (search, pageSize, page) => {
@@ -29,7 +29,6 @@ const getMicroPlanes = (search, pageSize, page) => {
 }
 
 const getMicroPlanById = (idMicroPlan) => {
-
     return axios.get(API_URL + API_PATH + `/${idMicroPlan}`, {
         headers: {
             'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
