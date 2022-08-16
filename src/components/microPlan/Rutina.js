@@ -48,7 +48,7 @@ export default function Rutina(props){
                     sx={{ minWidth:{ xs:'100%', md:'35%'}}}
                 />
 
-                <Paper elevation='1' sx={{ p: 2, my: 2}}>
+                <Paper elevation={1} sx={{ p: 2, my: 2}}>
                     <Typography sx={{fontSize: { xs: 12, md: 18, lg: 24, xl: 30 }}}>
                         Ejercicios
                     </Typography>

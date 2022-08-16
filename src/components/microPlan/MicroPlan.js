@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { AxiosError } from "axios";
@@ -82,7 +82,7 @@ export default function MicroPlan() {
                 />
             </Box>
 
-            <Paper elevation='1' sx={{ p: 2, my: 2}}>
+            <Paper elevation={1} sx={{ p: 2, my: 2}}>
                 {
                     loading ? <Skeleton/> :
                         <TextField 
@@ -101,7 +101,7 @@ export default function MicroPlan() {
             </Paper>
 
             <ParameterDropdownProvider tipoEjercicio={true} bloque={true}>
-                <div>
+                <Fragment>
                     {loading?  <Skeleton/> :
                         formik.values.rutinas.map((rutina, index) => 
                             <Rutina 
@@ -117,7 +117,7 @@ export default function MicroPlan() {
                             />
                         )
                     }
-                </div>
+                </Fragment>
             </ParameterDropdownProvider>
 
             <GenericModal
