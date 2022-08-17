@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { AxiosError } from "axios";
 import { Box } from "@mui/system";
-import { Paper, Skeleton, TextField, Typography } from "@mui/material";
+import { Button, Paper, Skeleton, TextField, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
 import { ParameterDropdownProvider } from "../../context/ParameterDropdownContext";
 import { Breadcumbs, GenericModal } from "../reusable";
 import FormOptions from "../reusable/FormOptions";
@@ -14,6 +15,22 @@ import Rutina from "./Rutina";
 export default function MicroPlan() {
 
     let { idMicroPlan } = useParams();
+    const esTemplate = true;
+    const nuevoEjercicio = () => {
+        return {
+            esTemplate: esTemplate,
+            tipoEjercicio: "",
+            idEjercicio: "",
+            bloque: "",
+            series: "",
+            repeticiones: "",
+            pausaMacro: "",
+            pausaMicro: "",
+            tiempo: "",
+            carga: ""
+        };
+    }
+    const nuevaRutina = () => {return {nombre: "", ejerciciosAplicados: [nuevoEjercicio()], esTemplate: esTemplate};}
 
     const [loading, setLoading] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
@@ -25,7 +42,8 @@ export default function MicroPlan() {
     const formik = useFormik({
         initialValues: {
             nombre: "",
-            rutinas: []
+            rutinas: [nuevaRutina()],
+            esTemplate: esTemplate
         },
         validateOnChange: false,
         validateOnBlur: true,
@@ -34,6 +52,30 @@ export default function MicroPlan() {
             handleSubmit();
         },
     });
+
+    const addRutina = () => {
+        const newRutinas = formik.values.rutinas;
+        newRutinas.push(nuevaRutina())
+        formik.setFieldValue('rutinas', newRutinas, false)
+    }
+
+    const removeRutina = (index) => {
+        const newRutinas = formik.values.rutinas;
+        newRutinas.splice(index,1)
+        formik.setFieldValue('rutinas', newRutinas, false)
+    }
+
+    const addEjercicio = (indexRutina) => {
+        const newEjercicios = formik.values.rutinas[indexRutina].ejerciciosAplicados;
+        newEjercicios.push(nuevoEjercicio())
+        formik.setFieldValue( `rutinas[${indexRutina}].ejerciciosAplicados`, newEjercicios, false)
+    }
+
+    const removeEjercicio = (indexRutina, index) => {
+        const newEjercicios = formik.values.rutinas[indexRutina].ejerciciosAplicados;
+        newEjercicios.splice(index,1)
+        formik.setFieldValue(`rutinas[${indexRutina}].ejerciciosAplicados`, newEjercicios, false)
+    }
 
     const getMicroPlanById = async () => {
         setLoading(true)
@@ -147,6 +189,10 @@ export default function MicroPlan() {
                                 {...rutina} 
                                 namePrefix={`rutinas[${index}]`}
                                 handleChange={formik.handleChange}
+                                removeRutina={removeRutina}
+                                addEjercicio={addEjercicio}
+                                removeEjercicio={removeEjercicio}
+                                indexRutina={index}
                                 touched={formik.touched.rutinas? formik.touched.rutinas[index] : {}}
                                 errors={formik.errors.rutinas? formik.errors.rutinas[index] : {}}
                                 expanded={expanded}
@@ -157,6 +203,19 @@ export default function MicroPlan() {
                     }
                 </Fragment>
             </ParameterDropdownProvider>
+
+            {
+                editable &&
+                <Button
+                    size='medium'
+                    variant='contained'
+                    sx={{ maxWidth:{ xs:'100%', md:'30%'}}}
+                    startIcon={<Add />}
+                    onClick={addRutina}
+                >
+                    Agregar rutina
+                </Button>
+            }
 
             <GenericModal
                 show={modalMsj !== ""}

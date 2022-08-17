@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { Box } from "@mui/system";
-import { Stack, TextField } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import { GenericComboBox } from "../reusable";
 import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
 import GenericComboBoxWithIds from "../reusable/GenericComboBoxWithIds";
+import { Delete, Height } from "@mui/icons-material";
 
 export default function EjercicioAplicado(props){
 
@@ -118,6 +119,22 @@ export default function EjercicioAplicado(props){
                     value={props.carga || ''}
                     {...textFieldProps}
                 />
+                
+                <Box sx={{display: 'flex', justifyContent: 'end', alignItems: 'end' }}>
+                    {
+                        props.editable &&
+                        <Button
+                            size='small'
+                            variant='outlined'
+                            color="error"
+                            sx={{ maxWidth:{ xs:'100%'}, height: 'fit-content'}}
+                            startIcon={<Delete />}
+                            onClick={props.removeEjercicio}
+                        >
+                            Eliminar
+                        </Button>
+                    }
+                </Box>
             </Stack>
         </Box>
     )

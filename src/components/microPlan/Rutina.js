@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Box } from "@mui/system";
-import { Accordion, AccordionDetails, AccordionSummary, Divider, Paper, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Paper, TextField, Typography } from "@mui/material";
+import { Add, Delete } from "@mui/icons-material";
 import { ExpandMore, WarningAmberRounded } from "@mui/icons-material";
 import EjercicioAplicado from "./EjercicioAplicado";
 
@@ -12,8 +13,8 @@ export default function Rutina(props){
     return (
         <Accordion 
             TransitionProps={{unmountOnExit: true}}
-            onChange={(event, isExpanded) => props.handleAccordion(isExpanded ? props.idRutina : false)}
-            expanded={props.expanded === props.idRutina}
+            onChange={(event, isExpanded) => props.handleAccordion(isExpanded ? props.namePrefix : false)}
+            expanded={props.expanded === props.namePrefix}
         >
             <AccordionSummary expandIcon={<ExpandMore />}>
                 <Box sx={{display: 'flex'}}>
@@ -58,11 +59,40 @@ export default function Rutina(props){
                                     touched={touched.ejerciciosAplicados? touched.ejerciciosAplicados[index] : {}}
                                     errors={errors.ejerciciosAplicados? errors.ejerciciosAplicados[index] : {}}
                                     editable={props.editable} 
+                                    removeEjercicio={() => props.removeEjercicio(props.indexRutina, index)}
                                 />
                                 {(index !== props.ejerciciosAplicados.length - 1) && <Divider sx={{my:4}}/>}
                             </Fragment>
                         )}
+                        {
+                            props.editable &&
+                            <Button
+                                size='medium'
+                                variant='contained'
+                                sx={{ maxWidth:{ xs:'100%', md:'30%'}, mt:3}}
+                                startIcon={<Add />}
+                                onClick={() => props.addEjercicio(props.indexRutina)}
+                            >
+                                Agregar ejercicio
+                            </Button>
+                        }
                 </Paper>
+
+                <Box sx={{display: 'flex', justifyContent: 'end'}}>
+                    {
+                        props.editable &&
+                        <Button
+                            size='small'
+                            variant='outlined'
+                            color="error"
+                            sx={{ maxWidth:{ xs:'100%', md:'30%'}}}
+                            startIcon={<Delete />}
+                            onClick={() => props.removeRutina(props.indexRutina)}
+                        >
+                            Eliminar rutina
+                        </Button>
+                    }
+                </Box>
             </AccordionDetails>
 
         </Accordion>
