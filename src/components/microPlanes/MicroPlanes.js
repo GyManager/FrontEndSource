@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
-import { Typography, Paper, Link, Button, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-
+import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton } from "@mui/material";
 import { AxiosError } from "axios";
-
 import SearchBar from "../clientsPage/SearchBar";
 import microPlanesService from "../../services/micro-planes.service";
 import { GenericModal, Snackbar } from "../reusable";
 import { DataContext } from "../../context/DataContext";
+import ButtonToFabCrear from "../reusable/ButtonToFabCrear";
 
 export default function MicroPlanes() {
 
@@ -73,16 +71,10 @@ export default function MicroPlanes() {
                 <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>
                     Micro Planes
                 </Typography>
-                <Link to='/clientes/new' sx={{display: { xs: 'none', sm: 'none', md: 'inline-flex' }}}>
-                    <Button
-                        variant='contained'
-                        startIcon={<AddIcon />}
-                        size='medium'
-                        onClick={() => navigate(`/micro-planes/new`)}
-                    >
-                        Crear Micro Plan
-                    </Button>
-                </Link>
+                <ButtonToFabCrear
+                    label="Crear Micro Plan"
+                    url="/micro-planes/new"
+                />
             </Box>
 
             <Box sx={{width:{xs:'100%', md:'40%'}}}>

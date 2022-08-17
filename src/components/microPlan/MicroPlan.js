@@ -12,6 +12,7 @@ import microPlanesService from "../../services/micro-planes.service";
 import microPlanSchema from "./microPlanSchema";
 import Rutina from "./Rutina";
 import { DataContext } from "../../context/DataContext";
+import FormOptionsSpeedDial from "../reusable/FormOptionsSpeedDial";
 
 export default function MicroPlan() {
 
@@ -229,6 +230,15 @@ export default function MicroPlan() {
                     Agregar rutina
                 </Button>
             }
+            
+            <FormOptionsSpeedDial
+                editable={editable}
+                handleEditClick={() => setEditable(true)}
+                handleCancelEdit={handleCancel}
+                handleDeleteClick={handleDelete}
+                handleSubmit={formik.handleSubmit}
+                id={idMicroPlan}
+            />
 
             <GenericModal
                 show={modalMsj !== ""}
