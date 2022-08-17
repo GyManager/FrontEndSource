@@ -15,7 +15,7 @@ import LoginPage from './pages/LoginPage';
 import ClientsPage from './pages/ClientsPage';
 import ClientPage from './pages/ClientPage'
 import EjerciciosPage from './components/ejerciciosPage/EjerciciosPage'
-import UnEjercicioPage from './components/unEjercicioPage/UnEjercicioPage';
+import UnEjercicioPage from './pages/UnEjercicioPage';
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -52,7 +52,7 @@ function App() {
             {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
             {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
             {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<EjerciciosPage/>} />}
-            {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:ejercicioId" element={<UnEjercicioPage/>} />}
+            {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<UnEjercicioPage/>} />}
 
             <Route path="/*" element={<h1>Error no autorizado</h1>} />
           </Routes>

@@ -69,10 +69,9 @@ const getEjercicioById = (id) => {
 }
 
 
-
 const ejerciciosService = {
+    getEjercicioById,
     getEjercicios,
-    getEjercicioById
 }
 
 export default ejerciciosService
