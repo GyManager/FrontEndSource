@@ -49,6 +49,16 @@ export default function Rutina(props){
                     </Typography>
                     
                     {
+                        ( errors.ejerciciosAplicados !== undefined && !Array.isArray(errors.ejerciciosAplicados)) &&
+                        <Box sx={{display: 'flex'}}>
+                            <WarningAmberRounded color='error' sx={{mr: 1}}/>
+                            <Typography color='error'>
+                                {errors.ejerciciosAplicados}
+                            </Typography>
+                        </Box>
+                    }
+                    
+                    {
                         props.ejerciciosAplicados.map((ejercicio, index) => 
                             <Fragment>
                                 <EjercicioAplicado 

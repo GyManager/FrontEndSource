@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { AxiosError } from "axios";
 import { Box } from "@mui/system";
 import { Button, Paper, Skeleton, TextField, Typography } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { Add, WarningAmberRounded } from "@mui/icons-material";
 import { ParameterDropdownProvider } from "../../context/ParameterDropdownContext";
 import { Breadcumbs, GenericModal } from "../reusable";
 import FormOptions from "../reusable/FormOptions";
@@ -179,6 +179,16 @@ export default function MicroPlan() {
                         />
                 }
             </Paper>
+            
+            {
+                ( formik.errors.rutinas !== undefined && !Array.isArray(formik.errors.rutinas)) &&
+                <Box sx={{display: 'flex'}}>
+                    <WarningAmberRounded color='error' sx={{mr: 1}}/>
+                    <Typography color='error'>
+                        {formik.errors.rutinas}
+                    </Typography>
+                </Box>
+            }
 
             <ParameterDropdownProvider tipoEjercicio bloque ejercicio>
                 <Fragment>
