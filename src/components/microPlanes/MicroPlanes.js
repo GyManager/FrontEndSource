@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
 import { Typography, Paper, Link, Button, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton } from "@mui/material";
@@ -8,7 +8,8 @@ import { AxiosError } from "axios";
 
 import SearchBar from "../clientsPage/SearchBar";
 import microPlanesService from "../../services/micro-planes.service";
-import { GenericModal } from "../reusable";
+import { GenericModal, Snackbar } from "../reusable";
+import { DataContext } from "../../context/DataContext";
 
 export default function MicroPlanes() {
 
@@ -16,6 +17,8 @@ export default function MicroPlanes() {
 
     const [loading, setLoading] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
+    const {dataSnackbar, setDataSnackbar} = useContext(DataContext)
+    const [openSnackbar, setOpenSnackbar] = useState();
 
     const [microPlanes, setMicroPlanes] = useState(() => [])
     const [microPlanesTotal, setMicroPlanesTotal] = useState(() => 0)
@@ -42,7 +45,8 @@ export default function MicroPlanes() {
             }
         }
         fetchData();
-
+        setOpenSnackbar(dataSnackbar !== '' ? true : false)
+        setTimeout(() => setDataSnackbar(''), 6100)
     }, [valueToSearch, pageSize, page])
 
     const tableRows = microPlanes.map(microPlan => (
@@ -117,6 +121,13 @@ export default function MicroPlanes() {
                 show={modalMsj !== ""}
                 hide={() => setModalMsj("")}
                 serverMsj={modalMsj} 
+            />
+
+            <Snackbar
+                severity='success'
+                message={dataSnackbar}
+                open={openSnackbar}
+                setOpen={setOpenSnackbar}
             />
         </Paper>
     )

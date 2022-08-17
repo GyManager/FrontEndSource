@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { AxiosError } from "axios";
@@ -11,6 +11,7 @@ import FormOptions from "../reusable/FormOptions";
 import microPlanesService from "../../services/micro-planes.service";
 import microPlanSchema from "./microPlanSchema";
 import Rutina from "./Rutina";
+import { DataContext } from "../../context/DataContext";
 
 export default function MicroPlan() {
 
@@ -32,6 +33,7 @@ export default function MicroPlan() {
     }
     const nuevaRutina = () => {return {nombre: "", ejerciciosAplicados: [nuevoEjercicio()], esTemplate: esTemplate};}
 
+    const {setDataSnackbar} = useContext(DataContext)
     const [loading, setLoading] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
     const [expanded, setExpanded] = useState(() => false);
@@ -118,6 +120,7 @@ export default function MicroPlan() {
             setModalMsj(respuesta.response.data.message)
         } else {
             navigate("/micro-planes")
+            setDataSnackbar(mensaje)
         }
     }
 
@@ -235,4 +238,3 @@ export default function MicroPlan() {
         </Paper>
     )
 }
-

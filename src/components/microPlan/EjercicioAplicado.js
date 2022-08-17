@@ -4,7 +4,7 @@ import { Button, Stack, TextField } from "@mui/material";
 import { GenericComboBox } from "../reusable";
 import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
 import GenericComboBoxWithIds from "../reusable/GenericComboBoxWithIds";
-import { Delete, Height } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
 export default function EjercicioAplicado(props){
 
