@@ -19,6 +19,8 @@ import MicroPlanesPage from './pages/MicroPlanesPage';
 //Probando context below
 import { DataProvider } from "./context/DataContext";
 import MicroPlanPage from './pages/MicroPlanPage';
+import UnderConstructionPage from './pages/UnderConstructionPage';
+import NoAutorizadoPage from './pages/NoAutorizadoPage';
 
 function App() {
 
@@ -49,12 +51,12 @@ function App() {
 
             {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
             {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
-            {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
+            {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<UnderConstructionPage title='Gestion de planes'/>} />}
             {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
             {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
-            {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
+            {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
 
-            <Route path="/*" element={<h1>Error no autorizado</h1>} />
+            <Route path="/*" element={<NoAutorizadoPage/>} />
           </Routes>
           <Footer />
         </BrowserRouter>
