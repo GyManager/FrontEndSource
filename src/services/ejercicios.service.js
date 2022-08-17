@@ -16,15 +16,15 @@ catch (error) {
 const getEjercicios = (search, pageSize, page) => {
     let params = {}
 
-        if (search !== undefined) {
-            params['search'] = search;
-        }
-        if (pageSize !== undefined) {
-            params['pageSize'] = pageSize;
-        }
-        if (page !== undefined) {
-            params['page'] = page;
-        }
+    if (search !== undefined) {
+        params['search'] = search;
+    }
+    if (pageSize !== undefined) {
+        params['pageSize'] = pageSize;
+    }
+    if (page !== undefined) {
+        params['page'] = page;
+    }
 
     return axios.get(API_URL + '/ejercicios', {
         headers: {
@@ -55,10 +55,24 @@ const handleError = (error) => {
     return error;
 }
 
+const getEjercicioById = (id) => {
+    console.log(id)
+    return axios
+    .get(API_URL + '/ejercicios/' + id, {
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+        }
+    }).then((res) => {
+        const resData = res.data
+        return resData
+    }).catch((error) => { return handleError(error) })
+}
+
 
 
 const ejerciciosService = {
-    getEjercicios
+    getEjercicios,
+    getEjercicioById
 }
 
 export default ejerciciosService
