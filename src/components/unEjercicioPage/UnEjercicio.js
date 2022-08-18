@@ -7,8 +7,6 @@ import { AxiosError } from 'axios'
 //Data
 import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
 import { EjercicioContext } from "../../context/EjercicioContext";
-import ejerciciosService from '../../services/ejercicios.service'
-import ejercicioSchema from './ejercicioSchema'
 
 //Vista
 import { Paper, Container, Grid, Typography, Button, TextField } from '@mui/material'
@@ -23,28 +21,9 @@ import Instrucciones from './Instrucciones';
 function UnEjercicioPage() {
   // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
   const { tipoEjercicios } = useContext(ParameterDropdownContext)
-  const { pasosByIdEjercicio, idEjercicio } = useContext(EjercicioContext)
+  const { pasosByIdEjercicio, idEjercicio, formik, getEjercicio, handleSubmit } = useContext(EjercicioContext)
   console.log(tipoEjercicios)
   const navigate = useNavigate()
-
-  // console.log(idEjercicio)
-
-  const formik = useFormik(
-    {
-      initialValues: {
-        nombre: "",
-        tipoDeEjercicio: ""
-      },
-      validationSchema: ejercicioSchema.validationSchema,
-      onSubmit: () => {
-        handleSubmit()
-      },
-    }
-  );
-
-  const handleSubmit = () => {
-
-  }
 
   const [editable, setEditable] = useState(false)
 
@@ -72,24 +51,10 @@ function UnEjercicioPage() {
     fullWidth: true
   }
 
-  const getEjercicio = async (ejercicioId) => {
-    const res = await ejerciciosService.getEjercicioById(ejercicioId)
-    if (res instanceof AxiosError) {
-      console.log(res?.response)
-    } else {
-      console.log(res)
-      formik.setValues({
-        nombre: res.nombre,
-        tipoDeEjercicio: res.tipoEjercicio
-      })
-    }
-  }
-
   const probar = () => {
     console.log('probando')
     pasosByIdEjercicio(idEjercicio)
   }
-
 
   useEffect(() => {
     idEjercicio === 'new' ?
@@ -159,14 +124,22 @@ function UnEjercicioPage() {
             <Instrucciones />
           </Paper>
         </Grid>
-        <Grid item xs={12}>
-          <Paper {...paperStyle} >
-            {/* <Grid container display='block'> */}
-            <Typography sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>Video</Typography>
-            <Typography sx={{ fontSize: { xs: 12, md: 14, lg: 18, xl: 20 } }}>Link del video</Typography>
-            {/* </Grid> */}
-          </Paper>
-        </Grid>
+        {/* <Grid item xs={12}> */}
+        <Paper {...paperStyle} sx={{ justifyContent: 'center' }}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>Video</Typography>
+            </Grid>
+          </Grid>
+          <div className='contenedor-iframe'>
+            <iframe title='Video' class="responsive-iframe" src="https://www.youtube.com/embed/Q4UtjgF1PO4">
+              {/* <iframe title='Video' class="responsive-iframe" src={formik.values.linkVideo}> */}
+            </iframe>
+          </div>
+
+          {/* </Grid> */}
+        </Paper>
+        {/* </Grid> */}
         <Grid item xs={12}>
           <Paper {...paperStyle} >
             {/* <Grid container display='block'> */}
@@ -176,6 +149,7 @@ function UnEjercicioPage() {
           </Paper>
         </Grid>
       </Grid>
+      
       <Grid item xs={12}
         sx={{
           display: { xs: 'block', md: 'none' },

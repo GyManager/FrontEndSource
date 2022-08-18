@@ -7,6 +7,8 @@ const validationSchema = yup.object({
     tipoDeEjercicio: yup.string()
         .typeError('El tipo de ejercicio debe ser un una cadena de texto')
         .required('El tipo de ejercicio es obligatorio'),
+    linkVideo: yup.string().url()
+        .typeError('El link del video debe ser un link valido')
 });
 
 const ejercicioSchema = {

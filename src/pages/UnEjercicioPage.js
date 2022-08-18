@@ -22,7 +22,7 @@ function UnEjercicioPage() {
                 }}
             >
                 <EjercicioProvider paso unIdEjercicio >
-                    <ParameterDropdownProvider tipoEjercicio bloque ejercicio>
+                    <ParameterDropdownProvider tipoEjercicio bloque ejercicio >
                         <UnEjercicio />
                         {/* <UnEjercicioBis/> */}
                     </ParameterDropdownProvider>
