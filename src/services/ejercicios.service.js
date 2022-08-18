@@ -76,13 +76,22 @@ const getEquipamentoByEjercicio = (id) => {
     return res
 }
 
+const getEquipamentos = (id) => {
+    const url = '/herramientas/'
+    const res = fetchData(url)
+    console.log('service')
+    console.log(res)
+    return res
+}
+
 
 
 const ejerciciosService = {
     getEjercicioById,
     getEjercicios,
     getPasosByEjercicioId,
-    getEquipamentoByEjercicio
+    getEquipamentoByEjercicio,
+    getEquipamentos
 }
 
 export default ejerciciosService

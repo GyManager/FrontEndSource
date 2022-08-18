@@ -14,6 +14,8 @@ export const EjercicioContext = createContext();
 export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const [pasos, setPasos] = useState([])
   const [equipamento, setEquipamento] = useState([])
+  const [equipamentos, setEquipamentos] = useState([])
+  const [editable, setEditable] = useState(false)
   let { idEjercicio } = useParams()
   // console.log(idEjercicio)
 
@@ -76,10 +78,26 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         setEquipamento(res)
       }
     }
-    
     getEquipamentoDeEjercicio(idEjercicio)
   
   },[])
+
+  useEffect(() => {
+    const getEquipamentos = async () => {
+      const res = await ejerciciosService.getEquipamentos()
+      if (res instanceof AxiosError) {
+        console.log(res?.message)
+      } else {
+        const orderedRes = orderBy(res, ['nombre'], ['asc'])
+        console.log(orderedRes)
+        setEquipamentos(orderedRes)
+      }
+    }
+    getEquipamentos()
+  
+  },[])
+
+
 
   return (
     <EjercicioContext.Provider value={{
@@ -87,8 +105,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       idEjercicio,
       getEjercicio,
       formik,
-      equipamento,
-      setEquipamento
+      equipamento, setEquipamento,
+      equipamentos, setEquipamentos,
+      editable, setEditable
 
     }}>
       {children}
