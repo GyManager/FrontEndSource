@@ -53,13 +53,11 @@ export default function MicroPlanes() {
             sx={{cursor:'pointer'}}
         >
             <TableCell>{microPlan.nombre}</TableCell>
-            <TableCell>{microPlan.nombre}</TableCell>
         </TableRow>
     ));
 
     const skeleton = [...Array(pageSize)].map((currentValue, index, array) => 
         <TableRow key={index}>
-            <TableCell sx={{width:'50%'}}><Skeleton animation='wave'/></TableCell>
             <TableCell sx={{width:'50%'}}><Skeleton animation='wave'/></TableCell>
         </TableRow>
     );
@@ -87,7 +85,6 @@ export default function MicroPlanes() {
                         <TableHead>
                             <TableRow>
                                 <TableCell > Nombre </TableCell>
-                                <TableCell > Descripcion Micro Plan </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
