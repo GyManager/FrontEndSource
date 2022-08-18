@@ -1,16 +1,20 @@
-import React, { useContext, useState, useEffect} from 'react'
+//Librerias
+import React, { useContext, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
-
 import { AxiosError } from 'axios'
-import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
-import ejerciciosService from '../../services/ejercicios.service'
 
+//Data
+import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
+import { EjercicioContext } from "../../context/EjercicioContext";
+import ejerciciosService from '../../services/ejercicios.service'
+import ejercicioSchema from './ejercicioSchema'
+
+//Vista
 import { Paper, Container, Grid, Typography, Button, TextField } from '@mui/material'
 import { Edit, Delete, Save, Cancel } from '@mui/icons-material/';
 import Breadcumbs from '../reusable/Breadcumbs'
 
-import ejercicioSchema from './ejercicioSchema'
 import { GenericComboBox } from '../reusable'
 import ButtonUnEjercicioMobile from './ButtonUnEjercicioMobile'
 import Instrucciones from './Instrucciones';
@@ -19,11 +23,11 @@ import Instrucciones from './Instrucciones';
 function UnEjercicioPage() {
   // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
   const { tipoEjercicios } = useContext(ParameterDropdownContext)
+  const { pasosByIdEjercicio, idEjercicio } = useContext(EjercicioContext)
   console.log(tipoEjercicios)
   const navigate = useNavigate()
 
-  let { idEjercicio } = useParams()
-  console.log(idEjercicio)
+  // console.log(idEjercicio)
 
   const formik = useFormik(
     {
@@ -46,7 +50,8 @@ function UnEjercicioPage() {
 
   const paperStyle = {
     elevation: 2,
-    sx: {p: 2, mt: 2,
+    sx: {
+      p: 2, mt: 2,
     }
   }
 
@@ -60,9 +65,9 @@ function UnEjercicioPage() {
   const ButtonStyle = {
     sx: {
       mx: 1,
-      justifyContent:'space-around'
+      justifyContent: 'space-around'
     },
-    variant: 'contained', 
+    variant: 'contained',
     size: 'large',
     fullWidth: true
   }
@@ -73,17 +78,16 @@ function UnEjercicioPage() {
       console.log(res?.response)
     } else {
       console.log(res)
-      // formik.setValues({
-      //   nombre: res.nombre,
-      //   tipoDeEjercicio: res.tipoEjercicio
-      // })
-      formik.setFieldValue('nombre', res.nombre || '', false)
-      formik.setFieldValue('tipoDeEjercicio', res.tipoEjercicio || '', false)
+      formik.setValues({
+        nombre: res.nombre,
+        tipoDeEjercicio: res.tipoEjercicio
+      })
     }
   }
 
   const probar = () => {
-    console.log(tipoEjercicios)
+    console.log('probando')
+    pasosByIdEjercicio(idEjercicio)
   }
 
 
@@ -112,12 +116,12 @@ function UnEjercicioPage() {
         <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>Ejercicio: {formik.values.nombre}</Typography>
       </Grid>
       <Grid item xs={4} sx={{ display: { xs: 'none', md: 'flex' } }}  >
-        <Button {...ButtonStyle} onClick={() => {editable? guardar() : setEditable(true)}}
-        >{editable? <Save/>  : <Edit/>}
-        {editable? 'Guardar' : 'Editar'}</Button>
-        <Button {...ButtonStyle} onClick={() => probar}
-        >{editable? <Cancel/>  : <Delete/>}
-        {editable? 'Cancelar' : 'Borrar'}</Button>
+        <Button {...ButtonStyle} onClick={() => { editable ? guardar() : setEditable(true) }}
+        >{editable ? <Save /> : <Edit />}
+          {editable ? 'Guardar' : 'Editar'}</Button>
+        <Button {...ButtonStyle} onClick={() => probar()}
+        >{editable ? <Cancel /> : <Delete />}
+          {editable ? 'Cancelar' : 'Borrar'}</Button>
       </Grid>
       <Grid item xs={12}>
         <Paper {...paperStyle} >
@@ -152,7 +156,7 @@ function UnEjercicioPage() {
         </Paper>
         <Grid item xs={12}>
           <Paper {...paperStyle} >
-           <Instrucciones/>
+            <Instrucciones />
           </Paper>
         </Grid>
         <Grid item xs={12}>

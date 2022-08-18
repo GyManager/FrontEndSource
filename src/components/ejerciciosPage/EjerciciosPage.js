@@ -60,6 +60,7 @@ function EjerciciosPage() {
             }
         }
         fetchData()
+        console.log(ejercicios)
     }, [valueToSearch, rowsPerPage, page])
 
     return (
@@ -91,6 +92,7 @@ function EjerciciosPage() {
                     <Grid item sx={{ display: 'flex' }} xs={12}>
 
                         <TableEjercicios
+                            isLoading={isLoading}
                             ejercicios={ejercicios}
                             ejerciciosTotal={ejerciciosTotal}
                             page={page}

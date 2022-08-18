@@ -13,31 +13,19 @@ catch (error) {
     access_token = ''
 }
 
-const getEjercicios = (search, pageSize, page) => {
-    let params = {}
-
-    if (search !== undefined) {
-        params['search'] = search;
-    }
-    if (pageSize !== undefined) {
-        params['pageSize'] = pageSize;
-    }
-    if (page !== undefined) {
-        params['page'] = page;
-    }
-
-    return axios.get(API_URL + '/ejercicios', {
-        headers: {
-            'Authorization': `Bearer ${access_token}`,
-        },
-        params
-    }).then((response) => {
-        // const res = response.data.content
-        const res = response.data
-        console.log(res)
-        return res
-    }).catch((error) => { return handleError(error) })
+const fetchData = (url, params) => {
+    return axios
+        .get(API_URL + url, {
+            headers: {
+                'Authorization': `Bearer ${access_token}`,
+            },
+            params
+        }).then((res) => {
+            const resData = res.data
+            return resData
+        }).catch((error) => { return handleError(error) })
 }
+
 
 const handleError = (error) => {
     if (error.response) {
@@ -55,23 +43,36 @@ const handleError = (error) => {
     return error;
 }
 
+const getEjercicios = (search, pageSize, page) => {
+    let params = {}
+
+    if (search !== undefined) {
+        params['search'] = search;
+    }
+    if (pageSize !== undefined) {
+        params['pageSize'] = pageSize;
+    }
+    if (page !== undefined) {
+        params['page'] = page;
+    }
+    return fetchData('/ejercicios', params)
+}
+
 const getEjercicioById = (id) => {
-    console.log(id)
-    return axios
-    .get(API_URL + '/ejercicios/' + id, {
-        headers: {
-            'Authorization': `Bearer ${access_token}`,
-        }
-    }).then((res) => {
-        const resData = res.data
-        return resData
-    }).catch((error) => { return handleError(error) })
+    const url = '/ejercicios/' + id
+    return fetchData(url)
+}
+
+const getPasosByEjercicioId = (id) => {
+    const url = '/ejercicios/' + id + '/pasos'
+    return fetchData(url)
 }
 
 
 const ejerciciosService = {
     getEjercicioById,
     getEjercicios,
+    getPasosByEjercicioId
 }
 
 export default ejerciciosService
