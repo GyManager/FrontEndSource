@@ -13,8 +13,9 @@ export const EjercicioContext = createContext();
 
 export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const [pasos, setPasos] = useState([])
+  const [equipamento, setEquipamento] = useState([])
   let { idEjercicio } = useParams()
-  console.log(idEjercicio)
+  // console.log(idEjercicio)
 
   const formik = useFormik(
     {
@@ -29,7 +30,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       },
     }
   );
-  
+
   const handleSubmit = () => {
 
   }
@@ -40,24 +41,23 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       if (res instanceof AxiosError) {
         console.log('Hubo un error')
       } else {
-        console.log(res)
-        const orderedRes = orderBy(res,['numeroPaso'],['asc'])
-        console.log(orderedRes)
+        // console.log(res)
+        const orderedRes = orderBy(res, ['numeroPaso'], ['asc'])
+        // console.log(orderedRes)
         setPasos(orderedRes)
       }
     }
-    if(unIdEjercicio){
-    pasosByIdEjercicio(idEjercicio)
+    if (unIdEjercicio) {
+      pasosByIdEjercicio(idEjercicio)
     }
-  },[])
-
+  }, [])
 
   const getEjercicio = async (ejercicioId) => {
     const res = await ejerciciosService.getEjercicioById(ejercicioId)
     if (res instanceof AxiosError) {
       console.log(res?.response)
     } else {
-      console.log(res)
+      // console.log(res)
       formik.setValues({
         nombre: res.nombre,
         tipoDeEjercicio: res.tipoEjercicio,
@@ -66,12 +66,29 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     }
   }
 
+  useEffect(() => {
+    const getEquipamentoDeEjercicio = async (idEjercicio) => {
+      const res = await ejerciciosService.getEquipamentoByEjercicio(idEjercicio)
+      if (res instanceof AxiosError) {
+        console.log(res?.message)
+      } else {
+        console.log(res)
+        setEquipamento(res)
+      }
+    }
+    
+    getEquipamentoDeEjercicio(idEjercicio)
+  
+  },[])
+
   return (
     <EjercicioContext.Provider value={{
       pasos,
       idEjercicio,
       getEjercicio,
-      formik
+      formik,
+      equipamento,
+      setEquipamento
 
     }}>
       {children}

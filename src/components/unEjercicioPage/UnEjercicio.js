@@ -16,13 +16,13 @@ import Breadcumbs from '../reusable/Breadcumbs'
 import { GenericComboBox } from '../reusable'
 import ButtonUnEjercicioMobile from './ButtonUnEjercicioMobile'
 import Instrucciones from './Instrucciones';
+import Equipamento from './Equipamento'
 
 
 function UnEjercicioPage() {
   // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
   const { tipoEjercicios } = useContext(ParameterDropdownContext)
   const { pasosByIdEjercicio, idEjercicio, formik, getEjercicio, handleSubmit } = useContext(EjercicioContext)
-  console.log(tipoEjercicios)
   const navigate = useNavigate()
 
   const [editable, setEditable] = useState(false)
@@ -78,7 +78,7 @@ function UnEjercicioPage() {
           urls={['../ejercicios/']}
         />
 
-        <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>Ejercicio: {formik.values.nombre}</Typography>
+        <Typography component='span' sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>Ejercicio: {formik.values.nombre}</Typography>
       </Grid>
       <Grid item xs={4} sx={{ display: { xs: 'none', md: 'flex' } }}  >
         <Button {...ButtonStyle} onClick={() => { editable ? guardar() : setEditable(true) }}
@@ -117,6 +117,10 @@ function UnEjercicioPage() {
                 values={tipoEjercicios}
                 minWidth={250} />
             </Grid>
+
+
+
+
           </Grid>
         </Paper>
         <Grid item xs={12}>
@@ -125,31 +129,30 @@ function UnEjercicioPage() {
           </Paper>
         </Grid>
         {/* <Grid item xs={12}> */}
-        <Paper {...paperStyle} sx={{ justifyContent: 'center' }}>
+        <Paper {...paperStyle}>
           <Grid container>
             <Grid item xs={12}>
               <Typography sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>Video</Typography>
             </Grid>
           </Grid>
           <div className='contenedor-iframe'>
-            <iframe title='Video' class="responsive-iframe" src="https://www.youtube.com/embed/Q4UtjgF1PO4">
+            <iframe title='Video' className="responsive-iframe" src="https://www.youtube.com/embed/Q4UtjgF1PO4">
               {/* <iframe title='Video' class="responsive-iframe" src={formik.values.linkVideo}> */}
             </iframe>
           </div>
-
           {/* </Grid> */}
         </Paper>
         {/* </Grid> */}
         <Grid item xs={12}>
           <Paper {...paperStyle} >
             {/* <Grid container display='block'> */}
-            <Typography sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>Equipamento</Typography>
-            <Typography sx={{ fontSize: { xs: 12, md: 14, lg: 18, xl: 20 } }}>Funcionalidad seleccion de equipamento</Typography>
+            <Typography component='span' sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>Equipamento</Typography>
+            <Equipamento/>
             {/* </Grid> */}
           </Paper>
         </Grid>
       </Grid>
-      
+
       <Grid item xs={12}
         sx={{
           display: { xs: 'block', md: 'none' },
