@@ -19,6 +19,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DrawerItem from './DrawerItem';
@@ -116,6 +117,12 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             icon: <InboxIcon />,
             url: "/planes",
             permiso: "gestion-planes"
+        },
+        {
+            text: "Micro Planes",
+            icon: <ListAltIcon />,
+            url: "/micro-planes",
+            permiso: "gestion-micro-planes"
         }]
 
     return (
