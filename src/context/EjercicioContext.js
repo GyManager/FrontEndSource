@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ejercicioService from "../services/ejercicios.service";
+import orderBy from 'lodash/orderBy'
 
 export const EjercicioContext = createContext();
 
@@ -17,14 +18,15 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         console.log('Hubo un error')
       } else {
         console.log(res)
-        setPasos(res)
+        const orderedRes = orderBy(res,['numeroPaso'],['asc'])
+        console.log(orderedRes)
+        setPasos(orderedRes)
       }
     }
     if(unIdEjercicio){
     pasosByIdEjercicio(idEjercicio)
     }
   },[])
-
 
   return (
     <EjercicioContext.Provider value={{
