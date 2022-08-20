@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { Box, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
+import { Box, Button, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material/';
 import { Breadcumbs, GenericComboBox } from '../reusable';
 import planesService from '../../services/planes.service';
 import { AxiosError } from 'axios';
@@ -8,6 +8,8 @@ import { ParameterDropdownContext } from '../../context/ParameterDropdownContext
 import DatePicker from '../reusable/DatePicker';
 import microPlanesService from '../../services/micro-planes.service';
 import { useFormik } from 'formik';
+import FormOptions from '../reusable/FormOptions';
+import { Add, Comment, Delete, Edit } from '@mui/icons-material';
 
 export default function Plan() {
 
@@ -66,7 +68,12 @@ export default function Plan() {
     }
 
     function setMicroPlanDeleted(){
-        
+
+    }
+
+    const paperStyle = {
+        elevation:1,
+        sx:{p: 2}
     }
 
     return (
@@ -80,19 +87,19 @@ export default function Plan() {
                         names={['Clientes', 'Cliente', 'Plan']}
                         urls={['/clientes', `/clientes/${clienteId}`]}
                     />
-                    <Typography
-                        noWrap={true} 
-                        sx={{
-                            width: {xs: '88vw', md: '100%', lg: '100%'},
-                            fontSize: {xs: 24, md: 28, lg: 30, xl: 34},
-                        }}
-                    >
+                    <Typography sx={{fontSize: {xs: 24, md: 28, lg: 30, xl: 34}}}>
                         {loading ? <Skeleton/> : `Plan`}
                     </Typography>
                 </Box>
+                <FormOptions
+                    editable={true}
+                    // handleCancelEdit={handleCancel}
+                    // handleSubmit={formik.handleSubmit}
+                    id={idPlan}
+                />
             </Box>
 
-            <Paper elevation={1} sx={{p: 2}}>
+            <Paper {...paperStyle}>
 
                 <TextField fullWidth
                     label="Descripcion"
@@ -157,6 +164,41 @@ export default function Plan() {
                 </Stack>
             </Paper>
 
+            <Paper {...paperStyle}>
+                <Typography sx={{fontSize: {xs: 20, md: 22, lg: 24, xl: 28}}}>
+                    {loading ? <Skeleton/> : `Micro planes`}
+                </Typography>
+
+                <TableContainer sx={{mb:2}}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell > Numero </TableCell>
+                                <TableCell > Nombre </TableCell>
+                                <TableCell > Semanas </TableCell>
+                                <TableCell > Acciones </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {microPlanes.map(microPlan => (
+                                <TableRow key={microPlan.idMicroPlan}>
+                                        <TableCell>{microPlan.numeroOrden}</TableCell>
+                                        <TableCell>{microPlan.nombre}</TableCell>
+                                        <TableCell>{microPlan.cantidadSemanas}</TableCell>
+                                        <TableCell>
+                                            <Box sx={{display:'flex', gap:2}}>
+                                                <Button variant='contained' size='small' color='secondary' startIcon={<Comment />}> Observaciones </Button>
+                                                <Button variant='contained' size='small' startIcon={<Edit />}> Editar </Button>
+                                                <Button variant='contained' size='small' color='error' startIcon={<Delete />}>  Borrar </Button>
+                                            </Box>
+                                        </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Button variant='contained' size='medium'><Add /> Agregar Micro Plan </Button>
+            </Paper>
         </Paper>
     )
 }
