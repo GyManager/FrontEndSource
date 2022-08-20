@@ -6,14 +6,25 @@ import planesService from '../../services/planes.service';
 import { AxiosError } from 'axios';
 import { ParameterDropdownContext } from '../../context/ParameterDropdownContext';
 import DatePicker from '../reusable/DatePicker';
+import microPlanesService from '../../services/micro-planes.service';
+import { useFormik } from 'formik';
 
 export default function Plan() {
 
     let { clienteId, idPlan } = useParams();
     const [loading, setLoading] = useState(false);
-    const [plan, setPlan] = useState({});
+    const formik = useFormik({
+        initialValues: {
+            descripcion: "",
+            objetivo:"",
+            cantidadSemanas: 0
+        },
+        // validationSchema: microPlanSchema.validationSchema,
+        onSubmit: () => {
+            // handleSubmit();
+        },
+    });
     const [microPlanes, setMicroPlanes] = useState([]);
-    const [cantidadSemanas, setCantidadSemanas] = useState(0);
     const { objetivos } = useContext(ParameterDropdownContext)
 
     useEffect(() => {
@@ -24,19 +35,38 @@ export default function Plan() {
             if (respuesta instanceof AxiosError) {
                 console.log(respuesta)
             } else {
-                setPlan(respuesta)
+                formik.setValues(respuesta, false)
             }
         }
         fetchData();
     }, [idPlan])
 
-    function actualizarSemanas(amount){
-        const nuevaCantidadSemanas = parseInt(cantidadSemanas) + parseInt(amount)
-        setCantidadSemanas(nuevaCantidadSemanas)
-        setPlan(prev => {
-            const nuevaFechaHasta = Date.parse(prev.fechaDesde) + (nuevaCantidadSemanas * 7 * 24 * 60 * 60 * 1000);
-            return {...prev, fechaHasta:nuevaFechaHasta}
-        })
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            const respuesta = await microPlanesService.getMicroPlanByPlanId(idPlan);
+            setLoading(false)
+            if (respuesta instanceof AxiosError) {
+                console.log(respuesta)
+            } else {
+                setMicroPlanes(respuesta)
+            }
+        }
+        fetchData();
+    }, [idPlan])
+
+    function setCantidadSemanas(nuevaCantidadSemanas){
+        formik.setFieldValue('cantidadSemanas', nuevaCantidadSemanas)
+        const nuevaFechaHasta = Date.parse(formik.values.fechaDesde) + (nuevaCantidadSemanas * 7 * 24 * 60 * 60 * 1000);
+        formik.setFieldValue('fechaHasta', nuevaFechaHasta)
+    }
+
+    function setMicroPlanTouched(){
+
+    }
+
+    function setMicroPlanDeleted(){
+        
     }
 
     return (
@@ -67,8 +97,10 @@ export default function Plan() {
                 <TextField fullWidth
                     label="Descripcion"
                     id="descripcion"
+                    name="descripcion"
                     variant="standard"
-                    value={plan.descripcion || ''}
+                    value={formik.values.descripcion || ''}
+                    onChange={formik.handleChange}
                     multiline
                 />
 
@@ -81,7 +113,8 @@ export default function Plan() {
                         label="Objetivo"
                         id="objetivo"
                         name="objetivo"
-                        value={plan.objetivo || ''}
+                        value={formik.values.objetivo || ''}
+                        handleChange={formik.handleChange}
                         values={objetivos}
                         valueForNone=""
                         labelForNone=""
@@ -92,27 +125,31 @@ export default function Plan() {
                     <TextField fullWidth
                         label="Cantidad de semanas"
                         id="cantidadSemanas"
+                        name="cantidadSemanas"
                         variant="standard"
-                        value={cantidadSemanas || 0 }
+                        value={formik.values.cantidadSemanas || ''}
                         sx={{width:'25%'}}
                         disabled={true}
                     />
 
                     <DatePicker
-                        value={plan.fechaDesde}
+                        value={formik.values.fechaDesde || ""}
                         id="fechaDesde"
+                        name="fechaDesde"
                         label="Fecha desde"
                         editable={true}
+                        onChange={formik.setFieldValue}
                         // setFieldValue={formik.setFieldValue}
                         // errorProp={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
                         // helperTextProp={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
                     />
                     <DatePicker
-                        value={plan.fechaHasta}
+                        value={formik.values.fechaHasta || ""}
                         id="fechaHasta"
+                        name="fechaHasta"
                         label="Fecha hasta"
                         editable={false}
-                        // setFieldValue={formik.setFieldValue}
+                        onChange={formik.setFieldValue}
                         // errorProp={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
                         // helperTextProp={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
                     />

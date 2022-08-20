@@ -26,7 +26,7 @@ export default function DatePicker(props) {
                     <MobileDatePicker
                         {...datePickerCommonProperties}
                         value={props.value}
-                        onChange={value => props.setFieldValue(props.id, value)}
+                        onChange={value => props.onChange(props.id, value)}
                         renderInput={(params) =>
                             <TextField {...params}
                                 error={props.errorProp}
@@ -36,7 +36,7 @@ export default function DatePicker(props) {
                     <DesktopDatePicker
                         {...datePickerCommonProperties}
                         value={props.value}
-                        onChange={value => props.setFieldValue(props.id, value)}
+                        onChange={value => props.onChange(props.id, value)}
                         renderInput={(params) =>
                             <TextField {...params}
                                 error={props.errorProp}
