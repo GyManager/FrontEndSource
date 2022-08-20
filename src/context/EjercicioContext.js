@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { createContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ejercicioService from "../services/ejercicios.service";
 import { useFormik } from 'formik'
 import orderBy from 'lodash/orderBy'
@@ -9,14 +9,19 @@ import ejerciciosService from '../services/ejercicios.service'
 // import ejercicioSchema from '../../ejercicioSchema'
 import ejercicioSchema from '../components/unEjercicioPage/ejercicioSchema'
 
+
 export const EjercicioContext = createContext();
 
 export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
+ 
+
   const [pasos, setPasos] = useState([])
   const [equipamento, setEquipamento] = useState([])
   const [equipamentos, setEquipamentos] = useState([])
   const [editable, setEditable] = useState(false)
   let { idEjercicio } = useParams()
+  const navigate = useNavigate()
+
   // console.log(idEjercicio)
 
   const formik = useFormik(
@@ -79,8 +84,8 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       }
     }
     getEquipamentoDeEjercicio(idEjercicio)
-  
-  },[])
+
+  }, [])
 
   useEffect(() => {
     const getEquipamentos = async () => {
@@ -94,8 +99,17 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       }
     }
     getEquipamentos()
-  
-  },[])
+
+  }, [])
+
+  const handleCancelEdit = () => {
+    if (idEjercicio === 'new') {
+      navigate("/ejercicios");
+    } else {
+      setEditable(false)
+      getEjercicio(idEjercicio);
+    }
+  }
 
 
 
@@ -107,7 +121,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       formik,
       equipamento, setEquipamento,
       equipamentos, setEquipamentos,
-      editable, setEditable
+      editable, setEditable,
+      handleCancelEdit,
+
 
     }}>
       {children}

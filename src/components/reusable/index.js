@@ -13,5 +13,9 @@ export * from './GenericComboBox';
 export { default as GenericModal } from './GenericModal';
 export * from './GenericModal';
 
+export { default as MultipleSelectChip } from './MultipleSelectChip';
+export * from './MultipleSelectChip';
+
 export { default as Snackbar } from './Snackbar';
 export * from './Snackbar';
+
