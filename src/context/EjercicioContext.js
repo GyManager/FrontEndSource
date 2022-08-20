@@ -16,7 +16,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
  
 
   const [pasos, setPasos] = useState([])
-  const [equipamento, setEquipamento] = useState([])
+  const [equipamentoDeEjercicio, setEquipamentoDeEjercicio] = useState([])
   const [equipamentos, setEquipamentos] = useState([])
   const [editable, setEditable] = useState(false)
   let { idEjercicio } = useParams()
@@ -80,7 +80,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         console.log(res?.message)
       } else {
         console.log(res)
-        setEquipamento(res)
+        setEquipamentoDeEjercicio(res)
       }
     }
     getEquipamentoDeEjercicio(idEjercicio)
@@ -119,7 +119,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       idEjercicio,
       getEjercicio,
       formik,
-      equipamento, setEquipamento,
+      equipamentoDeEjercicio,setEquipamentoDeEjercicio,
       equipamentos, setEquipamentos,
       editable, setEditable,
       handleCancelEdit,
