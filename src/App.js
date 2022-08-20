@@ -21,6 +21,7 @@ import { DataProvider } from "./context/DataContext";
 import MicroPlanPage from './pages/MicroPlanPage';
 import UnderConstructionPage from './pages/UnderConstructionPage';
 import NoAutorizadoPage from './pages/NoAutorizadoPage';
+import PlanPage from './pages/PlanPage';
 
 function App() {
 
@@ -51,7 +52,7 @@ function App() {
 
             {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
             {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
-            {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<UnderConstructionPage title='Gestion de planes'/>} />}
+            {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
             {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
             {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
             {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
