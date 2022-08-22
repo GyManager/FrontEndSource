@@ -6,7 +6,6 @@ import planesService from '../../services/planes.service';
 import { AxiosError } from 'axios';
 import { ParameterDropdownContext } from '../../context/ParameterDropdownContext';
 import DatePicker from '../reusable/DatePicker';
-import microPlanesService from '../../services/micro-planes.service';
 import { useFormik } from 'formik';
 import FormOptions from '../reusable/FormOptions';
 import { Add, Comment, Delete, Edit } from '@mui/icons-material';
@@ -19,15 +18,17 @@ export default function Plan() {
         initialValues: {
             descripcion: "",
             objetivo:"",
-            cantidadSemanas: 0
+            microPlans: []
         },
-        // validationSchema: microPlanSchema.validationSchema,
+        // validationSchema: planSchema.validationSchema,
         onSubmit: () => {
             // handleSubmit();
         },
     });
-    const [microPlanes, setMicroPlanes] = useState([]);
     const { objetivos } = useContext(ParameterDropdownContext)
+
+    const cantidadSemanas = formik.values.microPlans.flatMap(microPlan => microPlan.observaciones).length;
+    const fechaHasta = Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,38 +44,19 @@ export default function Plan() {
         fetchData();
     }, [idPlan])
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            const respuesta = await microPlanesService.getMicroPlanByPlanId(idPlan);
-            setLoading(false)
-            if (respuesta instanceof AxiosError) {
-                console.log(respuesta)
-            } else {
-                setMicroPlanes(respuesta)
-            }
-        }
-        fetchData();
-    }, [idPlan])
-
-    function setCantidadSemanas(nuevaCantidadSemanas){
-        formik.setFieldValue('cantidadSemanas', nuevaCantidadSemanas)
-        const nuevaFechaHasta = Date.parse(formik.values.fechaDesde) + (nuevaCantidadSemanas * 7 * 24 * 60 * 60 * 1000);
-        formik.setFieldValue('fechaHasta', nuevaFechaHasta)
-    }
-
-    function setMicroPlanTouched(){
-
-    }
-
-    function setMicroPlanDeleted(){
-
-    }
-
     const paperStyle = {
         elevation:1,
         sx:{p: 2}
     }
+
+    const skeleton = (
+        <TableRow>
+            <TableCell><Skeleton animation='wave'/></TableCell>
+            <TableCell><Skeleton animation='wave'/></TableCell>
+            <TableCell><Skeleton animation='wave'/></TableCell>
+            <TableCell><Skeleton animation='wave'/></TableCell>
+        </TableRow>
+    );
 
     return (
         <Paper 
@@ -134,8 +116,8 @@ export default function Plan() {
                         id="cantidadSemanas"
                         name="cantidadSemanas"
                         variant="standard"
-                        value={formik.values.cantidadSemanas || ''}
-                        sx={{width:'25%'}}
+                        value={cantidadSemanas || '0'}
+                        sx={{width:{xs:'100%', md:'25%'}}}
                         disabled={true}
                     />
 
@@ -151,14 +133,11 @@ export default function Plan() {
                         // helperTextProp={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
                     />
                     <DatePicker
-                        value={formik.values.fechaHasta || ""}
+                        value={fechaHasta || ""}
                         id="fechaHasta"
                         name="fechaHasta"
                         label="Fecha hasta"
                         editable={false}
-                        onChange={formik.setFieldValue}
-                        // errorProp={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
-                        // helperTextProp={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
                     />
 
                 </Stack>
@@ -180,20 +159,23 @@ export default function Plan() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {microPlanes.map(microPlan => (
-                                <TableRow key={microPlan.idMicroPlan}>
-                                        <TableCell>{microPlan.numeroOrden}</TableCell>
-                                        <TableCell>{microPlan.nombre}</TableCell>
-                                        <TableCell>{microPlan.cantidadSemanas}</TableCell>
-                                        <TableCell>
-                                            <Box sx={{display:'flex', gap:2}}>
-                                                <Button variant='contained' size='small' color='secondary' startIcon={<Comment />}> Observaciones </Button>
-                                                <Button variant='contained' size='small' startIcon={<Edit />}> Editar </Button>
-                                                <Button variant='contained' size='small' color='error' startIcon={<Delete />}>  Borrar </Button>
-                                            </Box>
-                                        </TableCell>
-                                </TableRow>
-                            ))}
+                            {
+                                loading ? skeleton : 
+                                formik.values.microPlans.map(microPlan => (
+                                    <TableRow key={microPlan.idMicroPlan}>
+                                            <TableCell>{microPlan.numeroOrden}</TableCell>
+                                            <TableCell>{microPlan.nombre}</TableCell>
+                                            <TableCell>{microPlan.observaciones? microPlan.observaciones.length : 0}</TableCell>
+                                            <TableCell>
+                                                <Box sx={{display:'flex', gap:2}}>
+                                                    <Button variant='contained' size='small' color='secondary' startIcon={<Comment />}> Observaciones </Button>
+                                                    <Button variant='contained' size='small' startIcon={<Edit />}> Editar </Button>
+                                                    <Button variant='contained' size='small' color='error' startIcon={<Delete />}>  Borrar </Button>
+                                                </Box>
+                                            </TableCell>
+                                    </TableRow>
+                                ))
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
