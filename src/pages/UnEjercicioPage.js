@@ -4,7 +4,6 @@ import React from 'react'
 import { ParameterDropdownProvider } from '../context/ParameterDropdownContext'
 import { EjercicioProvider } from '../context/EjercicioContext'
 import UnEjercicio from '../components/unEjercicioPage/UnEjercicio'
-import UnEjercicioBis from '../components/unEjercicioPage/UnEjercicioBis'
 
 function UnEjercicioPage() {
     return (
@@ -22,10 +21,7 @@ function UnEjercicioPage() {
                 }}
             >
                 <EjercicioProvider paso unIdEjercicio >
-                    <ParameterDropdownProvider tipoEjercicio bloque ejercicio >
                         <UnEjercicio />
-                        {/* <UnEjercicioBis/> */}
-                    </ParameterDropdownProvider>
                 </EjercicioProvider>
 
             </Paper>

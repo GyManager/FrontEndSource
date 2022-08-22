@@ -13,7 +13,7 @@ export default function SeccionEquipamento() {
   console.log('equipamentos')
   console.log(equipamentos)
 
-
+/*
   const nombreEquipamentos = equipamentos.map(equip => {
     return (equip.nombre)
   })
@@ -22,11 +22,13 @@ export default function SeccionEquipamento() {
     return (equip.nombre)
   })
 
-
+*/
+console.log('equipamentoDeEjercicio')
+console.log(equipamentoDeEjercicio)
 
   useEffect(() => {
     const estaEnLaSeleccion = (unEquipamento) => {
-      if (nombreEquipamentoDeEjercicio.includes(unEquipamento.nombre)) {
+      if (equipamentoDeEjercicio.includes(unEquipamento)) {
         return unEquipamento
       }
     }
@@ -36,12 +38,12 @@ export default function SeccionEquipamento() {
     console.log('actualizarEquipamentoDeEjercicio')
     console.log(actualizarEquipamentoDeEjercicio)
     setEquipamentoDeEjercicio(actualizarEquipamentoDeEjercicio)
-  }, [ nombreEquipamentoDeEjercicio ])
+  }, [])
 
 
-  console.log('equipamento')
-  console.log(nombreEquipamentos)
-  console.log(nombreEquipamentoDeEjercicio)
+  // console.log('equipamento')
+  // console.log(equipamentos)
+  // console.log(equipamentoDeEjercicio)
 
 
   const handleDelete = () => {
@@ -62,14 +64,15 @@ export default function SeccionEquipamento() {
           {editable
             ?
             <MultipleSelectChip
-              selectedValues={nombreEquipamentoDeEjercicio}
-              allValues={nombreEquipamentos}
+              selectedValues={equipamentoDeEjercicio}
+              setSelectedValues={setEquipamentoDeEjercicio}
+              allValues={equipamentos}
             />
             :
             <Stack direction="row" spacing={1}>
               {equipamentoDeEjercicio.map(unEquipo => {
                 return (
-                  <Chip label={unEquipo.nombre} onDelete={handleDelete} />
+                  <Chip label={unEquipo} onDelete={handleDelete} />
                 )
               })}
             </Stack>}

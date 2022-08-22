@@ -1,3 +1,4 @@
+import { ConnectingAirportsOutlined } from '@mui/icons-material'
 import axios from 'axios'
 import authService from './auth.service'
 
@@ -12,6 +13,13 @@ try {
 catch (error) {
     access_token = ''
 }
+
+const filtrarAtributo = (unAtributo, unArray) => {
+    return unArray.map((obj) => {
+        return (obj[unAtributo])
+    })
+}
+
 
 const fetchData = (url, params) => {
     return axios
@@ -63,6 +71,14 @@ const getEjercicioById = (id) => {
     return fetchData(url)
 }
 
+const getAllTipoEjercicios = () => {
+    const url = '/tipo-ejercicios'
+    const res = fetchData(url)
+    console.log('HOLAAAAA')
+    console.log(res)
+    return res
+}
+
 const getPasosByEjercicioId = (id) => {
     const url = '/ejercicios/' + id + '/pasos'
     return fetchData(url)
@@ -70,28 +86,26 @@ const getPasosByEjercicioId = (id) => {
 
 const getEquipamentoByEjercicio = (id) => {
     const url = '/ejercicios/' + id + '/herramientas'
-    const res = fetchData(url)
-    console.log('service')
-    console.log(res)
+    const res = fetchData(url).then((res)=>{return res.map((unEquip) => {return unEquip.nombre})})
     return res
 }
 
-const getEquipamentos = (id) => {
+const getAllEquipamentos = (id) => {
     const url = '/herramientas/'
-    const res = fetchData(url)
-    console.log('service')
+    const res = fetchData(url).then((res)=>{return res.map((unEquip) => {return unEquip.nombre})})
+    // const res = fetchData(url).then((res)=>{return filtrarAtributo('nombre', res)})
+    console.log('NuevaRESSSSSSSSS')
     console.log(res)
     return res
 }
-
-
 
 const ejerciciosService = {
     getEjercicioById,
     getEjercicios,
+    getAllTipoEjercicios,
     getPasosByEjercicioId,
     getEquipamentoByEjercicio,
-    getEquipamentos
+    getAllEquipamentos
 }
 
 export default ejerciciosService

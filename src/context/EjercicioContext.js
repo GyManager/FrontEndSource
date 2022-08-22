@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ejercicioService from "../services/ejercicios.service";
 import { useFormik } from 'formik'
@@ -13,14 +13,14 @@ import ejercicioSchema from '../components/unEjercicioPage/ejercicioSchema'
 export const EjercicioContext = createContext();
 
 export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
- 
 
-  const [pasos, setPasos] = useState([])
-  const [equipamentoDeEjercicio, setEquipamentoDeEjercicio] = useState([])
-  const [equipamentos, setEquipamentos] = useState([])
-  const [editable, setEditable] = useState(false)
-  let { idEjercicio } = useParams()
   const navigate = useNavigate()
+  let { idEjercicio } = useParams()
+  const [editable, setEditable] = useState(false)
+  const [tipoEjercicios, setTipoEjercicios] = useState([])
+  const [pasos, setPasos] = useState([])
+  const [equipamentos, setEquipamentos] = useState([])
+  const [equipamentoDeEjercicio, setEquipamentoDeEjercicio] = useState([])
 
   // console.log(idEjercicio)
 
@@ -42,8 +42,20 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   }
 
+useEffect(() => {
+const fetchAllTiposEjercicio = async () => {
+  const res = await ejercicioService.getAllTipoEjercicios()
+  console.log('Tipo ejerciciosRES')
+  console.log(res)
+  setTipoEjercicios(res)
+}
+fetchAllTiposEjercicio()
+
+},[])
+
+
   useEffect(() => {
-    const pasosByIdEjercicio = async (id) => {
+    const fetchPasosByIdEjercicio = async (id) => {
       const res = await ejercicioService.getPasosByEjercicioId(id)
       if (res instanceof AxiosError) {
         console.log('Hubo un error')
@@ -55,7 +67,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       }
     }
     if (unIdEjercicio) {
-      pasosByIdEjercicio(idEjercicio)
+      fetchPasosByIdEjercicio(idEjercicio)
     }
   }, [])
 
@@ -74,31 +86,37 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   }
 
   useEffect(() => {
-    const getEquipamentoDeEjercicio = async (idEjercicio) => {
+    const fetchEquipamentoDeEjercicio = async (idEjercicio) => {
       const res = await ejerciciosService.getEquipamentoByEjercicio(idEjercicio)
       if (res instanceof AxiosError) {
         console.log(res?.message)
       } else {
         console.log(res)
-        setEquipamentoDeEjercicio(res)
+        const orderedRes = orderBy(res, ['nombre'], ['asc'])
+        console.log(orderedRes)
+        // const equipamentoDeEjercicioNombres = orderedRes.map((unEquipamento) => { return unEquipamento.nombre })
+        setEquipamentoDeEjercicio(orderedRes)
       }
     }
-    getEquipamentoDeEjercicio(idEjercicio)
+    fetchEquipamentoDeEjercicio(idEjercicio)
 
   }, [])
 
   useEffect(() => {
-    const getEquipamentos = async () => {
-      const res = await ejerciciosService.getEquipamentos()
+    const fetchAllEquipamentos = async () => {
+      const res = await ejerciciosService.getAllEquipamentos()
       if (res instanceof AxiosError) {
         console.log(res?.message)
       } else {
         const orderedRes = orderBy(res, ['nombre'], ['asc'])
         console.log(orderedRes)
+        // const equipamentoNombres = orderedRes.map((unEquipamento) => { return unEquipamento.nombre })
+
+        // setEquipamentos(equipamentoNombres)
         setEquipamentos(orderedRes)
       }
     }
-    getEquipamentos()
+    fetchAllEquipamentos()
 
   }, [])
 
@@ -115,13 +133,14 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   return (
     <EjercicioContext.Provider value={{
+      formik,
+      editable, setEditable,
       pasos,
       idEjercicio,
       getEjercicio,
-      formik,
-      equipamentoDeEjercicio,setEquipamentoDeEjercicio,
+      tipoEjercicios,
+      equipamentoDeEjercicio, setEquipamentoDeEjercicio,
       equipamentos, setEquipamentos,
-      editable, setEditable,
       handleCancelEdit,
 
 

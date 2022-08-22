@@ -4,7 +4,6 @@ import { EjercicioContext } from '../../context/EjercicioContext'
 import Paso from './Paso'
 function Instrucciones(props) {
   const { pasos, setPasos } = useContext(EjercicioContext)
-  console.log(pasos)
 
   return (
     <Grid item xs={12}>

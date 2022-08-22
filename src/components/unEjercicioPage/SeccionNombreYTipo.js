@@ -23,15 +23,15 @@ function SeccionNombreYTipo(props) {
             <Grid item xs={12} md={7} sx={{ textAlign: 'center' }}>
               <GenericComboBox
                 label="Tipo de ejercicio"
-                id="ejercicioTipoDeEjercicio"
+                id="tipoDeEjercicio"
                 // value={formik.values.tipoDeEjercicio}
                 value={formik.values.tipoDeEjercicio}
                 handleChange={formik.handleChange}
                 editable={editable}
                 valueForNone=""
                 labelForNone="Seleccionar tipo de ejercicio"
-                // values={props.tipoEjercicios}
-                values={['Opcion1', 'opcion2', 'opcion3']}
+                values={props.tipoEjercicios}
+                // values={['Opcion1', 'opcion2', 'opcion3']}
                 minWidth={250} />
             </Grid>
           </Grid>

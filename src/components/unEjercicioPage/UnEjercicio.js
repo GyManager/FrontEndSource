@@ -21,10 +21,10 @@ import SeccionEquipamento from './SeccionEquipamento'
 
 function UnEjercicioPage() {
   // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
-  const { tipoEjercicios } = useContext(ParameterDropdownContext)
-  console.log(tipoEjercicios)
+
   const {
-    pasosByIdEjercicio, idEjercicio, formik, getEjercicio, handleSubmit, editable, setEditable
+    pasosByIdEjercicio, idEjercicio, formik, getEjercicio, handleSubmit, editable, setEditable,
+    tipoEjercicios
   } = useContext(EjercicioContext)
   const navigate = useNavigate()
 
@@ -98,10 +98,10 @@ function UnEjercicioPage() {
         <SeccionNombreYTipo
           paperStyle={paperStyle}
           TextFieldStyle={TextFieldStyle}
-          tipoEjercicio={tipoEjercicios}
+          tipoEjercicios={tipoEjercicios}
         />
         <Paper {...paperStyle} >
-          <SeccionInstrucciones />     
+          <SeccionInstrucciones />
         </Paper>
 
         <Paper {...paperStyle}>
@@ -112,7 +112,7 @@ function UnEjercicioPage() {
         </Paper>
       </Grid>
 
-      
+
       <Grid item xs={12}
         {...ButtonMobileStyle}>
         <ButtonUnEjercicioMobile />

@@ -21,20 +21,20 @@ const MenuProps = {
 };
 
 
-function getStyles(name, personName, theme) {
+function getStyles(unChip, personName, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      personName.indexOf(unChip) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
 export default function MultipleSelectChip(props) {
-  const names = props.allValues
-  const selectedNames = props.selectedValues
+  const chips = props.allValues
+  const selectedChips = props.selectedValues
   const theme = useTheme();
-  const [personName, setPersonName] = useState([...props.selectedValues]);
+  const [personName, setPersonName] = useState([...selectedChips]);
 
   const handleChange = (event) => {
     const {
@@ -44,6 +44,7 @@ export default function MultipleSelectChip(props) {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    props.setSelectedValues(personName)
   };
 
   return (
@@ -66,13 +67,13 @@ export default function MultipleSelectChip(props) {
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {chips.map((unChip) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={unChip}
+              value={unChip}
+              style={getStyles(unChip, personName, theme)}
             >
-              {name}
+              {unChip}
             </MenuItem>
           ))}
         </Select>
