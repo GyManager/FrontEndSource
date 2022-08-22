@@ -27,7 +27,10 @@ export default function FormOptions(props) {
                     startIcon={<Save />}
                     type='submit'
                 >
-                    {props.id === 'new' ? 'Crear' : 'Guardar '}
+                    {
+                        props.submitMessage ? props.submitMessage :
+                            props.id === 'new' ? 'Crear' : 'Guardar '
+                    }
                 </Button>
             }
 

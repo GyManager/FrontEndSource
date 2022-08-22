@@ -37,6 +37,30 @@ const getPlanById = (idPlan) => {
     })
 }
 
+const postPlan = (plan, idCliente) => {
+    return axios.post(API_URL + API_PATH_CLIENTE + `/${idCliente}` + API_PATH_PLANES, plan, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error)
+    })
+}
+
+const putPlan = (plan, idCliente, idPlan) => {
+    return axios.put(API_URL + API_PATH_CLIENTE + `/${idCliente}` + API_PATH_PLANES + `/${idPlan}`, plan, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error)
+    })
+}
+
 const handleError = (error) => {
     if(error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -62,6 +86,8 @@ const handleError = (error) => {
 const planesService = {
     getPlanesByIdCliente,
     getPlanById,
+    postPlan,
+    putPlan
 }
 
 

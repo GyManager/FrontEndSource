@@ -14,13 +14,18 @@ import Rutina from "./Rutina";
 import { DataContext } from "../../context/DataContext";
 import FormOptionsSpeedDial from "../reusable/FormOptionsSpeedDial";
 
-export default function MicroPlan() {
+/**
+ * 
+ * @param {idMicroPlan} props 
+ * @returns 
+ */
+export default function MicroPlan(props) {
 
     let { idMicroPlan } = useParams();
-    const esTemplate = true;
+
     const nuevoEjercicio = () => {
         return {
-            esTemplate: esTemplate,
+            esTemplate: props.esTemplate,
             tipoEjercicio: "",
             idEjercicio: "",
             bloque: "",
@@ -32,22 +37,21 @@ export default function MicroPlan() {
             carga: ""
         };
     }
-    const nuevaRutina = () => {return {nombre: "", ejerciciosAplicados: [nuevoEjercicio()], esTemplate: esTemplate};}
+    const nuevaRutina = () => {return {nombre: "", ejerciciosAplicados: [nuevoEjercicio()], esTemplate: props.esTemplate};}
 
     const {setDataSnackbar} = useContext(DataContext)
     const [loading, setLoading] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
     const [expanded, setExpanded] = useState(() => false);
-    const [editable, setEditable] = useState(() => false);
+    const [editable, setEditable] = useState(() => props.editable);
 
     const navigate = useNavigate()
 
+    const formikInitialValues = props.microPlan? props.microPlan : 
+        ({ nombre: "", rutinas: [nuevaRutina()], esTemplate: props.esTemplate})
+
     const formik = useFormik({
-        initialValues: {
-            nombre: "",
-            rutinas: [nuevaRutina()],
-            esTemplate: esTemplate
-        },
+        initialValues: formikInitialValues,
         validateOnChange: false,
         validateOnBlur: true,
         validationSchema: microPlanSchema.validationSchema,
@@ -93,7 +97,9 @@ export default function MicroPlan() {
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
-        if (idMicroPlan === 'new') {
+        if(props.handleSubmit){
+            props.handleSubmit(formik.values)
+        } else if (idMicroPlan === 'new') {
             const respuesta = await microPlanesService.postMicroPlan(formik.values)
             handleRespuesta(respuesta, 'El micro plan ha sido creado con exito')
         } else {
@@ -102,12 +108,12 @@ export default function MicroPlan() {
         }
     }
 
-    const handleDelete = async () => {
+    const handleDelete = props.handleDelete ? props.handleDelete : async () => {
         const respuesta = await microPlanesService.deleteMicroPlanById(idMicroPlan);
         handleRespuesta(respuesta, 'El micro plan ha sido borrado con exito')
     }
 
-    const handleCancel = () => {
+    const handleCancel = props.handleCancel ? props.handleCancel : () => {
         if (idMicroPlan === 'new') {
             navigate("/micro-planes");
         } else {
@@ -126,7 +132,7 @@ export default function MicroPlan() {
     }
 
     useEffect(() => {
-        if (idMicroPlan === 'new') {
+        if (idMicroPlan === 'new' || !props.esTemplate) {
             setEditable(true)
         } else {
             getMicroPlanById()
@@ -162,6 +168,7 @@ export default function MicroPlan() {
                     handleCancelEdit={handleCancel}
                     handleDeleteClick={handleDelete}
                     handleSubmit={formik.handleSubmit}
+                    submitMessage={props.submitMessage}
                     id={idMicroPlan}
                 />
             </Box>

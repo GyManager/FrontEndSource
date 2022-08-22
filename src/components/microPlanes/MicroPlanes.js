@@ -9,7 +9,7 @@ import { GenericModal, Snackbar } from "../reusable";
 import { DataContext } from "../../context/DataContext";
 import ButtonToFabCrear from "../reusable/ButtonToFabCrear";
 
-export default function MicroPlanes() {
+export default function MicroPlanes(props) {
 
     const navigate = useNavigate();
 
@@ -47,9 +47,13 @@ export default function MicroPlanes() {
         setTimeout(() => setDataSnackbar(''), 6100)
     }, [valueToSearch, pageSize, page])
 
+    const onSelectedMicroPlan = props.onSelectedMicroPlan ? props.onSelectedMicroPlan : (idMicroPlan) => {
+        navigate(`/micro-planes/${idMicroPlan}`)
+    }
+
     const tableRows = microPlanes.map(microPlan => (
         <TableRow hover key={microPlan.nombre} 
-            onClick={() => navigate(`/micro-planes/${microPlan.idMicroPlan}`)}
+            onClick={() => onSelectedMicroPlan(microPlan.idMicroPlan)}
             sx={{cursor:'pointer'}}
         >
             <TableCell>{microPlan.nombre}</TableCell>
