@@ -44,7 +44,7 @@ function Paso(props) {
             <Grid container alignItems='center'>
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container justifyContent='center'>
-                        <Button {...ButtonStyle} ><ArrowUpward fontSize='small' /></Button>
+                        <Button {...ButtonStyle} onClick={() => props.handleSubirPaso(props.nroPaso)} ><ArrowUpward fontSize='small'/></Button>
                         <Typography {...ButtonStyle}
                             sx={{ fontSize: { xs: 10, md: 12, lg: 14, xl: 18 }, p: 1 }}
 
@@ -58,10 +58,10 @@ function Paso(props) {
                         <TextField fullWidth
                             {...TextFieldStyle}
                             label="Descripcion"
-                            id="numeroDocumento"
+                            id={props.id}
                             value={props.descripcion}
-                            error={formik.touched.descripcion && Boolean(formik.errors.descripcion)}
-                            helperText={formik.touched.descripcion && formik.errors.descripcion}
+                            error={formik.touched.descripcion+props.index && Boolean(formik.errors.descripcion+props.index)}
+                            helperText={formik.touched.descripcion+props.index && formik.errors.descripcion+props.index}
                             multiline={true}
                         />
                     </Grid>

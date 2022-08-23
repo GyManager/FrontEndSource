@@ -29,7 +29,11 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       initialValues: {
         nombre: "",
         tipoDeEjercicio: "",
-        linkVideo: ""
+        linkVideo: "",
+        pasos:[{
+          descripcion: '',
+          imagen: ''
+        }]
       },
       validationSchema: ejercicioSchema.validationSchema,
       onSubmit: () => {
@@ -136,6 +140,7 @@ fetchAllTiposEjercicio()
       formik,
       editable, setEditable,
       pasos,
+      setPasos,
       idEjercicio,
       getEjercicio,
       tipoEjercicios,

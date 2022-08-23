@@ -27,17 +27,17 @@ console.log('equipamentoDeEjercicio')
 console.log(equipamentoDeEjercicio)
 
   useEffect(() => {
-    const estaEnLaSeleccion = (unEquipamento) => {
-      if (equipamentoDeEjercicio.includes(unEquipamento)) {
-        return unEquipamento
-      }
-    }
+    // const estaEnLaSeleccion = (unEquipamento) => {
+    //   if (equipamentoDeEjercicio.includes(unEquipamento)) {
+    //     return unEquipamento
+    //   }
+    // }
 
-    const actualizarEquipamentoDeEjercicio = equipamentos.filter(estaEnLaSeleccion)
+    // const actualizarEquipamentoDeEjercicio = equipamentos.filter(estaEnLaSeleccion)
 
-    console.log('actualizarEquipamentoDeEjercicio')
-    console.log(actualizarEquipamentoDeEjercicio)
-    setEquipamentoDeEjercicio(actualizarEquipamentoDeEjercicio)
+    // console.log('actualizarEquipamentoDeEjercicio')
+    // console.log(actualizarEquipamentoDeEjercicio)
+    // setEquipamentoDeEjercicio(actualizarEquipamentoDeEjercicio)
   }, [])
 
 
