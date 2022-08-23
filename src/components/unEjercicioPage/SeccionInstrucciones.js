@@ -11,54 +11,40 @@ export default function SeccionInstrucciones(props) {
     setPasos([
       ...pasos,
       {
-        "idPaso": pasos.length - 1,
-        "numeroPaso": pasos.length,
+        "numeroPaso": pasos.length + 1,
         "contenido": "",
-        "imagen": ""
+        "imagen": "",
+
       }
     ])
+    console.log(pasos)
   }
 
   const handleSubirPaso = (nroPaso) => {
-    console.log('nroPaso: ', nroPaso)
-    // console.log(nroPaso)
-    // const pasoActual = pasos.find(unPaso => unPaso.numeroPaso === nroPaso)
-    // const pasoAnterior = pasos.find(unPaso => unPaso.numeroPaso === (nroPaso - 1))
-    // console.log(pasoActual)
-    // console.log(pasoAnterior)
     if (nroPaso === 1) {
-      console.log('No puede subir mas')
+      console.log('No se puede subir mas')
     } else {
-      console.log(pasos)
-      const idPasoASubir = pasos[nroPaso - 1].idPaso
-      const idPasoABajar = pasos[nroPaso - 2].idPaso
-      console.log(idPasoASubir, idPasoABajar)
-      // pasos[nroPaso].numeroPaso--
-
-      const updatePasos = pasos.map(unPaso => {
-        if (unPaso.idPaso === idPasoASubir) {
-          const numeroPasoDecrementado = nroPaso - 1;
-          console.log({ ...unPaso, "numeroPaso": numeroPasoDecrementado })
-          return (
-            { ...unPaso, "numeroPaso": numeroPasoDecrementado }
-          )
-        } else if (unPaso.idPaso === idPasoABajar) {
-          console.log(pasos)
-          return (
-            { ...unPaso, "numeroPaso": nroPaso }
-          )
-        }
-        console.log(pasos)
-        return unPaso
-      }
-      )
-      const orderedUpdate = orderBy(updatePasos, 'numeroPaso')
+      const indexPasoASubir = nroPaso - 1
+      const indexPasoABajar = nroPaso - 2
+      pasos[indexPasoASubir].numeroPaso--
+      pasos[indexPasoABajar].numeroPaso++
+      const orderedUpdate = orderBy(pasos, 'numeroPaso')
       setPasos(orderedUpdate)
-
     }
   }
-  console.log(pasos)
 
+  const handleBajarPaso = (nroPaso) => {
+    if (nroPaso === pasos.length) {
+      console.log('No se puede bajar mas')
+    } else {
+      const indexPasoASubir = nroPaso
+      const indexPasoABajar = nroPaso - 1
+      pasos[indexPasoASubir].numeroPaso--
+      pasos[indexPasoABajar].numeroPaso++
+      const orderedUpdate = orderBy(pasos, 'numeroPaso')
+      setPasos(orderedUpdate)
+    }
+  }
 
   return (
     <Grid item xs={12}>
@@ -75,6 +61,7 @@ export default function SeccionInstrucciones(props) {
                 descripcion={unPaso.contenido}
                 imagen={unPaso.imagen}
                 handleSubirPaso={handleSubirPaso}
+                handleBajarPaso={handleBajarPaso}
               />
             )
           })}

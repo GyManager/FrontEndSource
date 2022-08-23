@@ -10,8 +10,8 @@ import { Grid, Typography } from '@mui/material';
 export default function SeccionEquipamento() {
   const { equipamentoDeEjercicio, setEquipamentoDeEjercicio,
     equipamentos, formik, editable } = useContext(EjercicioContext)
-  console.log('equipamentos')
-  console.log(equipamentos)
+  // console.log('equipamentos')
+  // console.log(equipamentos)
 
 /*
   const nombreEquipamentos = equipamentos.map(equip => {
@@ -23,8 +23,8 @@ export default function SeccionEquipamento() {
   })
 
 */
-console.log('equipamentoDeEjercicio')
-console.log(equipamentoDeEjercicio)
+// console.log('equipamentoDeEjercicio')
+// console.log(equipamentoDeEjercicio)
 
   useEffect(() => {
     // const estaEnLaSeleccion = (unEquipamento) => {

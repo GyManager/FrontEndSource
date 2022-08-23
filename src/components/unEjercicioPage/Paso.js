@@ -49,7 +49,7 @@ function Paso(props) {
                             sx={{ fontSize: { xs: 10, md: 12, lg: 14, xl: 18 }, p: 1 }}
 
                         >{props.nroPaso}</Typography>
-                        <Button {...ButtonStyle} ><ArrowDownward fontSize='small' /></Button>
+                        <Button {...ButtonStyle} onClick={() => props.handleBajarPaso(props.nroPaso)}><ArrowDownward fontSize='small' /></Button>
                     </Grid>
                 </Grid>
                 <Grid item xs={7} md={8} sx={{ mr: 5 }}>
@@ -60,8 +60,8 @@ function Paso(props) {
                             label="Descripcion"
                             id={props.id}
                             value={props.descripcion}
-                            error={formik.touched.descripcion+props.index && Boolean(formik.errors.descripcion+props.index)}
-                            helperText={formik.touched.descripcion+props.index && formik.errors.descripcion+props.index}
+                            error={formik.touched.descripcion && Boolean(formik.errors.descripcion)}
+                            helperText={formik.touched.descripcion && formik.errors.descripcion}
                             multiline={true}
                         />
                     </Grid>
