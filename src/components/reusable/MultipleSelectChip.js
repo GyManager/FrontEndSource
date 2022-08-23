@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 
 import { EjercicioContext } from '../../context/EjercicioContext';
@@ -34,7 +34,7 @@ function getStyles(unChip, personName, theme) {
 }
 
 export default function MultipleSelectChip(props) {
-  const {equipamentos, equipamentoDeEjercicio, setEquipamentoDeEjercicio } = useContext(EjercicioContext)
+  const { equipamentos, equipamentoDeEjercicio, setEquipamentoDeEjercicio } = useContext(EjercicioContext)
   const chips = equipamentos
   const selectedChips = equipamentoDeEjercicio
   const theme = useTheme();
@@ -48,9 +48,11 @@ export default function MultipleSelectChip(props) {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
-
-    setEquipamentoDeEjercicio(personName)
   };
+
+  useEffect(() => {
+    setEquipamentoDeEjercicio(personName)
+  }, [personName])
 
   return (
     <div>

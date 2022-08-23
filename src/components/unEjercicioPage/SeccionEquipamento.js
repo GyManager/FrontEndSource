@@ -64,9 +64,9 @@ export default function SeccionEquipamento() {
           {editable
             ?
             <MultipleSelectChip
-              selectedValues={equipamentoDeEjercicio}
-              setSelectedValues={setEquipamentoDeEjercicio}
-              allValues={equipamentos}
+              // selectedValues={equipamentoDeEjercicio}
+              // setSelectedValues={setEquipamentoDeEjercicio}
+              // allValues={equipamentos}
             />
             :
             <Stack direction="row" spacing={1}>

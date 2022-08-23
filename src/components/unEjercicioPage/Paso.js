@@ -58,6 +58,7 @@ function Paso(props) {
                         <TextField fullWidth
                             {...TextFieldStyle}
                             label="Descripcion"
+                            name={props.id}
                             id={props.id}
                             value={props.descripcion}
                             error={formik.touched.descripcion && Boolean(formik.errors.descripcion)}
@@ -72,7 +73,7 @@ function Paso(props) {
                 </Grid>
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container direction='column' justifyContent='flex-start'>
-                        <Button  {...ImgButtonStyle} ><Delete fontSize='small' /></Button>
+                        <Button  {...ImgButtonStyle} ><Delete fontSize='small' onClick={()=>props.handleDelete(props.nroPaso)}/></Button>
                     </Grid>
                 </Grid>
             </Grid>
