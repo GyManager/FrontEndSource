@@ -13,6 +13,7 @@ import MicroPlan from '../microPlan/MicroPlan';
 import MicroPlanes from '../microPlanes/MicroPlanes';
 import microPlanesService from '../../services/micro-planes.service';
 import { DataContext } from '../../context/DataContext';
+import authService from '../../services/auth.service';
 
 export default function Plan() {
 
@@ -42,28 +43,37 @@ export default function Plan() {
     const fechaHasta = Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            const respuesta = await planesService.getPlanById(idPlan);
-            setLoading(false)
-            if (respuesta instanceof AxiosError) {
-                console.log(respuesta)
-            } else {
-                formik.setValues(respuesta, false)
+        if (idPlan !== 'new') {
+            const fetchData = async () => {
+                setLoading(true)
+                const respuesta = await planesService.getPlanById(idPlan);
+                setLoading(false)
+                if (respuesta instanceof AxiosError) {
+                    console.log(respuesta)
+                } else {
+                    formik.setValues(respuesta, false)
+                }
             }
+            fetchData();
         }
-        fetchData();
     }, [idPlan])
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
         if (idPlan === 'new') {
-            const respuesta = await planesService.postPlan(formik.values, clienteId)
+            const plan = formik.values;
+            plan.usuarioProfesor = authService.getStoredSession().mail;
+            const respuesta = await planesService.postPlan(plan, clienteId)
             handleRespuesta(respuesta, 'El micro plan ha sido creado con exito')
         } else {
             const respuesta = await planesService.putPlan(formik.values, clienteId, idPlan)
             handleRespuesta(respuesta, 'El micro plan ha sido modificado con exito')
         }
+    }
+
+    const handleDelete = async () => {
+        const respuesta = await planesService.deletePlanById(clienteId, idPlan);
+        handleRespuesta(respuesta, 'El plan ha sido borrado con exito')
     }
 
     const handleRespuesta = (respuesta, mensaje) => {
@@ -127,7 +137,6 @@ export default function Plan() {
             respuesta.idMicroPlan = null;
             respuesta.esTemplate = false;
             const numerosDeOrden = formik.values.microPlans.map(microPlan => microPlan.numeroOrden);
-            console.log(numerosDeOrden)
             respuesta.numeroOrden = Math.max(...numerosDeOrden) + 1 
             respuesta.rutinas.forEach(rutina => {
                 rutina.esTemplate = false;
@@ -165,8 +174,10 @@ export default function Plan() {
                 </Box>
                 <FormOptions
                     editable={true}
-                    // handleCancelEdit={handleCancel}
+                    handleCancelEdit={() => navigate(`/clientes/${clienteId}`)}
                     handleSubmit={formik.handleSubmit}
+                    enableDeleteAlways={(idPlan !== "new")}
+                    handleDeleteClick={handleDelete}
                     id={idPlan}
                 />
             </Box>

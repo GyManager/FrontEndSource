@@ -4,7 +4,7 @@ import { Edit, Delete, Save, Cancel } from '@mui/icons-material/';
 
 /**
  * 
- * @param {id, editable, handleCancelEdit, handleEditClick, handleDeleteClick} props 
+ * @param {id, editable, handleCancelEdit, handleEditClick, handleDeleteClick, enableDeleteAlways} props 
  * @returns 
  */
 export default function FormOptions(props) {
@@ -56,7 +56,7 @@ export default function FormOptions(props) {
                 </Button>
             }
 
-            {props.id !== 'new' && !props.editable &&
+            {(props.enableDeleteAlways || (props.id !== 'new' && !props.editable)) &&
                 <Button
                 id='borrarOption'
                     {...buttonCommonProperties}

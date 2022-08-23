@@ -61,6 +61,18 @@ const putPlan = (plan, idCliente, idPlan) => {
     })
 }
 
+const deletePlanById = (idCliente, idPlan) => {
+    return axios.delete(API_URL + API_PATH_CLIENTE + `/${idCliente}` + API_PATH_PLANES + `/${idPlan}`, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error)
+    })
+}
+
 const handleError = (error) => {
     if(error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -87,7 +99,8 @@ const planesService = {
     getPlanesByIdCliente,
     getPlanById,
     postPlan,
-    putPlan
+    putPlan,
+    deletePlanById
 }
 
 
