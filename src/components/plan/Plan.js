@@ -14,6 +14,7 @@ import MicroPlanes from '../microPlanes/MicroPlanes';
 import microPlanesService from '../../services/micro-planes.service';
 import { DataContext } from '../../context/DataContext';
 import authService from '../../services/auth.service';
+import Observaciones from '../observaciones/Observaciones';
 
 const paperStyle = {
     elevation:1,
@@ -40,6 +41,7 @@ export default function Plan() {
     const [loading, setLoading] = useState(false);
     const [microPlanEditing, setMicroPlanEditing] = useState()
     const [buscarMicroPlan, setBuscarMicroPlan] = useState(false)
+    const [observacionesEditing, setObservacionesEditing] = useState()
 
     const formik = useFormik({
         initialValues: {
@@ -55,6 +57,7 @@ export default function Plan() {
     });
 
     const cantidadSemanas = formik.values.microPlans.flatMap(microPlan => microPlan.observaciones).length;
+    const fechaHasta = Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000);
 
     useEffect(() => {
         if (idPlan !== 'new') {
@@ -76,6 +79,7 @@ export default function Plan() {
     const handleSubmit = async (e) => {
         e?.preventDefault();
         const plan = formik.values;
+        plan.fechaHasta = new Date(Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000));
         plan.microPlans.forEach((microPlan, index) => microPlan.numeroOrden = index + 1)
         if (idPlan === 'new') {
             plan.usuarioProfesor = authService.getStoredSession().mail;
@@ -101,8 +105,9 @@ export default function Plan() {
         }
     }
 
-    function editMicroPlan(index){
-        setMicroPlanEditing(index);
+    function handleEditObservaciones(observacionesEdited, index){
+        formik.setFieldValue(`microPlans[${index}].observaciones`, observacionesEdited, false)
+        setObservacionesEditing(null)
     }
 
     function handleDeleteMicroPlan(index){
@@ -233,7 +238,7 @@ export default function Plan() {
                         onChange={formik.setFieldValue}
                     />
                     <DatePicker
-                        value={formik.values.fechaHasta || ""}
+                        value={fechaHasta || ""}
                         id="fechaHasta"
                         name="fechaHasta"
                         label="Fecha hasta"
@@ -268,8 +273,8 @@ export default function Plan() {
                                             <TableCell>{microPlan.observaciones? microPlan.observaciones.length : 0}</TableCell>
                                             <TableCell>
                                                 <Box sx={{display:'flex', gap:2}}>
-                                                    <Button variant='contained' size='small' color='secondary' startIcon={<Comment />}> Observaciones </Button>
-                                                    <Button variant='contained' size='small' startIcon={<Edit />} onClick={() => editMicroPlan(index)}> Editar </Button>
+                                                    <Button variant='contained' size='small' color='secondary' startIcon={<Comment />} onClick={() => setObservacionesEditing(index)}> Observaciones </Button>
+                                                    <Button variant='contained' size='small' startIcon={<Edit />} onClick={() => setMicroPlanEditing(index)}> Editar </Button>
                                                     <Button variant='contained' size='small' color='error' startIcon={<Delete />} onClick={() => handleDeleteMicroPlan(index)}>  Borrar </Button>
                                                 </Box>
                                             </TableCell>
@@ -290,6 +295,18 @@ export default function Plan() {
                 hide={() => setModalMsj("")}
                 serverMsj={modalMsj} 
             />
+
+            { observacionesEditing !== null && observacionesEditing !== undefined &&
+                <Observaciones
+                    open={observacionesEditing !== null && observacionesEditing !== undefined}
+                    microPlanIndex={observacionesEditing}
+                    microPlanName={formik.values.microPlans[observacionesEditing].nombre}
+                    observaciones={formik.values.microPlans[observacionesEditing].observaciones }
+                    handleSave={handleEditObservaciones}
+                    handleClose={() => setObservacionesEditing(null)}
+                />
+            }
+
         </Paper>
     )
 }
