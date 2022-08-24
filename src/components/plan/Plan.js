@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, fabClasses, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material/';
+import { Box, Button, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material/';
 import { Breadcumbs, GenericComboBox, GenericModal } from '../reusable';
 import planesService from '../../services/planes.service';
 import { AxiosError } from 'axios';
@@ -15,23 +15,38 @@ import microPlanesService from '../../services/micro-planes.service';
 import { DataContext } from '../../context/DataContext';
 import authService from '../../services/auth.service';
 
+const paperStyle = {
+    elevation:1,
+    sx:{p: 2}
+}
+
+const skeleton = (
+    <TableRow>
+        <TableCell><Skeleton animation='wave'/></TableCell>
+        <TableCell><Skeleton animation='wave'/></TableCell>
+        <TableCell><Skeleton animation='wave'/></TableCell>
+        <TableCell><Skeleton animation='wave'/></TableCell>
+    </TableRow>
+);
+
 export default function Plan() {
 
     let { clienteId, idPlan } = useParams();
     const navigate = useNavigate();
+    const {setDataSnackbar} = useContext(DataContext)
+    const {objetivos} = useContext(ParameterDropdownContext)
+
     const [modalMsj, setModalMsj] = useState("");
     const [loading, setLoading] = useState(false);
-    const {setDataSnackbar} = useContext(DataContext)
-    
     const [microPlanEditing, setMicroPlanEditing] = useState()
     const [buscarMicroPlan, setBuscarMicroPlan] = useState(false)
-
-    const { objetivos } = useContext(ParameterDropdownContext)
 
     const formik = useFormik({
         initialValues: {
             descripcion: "",
             objetivo:"",
+            fechaDesde: new Date(),
+            fechaHasta: new Date(),
             microPlans: []
         },
         // validationSchema: planSchema.validationSchema,
@@ -39,8 +54,8 @@ export default function Plan() {
             handleSubmit();
         },
     });
+
     const cantidadSemanas = formik.values.microPlans.flatMap(microPlan => microPlan.observaciones).length;
-    const fechaHasta = Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000);
 
     useEffect(() => {
         if (idPlan !== 'new') {
@@ -84,20 +99,6 @@ export default function Plan() {
             setDataSnackbar(mensaje)
         }
     }
-
-    const paperStyle = {
-        elevation:1,
-        sx:{p: 2}
-    }
-
-    const skeleton = (
-        <TableRow>
-            <TableCell><Skeleton animation='wave'/></TableCell>
-            <TableCell><Skeleton animation='wave'/></TableCell>
-            <TableCell><Skeleton animation='wave'/></TableCell>
-            <TableCell><Skeleton animation='wave'/></TableCell>
-        </TableRow>
-    );
 
     function editMicroPlan(index){
         setMicroPlanEditing(index);
@@ -231,7 +232,7 @@ export default function Plan() {
                         onChange={formik.setFieldValue}
                     />
                     <DatePicker
-                        value={fechaHasta || ""}
+                        value={formik.values.fechaHasta || ""}
                         id="fechaHasta"
                         name="fechaHasta"
                         label="Fecha hasta"
