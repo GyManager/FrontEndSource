@@ -46,7 +46,6 @@ export default function Plan() {
             descripcion: "",
             objetivo:"",
             fechaDesde: new Date(),
-            fechaHasta: new Date(),
             microPlans: []
         },
         // validationSchema: planSchema.validationSchema,
@@ -66,6 +65,7 @@ export default function Plan() {
                 if (respuesta instanceof AxiosError) {
                     console.log(respuesta)
                 } else {
+                    respuesta.microPlans = respuesta.microPlans.sort((a,b) => a.numeroOrden - b.numeroOrden)
                     formik.setValues(respuesta, false)
                 }
             }
@@ -75,8 +75,9 @@ export default function Plan() {
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
+        const plan = formik.values;
+        plan.microPlans.forEach((microPlan, index) => microPlan.numeroOrden = index + 1)
         if (idPlan === 'new') {
-            const plan = formik.values;
             plan.usuarioProfesor = authService.getStoredSession().mail;
             const respuesta = await planesService.postPlan(plan, clienteId)
             handleRespuesta(respuesta, 'El micro plan ha sido creado con exito')
@@ -134,15 +135,15 @@ export default function Plan() {
         if (respuesta instanceof AxiosError) {
             setModalMsj(respuesta?.message)
         } else {
-            const newMicroPlans = formik.values.microPlans;
             respuesta.idMicroPlan = null;
+
             respuesta.esTemplate = false;
-            const numerosDeOrden = formik.values.microPlans.map(microPlan => microPlan.numeroOrden);
-            respuesta.numeroOrden = Math.max(...numerosDeOrden) + 1 
             respuesta.rutinas.forEach(rutina => {
                 rutina.esTemplate = false;
                 rutina.ejerciciosAplicados.forEach(ejercicioAplicado => ejercicioAplicado.esTemplate = false)
             })
+
+            const newMicroPlans = formik.values.microPlans;
             newMicroPlans.push(respuesta)
             formik.setFieldValue('microPlans', newMicroPlans, false)
             setBuscarMicroPlan(false)
@@ -261,8 +262,8 @@ export default function Plan() {
                             {
                                 loading ? skeleton : 
                                 formik.values.microPlans.map((microPlan, index) => (
-                                    <TableRow key={microPlan.idMicroPlan}>
-                                            <TableCell>{microPlan.numeroOrden}</TableCell>
+                                    <TableRow key={index}>
+                                            <TableCell>{index + 1}</TableCell>
                                             <TableCell>{microPlan.nombre}</TableCell>
                                             <TableCell>{microPlan.observaciones? microPlan.observaciones.length : 0}</TableCell>
                                             <TableCell>
