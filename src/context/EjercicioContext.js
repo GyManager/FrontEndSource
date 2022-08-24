@@ -29,11 +29,12 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       initialValues: {
         nombre: "",
         tipoDeEjercicio: "",
-        linkVideo: "",
-        pasos:[{
+        pasos: [{
           descripcion: '',
           imagen: ''
-        }]
+        }],
+        linkVideo: "",
+        equipamentoDeEjercicio: ""
       },
       validationSchema: ejercicioSchema.validationSchema,
       onSubmit: () => {
@@ -46,16 +47,16 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   }
 
-useEffect(() => {
-const fetchAllTiposEjercicio = async () => {
-  const res = await ejercicioService.getAllTipoEjercicios()
-  console.log('Tipo ejerciciosRES')
-  console.log(res)
-  setTipoEjercicios(res)
-}
-fetchAllTiposEjercicio()
+  useEffect(() => {
+    const fetchAllTiposEjercicio = async () => {
+      const res = await ejercicioService.getAllTipoEjercicios()
+      console.log('Tipo ejerciciosRES')
+      console.log(res)
+      setTipoEjercicios(res)
+    }
+    fetchAllTiposEjercicio()
 
-},[])
+  }, [])
 
 
   useEffect(() => {
@@ -67,7 +68,12 @@ fetchAllTiposEjercicio()
         // console.log(res)
         const orderedRes = orderBy(res, ['numeroPaso'], ['asc'])
         // console.log(orderedRes)
-        setPasos(orderedRes)
+        // setPasos(orderedRes)
+        formik.setValues(
+          {
+            pasos: [{...res}]
+          }
+        )
       }
     }
     if (unIdEjercicio) {
