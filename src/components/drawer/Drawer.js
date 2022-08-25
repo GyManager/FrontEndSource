@@ -176,7 +176,9 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
+                        backgroundColor:'#151923',
                     },
+
                 }}
                 variant="persistent"
                 anchor="left"
@@ -184,16 +186,16 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             >
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon sx={{color:'white'}}/> : <ChevronRightIcon />}
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
+                <Divider sx={{backgroundColor:'white'}}/>
                 <List>
                     {menuItem.filter((object) => token.permisos.includes(object.permiso) || object.permiso == "").map((object) => (
                         <DrawerItem key={object.text} {...object} handleDrawerClose={handleDrawerClose}/>
                     ))}
                 </List>
-                <Divider />
+                <Divider sx={{backgroundColor:'white'}}/>
             </Drawer>
             }
             <Main open={open}>
