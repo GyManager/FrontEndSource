@@ -2,7 +2,9 @@
     text-decoration: none;
 }
 .fondo{
-    background-color: lightgrey;
+    background-image: url(./images/main.jpg);
+    background-repeat: no-repeat;
+    background-size:cover;
 }
 .fede{
     width: 50vw;

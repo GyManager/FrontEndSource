@@ -22,6 +22,21 @@ import MicroPlanPage from './pages/MicroPlanPage';
 import UnderConstructionPage from './pages/UnderConstructionPage';
 import NoAutorizadoPage from './pages/NoAutorizadoPage';
 import PlanPage from './pages/PlanPage';
+import { createTheme, ThemeProvider  } from '@mui/material/styles';
+import { Box } from '@mui/system';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: '#780d9c',
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: '#9c0d31',
+    }
+  },
+});
 
 function App() {
 
@@ -29,39 +44,43 @@ function App() {
 
   if (!token) {
     return (
-      <div className="fondo" >
-        <BrowserRouter>
-          <Drawer showMenu={false} />
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/*" element={<Navigate to="/login" />} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </div>
+      <ThemeProvider theme={theme}>
+        <Box className='fondo'>
+          <BrowserRouter>
+            <Drawer showMenu={false} />
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/*" element={<Navigate to="/login" />} />
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        </Box>
+      </ThemeProvider>
     )
   }
 
   return (
     <DataProvider>
-      <div className="fondo">
-        <BrowserRouter >
-          <Drawer showMenu={true} token={token} />
-          <Routes >
-            <Route path="/" element={<h1>Logeado</h1>} />
+      <ThemeProvider theme={theme}>
+        <Box className='fondo'>
+          <BrowserRouter >
+            <Drawer showMenu={true} token={token} />
+              <Routes >
+                <Route path="/" element={<h1>Logeado</h1>} />
 
-            {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
-            {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
-            {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
-            {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
-            {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
-            {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
+                {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
+                {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
+                {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
+                {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
+                {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
+                {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
 
-            <Route path="/*" element={<NoAutorizadoPage/>} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </div>
+                <Route path="/*" element={<NoAutorizadoPage/>} />
+              </Routes>
+            <Footer />
+          </BrowserRouter>
+        </Box>
+      </ThemeProvider>
     </DataProvider>
   );
 }
