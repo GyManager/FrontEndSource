@@ -128,7 +128,15 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open}
+                sx={{
+                    borderStyle:'solid', 
+                    borderWidth:'2px', 
+                    borderImageSlice:'1',
+                    borderImageSource:'linear-gradient(90deg, rgba(249,227,111,1) 0%, rgba(213,116,85,1) 30%, rgba(124,60,105,1) 70%, rgba(190,54,124,1) 99%)',
+                    backgroundColor:'#151923',
+                }}
+            >
                 <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} >
                     <Toolbar>
                         {showMenu &&

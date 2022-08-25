@@ -16,12 +16,16 @@ function footer() {
                 elevation={3}>
                 <BottomNavigation
                     sx={{
-                        backgroundColor: 'primary.main',
+                        borderStyle:'solid', 
+                        borderWidth:'2px', 
+                        borderImageSlice:'1',
+                        borderImageSource:'linear-gradient(90deg, rgba(249,227,111,1) 0%, rgba(213,116,85,1) 30%, rgba(124,60,105,1) 70%, rgba(190,54,124,1) 99%)',
+                        backgroundColor:'#151923',
                         justifyContent: 'left',
                         alignItems: 'center',
                         display: { xs: 'none', md: 'flex' },
                     }}>
-                    <Chip icon={<InstagramIcon />} color="primary" onClick={handleClick} />
+                    <Chip icon={<InstagramIcon />}  onClick={handleClick} />
                 </BottomNavigation>
             </Paper>
         </Box>
