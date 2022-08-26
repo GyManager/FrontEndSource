@@ -74,8 +74,6 @@ const getEjercicioById = (id) => {
 const getAllTipoEjercicios = () => {
     const url = '/tipo-ejercicios'
     const res = fetchData(url)
-    console.log('HOLAAAAA')
-    console.log(res)
     return res
 }
 
@@ -94,8 +92,6 @@ const getAllEquipamentos = (id) => {
     const url = '/herramientas/'
     const res = fetchData(url).then((res)=>{return res.map((unEquip) => {return unEquip.nombre})})
     // const res = fetchData(url).then((res)=>{return filtrarAtributo('nombre', res)})
-    console.log('NuevaRESSSSSSSSS')
-    console.log(res)
     return res
 }
 

@@ -34,7 +34,13 @@ function getStyles(unChip, personName, theme) {
 }
 
 export default function MultipleSelectChip(props) {
-  const { equipamentos, equipamentoDeEjercicio, setEquipamentoDeEjercicio } = useContext(EjercicioContext)
+  const { formik, equipamentos } = useContext(EjercicioContext)
+  const equipamentoDeEjercicio = formik.values.equipamentoDeEjercicio
+
+  const setEquipamentoDeEjercicio = (array) => {
+    formik.setFieldValue('equipamentoDeEjercicio', array, false)
+  }
+
   const chips = equipamentos
   const selectedChips = equipamentoDeEjercicio
   const theme = useTheme();

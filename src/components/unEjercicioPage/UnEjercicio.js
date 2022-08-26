@@ -23,8 +23,7 @@ function UnEjercicioPage() {
   // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
 
   const {
-    pasosByIdEjercicio, idEjercicio, formik, getEjercicio, handleSubmit, editable, setEditable,
-    tipoEjercicios
+    idEjercicio, formik, getEjercicio, handleSubmit, editable, setEditable,
   } = useContext(EjercicioContext)
   const navigate = useNavigate()
 
@@ -59,7 +58,6 @@ function UnEjercicioPage() {
 
   const probar = () => {
     console.log('probando')
-    pasosByIdEjercicio(idEjercicio)
   }
 
   useEffect(() => {
@@ -67,7 +65,6 @@ function UnEjercicioPage() {
       setEditable(true)
       :
       getEjercicio(idEjercicio)
-    // getTiposDeEjercicios()
   }, [])
 
   const guardar = () => {
@@ -98,11 +95,11 @@ function UnEjercicioPage() {
         <SeccionNombreYTipo
           paperStyle={paperStyle}
           TextFieldStyle={TextFieldStyle}
-          tipoEjercicios={tipoEjercicios}
         />
         <Paper {...paperStyle} >
           <SeccionInstrucciones />
         </Paper>
+     
 
         <Paper {...paperStyle}>
           <SeccionVideo />
@@ -116,6 +113,7 @@ function UnEjercicioPage() {
       <Grid item xs={12}
         {...ButtonMobileStyle}>
         <ButtonUnEjercicioMobile />
+    
       </Grid>
     </Grid>
   )

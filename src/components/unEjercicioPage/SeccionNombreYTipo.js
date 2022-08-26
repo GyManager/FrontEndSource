@@ -4,7 +4,7 @@ import { GenericComboBox } from '../reusable'
 import { EjercicioContext } from '../../context/EjercicioContext'
 
 function SeccionNombreYTipo(props) {
-    const { formik, editable } = useContext(EjercicioContext)
+    const { formik, editable, allTipoEjercicios } = useContext(EjercicioContext)
   return (
     <Paper {...props.paperStyle} >
           <Grid container>
@@ -30,7 +30,7 @@ function SeccionNombreYTipo(props) {
                 editable={editable}
                 valueForNone=""
                 labelForNone="Seleccionar tipo de ejercicio"
-                values={props.tipoEjercicios}
+                values={allTipoEjercicios}
                 // values={['Opcion1', 'opcion2', 'opcion3']}
                 minWidth={250} />
             </Grid>

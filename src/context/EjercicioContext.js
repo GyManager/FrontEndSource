@@ -17,8 +17,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const navigate = useNavigate()
   let { idEjercicio } = useParams()
   const [editable, setEditable] = useState(false)
-  const [tipoEjercicios, setTipoEjercicios] = useState([])
-  const [pasos, setPasos] = useState([])
+  const [allTipoEjercicios, setAllTipoEjercicios] = useState([])
   const [equipamentos, setEquipamentos] = useState([])
   const [equipamentoDeEjercicio, setEquipamentoDeEjercicio] = useState([])
 
@@ -30,11 +29,13 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         nombre: "",
         tipoDeEjercicio: "",
         pasos: [{
-          descripcion: '',
-          imagen: ''
+          contenido: "",
+          idPaso: "",
+          imagen: "",
+          numeroPaso: ""
         }],
         linkVideo: "",
-        equipamentoDeEjercicio: ""
+        equipamentoDeEjercicio: []
       },
       validationSchema: ejercicioSchema.validationSchema,
       onSubmit: () => {
@@ -44,74 +45,49 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   );
 
   const handleSubmit = () => {
-
   }
 
+  // getEjercicioById
+  const getEjercicio = async (ejercicioId) => {
+    const res = await ejerciciosService.getEjercicioById(ejercicioId)
+    if (res instanceof AxiosError) {
+      console.log(res?.response)
+    } else {
+      formik.setFieldValue('nombre' , res.nombre, true)
+      formik.setFieldValue('tipoDeEjercicio' , res.tipoEjercicio, true)
+      formik.setFieldValue('linkVideo' , res.video, true)
+    }
+  }
+
+  //getAllTipoEjercicios
   useEffect(() => {
     const fetchAllTiposEjercicio = async () => {
       const res = await ejercicioService.getAllTipoEjercicios()
-      console.log('Tipo ejerciciosRES')
-      console.log(res)
-      setTipoEjercicios(res)
+      setAllTipoEjercicios(res)
     }
     fetchAllTiposEjercicio()
 
   }, [])
 
-
+  //getPasosByEjercicioId
   useEffect(() => {
     const fetchPasosByIdEjercicio = async (id) => {
       const res = await ejercicioService.getPasosByEjercicioId(id)
       if (res instanceof AxiosError) {
         console.log('Hubo un error')
       } else {
-        // console.log(res)
         const orderedRes = orderBy(res, ['numeroPaso'], ['asc'])
-        // console.log(orderedRes)
-        // setPasos(orderedRes)
-        formik.setValues(
-          {
-            pasos: [{...res}]
-          }
-        )
-      }
-    }
-    if (unIdEjercicio) {
+        formik.setFieldValue('pasos', orderedRes, true)
+
+        }}
       fetchPasosByIdEjercicio(idEjercicio)
-    }
+    // }
+    // if (unIdEjercicio) {
+    //   fetchPasosByIdEjercicio(idEjercicio)
+    // }
   }, [])
 
-  const getEjercicio = async (ejercicioId) => {
-    const res = await ejerciciosService.getEjercicioById(ejercicioId)
-    if (res instanceof AxiosError) {
-      console.log(res?.response)
-    } else {
-      // console.log(res)
-      formik.setValues({
-        nombre: res.nombre,
-        tipoDeEjercicio: res.tipoEjercicio,
-        linkVideo: res.video
-      })
-    }
-  }
-
-  useEffect(() => {
-    const fetchEquipamentoDeEjercicio = async (idEjercicio) => {
-      const res = await ejerciciosService.getEquipamentoByEjercicio(idEjercicio)
-      if (res instanceof AxiosError) {
-        console.log(res?.message)
-      } else {
-        console.log(res)
-        const orderedRes = orderBy(res, ['nombre'], ['asc'])
-        console.log(orderedRes)
-        // const equipamentoDeEjercicioNombres = orderedRes.map((unEquipamento) => { return unEquipamento.nombre })
-        setEquipamentoDeEjercicio(orderedRes)
-      }
-    }
-    fetchEquipamentoDeEjercicio(idEjercicio)
-
-  }, [])
-
+  // getAllEquipamentos
   useEffect(() => {
     const fetchAllEquipamentos = async () => {
       const res = await ejerciciosService.getAllEquipamentos()
@@ -130,6 +106,21 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   }, [])
 
+  // getEquipamentoByEjercicio
+  useEffect(() => {
+    const fetchEquipamentoDeEjercicio = async (idEjercicio) => {
+      const res = await ejerciciosService.getEquipamentoByEjercicio(idEjercicio)
+      if (res instanceof AxiosError) {
+      } else {
+        const orderedRes = orderBy(res, ['nombre'], ['asc'])
+        // setEquipamentoDeEjercicio(orderedRes)
+        formik.setFieldValue('equipamentoDeEjercicio', orderedRes, false)
+      }
+    }
+    fetchEquipamentoDeEjercicio(idEjercicio)
+
+  }, [])
+
   const handleCancelEdit = () => {
     if (idEjercicio === 'new') {
       navigate("/ejercicios");
@@ -139,22 +130,16 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     }
   }
 
-
-
   return (
     <EjercicioContext.Provider value={{
       formik,
       editable, setEditable,
-      pasos,
-      setPasos,
       idEjercicio,
       getEjercicio,
-      tipoEjercicios,
+      allTipoEjercicios,
       equipamentoDeEjercicio, setEquipamentoDeEjercicio,
       equipamentos, setEquipamentos,
       handleCancelEdit,
-
-
     }}>
       {children}
     </EjercicioContext.Provider>

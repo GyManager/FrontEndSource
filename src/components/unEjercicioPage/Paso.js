@@ -10,7 +10,7 @@ import { Button, Divider, Grid, TextField, Typography } from '@mui/material'
 import { AddAPhoto, ArrowUpward, ArrowDownward, Delete } from '@mui/icons-material/';
 
 function Paso(props) {
-    const { editable, setEditable, formik } = useContext(EjercicioContext)
+    const { editable, formik } = useContext(EjercicioContext)
 
     const TextFieldStyle = {
         disabled: !editable,
@@ -58,8 +58,8 @@ function Paso(props) {
                         <TextField fullWidth
                             {...TextFieldStyle}
                             label="Descripcion"
-                            name={props.id}
                             id={props.id}
+                            name={`pasos[${props.index}].contenido`}
                             value={props.descripcion}
                             error={formik.touched.descripcion && Boolean(formik.errors.descripcion)}
                             helperText={formik.touched.descripcion && formik.errors.descripcion}
@@ -73,7 +73,7 @@ function Paso(props) {
                 </Grid>
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container direction='column' justifyContent='flex-start'>
-                        <Button  {...ImgButtonStyle} ><Delete fontSize='small' onClick={()=>props.handleDelete(props.nroPaso)}/></Button>
+                        <Button  {...ImgButtonStyle} onClick={()=>props.handleDelete(props.nroPaso)} ><Delete fontSize='small'/></Button>
                     </Grid>
                 </Grid>
             </Grid>
