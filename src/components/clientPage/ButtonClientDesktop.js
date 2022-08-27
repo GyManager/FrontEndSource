@@ -21,6 +21,8 @@ export default function ButtonClientDesktop(props) {
                     {...buttonCommonProperties}
                     startIcon={<Save />}
                     type='submit'
+                    color="success"
+                    //variant='outlined'
                 >
                     {props.clienteId === 'new' ? 'Crear ' : 'Guardar '}
                 </Button>
@@ -32,6 +34,8 @@ export default function ButtonClientDesktop(props) {
                     {...buttonCommonProperties}
                     startIcon={<Cancel />}
                     onClick={props.handleCancelEdit}
+                    color="error"
+                    //variant='outlined'
                 >
                     Cancelar
                 </Button>
@@ -43,6 +47,8 @@ export default function ButtonClientDesktop(props) {
                     {...buttonCommonProperties}
                     onClick={props.handleEditClick}
                     startIcon={<Edit />}
+                    color="secondary"
+                    //variant='outlined'
                 >
                     Editar
                 </Button>
@@ -53,7 +59,9 @@ export default function ButtonClientDesktop(props) {
                 id='borrarCliente'
                     {...buttonCommonProperties}
                     onClick={props.handleDeleteClick}
-                    startIcon={<Delete />}
+                    startIcon={<Delete  />}
+                    color="error"
+                    //variant='outlined'
                 >
                     Borrar
                 </Button>

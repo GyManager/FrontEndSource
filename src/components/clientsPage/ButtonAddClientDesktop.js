@@ -13,6 +13,7 @@ export default function ButtonAddClientDesktop(props) {
         variant='contained'
         startIcon={<AddIcon />}
         size='medium'
+        color="secondary"
       >Crear Cliente
       </Button>
     </Link>

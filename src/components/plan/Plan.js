@@ -285,7 +285,7 @@ export default function Plan() {
                     </Table>
                 </TableContainer>
 
-                <Button variant='contained' size='medium' onClick={() => setBuscarMicroPlan(true)}>
+                <Button variant='outlined' size='medium' color="secondary" onClick={() => setBuscarMicroPlan(true)}>
                     <Add /> Agregar Micro Plan 
                 </Button>
             </Paper>

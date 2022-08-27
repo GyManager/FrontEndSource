@@ -28,6 +28,8 @@ import Stack from '@mui/material/Stack';
 
 import AuthService from '../../services/auth.service'
 
+import logo from '../../images/logo.png'
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -133,7 +135,8 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                     borderStyle:'solid', 
                     borderWidth:'2px', 
                     borderImageSlice:'1',
-                    borderImageSource:'linear-gradient(90deg, rgba(249,227,111,1) 0%, rgba(213,116,85,1) 30%, rgba(124,60,105,1) 70%, rgba(190,54,124,1) 99%)',
+                    //borderImageSource:'linear-gradient(90deg, rgba(249,227,111,1) 0%, rgba(213,116,85,1) 30%, rgba(124,60,105,1) 70%, rgba(190,54,124,1) 99%)',
+                    borderImageSource:'linear-gradient(90deg, rgba(249,227,111,0.65) 0%, rgba(213,116,85,0.65) 30%, rgba(124,60,105,0.65) 70%, rgba(190,54,124,0.65) 99%)',
                     backgroundColor:'#151923',
                 }}
             >
@@ -150,23 +153,9 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                                 <MenuIcon />
                             </IconButton>
                         }
-                        <Typography variant="h6" noWrap component="div">
-                            CorE
-                        </Typography>
                     </Toolbar>
-                    {showMenu &&
-                        <div>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                onClick={handleLogout}
-                                edge="start"
-                                sx={{ mr: 2, ...(open && { display: 'none' }) }}
-                            >
-                                <LogoutIcon />
-                            </IconButton>
-                           
-                        </div>}
+                    <img src={logo} width="50px"/>
+
                 </Stack>
             </AppBar>
             {showMenu && <Drawer

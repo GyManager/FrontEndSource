@@ -28,14 +28,17 @@ import { Box } from '@mui/system';
 const theme = createTheme({
   palette: {
     primary: {
-      // Purple and green play nicely together.
-      main: '#780d9c',
+      // main: '#ffff00',
+      // main: 'rgb(25, 118, 210)'
+      main: '#151923'
     },
     secondary: {
-      // This is green.A700 as hex.
-      main: '#9c0d31',
+      // main: '#9c0d31',
+      main: '#9c27b0',
+      // main: 'rgb(156, 39, 176)',
     }
   },
+  
 });
 
 function App() {
