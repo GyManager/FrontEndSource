@@ -139,6 +139,20 @@ export default function MicroPlan(props) {
         }
     }, [idMicroPlan])
 
+    const breadcrums = props.namesBreadcrums ? 
+        (
+            <Breadcumbs
+                names={[...props.namesBreadcrums, formik.values.nombre]}
+                urls={props.urlsBreadcrums}
+            /> 
+        ):
+        (
+            <Breadcumbs
+                names={['Micro Planes', formik.values.nombre]}
+                urls={['../micro-planes/']}
+            />
+        )
+
     return (
         <Paper 
             sx={{p:2, gap:3, display:'flex', flexDirection:'column'}} 
@@ -147,10 +161,7 @@ export default function MicroPlan(props) {
         >
             <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Box>
-                    <Breadcumbs
-                        names={['Micro Planes', formik.values.nombre]}
-                        urls={['../micro-planes/']}
-                    />
+                    {breadcrums}
                     <Typography 
                         noWrap={true} 
                         sx={{

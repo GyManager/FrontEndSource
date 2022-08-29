@@ -148,6 +148,8 @@ export default function Plan() {
                 handleDelete={() => handleDeleteMicroPlan(microPlanEditing)}
                 handleCancel={() => setMicroPlanEditing(null)}
                 submitMessage={"Aceptar"}
+                namesBreadcrums={['Clientes', 'Cliente', 'Plan']}
+                urlsBreadcrums={['/clientes', `/clientes/${clienteId}`]}
             />
         )
     }
