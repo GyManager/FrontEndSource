@@ -11,6 +11,7 @@ export default function SeccionEquipamento() {
   const { formik, editable } = useContext(EjercicioContext)
   const equipamentoDeEjercicio = formik.values.equipamentoDeEjercicio
 
+
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
   };

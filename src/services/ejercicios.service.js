@@ -1,4 +1,3 @@
-import { ConnectingAirportsOutlined } from '@mui/icons-material'
 import axios from 'axios'
 import authService from './auth.service'
 
@@ -13,13 +12,6 @@ try {
 catch (error) {
     access_token = ''
 }
-
-const filtrarAtributo = (unAtributo, unArray) => {
-    return unArray.map((obj) => {
-        return (obj[unAtributo])
-    })
-}
-
 
 const fetchData = (url, params) => {
     return axios
@@ -84,15 +76,34 @@ const getPasosByEjercicioId = (id) => {
 
 const getEquipamentoByEjercicio = (id) => {
     const url = '/ejercicios/' + id + '/herramientas'
-    const res = fetchData(url).then((res)=>{return res.map((unEquip) => {return unEquip.nombre})})
+    const res = fetchData(url).then((res) => { return res.map((unEquip) => { return unEquip.nombre }) })
     return res
 }
 
 const getAllEquipamentos = (id) => {
     const url = '/herramientas/'
-    const res = fetchData(url).then((res)=>{return res.map((unEquip) => {return unEquip.nombre})})
-    // const res = fetchData(url).then((res)=>{return filtrarAtributo('nombre', res)})
+    // const res = fetchData(url).then((res)=>{return res.map((unEquip) => {return unEquip.nombre})})
+    const res = fetchData(url)
+
+    // const res = fetchData(url)
     return res
+}
+
+const putEjercicio = (ejercicio, idEjercicio) => {
+    return axios.put(API_URL + 'ejercicios/' + idEjercicio,
+        {
+            headers: {
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }).then(
+            (res) => {return res.data}
+        ).catch(err=>{
+            console.log('Hubo un error en el post service: ', err)
+            return handleError(err)
+        })
+
+        
+    
 }
 
 const ejerciciosService = {

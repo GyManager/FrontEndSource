@@ -162,7 +162,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                         </div>}
                 </Stack>
             </AppBar>
-            {showMenu && <Drawer
+            {showMenu && <div><Drawer
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -188,10 +188,26 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                 </List>
                 <Divider />
             </Drawer>
+                
+            </div>
             }
             <Main open={open}>
                 <DrawerHeader />
             </Main>
+            {open &&
+                <Box id='closebox'
+                    sx={{
+                        backgroundColor: '#000000',
+                        opacity: '0.5',
+                        width: '100vw',
+                        height: '110vh',
+                        zIndex: '255', 
+                        position: 'absolute',
+                        left: '0vw'
+                        
+                    }}
+                    onClick={handleDrawerClose}></Box>
+            }
         </Box>
     );
 }

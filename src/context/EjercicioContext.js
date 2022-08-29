@@ -8,7 +8,7 @@ import orderBy from 'lodash/orderBy'
 import ejerciciosService from '../services/ejercicios.service'
 // import ejercicioSchema from '../../ejercicioSchema'
 import ejercicioSchema from '../components/unEjercicioPage/ejercicioSchema'
-
+import { Filter } from "@mui/icons-material";
 
 export const EjercicioContext = createContext();
 
@@ -19,7 +19,8 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const [editable, setEditable] = useState(false)
   const [allTipoEjercicios, setAllTipoEjercicios] = useState([])
   const [equipamentos, setEquipamentos] = useState([])
-  const [equipamentoDeEjercicio, setEquipamentoDeEjercicio] = useState([])
+  // const [equipamentoDeEjercicio, setEquipamentoDeEjercicio] = useState([])
+  const [equipamentosById, setEquipamentosById] = useState([])
 
   // console.log(idEjercicio)
 
@@ -35,17 +36,41 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
           numeroPaso: ""
         }],
         linkVideo: "",
-        equipamentoDeEjercicio: []
+        equipamentoDeEjercicio: [],
+        equipamentoDeEjercicioIds: [],
       },
       validationSchema: ejercicioSchema.validationSchema,
       onSubmit: () => {
         handleSubmit()
+
       },
     }
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const ejercicio = {
+      "nombre": formik.values.nombre,
+      "tipoEjercicio": formik.values.tipoDeEjercicio,
+      "video": formik.values.video,
+      "pasos": formik.values.pasos,
+      "idHerramientaList": formik.values.equipamentoDeEjercicioIds
+    }
+
+    if (idEjercicio === 'new') {
+
+      console.log('Aca va el post')
+
+    } else {
+      const res = await ejerciciosService.putEjercicio(ejercicio, idEjercicio)
+      if (res instanceof AxiosError) {
+        console.log('Informar error por backdrop')
+      } else {
+        console.log('informar exito en snackbar')
+      }
+    }
   }
+
+
 
   // getEjercicioById
   const getEjercicio = async (ejercicioId) => {
@@ -53,9 +78,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     if (res instanceof AxiosError) {
       console.log(res?.response)
     } else {
-      formik.setFieldValue('nombre' , res.nombre, true)
-      formik.setFieldValue('tipoDeEjercicio' , res.tipoEjercicio, true)
-      formik.setFieldValue('linkVideo' , res.video, true)
+      formik.setFieldValue('nombre', res.nombre, true)
+      formik.setFieldValue('tipoDeEjercicio', res.tipoEjercicio, true)
+      formik.setFieldValue('linkVideo', res.video, true)
     }
   }
 
@@ -79,8 +104,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         const orderedRes = orderBy(res, ['numeroPaso'], ['asc'])
         formik.setFieldValue('pasos', orderedRes, true)
 
-        }}
-      fetchPasosByIdEjercicio(idEjercicio)
+      }
+    }
+    fetchPasosByIdEjercicio(idEjercicio)
     // }
     // if (unIdEjercicio) {
     //   fetchPasosByIdEjercicio(idEjercicio)
@@ -89,20 +115,19 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   // getAllEquipamentos
   useEffect(() => {
-    const fetchAllEquipamentos = async () => {
+    const fetchAllNombreEquipamentos = async () => {
       const res = await ejerciciosService.getAllEquipamentos()
       if (res instanceof AxiosError) {
         console.log(res?.message)
       } else {
-        const orderedRes = orderBy(res, ['nombre'], ['asc'])
-        console.log(orderedRes)
-        // const equipamentoNombres = orderedRes.map((unEquipamento) => { return unEquipamento.nombre })
-
-        // setEquipamentos(equipamentoNombres)
-        setEquipamentos(orderedRes)
+        // console.log('clg', res)
+        const equipamentoNombres = res.map((unEquipamento) => { return unEquipamento.nombre })
+        const orderedEquipamentosNombres = orderBy(equipamentoNombres, 'nombre')
+        // console.log('clg', orderedEquipamentosNombres)
+        setEquipamentos(orderedEquipamentosNombres)
       }
     }
-    fetchAllEquipamentos()
+    fetchAllNombreEquipamentos()
 
   }, [])
 
@@ -121,23 +146,60 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   }, [])
 
+
+  useEffect(() => {
+    const getAllEquipamentos = async () => {
+      const allEquipamentos = await ejerciciosService.getAllEquipamentos()
+      if (allEquipamentos instanceof AxiosError) {
+        console.log(allEquipamentos?.message)
+      } else {
+        const equipamentoDeEjercicioNombres = formik.values.equipamentoDeEjercicio
+
+        const tieneNombre = (unEquipamento) => {
+          return equipamentoDeEjercicioNombres.includes(unEquipamento.nombre)
+        }
+
+        const equipamentoDeEjercicioObjArray = allEquipamentos.filter(tieneNombre)
+
+        const equipamentoDeEjercicioIds = equipamentoDeEjercicioObjArray.map((unEquipamento) => {
+          return unEquipamento.idHerramienta
+        })
+        formik.setFieldValue('equipamentoDeEjercicioIds', equipamentoDeEjercicioIds, false)
+      }
+    }
+    getAllEquipamentos()
+  }
+    , [])
+
+    
+
+  // console.log('clg', equipamentosById)
+
+  // putEjercicio
+
+
+
+
+
   const handleCancelEdit = () => {
     if (idEjercicio === 'new') {
       navigate("/ejercicios");
     } else {
-      setEditable(false)
+      setEditable(true)
       getEjercicio(idEjercicio);
     }
   }
 
+
   return (
     <EjercicioContext.Provider value={{
       formik,
-      editable, setEditable,
+      editable,
+      setEditable,
       idEjercicio,
       getEjercicio,
       allTipoEjercicios,
-      equipamentoDeEjercicio, setEquipamentoDeEjercicio,
+      // equipamentoDeEjercicio, setEquipamentoDeEjercicio,
       equipamentos, setEquipamentos,
       handleCancelEdit,
     }}>

@@ -32,7 +32,7 @@ export default function ButtonUnEjercicioMobile(props) {
                     key='Guardar'
                     icon={<Save />}
                     tooltipTitle='Guardar'
-                    onClick={() => { handleClose(); props.handleSubmit(); }}
+                    onClick={() => { handleClose(); props.guardar(); }}
                 />
             }
 

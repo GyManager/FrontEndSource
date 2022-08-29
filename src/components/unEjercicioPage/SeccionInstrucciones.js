@@ -8,12 +8,11 @@ export default function SeccionInstrucciones(props) {
   const { formik } = useContext(EjercicioContext)
   // const { formik, setPasos} = useContext(EjercicioContext)
   const pasos = formik.values.pasos
-  console.log('formik.values.pasos', pasos)
+  // console.log('formik.values.pasos', pasos)
 
   const setPasos = (arr) => {
     formik.setFieldValue('pasos', arr, false)
   }
-
 
   const handleAgregarPaso = () => {
     const nuevoPaso = [
@@ -62,54 +61,54 @@ export default function SeccionInstrucciones(props) {
     console.log(pasos);
     if (pasos.length <= 1) {
       console.log('Debe haber al menos un paso')
+    } else {
+      console.log(nroPaso, index)
+      const slicedArray = [
+        ...pasos.slice(0, index),
+        ...pasos.slice(index + 1)
+      ]
+      const arrayUpdateNroPaso = slicedArray.map((unPaso, i) => {
+        return (
+          { ...unPaso, "numeroPaso": i + 1 })
+      })
+      setPasos(arrayUpdateNroPaso);
+      console.log(pasos)
     }
-    console.log(nroPaso, index)
-const slicedArray = [
-  ...pasos.slice(0, index),
-  ...pasos.slice(index + 1)
-]
-const arrayUpdate = slicedArray.map((unPaso, i) => {
-  return (
-    { ...unPaso, "numeroPaso": i + 1 })
-})
-
-    setPasos(arrayUpdate);
-    console.log(pasos)
   }
 
-  return (
-    <Grid item xs={12}>
-      <Grid container>
-        <Grid item xs={12}>
-          <Typography
-            sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>
-            Instrucciones
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {
-            pasos.map((unPaso, index) => {
-              return (
-                <Paso
-                  index={index}
-                  id={`descripcion${index}`}
-                  nroPaso={unPaso.numeroPaso}
-                  descripcion={unPaso.contenido}
-                  imagen={unPaso.imagen}
-                  handleSubirPaso={handleSubirPaso}
-                  handleBajarPaso={handleBajarPaso}
-                  handleDelete={handleDelete}
-                />
-              )
-            })}
-        </Grid>
-        <Grid item xs={12}>
-          <Button spacing='' variant='contained' size='small' onClick={handleAgregarPaso}>+ Agregar paso</Button>
+    return (
+      <Grid item xs={12}>
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography
+              sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>
+              Instrucciones
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {
+              pasos.map((unPaso, index) => {
+                return (
+                  <Paso
+                    index={index}
+                    id={`descripcion${index}`}
+                    nroPaso={unPaso.numeroPaso}
+                    descripcion={unPaso.contenido}
+                    imagen={unPaso.imagen}
+                    handleSubirPaso={handleSubirPaso}
+                    handleBajarPaso={handleBajarPaso}
+                    handleDelete={handleDelete}
+                  />
+                )
+              })}
+          </Grid>
+          <Grid item xs={12}>
+            <Button spacing='' variant='contained' size='small' onClick={handleAgregarPaso}>+ Agregar paso</Button>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  )
-}
+    )
+  }
 
 // {
 //   "idPaso": 0,
