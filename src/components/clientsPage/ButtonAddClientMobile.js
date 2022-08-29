@@ -8,7 +8,7 @@ function ButtonAddClientMobile() {
     return (
         <div>
             <Link to='/clientes/new'>
-                <Fab color='secondary' aria-label='add' >
+                <Fab aria-label='add' >
                     <AddIcon />
                 </Fab>
             </Link>

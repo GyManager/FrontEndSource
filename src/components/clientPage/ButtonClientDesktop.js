@@ -47,7 +47,6 @@ export default function ButtonClientDesktop(props) {
                     {...buttonCommonProperties}
                     onClick={props.handleEditClick}
                     startIcon={<Edit />}
-                    color="secondary"
                     //variant='outlined'
                 >
                     Editar

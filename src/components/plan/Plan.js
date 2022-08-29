@@ -273,7 +273,7 @@ export default function Plan() {
                                             <TableCell>{microPlan.observaciones? microPlan.observaciones.length : 0}</TableCell>
                                             <TableCell>
                                                 <Box sx={{display:'flex', gap:2}}>
-                                                    <Button variant='contained' size='small' color='secondary' startIcon={<Comment />} onClick={() => setObservacionesEditing(index)}> Observaciones </Button>
+                                                    <Button variant='contained' size='small'  startIcon={<Comment />} onClick={() => setObservacionesEditing(index)}> Observaciones </Button>
                                                     <Button variant='contained' size='small' startIcon={<Edit />} onClick={() => setMicroPlanEditing(index)}> Editar </Button>
                                                     <Button variant='contained' size='small' color='error' startIcon={<Delete />} onClick={() => handleDeleteMicroPlan(index)}>  Borrar </Button>
                                                 </Box>
@@ -285,7 +285,7 @@ export default function Plan() {
                     </Table>
                 </TableContainer>
 
-                <Button variant='outlined' size='medium' color="secondary" onClick={() => setBuscarMicroPlan(true)}>
+                <Button variant='outlined' size='medium'  onClick={() => setBuscarMicroPlan(true)}>
                     <Add /> Agregar Micro Plan 
                 </Button>
             </Paper>

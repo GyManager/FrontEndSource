@@ -153,7 +153,6 @@ const LoginFormWithFormik = () => {
                         sx={{ mt: 2 }}
                         variant="contained"
                         type="submit"
-                        color="primary"
                     >
                         Iniciar sesión
                     </Button>

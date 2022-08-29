@@ -30,11 +30,11 @@ const theme = createTheme({
     primary: {
       // main: '#ffff00',
       // main: 'rgb(25, 118, 210)'
-      main: '#151923'
+      main: '#9c27b0'
     },
     secondary: {
       // main: '#9c0d31',
-      main: '#9c27b0',
+      main: '#151923',
       // main: 'rgb(156, 39, 176)',
     }
   },
