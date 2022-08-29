@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
-import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton } from "@mui/material";
+import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton, Stack } from "@mui/material";
 import { AxiosError } from "axios";
 import SearchBar from "../clientsPage/SearchBar";
 import microPlanesService from "../../services/micro-planes.service";
-import { GenericModal, Snackbar } from "../reusable";
+import { GenericComboBox, GenericModal, Snackbar } from "../reusable";
 import { DataContext } from "../../context/DataContext";
 import ButtonToFabCrear from "../reusable/ButtonToFabCrear";
 
@@ -23,6 +23,7 @@ export default function MicroPlanes(props) {
     const [page, setPage] = useState(() => 0);
     const [pageSize, setPageSize] = useState(() => 10);
     const [valueToSearch, setValueToSearch] = useState('');
+    const [cantidadRutinas, setCantidadRutinas] = useState('');
     
     const searchMicroPlanes = (newValueToSearch) => {
         setValueToSearch(newValueToSearch)
@@ -32,7 +33,7 @@ export default function MicroPlanes(props) {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const respuesta = await microPlanesService.getMicroPlanes(valueToSearch, pageSize, page);
+            const respuesta = await microPlanesService.getMicroPlanes(valueToSearch, pageSize, page, null, cantidadRutinas);
             setLoading(false)
             if (respuesta instanceof AxiosError) {
                 console.log(respuesta)
@@ -45,7 +46,7 @@ export default function MicroPlanes(props) {
         fetchData();
         setOpenSnackbar(dataSnackbar !== '' ? true : false)
         setTimeout(() => setDataSnackbar(''), 6100)
-    }, [valueToSearch, pageSize, page])
+    }, [valueToSearch, pageSize, page, cantidadRutinas])
 
     const onSelectedMicroPlan = props.onSelectedMicroPlan ? props.onSelectedMicroPlan : (idMicroPlan) => {
         navigate(`/micro-planes/${idMicroPlan}`)
@@ -57,6 +58,7 @@ export default function MicroPlanes(props) {
             sx={{cursor:'pointer'}}
         >
             <TableCell>{microPlan.nombre}</TableCell>
+            <TableCell>{microPlan.cantidadRutinas}</TableCell>
         </TableRow>
     ));
 
@@ -79,9 +81,28 @@ export default function MicroPlanes(props) {
                 />
             </Box>
 
-            <Box sx={{width:{xs:'100%', md:'40%'}}}>
-                <SearchBar searchClientes={searchMicroPlanes}/>
-            </Box>
+
+            <Stack 
+                direction={{xs:'column', md:'row'}}
+                gap={3}
+                alignItems="center"
+            >
+                <Box sx={{width:{xs:'100%', md:'40%'}}}>
+                    <SearchBar searchClientes={searchMicroPlanes}/>
+                </Box>
+                <GenericComboBox
+                    label="Cantidad de rutinas"
+                    id={`cantidadRutinas`}
+                    name={`cantidadRutinas`}
+                    handleChange={(e) => setCantidadRutinas(e.target.value)}
+                    value={cantidadRutinas}
+                    valueForNone=""
+                    labelForNone="Cualquier cantidad"
+                    values={[1,2,3,4,5,6,7]}
+                    minWidth={200}
+                    editable={true}
+                />
+            </Stack>
 
             <Paper>
                 <TableContainer sx={{ height: { xs: '64vh', md:'55vh' }}}>
@@ -89,6 +110,7 @@ export default function MicroPlanes(props) {
                         <TableHead>
                             <TableRow>
                                 <TableCell > Nombre </TableCell>
+                                <TableCell > Cantidad de rutinas </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
