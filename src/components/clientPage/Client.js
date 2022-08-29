@@ -341,9 +341,11 @@ function Client() {
                             <Typography>Input - Medidas</Typography>
                         </Paper>
 
-                        <Paper {...paperStyle}>
-                            <Planes idCliente={clienteId}/>
-                        </Paper>
+                        { clienteId !== 'new' &&
+                            <Paper {...paperStyle}>
+                                <Planes idCliente={clienteId}/>
+                            </Paper>
+                        }
 
                         <Paper elevation={12} sx={{backgroundColor: 'lightblue'}}>
                             <Typography>Input - Matriculas</Typography>
