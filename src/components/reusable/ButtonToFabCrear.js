@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function ButtonToFabCrear(props){
 
-    const navigate = useNavigate();
-
     return (
         <Fragment>
             <Button
@@ -15,7 +13,7 @@ export default function ButtonToFabCrear(props){
                 variant='contained'
                 startIcon={<Add/>}
                 size='medium'
-                onClick={() => navigate(props.url)}
+                onClick={props.onClick}
             >
                 {props.label}
             </Button>
@@ -27,7 +25,7 @@ export default function ButtonToFabCrear(props){
                     bottom: '4vh'
                 }}
             >
-                <Fab color='primary' aria-label='add' onClick={() => navigate(props.url)}>
+                <Fab color='primary' aria-label='add' onClick={props.onClick}>
                     <Add/>
                 </Fab>
             </Box>

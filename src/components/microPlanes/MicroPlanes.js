@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
-import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton, Stack } from "@mui/material";
+import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton, Stack, Button } from "@mui/material";
 import { AxiosError } from "axios";
 import SearchBar from "../clientsPage/SearchBar";
 import microPlanesService from "../../services/micro-planes.service";
 import { GenericComboBox, GenericModal, Snackbar } from "../reusable";
 import { DataContext } from "../../context/DataContext";
 import ButtonToFabCrear from "../reusable/ButtonToFabCrear";
+import { Cancel } from "@mui/icons-material";
 
 export default function MicroPlanes(props) {
 
@@ -69,7 +70,7 @@ export default function MicroPlanes(props) {
     );
 
     return (
-        <Paper sx={{p:2, gap:3, display:'flex', flexDirection:'column'}}>
+        <Paper sx={{p:2, gap:3, display:'flex', flexDirection:'column', minWidth:'80%'}}>
             
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>
@@ -77,7 +78,7 @@ export default function MicroPlanes(props) {
                 </Typography>
                 <ButtonToFabCrear
                     label="Crear Micro Plan"
-                    url="/micro-planes/new"
+                    onClick={props.onNewMicroPlan ? props.onNewMicroPlan : (() => navigate("/micro-planes/new"))}
                 />
             </Box>
 
@@ -132,11 +133,26 @@ export default function MicroPlanes(props) {
                 />
             </Paper>
 
-            <GenericModal
-                show={modalMsj !== ""}
-                hide={() => setModalMsj("")}
-                serverMsj={modalMsj} 
-            />
+            {props.onCancelSearch && 
+                <Box sx={{display:'flex', justifyContent:'end', mt:2, gap:2}}>
+                    <Button
+                        variant='outlined'
+                        size='medium' 
+                        startIcon={<Cancel/>}
+                        onClick={props.onCancelSearch}
+                    >
+                        Cancelar
+                    </Button>
+                </Box>
+            }
+
+            { modalMsj &&
+                <GenericModal
+                    show={modalMsj !== ""}
+                    hide={() => setModalMsj("")}
+                    serverMsj={modalMsj} 
+                />
+            }
 
             <Snackbar
                 severity='success'

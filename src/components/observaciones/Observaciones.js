@@ -1,5 +1,5 @@
 import { Add, Cancel, Delete, Save } from '@mui/icons-material';
-import { Modal, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField } from '@mui/material/';
+import { Modal, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField, Paper } from '@mui/material/';
 import { useState } from "react";
 
 export default function Observaciones(props){
@@ -45,13 +45,13 @@ export default function Observaciones(props){
             onClose={props.handleClose}
             sx={{display:'flex', alignItems:'center',justifyContent:'center'}}
         >
-            <Box 
+            <Paper 
                 sx={{
                     display:'flex',
                     flexDirection: 'column',
                     p: 4,
                     bgcolor: '#FFF',
-                    border: '2px solid #000',
+                    // border: '2px solid #000',
                     width:{xs:'100%', md:'80%'}
                 }}
             >
@@ -132,7 +132,7 @@ export default function Observaciones(props){
                         Cancelar
                     </Button>
                 </Box>
-            </Box>
+            </Paper>
         </Modal>
     )
 }
