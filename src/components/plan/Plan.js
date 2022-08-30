@@ -84,10 +84,10 @@ export default function Plan() {
         if (idPlan === 'new') {
             plan.usuarioProfesor = authService.getStoredSession().mail;
             const respuesta = await planesService.postPlan(plan, clienteId)
-            handleRespuesta(respuesta, 'El micro plan ha sido creado con exito')
+            handleRespuesta(respuesta, 'El plan ha sido creado con exito')
         } else {
             const respuesta = await planesService.putPlan(formik.values, clienteId, idPlan)
-            handleRespuesta(respuesta, 'El micro plan ha sido modificado con exito')
+            handleRespuesta(respuesta, 'El plan ha sido modificado con exito')
         }
     }
 
@@ -108,12 +108,14 @@ export default function Plan() {
     function handleEditObservaciones(observacionesEdited, index){
         formik.setFieldValue(`microPlans[${index}].observaciones`, observacionesEdited, false)
         setObservacionesEditing(null)
+        addSnackbar({message: "Se han modificado las observaciones del micro plan", severity: "info", duration:2000})
     }
 
     function handleDeleteMicroPlan(index){
         const newMicroPlans = formik.values.microPlans;
         newMicroPlans.splice(index,1)
         formik.setFieldValue('microPlans', newMicroPlans, false)
+        addSnackbar({message: "El micro plan ha sido removido del plan", severity: "info", duration:2000})
     }
 
     function handleEditMicroPlan(microPlanEdited, index){
@@ -133,6 +135,7 @@ export default function Plan() {
             formik.setFieldValue(`microPlans[${index}]`, microPlanEdited, false)
         }
         setMicroPlanEditing(null)
+        addSnackbar({message: "El micro plan asignado ha sido editado", severity: "info", duration:2000})
     }
 
     if(microPlanEditing !== undefined && microPlanEditing !== null){
@@ -171,6 +174,7 @@ export default function Plan() {
             newMicroPlans.push(respuesta)
             formik.setFieldValue('microPlans', newMicroPlans, false)
             setBuscarMicroPlan(false)
+            addSnackbar({message: "El micro plan ha sido asignado", severity: "info", duration:2000})
         }
     }
 

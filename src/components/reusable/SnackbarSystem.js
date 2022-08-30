@@ -27,13 +27,15 @@ export default function SnackbarSystem(){
     return (
         <Snackbar 
             open={open} 
-            autoHideDuration={3000}
+            autoHideDuration={snackbarMessage.duration? snackbarMessage.duration : 3000}
             onClose={handleClose} 
         >
             <Alert
                 onClose={handleClose} 
                 severity={snackbarMessage.severity} 
                 sx={{ width: '100%' }}
+                elevation={6}
+                variant="filled"
             >
                 {snackbarMessage.message}
             </Alert>
