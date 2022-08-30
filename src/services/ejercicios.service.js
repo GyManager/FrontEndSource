@@ -90,7 +90,7 @@ const getAllEquipamentos = (id) => {
 }
 
 const putEjercicio = (ejercicio, idEjercicio) => {
-    return axios.put(API_URL + 'ejercicios/' + idEjercicio,
+    return axios.put(API_URL + '/ejercicios/' + idEjercicio, ejercicio, 
         {
             headers: {
                 'Authorization': `Bearer ${access_token}`,
@@ -112,7 +112,8 @@ const ejerciciosService = {
     getAllTipoEjercicios,
     getPasosByEjercicioId,
     getEquipamentoByEjercicio,
-    getAllEquipamentos
+    getAllEquipamentos,
+    putEjercicio
 }
 
 export default ejerciciosService

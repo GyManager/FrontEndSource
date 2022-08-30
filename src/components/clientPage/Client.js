@@ -236,7 +236,7 @@ function Client() {
                                 <TextField fullwidth
                                     {...TextFieldStyle}
                                     label="Nombre"
-                                    // id="nombre"
+                                    id="nombre"
                                     value={formik.values.nombre}
                                     error={formik.touched.nombre && Boolean(formik.errors.nombre)}
                                     helperText={formik.touched.nombre && formik.errors.nombre}

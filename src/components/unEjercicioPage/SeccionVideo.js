@@ -17,14 +17,16 @@ function Video() {
           <Typography sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>Video</Typography>
         {editable ?
             <Grid container>
-                <Grid Item xs={12} md={6}>
+                <Grid item xs={12} md={6}>
                     <TextField fullWidth
                         {...TextFieldStyle}
                         label="Ingrese link del video de Youtube"
-                        id="idVideo"
-                        value={formik.video}
-                        error={formik.touched.video && Boolean(formik.errors.video)}
-                        helperText={formik.touched.video && formik.errors.video}
+                        
+                        id="linkVideo"
+                        name="linkVideo"
+                        value={formik.values.linkVideo}
+                        error={formik.touched.linkVideo && Boolean(formik.errors.linkVideo)}
+                        helperText={formik.touched.linkVideo && formik.errors.linkVideo}
                     />
             
                 </Grid>

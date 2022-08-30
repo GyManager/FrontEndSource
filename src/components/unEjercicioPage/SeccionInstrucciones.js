@@ -5,7 +5,7 @@ import Paso from './Paso'
 import orderBy from 'lodash/orderBy'
 
 export default function SeccionInstrucciones(props) {
-  const { formik } = useContext(EjercicioContext)
+  const { formik, editable } = useContext(EjercicioContext)
   // const { formik, setPasos} = useContext(EjercicioContext)
   const pasos = formik.values.pasos
   // console.log('formik.values.pasos', pasos)
@@ -76,39 +76,44 @@ export default function SeccionInstrucciones(props) {
     }
   }
 
-    return (
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography
-              sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>
-              Instrucciones
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            {
-              pasos.map((unPaso, index) => {
-                return (
-                  <Paso
-                    index={index}
-                    id={`descripcion${index}`}
-                    nroPaso={unPaso.numeroPaso}
-                    descripcion={unPaso.contenido}
-                    imagen={unPaso.imagen}
-                    handleSubirPaso={handleSubirPaso}
-                    handleBajarPaso={handleBajarPaso}
-                    handleDelete={handleDelete}
-                  />
-                )
-              })}
-          </Grid>
-          <Grid item xs={12}>
-            <Button spacing='' variant='contained' size='small' onClick={handleAgregarPaso}>+ Agregar paso</Button>
-          </Grid>
+  return (
+    <Grid item xs={12}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography
+            sx={{ fontSize: { xs: 14, md: 16, lg: 20, xl: 22 } }}>
+            Instrucciones
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          {
+            pasos.map((unPaso, index) => {
+              return (
+                <Paso
+                  index={index}
+                  id={`descripcion${index}`}
+                  nroPaso={unPaso.numeroPaso}
+                  descripcion={unPaso.contenido}
+                  imagen={unPaso.imagen}
+                  handleSubirPaso={handleSubirPaso}
+                  handleBajarPaso={handleBajarPaso}
+                  handleDelete={handleDelete}
+                />
+              )
+            })}
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={handleAgregarPaso}
+            sx={{ display: editable ? 'initial': 'none'  }}
+          >+ Agregar paso</Button>
         </Grid>
       </Grid>
-    )
-  }
+    </Grid>
+  )
+}
 
 // {
 //   "idPaso": 0,

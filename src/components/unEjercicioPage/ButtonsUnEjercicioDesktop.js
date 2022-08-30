@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { Box, Button } from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import { Edit, Delete, Save, Cancel } from '@mui/icons-material/';
 
 import { EjercicioContext } from "../../context/EjercicioContext";
@@ -18,6 +18,7 @@ function ButtonsUnEjercicioDesktop(props) {
         variant: 'contained',
         size: 'large',
         fullWidth: true,
+
     }
 
     const handleCancel = (e) => {
@@ -25,40 +26,38 @@ function ButtonsUnEjercicioDesktop(props) {
         setEditable(false);
         // navigate('/ejercicios')
     }
-    const handleSaveClick = (e) => {
-        e.preventDefault();
-        setEditable(false);
-        formik.handleSubmit()
-        
-    }
 
     const handleEditClick = (e) => {
+        e.preventDefault();
         setEditable(true)
     }
-    
+
     const handleDeleteClick = (e) => {
         // setEditable(true)
     }
-    
+
     const handleCancelClick = (e) => {
-        // setEditable(true)
+        setEditable(false)
     }
 
     return (
-        <div>
-            {editable ?
-                <Box sx={{display: 'in-line'}}>
-                    <Button {...ButtonStyle} type='submit' onClick={handleSaveClick}> <Save/></Button>
-                    <Button {...ButtonStyle} onClick={handleCancelClick}><Cancel/></Button>
-                </Box>
-                :
-                <>
-                    <Button {...ButtonStyle} onClick={handleEditClick}><Edit/></Button>
-                    <Button {...ButtonStyle} onClick={handleDeleteClick}><Delete /></Button>
-                </>
+        <>
+            <Grid item xs={6} sx={{ display: { xs: 'none', md: 'flex' } }}  >
 
-            }
-        </div >
+                {editable ?
+                    <>
+                        <Button {...ButtonStyle} type='submit'><Save/>Guardar</Button>
+                        <Button {...ButtonStyle} onClick={handleCancelClick}><Cancel />Cancelar</Button>
+                    </>
+
+                    :
+                    <>
+                        <Button {...ButtonStyle} onClick={handleEditClick}><Edit />Editar</Button>
+                        <Button {...ButtonStyle} onClick={handleDeleteClick}><Delete />Eliminar</Button>
+                    </>
+                }
+            </Grid>
+        </>
 
     )
 

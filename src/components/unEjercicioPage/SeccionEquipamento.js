@@ -28,8 +28,7 @@ export default function SeccionEquipamento() {
         <Grid item xs={12}>
           {editable
             ?
-            <MultipleSelectChip
-            />
+            <MultipleSelectChip/>
             :
             <Stack direction="row" spacing={1}>
               {equipamentoDeEjercicio.map(unEquipo => {

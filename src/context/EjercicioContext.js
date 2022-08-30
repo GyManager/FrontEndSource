@@ -42,16 +42,27 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       validationSchema: ejercicioSchema.validationSchema,
       onSubmit: () => {
         handleSubmit()
-
       },
     }
   );
 
+  const handleSubmit2 = (e) => {
+    e?.preventDefault()
+    console.log('handle')
+
+    console.log('handle')
+    setEditable(false)
+  }
+
+
   const handleSubmit = async () => {
+    setEditable(false)
+
+    console.log(formik.values.equipamentoDeEjercicioIds)
     const ejercicio = {
       "nombre": formik.values.nombre,
       "tipoEjercicio": formik.values.tipoDeEjercicio,
-      "video": formik.values.video,
+      "video": formik.values.linkVideo,
       "pasos": formik.values.pasos,
       "idHerramientaList": formik.values.equipamentoDeEjercicioIds
     }
@@ -69,8 +80,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       }
     }
   }
-
-
 
   // getEjercicioById
   const getEjercicio = async (ejercicioId) => {
@@ -146,7 +155,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   }, [])
 
-
+  // SetSelectedEquipamentosIds
   useEffect(() => {
     const getAllEquipamentos = async () => {
       const allEquipamentos = await ejerciciosService.getAllEquipamentos()
@@ -169,17 +178,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     }
     getAllEquipamentos()
   }
-    , [])
-
-    
-
-  // console.log('clg', equipamentosById)
-
-  // putEjercicio
-
-
-
-
+    , [formik.values.equipamentoDeEjercicio])
 
   const handleCancelEdit = () => {
     if (idEjercicio === 'new') {
@@ -189,6 +188,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       getEjercicio(idEjercicio);
     }
   }
+
 
 
   return (

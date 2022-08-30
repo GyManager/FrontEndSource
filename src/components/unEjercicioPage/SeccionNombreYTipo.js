@@ -24,7 +24,6 @@ function SeccionNombreYTipo(props) {
               <GenericComboBox
                 label="Tipo de ejercicio"
                 id="tipoDeEjercicio"
-                // value={formik.values.tipoDeEjercicio}
                 value={formik.values.tipoDeEjercicio}
                 handleChange={formik.handleChange}
                 editable={editable}

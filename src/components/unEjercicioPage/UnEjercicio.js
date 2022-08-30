@@ -5,7 +5,6 @@ import { useFormik } from 'formik'
 import { AxiosError } from 'axios'
 
 //Data
-import { ParameterDropdownContext } from "../../context/ParameterDropdownContext";
 import { EjercicioContext } from "../../context/EjercicioContext";
 
 //Vista
@@ -33,8 +32,8 @@ function UnEjercicioPage() {
     variant: 'contained',
     size: 'large',
     fullWidth: true,
-}
-  
+  }
+
   const paperStyle = {
     elevation: 2,
     sx: { p: 2, mt: 2 }
@@ -80,54 +79,64 @@ function UnEjercicioPage() {
   }
 
   return (
+    <div>
+      <form
+        method="post"
+        onSubmit={formik.handleSubmit}>
+        <Grid container>
+          <Grid item sx={{ display: 'block' }} xs={6} >
+            <Breadcumbs
+              names={['Ejercicios', formik.values.nombre]}
+              urls={['../ejercicios/']}
+            />
 
-    <Grid container>
-      <Grid item sx={{ display: 'block' }} xs={8} >
-        <Breadcumbs
-          names={['Ejercicios', formik.values.nombre]}
-          urls={['../ejercicios/']}
-        />
+            <Typography component='span'
+              sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}
+            >Ejercicio: {formik.values.nombre}
+            </Typography>
+          </Grid>
+          {/* <Grid item xs={6} sx={{ display: { xs: 'none', md: 'flex' } }}  > */}
+          {/* <Button type='submit' {...ButtonStyle} > <Save /></Button> */}
+          {/* <Button type="submit" > <Save /></Button> */}
+          {/* <Button {...ButtonStyle} onClick={()=>{setEditable(true)}}><Edit /></Button> */}
+            
+            <ButtonsUnEjercicioDesktop/>
 
-        <Typography component='span'
-          sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}
-        >Ejercicio: {formik.values.nombre}
-        </Typography>
-      </Grid>
-      <Grid item xs={4} sx={{ display: { xs: 'none', md: 'flex' } }}  >
-        <ButtonsUnEjercicioDesktop
-        />
-        {/* <Button {...ButtonStyle} onClick={() => { editable ? setEditable(false) : setEditable(true) }}
+{/* 
+            <Button {...ButtonStyle} onClick={() => { editable ? setEditable(false) : setEditable(true) }}
         >{editable ? <Save /> : <Edit />}
           {editable ? 'Guardar' : 'Editar'}</Button>
         <Button {...ButtonStyle} onClick={() => probar()}
         >{editable ? <Cancel /> : <Delete />}
-          {editable ? 'Cancelar' : 'Borrar'}</Button> */}
-      </Grid>
-      <Grid item xs={12}>
-        <SeccionNombreYTipo
-          paperStyle={paperStyle}
-          TextFieldStyle={TextFieldStyle}
-        />
-        <Paper {...paperStyle} >
-          <SeccionInstrucciones />
-        </Paper>
+          {editable ? 'Cancelar' : 'Borrar'}</Button>
+          </Grid> */}
+          <Grid item xs={12}>
+            <SeccionNombreYTipo
+              paperStyle={paperStyle}
+              TextFieldStyle={TextFieldStyle}
+            />
+            <Paper {...paperStyle} >
+              <SeccionInstrucciones />
+            </Paper>
 
-        <Paper {...paperStyle}>
-          <SeccionVideo />
-        </Paper>
-        <Paper {...paperStyle} >
-          <SeccionEquipamento />
-        </Paper>
-      </Grid>
+            <Paper {...paperStyle}>
+              <SeccionVideo />
+            </Paper>
+            <Paper {...paperStyle} >
+              <SeccionEquipamento />
+            </Paper>
+          </Grid>
 
-      <Grid item xs={12}
-        {...ButtonMobileStyle}>
-        <ButtonUnEjercicioMobile
-          guardar={guardar}
-        />
+          <Grid item xs={12}
+            {...ButtonMobileStyle}>
+            <ButtonUnEjercicioMobile
+              guardar={guardar}
+            />
 
-      </Grid>
-    </Grid>
+          </Grid>
+        </Grid>
+      </form>
+    </div>
   )
 }
 
