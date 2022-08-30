@@ -22,6 +22,8 @@ import MicroPlanPage from './pages/MicroPlanPage';
 import UnderConstructionPage from './pages/UnderConstructionPage';
 import NoAutorizadoPage from './pages/NoAutorizadoPage';
 import PlanPage from './pages/PlanPage';
+import SnackbarSystem from './components/reusable/SnackbarSystem';
+import { SnackbarProvider } from './context/SnackbarContext';
 
 function App() {
 
@@ -44,24 +46,27 @@ function App() {
 
   return (
     <DataProvider>
-      <div className="fondo">
-        <BrowserRouter >
-          <Drawer showMenu={true} token={token} />
-          <Routes >
-            <Route path="/" element={<h1>Logeado</h1>} />
+      <SnackbarProvider>
+        <div className="fondo">
+          <BrowserRouter >
+            <Drawer showMenu={true} token={token} />
+            <Routes >
+              <Route path="/" element={<h1>Logeado</h1>} />
 
-            {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
-            {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
-            {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
-            {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
-            {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
-            {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
+              {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
+              {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
+              {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
+              {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
+              {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
+              {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
 
-            <Route path="/*" element={<NoAutorizadoPage/>} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </div>
+              <Route path="/*" element={<NoAutorizadoPage/>} />
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+          <SnackbarSystem/>
+        </div>
+      </SnackbarProvider>
     </DataProvider>
   );
 }

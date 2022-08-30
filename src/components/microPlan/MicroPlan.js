@@ -11,7 +11,7 @@ import FormOptions from "../reusable/FormOptions";
 import microPlanesService from "../../services/micro-planes.service";
 import microPlanSchema from "./microPlanSchema";
 import Rutina from "./Rutina";
-import { DataContext } from "../../context/DataContext";
+import { SnackbarContext } from "../../context/SnackbarContext";
 import FormOptionsSpeedDial from "../reusable/FormOptionsSpeedDial";
 
 /**
@@ -39,7 +39,7 @@ export default function MicroPlan(props) {
     }
     const nuevaRutina = () => {return {nombre: "", ejerciciosAplicados: [nuevoEjercicio()], esTemplate: props.esTemplate};}
 
-    const {setDataSnackbar} = useContext(DataContext)
+    const {addSnackbar} = useContext(SnackbarContext)
     const [loading, setLoading] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
     const [expanded, setExpanded] = useState(() => false);
@@ -127,7 +127,7 @@ export default function MicroPlan(props) {
             setModalMsj(respuesta.response.data.message)
         } else {
             navigate("/micro-planes")
-            setDataSnackbar(mensaje)
+            addSnackbar({message: mensaje, severity: "success"})
         }
     }
 

@@ -12,7 +12,7 @@ import { Add, Comment, Delete, Edit } from '@mui/icons-material';
 import MicroPlan from '../microPlan/MicroPlan';
 import MicroPlanes from '../microPlanes/MicroPlanes';
 import microPlanesService from '../../services/micro-planes.service';
-import { DataContext } from '../../context/DataContext';
+import { SnackbarContext } from '../../context/SnackbarContext';
 import authService from '../../services/auth.service';
 import Observaciones from '../observaciones/Observaciones';
 
@@ -34,7 +34,7 @@ export default function Plan() {
 
     let { clienteId, idPlan } = useParams();
     const navigate = useNavigate();
-    const {setDataSnackbar} = useContext(DataContext)
+    const {addSnackbar} = useContext(SnackbarContext)
     const {objetivos} = useContext(ParameterDropdownContext)
 
     const [modalMsj, setModalMsj] = useState("");
@@ -101,7 +101,7 @@ export default function Plan() {
             setModalMsj(respuesta.response.data.message)
         } else {
             navigate(`/clientes/${clienteId}`)
-            setDataSnackbar(mensaje)
+            addSnackbar({message: mensaje, severity: "success"})
         }
     }
 

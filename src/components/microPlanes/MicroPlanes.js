@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
 import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton, Stack, Button } from "@mui/material";
 import { AxiosError } from "axios";
 import SearchBar from "../clientsPage/SearchBar";
 import microPlanesService from "../../services/micro-planes.service";
-import { GenericComboBox, GenericModal, Snackbar } from "../reusable";
-import { DataContext } from "../../context/DataContext";
+import { GenericComboBox, GenericModal } from "../reusable";
 import ButtonToFabCrear from "../reusable/ButtonToFabCrear";
 import { Cancel } from "@mui/icons-material";
 
@@ -16,8 +15,6 @@ export default function MicroPlanes(props) {
 
     const [loading, setLoading] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
-    const {dataSnackbar, setDataSnackbar} = useContext(DataContext)
-    const [openSnackbar, setOpenSnackbar] = useState();
 
     const [microPlanes, setMicroPlanes] = useState(() => [])
     const [microPlanesTotal, setMicroPlanesTotal] = useState(() => 0)
@@ -45,8 +42,6 @@ export default function MicroPlanes(props) {
             }
         }
         fetchData();
-        setOpenSnackbar(dataSnackbar !== '' ? true : false)
-        setTimeout(() => setDataSnackbar(''), 6100)
     }, [valueToSearch, pageSize, page, cantidadRutinas])
 
     const onSelectedMicroPlan = props.onSelectedMicroPlan ? props.onSelectedMicroPlan : (idMicroPlan) => {
@@ -153,13 +148,6 @@ export default function MicroPlanes(props) {
                     serverMsj={modalMsj} 
                 />
             }
-
-            <Snackbar
-                severity='success'
-                message={dataSnackbar}
-                open={openSnackbar}
-                setOpen={setOpenSnackbar}
-            />
         </Paper>
     )
 }
