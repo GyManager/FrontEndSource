@@ -34,7 +34,7 @@ function Paso(props) {
     }
     const editableDisplay =
     {
-        sx:{ display: editable? '': 'none'}
+        sx: { display: editable ? '' : 'none' }
     }
 
 
@@ -44,12 +44,24 @@ function Paso(props) {
             <Grid container alignItems='center'>
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container justifyContent='center'>
-                        <Button {...ButtonStyle} onClick={() => props.handleSubirPaso(props.nroPaso)} ><ArrowUpward fontSize='small'/></Button>
+                        <Button {...ButtonStyle}
+                            onClick={() => props.handleSubirPaso(props.nroPaso)}
+                            tabIndex="6" >
+                            <ArrowUpward fontSize='small' />
+                            
+                        </Button>
+
                         <Typography {...ButtonStyle}
                             sx={{ fontSize: { xs: 10, md: 12, lg: 14, xl: 18 }, p: 1 }}
 
                         >{props.nroPaso}</Typography>
-                        <Button {...ButtonStyle} onClick={() => props.handleBajarPaso(props.nroPaso)}><ArrowDownward fontSize='small' /></Button>
+
+                        <Button {...ButtonStyle}
+                            onClick={() => props.handleBajarPaso(props.nroPaso)}
+                            tabIndex="7">
+                            <ArrowDownward fontSize='small' />
+                            
+                        </Button>
                     </Grid>
                 </Grid>
                 <Grid item xs={7} md={8} sx={{ mr: 5 }}>
@@ -73,7 +85,7 @@ function Paso(props) {
                 </Grid>
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container direction='column' justifyContent='flex-start'>
-                        <Button  {...ImgButtonStyle} onClick={()=>props.handleDelete(props.nroPaso)} ><Delete fontSize='small'/></Button>
+                        <Button  {...ImgButtonStyle} onClick={() => props.handleDelete(props.nroPaso)} ><Delete fontSize='small' /></Button>
                     </Grid>
                 </Grid>
             </Grid>

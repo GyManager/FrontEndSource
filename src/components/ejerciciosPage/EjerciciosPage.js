@@ -35,13 +35,14 @@ function EjerciciosPage() {
 
     const [valueToSearch, setValueToSearch] = useState('');
 
-    const searchEjercicios = (valueToSearch) => {
-        setValueToSearch(valueToSearch)
+    
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(event.target.value)
         setPage(0)
     }
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value)
+    const searchEjercicios = (valueToSearch) => {
+        setValueToSearch(valueToSearch)
         setPage(0)
     }
 
@@ -87,7 +88,8 @@ function EjerciciosPage() {
                         >Crear</Button>
                     </Grid>
                     <Grid item sx={{ display: 'flex' }} xs={12}>
-                        <Search setEjercicios={setEjercicios} />
+                        <Search 
+                        setValueToSearch={setValueToSearch}/>
                     </Grid>
                     <Grid item sx={{ display: 'flex' }} xs={12}>
 

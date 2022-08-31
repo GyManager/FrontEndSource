@@ -107,7 +107,7 @@ export default function SeccionInstrucciones(props) {
             variant='contained'
             size='small'
             onClick={handleAgregarPaso}
-            sx={{ display: editable ? 'initial': 'none'  }}
+            sx={{ display: editable ? 'initial' : 'none' }}
           >+ Agregar paso</Button>
         </Grid>
       </Grid>

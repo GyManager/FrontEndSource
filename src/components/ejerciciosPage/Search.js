@@ -8,7 +8,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function CustomizedInputBase(props) {
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState('');
 
   const handleChange = (e) => {
     setSearch(e.target.value)
@@ -16,7 +16,7 @@ export default function CustomizedInputBase(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    props.setEjercicios(search)
+    props.setValueToSearch(search)
   }
 
   return (
