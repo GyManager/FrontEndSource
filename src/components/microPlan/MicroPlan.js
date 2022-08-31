@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { AxiosError } from "axios";
 import { Box } from "@mui/system";
 import { Button, Paper, Skeleton, TextField, Typography } from "@mui/material";
-import { Add, WarningAmberRounded } from "@mui/icons-material";
+import { Add, PropaneSharp, WarningAmberRounded } from "@mui/icons-material";
 import { ParameterDropdownProvider } from "../../context/ParameterDropdownContext";
 import { Breadcumbs, GenericModal } from "../reusable";
 import FormOptions from "../reusable/FormOptions";
@@ -84,9 +84,9 @@ export default function MicroPlan(props) {
         formik.setFieldValue(`rutinas[${indexRutina}].ejerciciosAplicados`, newEjercicios, false)
     }
 
-    const getMicroPlanById = async () => {
+    const getMicroPlanById = async (forcedIdMicroPlan) => {
         setLoading(true)
-        const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
+        const respuesta = await microPlanesService.getMicroPlanById(forcedIdMicroPlan);
         setLoading(false)
         if (respuesta instanceof AxiosError) {
             setModalMsj(respuesta?.message)
@@ -118,7 +118,7 @@ export default function MicroPlan(props) {
             navigate("/micro-planes");
         } else {
             setEditable(false)
-            getMicroPlanById()
+            getMicroPlanById(idMicroPlan)
         }
     }
 
@@ -132,10 +132,15 @@ export default function MicroPlan(props) {
     }
 
     useEffect(() => {
-        if (idMicroPlan === 'new' || !props.esTemplate) {
+        if (idMicroPlan === 'new') {
             setEditable(true)
+        } else if (!props.esTemplate) {
+            setEditable(true)
+            if(props.idMicroPlan !== undefined && props.idMicroPlan !== null){
+                getMicroPlanById(props.idMicroPlan)
+            }
         } else {
-            getMicroPlanById()
+            getMicroPlanById(idMicroPlan)
         }
     }, [idMicroPlan])
 

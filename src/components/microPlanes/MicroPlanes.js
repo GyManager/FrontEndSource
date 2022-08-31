@@ -7,7 +7,7 @@ import SearchBar from "../clientsPage/SearchBar";
 import microPlanesService from "../../services/micro-planes.service";
 import { GenericComboBox, GenericModal } from "../reusable";
 import ButtonToFabCrear from "../reusable/ButtonToFabCrear";
-import { Cancel } from "@mui/icons-material";
+import { Cancel, Edit } from "@mui/icons-material";
 
 export default function MicroPlanes(props) {
 
@@ -50,11 +50,20 @@ export default function MicroPlanes(props) {
 
     const tableRows = microPlanes.map(microPlan => (
         <TableRow hover key={microPlan.nombre} 
-            onClick={() => onSelectedMicroPlan(microPlan.idMicroPlan)}
             sx={{cursor:'pointer'}}
         >
-            <TableCell>{microPlan.nombre}</TableCell>
-            <TableCell>{microPlan.cantidadRutinas}</TableCell>
+            <TableCell onClick={() => onSelectedMicroPlan(microPlan.idMicroPlan)}>{microPlan.nombre}</TableCell>
+            <TableCell onClick={() => onSelectedMicroPlan(microPlan.idMicroPlan)}>{microPlan.cantidadRutinas}</TableCell>
+            {props.cellEditAction !== undefined && props.cellEditAction !== null && 
+            <TableCell>
+                <Button 
+                    variant='contained' 
+                    size='small' 
+                    onClick={() => props.cellEditAction(microPlan.idMicroPlan)}
+                > 
+                    <Edit /> 
+                </Button>
+            </TableCell>}
         </TableRow>
     ));
 

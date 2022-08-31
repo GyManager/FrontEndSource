@@ -144,14 +144,16 @@ export default function Plan() {
 
     if(microPlanEditing !== undefined && microPlanEditing !== null){
         
-        const microPlanEditado = microPlanEditing !== 'new' ? formik.values.microPlans[microPlanEditing] : null;
+        const microPlanEditado = microPlanEditing === 'new' ? null :
+            microPlanEditing.idMicroPlanAEditar ? null : formik.values.microPlans[microPlanEditing];
 
         return (
             <MicroPlan
                 esTemplate={false}
                 editable={true}
                 microPlan={microPlanEditado}
-                handleSubmit={(microPlanEdited) => handleEditMicroPlan(microPlanEdited, microPlanEditing)}
+                idMicroPlan={microPlanEditing.idMicroPlanAEditar}
+                handleSubmit={(microPlanEdited) => handleEditMicroPlan(microPlanEdited, microPlanEditing.idMicroPlanAEditar ? 'new' : microPlanEditing)}
                 handleDelete={() => handleDeleteMicroPlan(microPlanEditing)}
                 handleCancel={() => setMicroPlanEditing(null)}
                 submitMessage={"Aceptar"}
@@ -350,6 +352,7 @@ export default function Plan() {
                         onSelectedMicroPlan={handleSelectedMicroPlanFromSearch}
                         onNewMicroPlan={() => {setBuscarMicroPlan(false); setMicroPlanEditing('new')}}
                         onCancelSearch={() => setBuscarMicroPlan(false)}
+                        cellEditAction={(idMicroPlan) => {{setBuscarMicroPlan(false); setMicroPlanEditing({idMicroPlanAEditar:idMicroPlan})}}}
                     />
                 </Box>
             </Modal>
