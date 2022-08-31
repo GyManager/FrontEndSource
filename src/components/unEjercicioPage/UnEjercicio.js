@@ -84,7 +84,7 @@ function UnEjercicioPage() {
         method="post"
         onSubmit={formik.handleSubmit}>
         <Grid container>
-          <Grid item sx={{ display: 'block' }} xs={6} >
+          <Grid item sx={{ display: 'block' }} xs={8} >
             <Breadcumbs
               names={['Ejercicios', formik.values.nombre]}
               urls={['../ejercicios/']}
@@ -95,21 +95,7 @@ function UnEjercicioPage() {
             >Ejercicio: {formik.values.nombre}
             </Typography>
           </Grid>
-          {/* <Grid item xs={6} sx={{ display: { xs: 'none', md: 'flex' } }}  > */}
-          {/* <Button type='submit' {...ButtonStyle} > <Save /></Button> */}
-          {/* <Button type="submit" > <Save /></Button> */}
-          {/* <Button {...ButtonStyle} onClick={()=>{setEditable(true)}}><Edit /></Button> */}
-            
             <ButtonsUnEjercicioDesktop/>
-
-{/* 
-            <Button {...ButtonStyle} onClick={() => { editable ? setEditable(false) : setEditable(true) }}
-        >{editable ? <Save /> : <Edit />}
-          {editable ? 'Guardar' : 'Editar'}</Button>
-        <Button {...ButtonStyle} onClick={() => probar()}
-        >{editable ? <Cancel /> : <Delete />}
-          {editable ? 'Cancelar' : 'Borrar'}</Button>
-          </Grid> */}
           <Grid item xs={12}>
             <SeccionNombreYTipo
               paperStyle={paperStyle}

@@ -10,7 +10,7 @@ function ButtonsUnEjercicioDesktop(props) {
     const navigate = useNavigate()
 
     const {
-        idEjercicio, formik, handleSubmit, editable, setEditable,
+        idEjercicio, formik, handleDelete, editable, setEditable,
     } = useContext(EjercicioContext)
 
     const ButtonStyle = {
@@ -21,39 +21,36 @@ function ButtonsUnEjercicioDesktop(props) {
 
     }
 
-    const handleCancel = (e) => {
-        e.preventDefault();
-        setEditable(false);
-        // navigate('/ejercicios')
-    }
-
     const handleEditClick = (e) => {
         e.preventDefault();
         setEditable(true)
     }
 
     const handleDeleteClick = (e) => {
-        // setEditable(true)
+        e.preventDefault();
+        setEditable(false)
+        
     }
 
     const handleCancelClick = (e) => {
         setEditable(false)
+        navigate('/ejercicios')
     }
 
     return (
         <>
-            <Grid item xs={6} sx={{ display: { xs: 'none', md: 'flex' } }}  >
+            <Grid item xs={4} sx={{ display: { xs: 'none', md: 'flex' } }}  >
 
                 {editable ?
                     <>
-                        <Button {...ButtonStyle} type='submit'><Save/>Guardar</Button>
+                        <Button {...ButtonStyle} type='submit'><Save />Guardar</Button>
                         <Button {...ButtonStyle} onClick={handleCancelClick}><Cancel />Cancelar</Button>
                     </>
 
                     :
                     <>
                         <Button {...ButtonStyle} onClick={handleEditClick}><Edit />Editar</Button>
-                        <Button {...ButtonStyle} onClick={handleDeleteClick}><Delete />Eliminar</Button>
+                        <Button {...ButtonStyle} onClick={handleDelete}><Delete />Eliminar</Button>
                     </>
                 }
             </Grid>

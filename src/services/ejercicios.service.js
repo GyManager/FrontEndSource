@@ -13,6 +13,12 @@ catch (error) {
     access_token = ''
 }
 
+const headers = {
+    headers: {
+        'Authorization': `Bearer ${access_token}`,
+    }
+}
+
 const fetchData = (url, params) => {
     return axios
         .get(API_URL + url, {
@@ -82,28 +88,50 @@ const getEquipamentoByEjercicio = (id) => {
 
 const getAllEquipamentos = (id) => {
     const url = '/herramientas/'
-    // const res = fetchData(url).then((res)=>{return res.map((unEquip) => {return unEquip.nombre})})
     const res = fetchData(url)
-
-    // const res = fetchData(url)
     return res
 }
 
-const putEjercicio = (ejercicio, idEjercicio) => {
-    return axios.put(API_URL + '/ejercicios/' + idEjercicio, ejercicio, 
+const postEjercicio = (ejercicio) => {
+    return axios.post(API_URL + '/ejercicios', ejercicio,
         {
             headers: {
                 'Authorization': `Bearer ${access_token}`,
             }
         }).then(
-            (res) => {return res.data}
-        ).catch(err=>{
+            (res) => { return res.data }
+        ).catch(err => {
             console.log('Hubo un error en el post service: ', err)
             return handleError(err)
         })
+}
 
-        
-    
+const deleteEjercicio = (idEjercicio) => {
+    return axios.delete(API_URL + '/ejercicios/' + idEjercicio,
+        {
+            headers: {
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }).then(
+            (res) => { return res.data }
+        ).catch(err => {
+            console.log('Hubo un error en el DELETE service: ', err)
+            return handleError(err)
+        })
+}
+
+const putEjercicio = (ejercicio, idEjercicio) => {
+    return axios.put(API_URL + '/ejercicios/' + idEjercicio, ejercicio,
+        {
+            headers: {
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }).then(
+            (res) => { return res.data }
+        ).catch(err => {
+            console.log('Hubo un error en el put service: ', err)
+            return handleError(err)
+        })
 }
 
 const ejerciciosService = {
@@ -113,8 +141,9 @@ const ejerciciosService = {
     getPasosByEjercicioId,
     getEquipamentoByEjercicio,
     getAllEquipamentos,
+    postEjercicio,
+    deleteEjercicio,
     putEjercicio
 }
 
 export default ejerciciosService
-

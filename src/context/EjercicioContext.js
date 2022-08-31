@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ejercicioService from "../services/ejercicios.service";
@@ -9,6 +9,7 @@ import ejerciciosService from '../services/ejercicios.service'
 // import ejercicioSchema from '../../ejercicioSchema'
 import ejercicioSchema from '../components/unEjercicioPage/ejercicioSchema'
 import { Filter } from "@mui/icons-material";
+import { Identity } from "@mui/base";
 
 export const EjercicioContext = createContext();
 
@@ -33,7 +34,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
           contenido: "",
           idPaso: "",
           imagen: "",
-          numeroPaso: ""
+          numeroPaso: "1"
         }],
         linkVideo: "",
         equipamentoDeEjercicio: [],
@@ -45,14 +46,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       },
     }
   );
-
-  const handleSubmit2 = (e) => {
-    e?.preventDefault()
-    console.log('handle')
-
-    console.log('handle')
-    setEditable(false)
-  }
 
 
   const handleSubmit = async () => {
@@ -68,9 +61,12 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     }
 
     if (idEjercicio === 'new') {
-
-      console.log('Aca va el post')
-
+      const res = await ejerciciosService.postEjercicio(ejercicio)
+      if (res instanceof AxiosError) {
+        console.log('Informar error por backdrop')
+      } else {
+        console.log('informar exito en snackbar')
+      }
     } else {
       const res = await ejerciciosService.putEjercicio(ejercicio, idEjercicio)
       if (res instanceof AxiosError) {
@@ -79,6 +75,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         console.log('informar exito en snackbar')
       }
     }
+    navigate('/ejercicios')
   }
 
   // getEjercicioById
@@ -189,6 +186,17 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     }
   }
 
+  const handleDelete = async() => {
+    console.log(idEjercicio)
+    const res = await ejercicioService.deleteEjercicio(idEjercicio)
+    if (res instanceof AxiosError) {
+      console.log(res)
+    } else {
+      console.log('delete completado informar por snackbar')
+    }
+    navigate('/ejercicios')
+  }
+
 
 
   return (
@@ -202,6 +210,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       // equipamentoDeEjercicio, setEquipamentoDeEjercicio,
       equipamentos, setEquipamentos,
       handleCancelEdit,
+      handleDelete,
     }}>
       {children}
     </EjercicioContext.Provider>
