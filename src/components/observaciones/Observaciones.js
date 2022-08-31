@@ -12,10 +12,12 @@ export default function Observaciones(props){
     });
 
     function handleDeleteObservaciones(index){
-        setObservaciones(prev => {
-            prev.splice(index,1)
-            return [...prev]
-        })
+        if(observaciones.length > 1){
+            setObservaciones(prev => {
+                prev.splice(index,1)
+                return [...prev]
+            })
+        }
     }
 
     function addObservacion(){
@@ -24,10 +26,12 @@ export default function Observaciones(props){
 
     function updateObservacion(event, index){
         const newObservacion = event.target.value;
-        setObservaciones(prev => {
-            prev[index] = {...(prev[index]), observacion: newObservacion};
-            return [...prev]
-        })
+        if(newObservacion.length <= 500){
+            setObservaciones(prev => {
+                prev[index] = {...(prev[index]), observacion: newObservacion};
+                return [...prev]
+            })
+        }
     }
 
     function saveObservaciones(event){
@@ -83,6 +87,7 @@ export default function Observaciones(props){
                                                     variant="standard"
                                                     value={observacion.observacion || ''}
                                                     onChange={(event) => updateObservacion(event, index)}
+                                                    inputProps={{ min: 0, max: 10}}
                                                     multiline
                                                 />
                                             </TableCell>

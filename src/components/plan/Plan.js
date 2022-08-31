@@ -16,6 +16,7 @@ import { SnackbarContext } from '../../context/SnackbarContext';
 import authService from '../../services/auth.service';
 import Observaciones from '../observaciones/Observaciones';
 import DeleteButtonWithAlert from '../reusable/buttons/DeleteButtonWithAlert';
+import planSchema from './planSchema';
 
 const paperStyle = {
     elevation:1,
@@ -51,7 +52,7 @@ export default function Plan() {
             fechaDesde: new Date(),
             microPlans: []
         },
-        // validationSchema: planSchema.validationSchema,
+        validationSchema: planSchema.validationSchema,
         onSubmit: () => {
             handleSubmit();
         },
@@ -123,6 +124,7 @@ export default function Plan() {
         if(index === 'new') {
             microPlanEdited.idMicroPlan = null;
 
+            microPlanEdited.observaciones = [{observacion: '', numeroSemana: 1}];
             microPlanEdited.esTemplate = false;
             microPlanEdited.rutinas.forEach(rutina => {
                 rutina.esTemplate = false;
@@ -132,11 +134,12 @@ export default function Plan() {
             const newMicroPlans = formik.values.microPlans;
             newMicroPlans.push(microPlanEdited)
             formik.setFieldValue('microPlans', newMicroPlans, false)
+            addSnackbar({message: "El micro plan asignado ha sido creado", severity: "info", duration:2000})
         } else {
             formik.setFieldValue(`microPlans[${index}]`, microPlanEdited, false)
+            addSnackbar({message: "El micro plan asignado ha sido editado", severity: "info", duration:2000})
         }
         setMicroPlanEditing(null)
-        addSnackbar({message: "El micro plan asignado ha sido editado", severity: "info", duration:2000})
     }
 
     if(microPlanEditing !== undefined && microPlanEditing !== null){
@@ -165,6 +168,7 @@ export default function Plan() {
         } else {
             respuesta.idMicroPlan = null;
 
+            respuesta.observaciones = [{observacion: '', numeroSemana: 1}];
             respuesta.esTemplate = false;
             respuesta.rutinas.forEach(rutina => {
                 rutina.esTemplate = false;
@@ -217,6 +221,8 @@ export default function Plan() {
                         value={formik.values.descripcion || ''}
                         onChange={formik.handleChange}
                         multiline
+                        error={formik.touched.descripcion && Boolean(formik.errors.descripcion)}
+                        helperText={formik.touched.descripcion && formik.errors.descripcion}
                     />
 
                     <Stack 
@@ -235,6 +241,8 @@ export default function Plan() {
                             labelForNone=""
                             minWidth={250}
                             editable={true}
+                            errorProp={formik.touched.objetivo  && Boolean(formik.errors.objetivo)}
+                            helperTextProp={formik.touched.objetivo && formik.errors.objetivo}
                         />
 
                         <TextField fullWidth
@@ -254,6 +262,8 @@ export default function Plan() {
                             label="Fecha desde"
                             editable={true}
                             onChange={formik.setFieldValue}
+                            errorProp={formik.touched.fechaDesde && Boolean(formik.errors.fechaDesde)}
+                            helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
                         />
                         <DatePicker
                             value={fechaHasta || ""}
@@ -311,13 +321,13 @@ export default function Plan() {
                         <Add /> Agregar Micro Plan 
                     </Button>
                 </Paper>
-                
-                <GenericModal
-                    show={modalMsj !== ""}
-                    hide={() => setModalMsj("")}
-                    serverMsj={modalMsj} 
-                />
             </Paper>
+                
+            <GenericModal
+                show={modalMsj !== ""}
+                hide={() => setModalMsj("")}
+                serverMsj={modalMsj} 
+            />
 
             { observacionesEditing !== null && observacionesEditing !== undefined &&
                 <Observaciones
@@ -335,11 +345,13 @@ export default function Plan() {
                 onClose={() => setBuscarMicroPlan(false)}
                 sx={{display:'flex', alignItems:'center',justifyContent:'center'}}
             >
-                <MicroPlanes
-                    onSelectedMicroPlan={handleSelectedMicroPlanFromSearch}
-                    onNewMicroPlan={() => {setBuscarMicroPlan(false); setMicroPlanEditing('new')}}
-                    onCancelSearch={() => setBuscarMicroPlan(false)}
-                />
+                <Box sx={{minWidth:'80%'}}>
+                    <MicroPlanes
+                        onSelectedMicroPlan={handleSelectedMicroPlanFromSearch}
+                        onNewMicroPlan={() => {setBuscarMicroPlan(false); setMicroPlanEditing('new')}}
+                        onCancelSearch={() => setBuscarMicroPlan(false)}
+                    />
+                </Box>
             </Modal>
         </Fragment>
     )
