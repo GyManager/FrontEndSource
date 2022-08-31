@@ -45,10 +45,9 @@ function Paso(props) {
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container justifyContent='center'>
                         <Button {...ButtonStyle}
-                            onClick={() => props.handleSubirPaso(props.nroPaso)}
-                            tabIndex="6" >
+                            onClick={() => props.handleSubirPaso(props.nroPaso)}>
                             <ArrowUpward fontSize='small' />
-                            
+
                         </Button>
 
                         <Typography {...ButtonStyle}
@@ -57,10 +56,9 @@ function Paso(props) {
                         >{props.nroPaso}</Typography>
 
                         <Button {...ButtonStyle}
-                            onClick={() => props.handleBajarPaso(props.nroPaso)}
-                            tabIndex="7">
+                            onClick={() => props.handleBajarPaso(props.nroPaso)}>
                             <ArrowDownward fontSize='small' />
-                            
+
                         </Button>
                     </Grid>
                 </Grid>

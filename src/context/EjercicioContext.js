@@ -1,29 +1,34 @@
-import axios, { AxiosError } from "axios";
-import { createContext, useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import { createContext, useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ejercicioService from "../services/ejercicios.service";
 import { useFormik } from 'formik'
 import orderBy from 'lodash/orderBy'
-// import ejerciciosService from '../../services/ejercicios.service'
+
 import ejerciciosService from '../services/ejercicios.service'
-// import ejercicioSchema from '../../ejercicioSchema'
+
 import ejercicioSchema from '../components/unEjercicioPage/ejercicioSchema'
-import { Filter } from "@mui/icons-material";
-import { Identity } from "@mui/base";
+
+import { SnackbarContext } from '../context/SnackbarContext'
+
 
 export const EjercicioContext = createContext();
 
 export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
+  const { addSnackbar } = useContext(SnackbarContext)
 
   const navigate = useNavigate()
   let { idEjercicio } = useParams()
   const [editable, setEditable] = useState(false)
   const [allTipoEjercicios, setAllTipoEjercicios] = useState([])
   const [equipamentos, setEquipamentos] = useState([])
-  // const [equipamentoDeEjercicio, setEquipamentoDeEjercicio] = useState([])
-  const [equipamentosById, setEquipamentosById] = useState([])
 
-  // console.log(idEjercicio)
+  const [openModal, setOpenModal] = useState(false)
+  const [modalMsj, setModalMsj] = useState('')
+  const handleCloseModal = () => { setOpenModal(false) }
+
+
+
 
   const formik = useFormik(
     {
@@ -48,10 +53,22 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   );
 
 
+  const handleRespuesta = (res, msj) => {
+    if (res instanceof AxiosError) {
+      setModalMsj(res.message)
+      setOpenModal(true)
+    } else {
+      addSnackbar({ message: msj, severity: "success", duration: 3000 })
+      navigate('/ejercicios')
+    }
+    return
+  }
+
+
+
   const handleSubmit = async () => {
     setEditable(false)
 
-    console.log(formik.values.equipamentoDeEjercicioIds)
     const ejercicio = {
       "nombre": formik.values.nombre,
       "tipoEjercicio": formik.values.tipoDeEjercicio,
@@ -62,20 +79,11 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
     if (idEjercicio === 'new') {
       const res = await ejerciciosService.postEjercicio(ejercicio)
-      if (res instanceof AxiosError) {
-        console.log('Informar error por backdrop')
-      } else {
-        console.log('informar exito en snackbar')
-      }
+      handleRespuesta(res, 'Ejercicio creado exitosamente')
     } else {
       const res = await ejerciciosService.putEjercicio(ejercicio, idEjercicio)
-      if (res instanceof AxiosError) {
-        console.log('Informar error por backdrop')
-      } else {
-        console.log('informar exito en snackbar')
-      }
+      handleRespuesta(res, 'Ejercicio actualizado exitosamente')
     }
-    navigate('/ejercicios')
   }
 
   // getEjercicioById
@@ -186,15 +194,17 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     }
   }
 
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     console.log(idEjercicio)
     const res = await ejercicioService.deleteEjercicio(idEjercicio)
-    if (res instanceof AxiosError) {
-      console.log(res)
-    } else {
-      console.log('delete completado informar por snackbar')
-    }
-    navigate('/ejercicios')
+    handleRespuesta(res,'Ejercicio eliminado exitosamente')
+    
+    // if (res instanceof AxiosError) {
+    //   console.log(res)
+    // } else {
+    //   console.log('delete completado informar por snackbar')
+    // }
+    // navigate('/ejercicios')
   }
 
 
@@ -211,6 +221,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       equipamentos, setEquipamentos,
       handleCancelEdit,
       handleDelete,
+      openModal,
+      modalMsj,
+      handleCloseModal
     }}>
       {children}
     </EjercicioContext.Provider>

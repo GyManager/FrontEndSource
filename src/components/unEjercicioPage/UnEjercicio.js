@@ -18,21 +18,15 @@ import SeccionVideo from './SeccionVideo';
 import SeccionEquipamento from './SeccionEquipamento'
 import ButtonsUnEjercicioDesktop from './ButtonsUnEjercicioDesktop';
 import { Cancel, Delete, Edit, Save } from '@mui/icons-material';
+import { GenericModal } from '../reusable';
 
 function UnEjercicioPage() {
   // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
 
   const {
-    idEjercicio, formik, getEjercicio, handleSubmit, editable, setEditable,
+    idEjercicio, formik, getEjercicio, editable, setEditable, 
+    openModal, modalMsj, handleCloseModal
   } = useContext(EjercicioContext);
-  const navigate = useNavigate()
-
-  const ButtonStyle = {
-    sx: { mx: 1, justifyContent: 'space-around' },
-    variant: 'contained',
-    size: 'large',
-    fullWidth: true,
-  }
 
   const paperStyle = {
     elevation: 2,
@@ -44,20 +38,6 @@ function UnEjercicioPage() {
     inputProps: { readOnly: Boolean(!editable) },
     variant: "standard",
     onChange: formik.handleChange
-  }
-
-  const ButtonMobileStyle
-    = {
-    sx: {
-      display: { xs: 'block', md: 'none' },
-      position: 'fixed',
-      right: '4vw',
-      bottom: '4vh'
-    }
-  }
-
-  const probar = () => {
-    console.log('probando')
   }
 
   useEffect(() => {
@@ -77,52 +57,49 @@ function UnEjercicioPage() {
       // Implementar put
       console.log('aca iria el put')
   }
-
+console.log(openModal, ' ', modalMsj)
   return (
-    <div>
-      <form
-        method="post"
-        onSubmit={formik.handleSubmit}>
-        <Grid container>
-          <Grid item sx={{ display: 'block' }} xs={8} >
-            <Breadcumbs
-              names={['Ejercicios', formik.values.nombre]}
-              urls={['../ejercicios/']}
-            />
-
-            <Typography component='span'
-              sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}
-            >Ejercicio: {formik.values.nombre}
-            </Typography>
-          </Grid>
-            <ButtonsUnEjercicioDesktop/>
-          <Grid item xs={12}>
-            <SeccionNombreYTipo
-              paperStyle={paperStyle}
-              TextFieldStyle={TextFieldStyle}
-            />
-            <Paper {...paperStyle} >
-              <SeccionInstrucciones />
-            </Paper>
-
-            <Paper {...paperStyle}>
-              <SeccionVideo />
-            </Paper>
-            <Paper {...paperStyle} >
-              <SeccionEquipamento />
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12}
-            {...ButtonMobileStyle}>
-            <ButtonUnEjercicioMobile
-              guardar={guardar}
-            />
-
-          </Grid>
+    <form
+      method="post"
+      onSubmit={formik.handleSubmit}>
+      <Grid container>
+        <Grid item sx={{ display: 'block' }} xs={8} >
+          <Breadcumbs
+            names={['Ejercicios', formik.values.nombre]}
+            urls={['../ejercicios/']}
+          />
+          <Typography component='span'
+            sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}
+          >Ejercicio: {formik.values.nombre}
+          </Typography>
         </Grid>
-      </form>
-    </div>
+        <ButtonsUnEjercicioDesktop />
+        <Grid item xs={12}>
+          <SeccionNombreYTipo
+            paperStyle={paperStyle}
+            TextFieldStyle={TextFieldStyle}
+          />
+          <Paper {...paperStyle} >
+            <SeccionInstrucciones />
+          </Paper>
+
+          <Paper {...paperStyle}>
+            <SeccionVideo />
+          </Paper>
+          <Paper {...paperStyle} >
+            <SeccionEquipamento />
+          </Paper>
+        </Grid>
+        <ButtonUnEjercicioMobile
+          guardar={guardar}
+        />
+      </Grid>
+      <GenericModal
+        show={openModal}
+        hide={handleCloseModal}
+        serverMsj={modalMsj} 
+        />
+    </form>
   )
 }
 

@@ -19,6 +19,10 @@ import UnEjercicioPage from './pages/UnEjercicioPage';
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
+import SnackbarSystem from './components/reusable/SnackbarSystem';
+import { SnackbarProvider } from './context/SnackbarContext';
+
+
 
 function App() {
 
@@ -41,6 +45,7 @@ function App() {
 
   return (
     <DataProvider>
+    <SnackbarProvider>
       <div className="fondo">
         <BrowserRouter >
           <Drawer showMenu={true} token={token} />
@@ -58,7 +63,9 @@ function App() {
           </Routes>
           <Footer />
         </BrowserRouter>
+        <SnackbarSystem/>
       </div>
+      </SnackbarProvider>
     </DataProvider>
   );
 }

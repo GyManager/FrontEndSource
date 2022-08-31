@@ -30,7 +30,6 @@ const fetchData = (url, params) => {
         }).catch((error) => { return handleError(error) })
 }
 
-
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -102,7 +101,7 @@ const postEjercicio = (ejercicio) => {
 }
 
 const deleteEjercicio = (idEjercicio) => {
-    return axios.delete(API_URL + '/ejercicios/' + idEjercicio,
+    return axios.delete(API_URL + '/ejercicios/' + idEjercicio ,
         {...headers})
         .then(
             (res) => { return res.data }
