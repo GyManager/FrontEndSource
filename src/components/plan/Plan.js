@@ -15,6 +15,7 @@ import microPlanesService from '../../services/micro-planes.service';
 import { SnackbarContext } from '../../context/SnackbarContext';
 import authService from '../../services/auth.service';
 import Observaciones from '../observaciones/Observaciones';
+import DeleteButtonWithAlert from '../reusable/buttons/DeleteButtonWithAlert';
 
 const paperStyle = {
     elevation:1,
@@ -202,6 +203,7 @@ export default function Plan() {
                         enableDeleteAlways={(idPlan !== "new")}
                         handleDeleteClick={handleDelete}
                         id={idPlan}
+                        deleteAlertTitle="Esta por eliminar el plan"
                     />
                 </Box>
 
@@ -291,7 +293,11 @@ export default function Plan() {
                                                     <Box sx={{display:'flex', gap:2}}>
                                                         <Button variant='contained' size='small' color='secondary' startIcon={<Comment />} onClick={() => setObservacionesEditing(index)}> Observaciones </Button>
                                                         <Button variant='contained' size='small' startIcon={<Edit />} onClick={() => setMicroPlanEditing(index)}> Editar </Button>
-                                                        <Button variant='contained' size='small' color='error' startIcon={<Delete />} onClick={() => handleDeleteMicroPlan(index)}>  Borrar </Button>
+                                                        <DeleteButtonWithAlert
+                                                            handleAccept={() => handleDeleteMicroPlan(index)}
+                                                            buttonProps={{variant:"contained", size:"small", color:"error"}}
+                                                            alertTitle={`Está por eliminar el micro plan ${microPlan.nombre}`}
+                                                        />
                                                     </Box>
                                                 </TableCell>
                                         </TableRow>
@@ -311,21 +317,19 @@ export default function Plan() {
                     hide={() => setModalMsj("")}
                     serverMsj={modalMsj} 
                 />
-
-                { observacionesEditing !== null && observacionesEditing !== undefined &&
-                    <Observaciones
-                        open={observacionesEditing !== null && observacionesEditing !== undefined}
-                        microPlanIndex={observacionesEditing}
-                        microPlanName={formik.values.microPlans[observacionesEditing].nombre}
-                        observaciones={formik.values.microPlans[observacionesEditing].observaciones }
-                        handleSave={handleEditObservaciones}
-                        handleClose={() => setObservacionesEditing(null)}
-                    />
-                }
-                
-
             </Paper>
-            
+
+            { observacionesEditing !== null && observacionesEditing !== undefined &&
+                <Observaciones
+                    open={observacionesEditing !== null && observacionesEditing !== undefined}
+                    microPlanIndex={observacionesEditing}
+                    microPlanName={formik.values.microPlans[observacionesEditing].nombre}
+                    observaciones={formik.values.microPlans[observacionesEditing].observaciones }
+                    handleSave={handleEditObservaciones}
+                    handleClose={() => setObservacionesEditing(null)}
+                />
+            }
+                
             <Modal
                 open={buscarMicroPlan}
                 onClose={() => setBuscarMicroPlan(false)}

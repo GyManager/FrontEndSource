@@ -181,6 +181,7 @@ export default function MicroPlan(props) {
                     handleSubmit={formik.handleSubmit}
                     submitMessage={props.submitMessage}
                     id={idMicroPlan}
+                    deleteAlertTitle={`Está por eliminar el micro plan ${formik.values.nombre}`}
                 />
             </Box>
 

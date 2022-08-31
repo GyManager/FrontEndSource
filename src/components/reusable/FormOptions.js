@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from '@mui/material'
-import { Edit, Delete, Save, Cancel } from '@mui/icons-material/';
+import { Edit, Save, Cancel } from '@mui/icons-material/';
+import DeleteButtonWithAlert from './buttons/DeleteButtonWithAlert';
 
 /**
  * 
@@ -57,14 +58,11 @@ export default function FormOptions(props) {
             }
 
             {(props.enableDeleteAlways || (props.id !== 'new' && !props.editable)) &&
-                <Button
-                id='borrarOption'
-                    {...buttonCommonProperties}
-                    onClick={props.handleDeleteClick}
-                    startIcon={<Delete />}
-                >
-                    Borrar
-                </Button>
+                <DeleteButtonWithAlert
+                    handleAccept={props.handleDeleteClick}
+                    buttonProps={{id:"borrarOption", ...buttonCommonProperties}}
+                    alertTitle={props.deleteAlertTitle}
+                />
             }
         </div>
     )
