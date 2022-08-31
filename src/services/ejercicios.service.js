@@ -22,9 +22,7 @@ const headers = {
 const fetchData = (url, params) => {
     return axios
         .get(API_URL + url, {
-            headers: {
-                'Authorization': `Bearer ${access_token}`,
-            },
+            ...headers,
             params
         }).then((res) => {
             const resData = res.data
@@ -94,25 +92,19 @@ const getAllEquipamentos = (id) => {
 
 const postEjercicio = (ejercicio) => {
     return axios.post(API_URL + '/ejercicios', ejercicio,
-        {
-            headers: {
-                'Authorization': `Bearer ${access_token}`,
-            }
-        }).then(
+        {...headers})
+        .then(
             (res) => { return res.data }
         ).catch(err => {
-            console.log('Hubo un error en el post service: ', err)
+            console.log('Hubo un error en el POST service: ', err)
             return handleError(err)
         })
 }
 
 const deleteEjercicio = (idEjercicio) => {
     return axios.delete(API_URL + '/ejercicios/' + idEjercicio,
-        {
-            headers: {
-                'Authorization': `Bearer ${access_token}`,
-            }
-        }).then(
+        {...headers})
+        .then(
             (res) => { return res.data }
         ).catch(err => {
             console.log('Hubo un error en el DELETE service: ', err)
@@ -122,14 +114,11 @@ const deleteEjercicio = (idEjercicio) => {
 
 const putEjercicio = (ejercicio, idEjercicio) => {
     return axios.put(API_URL + '/ejercicios/' + idEjercicio, ejercicio,
-        {
-            headers: {
-                'Authorization': `Bearer ${access_token}`,
-            }
-        }).then(
+        {...headers})
+        .then(
             (res) => { return res.data }
         ).catch(err => {
-            console.log('Hubo un error en el put service: ', err)
+            console.log('Hubo un error en el PUT service: ', err)
             return handleError(err)
         })
 }
