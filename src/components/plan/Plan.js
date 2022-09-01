@@ -1,22 +1,22 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Modal, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
-import { Breadcumbs, GenericComboBox, GenericModal } from '../reusable';
-import planesService from '../../services/planes.service';
+import { Add } from '@mui/icons-material';
+import { useFormik } from 'formik';
 import { AxiosError } from 'axios';
 import { ParameterDropdownContext } from '../../context/ParameterDropdownContext';
+import { SnackbarContext } from '../../context/SnackbarContext';
+import { Breadcumbs, GenericComboBox, GenericModal } from '../reusable';
 import DatePicker from '../reusable/DatePicker';
-import { useFormik } from 'formik';
 import FormOptions from '../reusable/FormOptions';
-import { Add } from '@mui/icons-material';
 import MicroPlan from '../microPlan/MicroPlan';
 import MicroPlanes from '../microPlanes/MicroPlanes';
-import microPlanesService from '../../services/micro-planes.service';
-import { SnackbarContext } from '../../context/SnackbarContext';
-import authService from '../../services/auth.service';
 import Observaciones from '../observaciones/Observaciones';
-import planSchema from './planSchema';
+import planesService from '../../services/planes.service';
+import microPlanesService from '../../services/micro-planes.service';
+import authService from '../../services/auth.service';
 import PlanMicroPlansTable from './PlanMicroPlanTable';
+import planSchema from './planSchema';
 
 export default function Plan() {
 
@@ -73,9 +73,11 @@ export default function Plan() {
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
+        
         const plan = formik.values;
         plan.fechaHasta = new Date(Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000));
         plan.microPlans.forEach((microPlan, index) => microPlan.numeroOrden = index + 1)
+        
         if (idPlan === 'new') {
             plan.usuarioProfesor = authService.getStoredSession().mail;
             const respuesta = await planesService.postPlan(plan, clienteId)
