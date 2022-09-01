@@ -136,7 +136,7 @@ export default function MicroPlan(props) {
             setEditable(true)
         } else if (!props.esTemplate) {
             setEditable(true)
-            if(props.idMicroPlan !== undefined && props.idMicroPlan !== null){
+            if(props.idMicroPlan){
                 getMicroPlanById(props.idMicroPlan)
             }
         } else {

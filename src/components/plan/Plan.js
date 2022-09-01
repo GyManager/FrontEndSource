@@ -18,9 +18,9 @@ import Observaciones from '../observaciones/Observaciones';
 import DeleteButtonWithAlert from '../reusable/buttons/DeleteButtonWithAlert';
 import planSchema from './planSchema';
 
-const paperStyle = {
-    elevation:1,
-    sx:{p: 2}
+const microPlanButtonActionsProps = {
+    variant:"contained", 
+    size:"small"
 }
 
 const skeleton = (
@@ -36,14 +36,21 @@ export default function Plan() {
 
     let { clienteId, idPlan } = useParams();
     const navigate = useNavigate();
+
     const {addSnackbar} = useContext(SnackbarContext)
     const {objetivos} = useContext(ParameterDropdownContext)
 
     const [modalMsj, setModalMsj] = useState("");
     const [loading, setLoading] = useState(false);
-    const [microPlanEditing, setMicroPlanEditing] = useState()
+
+    const [idMicroPlanEdicion, setIdMicroPlanEdicion] = useState()
+    const [indexMicroPlanEdicion, setIndexMicroPlanEdicion] = useState()
+    const [editarMicroPlan, setEditarMicroPlan] = useState(false)
+
     const [buscarMicroPlan, setBuscarMicroPlan] = useState(false)
-    const [observacionesEditing, setObservacionesEditing] = useState()
+
+    const [editarObservaciones, setEditarObservaciones] = useState(false)
+    const [indexObservacionesEdicion, setIndexObservacionesEdicion] = useState()
 
     const formik = useFormik({
         initialValues: {
@@ -98,6 +105,10 @@ export default function Plan() {
         handleRespuesta(respuesta, 'El plan ha sido borrado con exito')
     }
 
+    const handleCancel = () => {
+        navigate(`/clientes/${clienteId}`)
+    }
+
     const handleRespuesta = (respuesta, mensaje) => {
         if (respuesta instanceof AxiosError) {
             setModalMsj(respuesta.response.data.message)
@@ -107,10 +118,92 @@ export default function Plan() {
         }
     }
 
-    function handleEditObservaciones(observacionesEdited, index){
-        formik.setFieldValue(`microPlans[${index}].observaciones`, observacionesEdited, false)
-        setObservacionesEditing(null)
+    // Metodos para el control y edicion de observaciones
+    const handleStartEditObservaciones = (index) => {
+        setIndexObservacionesEdicion(index);
+        setEditarObservaciones(true)
+    }
+
+    const handleCloseEditObservaciones = () => {
+        setIndexObservacionesEdicion(null)
+        setEditarObservaciones(false)
+    }
+
+    function handleSaveObservaciones(updatedObservaciones, index){
+        formik.setFieldValue(`microPlans[${index}].observaciones`, updatedObservaciones, false)
+        handleCloseEditObservaciones()
         addSnackbar({message: "Se han modificado las observaciones del micro plan", severity: "info", duration:2000})
+    }
+
+    function handleBuscarMicroPlan () {
+        setBuscarMicroPlan(true)
+    }    
+    function handleCancelBuscarMicroPlan () {
+        setBuscarMicroPlan(false)
+    }
+
+    function handleNewMicroPlan() {
+        setBuscarMicroPlan(false)
+        setEditarMicroPlan(true)
+        setIdMicroPlanEdicion(null)
+        setIndexMicroPlanEdicion(null)
+    }
+
+    function handleEditMicroPlan(index){
+        setEditarMicroPlan(true)
+        setIdMicroPlanEdicion(null)
+        setIndexMicroPlanEdicion(index)
+    }
+
+    function handleEditNewMicroPlan(idMicroPlan){
+        setBuscarMicroPlan(false)
+        setEditarMicroPlan(true)
+        setIdMicroPlanEdicion(idMicroPlan)
+        setIndexMicroPlanEdicion(null)
+    }
+
+    function handleCancelEditMicroPlan(){
+        setEditarMicroPlan(false)
+        setIndexMicroPlanEdicion(null)
+        setIdMicroPlanEdicion(null)
+    }
+
+    async function addMicroPlanById(idMicroPlan){
+        const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
+        if (respuesta instanceof AxiosError) {
+            setModalMsj(respuesta?.message)
+        } else {
+            addMicroPlan(respuesta)
+            addSnackbar({message: "El micro plan ha sido asignado", severity: "info", duration:2000})
+        }
+        setBuscarMicroPlan(false)
+    }
+
+    function addNewMicroPlan(microPlan){
+        addMicroPlan(microPlan)
+        addSnackbar({message: "El micro plan asignado ha sido creado", severity: "info", duration:2000})
+        handleCancelEditMicroPlan()
+    }
+
+    function addMicroPlan(microPlan){
+        microPlan.idMicroPlan = null;
+        microPlan.observaciones = [{observacion: '', numeroSemana: 1}];
+        microPlan.esTemplate = false;
+        microPlan.rutinas.forEach(rutina => {
+            rutina.esTemplate = false;
+            rutina.ejerciciosAplicados.forEach(ejercicioAplicado => ejercicioAplicado.esTemplate = false)
+        })
+
+        const newMicroPlans = formik.values.microPlans;
+        newMicroPlans.push(microPlan)
+        formik.setFieldValue('microPlans', newMicroPlans, false)
+    }
+
+    function updateMicroPlan(updatedMicroPlan, index){
+        formik.setFieldValue(`microPlans[${index}]`, updatedMicroPlan, false)
+        
+        addSnackbar({message: "El micro plan asignado ha sido editado", severity: "info", duration:2000})
+        handleCancelEditMicroPlan()
     }
 
     function handleDeleteMicroPlan(index){
@@ -120,69 +213,29 @@ export default function Plan() {
         addSnackbar({message: "El micro plan ha sido removido del plan", severity: "info", duration:2000})
     }
 
-    function handleEditMicroPlan(microPlanEdited, index){
-        if(index === 'new') {
-            microPlanEdited.idMicroPlan = null;
 
-            microPlanEdited.observaciones = [{observacion: '', numeroSemana: 1}];
-            microPlanEdited.esTemplate = false;
-            microPlanEdited.rutinas.forEach(rutina => {
-                rutina.esTemplate = false;
-                rutina.ejerciciosAplicados.forEach(ejercicioAplicado => ejercicioAplicado.esTemplate = false)
-            })
+    if(editarMicroPlan){
 
-            const newMicroPlans = formik.values.microPlans;
-            newMicroPlans.push(microPlanEdited)
-            formik.setFieldValue('microPlans', newMicroPlans, false)
-            addSnackbar({message: "El micro plan asignado ha sido creado", severity: "info", duration:2000})
-        } else {
-            formik.setFieldValue(`microPlans[${index}]`, microPlanEdited, false)
-            addSnackbar({message: "El micro plan asignado ha sido editado", severity: "info", duration:2000})
-        }
-        setMicroPlanEditing(null)
-    }
+        const microPlanEditado = indexMicroPlanEdicion !== null && indexMicroPlanEdicion !== undefined ? 
+            formik.values.microPlans[indexMicroPlanEdicion] : null
 
-    if(microPlanEditing !== undefined && microPlanEditing !== null){
-        
-        const microPlanEditado = microPlanEditing === 'new' ? null :
-            microPlanEditing.idMicroPlanAEditar ? null : formik.values.microPlans[microPlanEditing];
+        const handleSubmitMicroPlan = indexMicroPlanEdicion !== null && indexMicroPlanEdicion !== undefined ? 
+            (updatedMicroPlan) => updateMicroPlan(updatedMicroPlan, indexMicroPlanEdicion) : addNewMicroPlan
 
         return (
             <MicroPlan
                 esTemplate={false}
                 editable={true}
                 microPlan={microPlanEditado}
-                idMicroPlan={microPlanEditing.idMicroPlanAEditar}
-                handleSubmit={(microPlanEdited) => handleEditMicroPlan(microPlanEdited, microPlanEditing.idMicroPlanAEditar ? 'new' : microPlanEditing)}
-                handleDelete={() => handleDeleteMicroPlan(microPlanEditing)}
-                handleCancel={() => setMicroPlanEditing(null)}
+                idMicroPlan={idMicroPlanEdicion}
+                handleSubmit={handleSubmitMicroPlan}
+                handleDelete={() => handleDeleteMicroPlan(indexMicroPlanEdicion)}
+                handleCancel={handleCancelEditMicroPlan}
                 submitMessage={"Aceptar"}
                 namesBreadcrums={['Clientes', 'Cliente', 'Plan']}
                 urlsBreadcrums={['/clientes', `/clientes/${clienteId}`]}
             />
         )
-    }
-
-    async function handleSelectedMicroPlanFromSearch(idMicroPlan){
-        const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
-        if (respuesta instanceof AxiosError) {
-            setModalMsj(respuesta?.message)
-        } else {
-            respuesta.idMicroPlan = null;
-
-            respuesta.observaciones = [{observacion: '', numeroSemana: 1}];
-            respuesta.esTemplate = false;
-            respuesta.rutinas.forEach(rutina => {
-                rutina.esTemplate = false;
-                rutina.ejerciciosAplicados.forEach(ejercicioAplicado => ejercicioAplicado.esTemplate = false)
-            })
-
-            const newMicroPlans = formik.values.microPlans;
-            newMicroPlans.push(respuesta)
-            formik.setFieldValue('microPlans', newMicroPlans, false)
-            setBuscarMicroPlan(false)
-            addSnackbar({message: "El micro plan ha sido asignado", severity: "info", duration:2000})
-        }
     }
 
     return (
@@ -204,7 +257,7 @@ export default function Plan() {
                     </Box>
                     <FormOptions
                         editable={true}
-                        handleCancelEdit={() => navigate(`/clientes/${clienteId}`)}
+                        handleCancelEdit={handleCancel}
                         handleSubmit={formik.handleSubmit}
                         enableDeleteAlways={(idPlan !== "new")}
                         handleDeleteClick={handleDelete}
@@ -213,7 +266,7 @@ export default function Plan() {
                     />
                 </Box>
 
-                <Paper {...paperStyle}>
+                <Paper elevation={1} sx={{p: 2}}>
 
                     <TextField fullWidth
                         label="Descripcion"
@@ -278,7 +331,7 @@ export default function Plan() {
                     </Stack>
                 </Paper>
 
-                <Paper {...paperStyle}>
+                <Paper elevation={1} sx={{p: 2}}>
                     <Typography sx={{fontSize: {xs: 20, md: 22, lg: 24, xl: 28}}}>
                         {loading ? <Skeleton/> : `Micro planes`}
                     </Typography>
@@ -303,11 +356,24 @@ export default function Plan() {
                                                 <TableCell>{microPlan.observaciones? microPlan.observaciones.length : 0}</TableCell>
                                                 <TableCell>
                                                     <Box sx={{display:'flex', gap:2}}>
-                                                        <Button variant='contained' size='small' color='secondary' startIcon={<Comment />} onClick={() => setObservacionesEditing(index)}> Observaciones </Button>
-                                                        <Button variant='contained' size='small' startIcon={<Edit />} onClick={() => setMicroPlanEditing(index)}> Editar </Button>
+                                                        <Button 
+                                                            {...microPlanButtonActionsProps}
+                                                            color='secondary' 
+                                                            startIcon={<Comment />} 
+                                                            onClick={() => handleStartEditObservaciones(index)}
+                                                        >
+                                                            Observaciones
+                                                        </Button>
+                                                        <Button 
+                                                            {...microPlanButtonActionsProps}
+                                                            startIcon={<Edit />} 
+                                                            onClick={() => handleEditMicroPlan(index)}
+                                                        >
+                                                            Editar
+                                                        </Button>
                                                         <DeleteButtonWithAlert
                                                             handleAccept={() => handleDeleteMicroPlan(index)}
-                                                            buttonProps={{variant:"contained", size:"small", color:"error"}}
+                                                            buttonProps={{...microPlanButtonActionsProps, color:"error"}}
                                                             alertTitle={`Está por eliminar el micro plan ${microPlan.nombre}`}
                                                         />
                                                     </Box>
@@ -319,7 +385,7 @@ export default function Plan() {
                         </Table>
                     </TableContainer>
 
-                    <Button variant='contained' size='medium' onClick={() => setBuscarMicroPlan(true)}>
+                    <Button variant='contained' size='medium' onClick={handleBuscarMicroPlan}>
                         <Add /> Agregar Micro Plan 
                     </Button>
                 </Paper>
@@ -331,28 +397,28 @@ export default function Plan() {
                 serverMsj={modalMsj} 
             />
 
-            { observacionesEditing !== null && observacionesEditing !== undefined &&
+            { editarObservaciones &&
                 <Observaciones
-                    open={observacionesEditing !== null && observacionesEditing !== undefined}
-                    microPlanIndex={observacionesEditing}
-                    microPlanName={formik.values.microPlans[observacionesEditing].nombre}
-                    observaciones={formik.values.microPlans[observacionesEditing].observaciones }
-                    handleSave={handleEditObservaciones}
-                    handleClose={() => setObservacionesEditing(null)}
+                    open={editarObservaciones}
+                    microPlanIndex={indexObservacionesEdicion}
+                    microPlanName={formik.values.microPlans[indexObservacionesEdicion].nombre}
+                    observaciones={formik.values.microPlans[indexObservacionesEdicion].observaciones }
+                    handleSave={handleSaveObservaciones}
+                    handleClose={handleCloseEditObservaciones}
                 />
             }
                 
             <Modal
                 open={buscarMicroPlan}
-                onClose={() => setBuscarMicroPlan(false)}
+                onClose={handleCancelBuscarMicroPlan}
                 sx={{display:'flex', alignItems:'center',justifyContent:'center'}}
             >
                 <Box sx={{minWidth:'80%'}}>
                     <MicroPlanes
-                        onSelectedMicroPlan={handleSelectedMicroPlanFromSearch}
-                        onNewMicroPlan={() => {setBuscarMicroPlan(false); setMicroPlanEditing('new')}}
-                        onCancelSearch={() => setBuscarMicroPlan(false)}
-                        cellEditAction={(idMicroPlan) => {{setBuscarMicroPlan(false); setMicroPlanEditing({idMicroPlanAEditar:idMicroPlan})}}}
+                        onSelectedMicroPlan={addMicroPlanById}
+                        onNewMicroPlan={handleNewMicroPlan}
+                        onCancelSearch={handleCancelBuscarMicroPlan}
+                        cellEditAction={(idMicroPlan) => handleEditNewMicroPlan(idMicroPlan)}
                     />
                 </Box>
             </Modal>
