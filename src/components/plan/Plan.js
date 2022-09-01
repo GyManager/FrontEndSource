@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Modal, Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material/';
+import { Box, Button, Modal, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
 import { Breadcumbs, GenericComboBox, GenericModal } from '../reusable';
 import planesService from '../../services/planes.service';
 import { AxiosError } from 'axios';
@@ -8,29 +8,15 @@ import { ParameterDropdownContext } from '../../context/ParameterDropdownContext
 import DatePicker from '../reusable/DatePicker';
 import { useFormik } from 'formik';
 import FormOptions from '../reusable/FormOptions';
-import { Add, Comment, Delete, Edit } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import MicroPlan from '../microPlan/MicroPlan';
 import MicroPlanes from '../microPlanes/MicroPlanes';
 import microPlanesService from '../../services/micro-planes.service';
 import { SnackbarContext } from '../../context/SnackbarContext';
 import authService from '../../services/auth.service';
 import Observaciones from '../observaciones/Observaciones';
-import DeleteButtonWithAlert from '../reusable/buttons/DeleteButtonWithAlert';
 import planSchema from './planSchema';
-
-const microPlanButtonActionsProps = {
-    variant:"contained", 
-    size:"small"
-}
-
-const skeleton = (
-    <TableRow>
-        <TableCell><Skeleton animation='wave'/></TableCell>
-        <TableCell><Skeleton animation='wave'/></TableCell>
-        <TableCell><Skeleton animation='wave'/></TableCell>
-        <TableCell><Skeleton animation='wave'/></TableCell>
-    </TableRow>
-);
+import PlanMicroPlansTable from './PlanMicroPlanTable';
 
 export default function Plan() {
 
@@ -336,54 +322,13 @@ export default function Plan() {
                         {loading ? <Skeleton/> : `Micro planes`}
                     </Typography>
 
-                    <TableContainer sx={{mb:2}}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell > Numero </TableCell>
-                                    <TableCell > Nombre </TableCell>
-                                    <TableCell > Semanas </TableCell>
-                                    <TableCell > Acciones </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-                                    loading ? skeleton : 
-                                    formik.values.microPlans.map((microPlan, index) => (
-                                        <TableRow key={index}>
-                                                <TableCell>{index + 1}</TableCell>
-                                                <TableCell>{microPlan.nombre}</TableCell>
-                                                <TableCell>{microPlan.observaciones? microPlan.observaciones.length : 0}</TableCell>
-                                                <TableCell>
-                                                    <Box sx={{display:'flex', gap:2}}>
-                                                        <Button 
-                                                            {...microPlanButtonActionsProps}
-                                                            color='secondary' 
-                                                            startIcon={<Comment />} 
-                                                            onClick={() => handleStartEditObservaciones(index)}
-                                                        >
-                                                            Observaciones
-                                                        </Button>
-                                                        <Button 
-                                                            {...microPlanButtonActionsProps}
-                                                            startIcon={<Edit />} 
-                                                            onClick={() => handleEditMicroPlan(index)}
-                                                        >
-                                                            Editar
-                                                        </Button>
-                                                        <DeleteButtonWithAlert
-                                                            handleAccept={() => handleDeleteMicroPlan(index)}
-                                                            buttonProps={{...microPlanButtonActionsProps, color:"error"}}
-                                                            alertTitle={`Está por eliminar el micro plan ${microPlan.nombre}`}
-                                                        />
-                                                    </Box>
-                                                </TableCell>
-                                        </TableRow>
-                                    ))
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <PlanMicroPlansTable
+                        loading={loading}
+                        microPlans={formik.values.microPlans}
+                        handleStartEditObservaciones={handleStartEditObservaciones}
+                        handleEditMicroPlan={handleEditMicroPlan}
+                        handleDeleteMicroPlan={handleDeleteMicroPlan}
+                    />
 
                     <Button variant='contained' size='medium' onClick={handleBuscarMicroPlan}>
                         <Add /> Agregar Micro Plan 
