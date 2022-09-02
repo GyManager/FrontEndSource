@@ -17,6 +17,7 @@ import microPlanesService from '../../services/micro-planes.service';
 import authService from '../../services/auth.service';
 import PlanMicroPlansTable from './PlanMicroPlanTable';
 import planSchema from './planSchema';
+import { ErrorContext } from '../../context/ErrorContext';
 
 export default function Plan() {
 
@@ -24,9 +25,9 @@ export default function Plan() {
     const navigate = useNavigate();
 
     const {addSnackbar} = useContext(SnackbarContext)
+    const {processErrorMessage} = useContext(ErrorContext)
     const {objetivos} = useContext(ParameterDropdownContext)
 
-    const [modalMsj, setModalMsj] = useState("");
     const [loading, setLoading] = useState(false);
 
     const [idMicroPlanEdicion, setIdMicroPlanEdicion] = useState()
@@ -99,7 +100,7 @@ export default function Plan() {
 
     const handleRespuesta = (respuesta, mensaje) => {
         if (respuesta instanceof AxiosError) {
-            setModalMsj(respuesta.response.data.message)
+            processErrorMessage(respuesta.response.data)
         } else {
             navigate(`/clientes/${clienteId}`)
             addSnackbar({message: mensaje, severity: "success"})
@@ -176,7 +177,7 @@ export default function Plan() {
     async function addMicroPlanById(idMicroPlan){
         const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
         if (respuesta instanceof AxiosError) {
-            setModalMsj(respuesta?.message)
+            processErrorMessage(respuesta?.message)
         } else {
             addMicroPlan(respuesta)
             addSnackbar({message: "El micro plan ha sido asignado", severity: "info", duration:2000})
@@ -354,12 +355,6 @@ export default function Plan() {
                     </Button>
                 </Paper>
             </Paper>
-                
-            <GenericModal
-                show={modalMsj !== ""}
-                hide={() => setModalMsj("")}
-                serverMsj={modalMsj} 
-            />
 
             { editarObservaciones &&
                 <Observaciones
