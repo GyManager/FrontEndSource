@@ -115,7 +115,7 @@ export default function Observaciones(props){
                     Cantidad de semanas: {observaciones? observaciones.length : 0}
                 </Typography>
 
-                <TableContainer sx={{mb:2}}>
+                <TableContainer sx={{ height:{ xs: '64vh', md:'55vh'}, mb:2}}>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -142,12 +142,13 @@ export default function Observaciones(props){
                                             <TableCell>
                                                 <Box sx={{display:'flex'}}>
                                                     <Button 
-                                                        variant='contained' 
+                                                        variant='outlined' 
                                                         size='small' 
                                                         color='error'
-                                                        startIcon={<Delete />} 
                                                         onClick={() => handleDeleteObservaciones(index)}
-                                                    />
+                                                    >
+                                                        <Delete />
+                                                    </Button>
                                                 </Box>
                                             </TableCell>
                                     </TableRow>

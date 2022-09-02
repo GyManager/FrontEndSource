@@ -120,7 +120,6 @@ export default function Plan() {
     function handleSaveObservaciones(updatedObservaciones, index){
         formik.setFieldValue(`microPlans[${index}].observaciones`, updatedObservaciones, false)
         handleCloseEditObservaciones()
-        addSnackbar({message: "Se han modificado las observaciones del micro plan", severity: "info", duration:2000})
     }
 
     function handleNextObservaciones(updatedObservaciones, index){
