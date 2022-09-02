@@ -31,7 +31,7 @@ export default function ButtonWithAlert(props) {
                 {props.buttonText}
             </Button>
             <Dialog open={open} onClose={() => setOpen(false)}>
-                <DialogTitle alignItems="center" aligntContent="center">
+                <DialogTitle alignItems="center">
                     {props.alertTitle}
                 </DialogTitle>
                 <DialogContent>
