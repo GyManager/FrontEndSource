@@ -25,7 +25,7 @@ export default function Planes(props){
             if (respuesta instanceof AxiosError) {
                 console.log(respuesta)
             } else {
-                setPlanes(respuesta)
+                setPlanes(respuesta.sort((a,b) => Date.parse(a.fechaDesde) < Date.parse(b.fechaDesde) ? -1 : 1))
             }
         }
         fetchData();

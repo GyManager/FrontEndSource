@@ -349,8 +349,8 @@ export default function Plan() {
                         handleDeleteMicroPlan={handleDeleteMicroPlan}
                     />
 
-                    <Button variant='contained' size='medium' onClick={handleBuscarMicroPlan}>
-                        <Add /> Agregar Micro Plan 
+                    <Button variant='contained' size='medium' onClick={handleBuscarMicroPlan} startIcon={<Add />}>
+                         Agregar Micro Plan 
                     </Button>
                 </Paper>
             </Paper>

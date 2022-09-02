@@ -1,5 +1,5 @@
-import { Edit, Comment } from "@mui/icons-material";
-import { Box, Button, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Edit, Comment, Delete } from "@mui/icons-material";
+import { Box, Button, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useMediaQuery } from "@mui/material";
 import DeleteButtonWithAlert from "../reusable/buttons/DeleteButtonWithAlert";
 
 const skeleton = (
@@ -25,6 +25,8 @@ const microPlanButtonActionsProps = {
 };
 
 export default function PlanMicroPlansTable(props) {
+    const isMediumDevice = useMediaQuery('(max-width:900px');
+
     return (
         <TableContainer sx={{ mb: 2 }}>
             <Table>
@@ -33,7 +35,7 @@ export default function PlanMicroPlansTable(props) {
                         <TableCell> Numero </TableCell>
                         <TableCell> Nombre </TableCell>
                         <TableCell> Semanas </TableCell>
-                        <TableCell> Acciones </TableCell>
+                        <TableCell>  </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -50,22 +52,24 @@ export default function PlanMicroPlansTable(props) {
                                         <Button
                                             {...microPlanButtonActionsProps}
                                             color="secondary"
-                                            startIcon={<Comment />}
+                                            startIcon={!isMediumDevice && <Comment />}
                                             onClick={() => props.handleStartEditObservaciones(index)}
                                         >
-                                            Observaciones
+                                            {!isMediumDevice ? "Observaciones" : <Comment />}
                                         </Button>
                                         <Button
                                             {...microPlanButtonActionsProps}
-                                            startIcon={<Edit />}
+                                            startIcon={!isMediumDevice && <Edit />}
                                             onClick={() => props.handleEditMicroPlan(index)}
                                         >
-                                            Editar
+                                            {!isMediumDevice ? "Editar" : <Edit />}
                                         </Button>
                                         <DeleteButtonWithAlert
                                             handleAccept={() => props.handleDeleteMicroPlan(index)}
                                             buttonProps={{...microPlanButtonActionsProps, color: "error",}}
                                             alertTitle={`Está por eliminar el micro plan ${microPlan.nombre}`}
+                                            hideButtonIcon={isMediumDevice}
+                                            buttonText={!isMediumDevice ? "Borrar" : <Delete />}
                                         />
                                     </Box>
                                 </TableCell>

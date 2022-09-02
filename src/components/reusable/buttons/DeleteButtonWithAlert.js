@@ -3,7 +3,7 @@ import ButtonWithAlert from "./ButtonWithAlert";
 
 /**
  *
- * @param {handleAccept, buttonProps, alertTitle, alertContent, buttonText} props
+ * @param {handleAccept, buttonProps, alertTitle, alertContent, buttonText, hideButtonIcon} props
  * @returns
  */
 export default function DeleteButtonWithAlert(props) {
@@ -12,7 +12,7 @@ export default function DeleteButtonWithAlert(props) {
             buttonProps={props.buttonProps}
             handleAccept={props.handleAccept}
             buttonText={props.buttonText ? props.buttonText : "Borrar"}
-            buttonIcon={<Delete />}
+            buttonIcon={props.hideButtonIcon || <Delete />}
             alertTitle={props.alertTitle}
             alertContent={props.alertContent ? props.alertContent : "¿Seguro desea eliminarlo?"}
             alertContentIcon={
