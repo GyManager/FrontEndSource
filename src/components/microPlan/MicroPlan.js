@@ -144,13 +144,7 @@ export default function MicroPlan(props) {
         }
     }, [idMicroPlan])
 
-    const breadcrums = props.namesBreadcrums ? 
-        (
-            <Breadcumbs
-                names={[...props.namesBreadcrums, formik.values.nombre]}
-                urls={props.urlsBreadcrums}
-            /> 
-        ):
+    const breadcrums = props.breadcrums ? props.breadcrums :
         (
             <Breadcumbs
                 names={['Micro Planes', formik.values.nombre]}

@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import { AxiosError } from 'axios';
 import { ParameterDropdownContext } from '../../context/ParameterDropdownContext';
 import { SnackbarContext } from '../../context/SnackbarContext';
-import { Breadcumbs, GenericComboBox, GenericModal } from '../reusable';
+import { Breadcumbs, GenericComboBox } from '../reusable';
 import DatePicker from '../reusable/DatePicker';
 import FormOptions from '../reusable/FormOptions';
 import MicroPlan from '../microPlan/MicroPlan';
@@ -238,8 +238,12 @@ export default function Plan() {
                 handleDelete={() => handleDeleteMicroPlan(indexMicroPlanEdicion)}
                 handleCancel={handleCancelEditMicroPlan}
                 submitMessage={"Aceptar"}
-                namesBreadcrums={['Clientes', 'Cliente', 'Plan']}
-                urlsBreadcrums={['/clientes', `/clientes/${clienteId}`]}
+                breadcrums={
+                    <Breadcumbs
+                        names={['Clientes', 'Cliente', 'Plan', 'Micro Plan']}
+                        urls={['/clientes', `/clientes/${clienteId}`, handleCancelEditMicroPlan]}
+                    />
+                }
             />
         )
     }
