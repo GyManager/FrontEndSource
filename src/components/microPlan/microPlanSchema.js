@@ -8,7 +8,7 @@ const validationSchema = yup.object(
             .min(1, 'El micro plan debe tener al menos una rutina')
             .of(yup.object(
                 {
-                    nombre: yup.string()
+                    nombre: yup.string().trim()
                         .required('El nombre de la rutina es obligatorio'),
                     ejerciciosAplicados: yup.array()
                         .min(1, 'La rutina debe tener al menos un ejercicio')

@@ -61,9 +61,11 @@ export default function MicroPlan(props) {
     });
 
     const addRutina = () => {
-        const newRutinas = formik.values.rutinas;
-        newRutinas.push(nuevaRutina())
-        formik.setFieldValue('rutinas', newRutinas, false)
+        if(formik.values.rutinas.length < 7){
+            const newRutinas = formik.values.rutinas;
+            newRutinas.push(nuevaRutina())
+            formik.setFieldValue('rutinas', newRutinas, false)
+        }
     }
 
     const removeRutina = (index) => {
