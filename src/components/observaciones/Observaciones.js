@@ -1,6 +1,6 @@
-import { Add, Cancel, Delete, Save } from '@mui/icons-material';
-import { Modal, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField, Paper } from '@mui/material/';
-import { useState } from "react";
+import { Add, ArrowBackIos, ArrowForwardIos, Cancel, Delete, Save } from '@mui/icons-material';
+import { Modal, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField, Paper, Stack } from '@mui/material/';
+import { useEffect, useState } from "react";
 
 export default function Observaciones(props){
 
@@ -10,6 +10,15 @@ export default function Observaciones(props){
         }
         return [{observacion: ''}]
     });
+
+    useEffect(() => {
+        if(props.observaciones !== null && props.observaciones !== undefined && props.observaciones.length > 0){
+            setObservaciones(props.observaciones.sort((a,b) => a.numeroSemana - b.numeroSemana))
+        } else {
+            setObservaciones([{observacion:''}])
+        }
+
+    }, [props.observaciones])
 
     function handleDeleteObservaciones(index){
         if(observaciones.length > 1){
@@ -37,10 +46,25 @@ export default function Observaciones(props){
     function saveObservaciones(event){
         event?.preventDefault();
         const observacionesListas = observaciones;
-
         observacionesListas.forEach((observacion, index) => observacion.numeroSemana = index + 1)
 
         props.handleSave(observacionesListas, props.microPlanIndex)
+    }
+
+    function nextObservacion(event){
+        event?.preventDefault();
+        const observacionesListas = observaciones;
+        observacionesListas.forEach((observacion, index) => observacion.numeroSemana = index + 1)
+
+        props.handleNext(observacionesListas, props.microPlanIndex)
+    }
+
+    function previousObservacion(event){
+        event?.preventDefault();
+        const observacionesListas = observaciones;
+        observacionesListas.forEach((observacion, index) => observacion.numeroSemana = index + 1)
+
+        props.handlePrevious(observacionesListas, props.microPlanIndex)
     }
 
     return (
@@ -59,9 +83,33 @@ export default function Observaciones(props){
                     width:{xs:'100%', md:'80%'}
                 }}
             >
-                <Typography  variant="h5" component="h5" align="center">
-                    Observaciones Micro Plan: <br/> "{props.microPlanName}"
-                </Typography>
+                <Stack direction="row"
+                    justifyContent="space-around"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <Button
+                        variant='contained' 
+                        size='medium' 
+                        startIcon={<ArrowBackIos />} 
+                        sx={{width:'fit-content'}} 
+                        onClick={previousObservacion}
+                    >
+                        Anterior
+                    </Button>
+                    <Typography  variant="h5" component="h5" align="center">
+                        Observaciones Micro Plan <br/> "{props.microPlanName}"
+                    </Typography>
+                    <Button
+                        variant='contained' 
+                        size='medium' 
+                        endIcon={<ArrowForwardIos />} 
+                        sx={{width:'fit-content'}} 
+                        onClick={nextObservacion}
+                    >
+                        Siguiente
+                    </Button>
+                </Stack>
 
                 <Typography  variant="h5" component="h5">
                     Cantidad de semanas: {observaciones? observaciones.length : 0}

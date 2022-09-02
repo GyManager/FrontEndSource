@@ -77,7 +77,7 @@ export default function Plan() {
         const plan = formik.values;
         plan.fechaHasta = new Date(Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000));
         plan.microPlans.forEach((microPlan, index) => microPlan.numeroOrden = index + 1)
-        
+
         if (idPlan === 'new') {
             plan.usuarioProfesor = authService.getStoredSession().mail;
             const respuesta = await planesService.postPlan(plan, clienteId)
@@ -121,6 +121,24 @@ export default function Plan() {
         formik.setFieldValue(`microPlans[${index}].observaciones`, updatedObservaciones, false)
         handleCloseEditObservaciones()
         addSnackbar({message: "Se han modificado las observaciones del micro plan", severity: "info", duration:2000})
+    }
+
+    function handleNextObservaciones(updatedObservaciones, index){
+        handleSaveObservaciones(updatedObservaciones, index)
+        if(index === formik.values.microPlans.length -1){
+            handleStartEditObservaciones(0)
+        } else {
+            handleStartEditObservaciones(index + 1)
+        }
+    }
+
+    function handlePreviousObservaciones(updatedObservaciones, index){
+        handleSaveObservaciones(updatedObservaciones, index)
+        if(index === 0){
+            handleStartEditObservaciones(formik.values.microPlans.length -1)
+        } else {
+            handleStartEditObservaciones(index - 1)
+        }
     }
 
     function handleBuscarMicroPlan () {
@@ -205,7 +223,7 @@ export default function Plan() {
     if(editarMicroPlan){
 
         const microPlanEditado = indexMicroPlanEdicion !== null && indexMicroPlanEdicion !== undefined ? 
-            formik.values.microPlans[indexMicroPlanEdicion] : null
+            JSON.parse(JSON.stringify(formik.values.microPlans[indexMicroPlanEdicion])) : null
 
         const handleSubmitMicroPlan = indexMicroPlanEdicion !== null && indexMicroPlanEdicion !== undefined ? 
             (updatedMicroPlan) => updateMicroPlan(updatedMicroPlan, indexMicroPlanEdicion) : addNewMicroPlan
@@ -351,6 +369,8 @@ export default function Plan() {
                     microPlanName={formik.values.microPlans[indexObservacionesEdicion].nombre}
                     observaciones={formik.values.microPlans[indexObservacionesEdicion].observaciones }
                     handleSave={handleSaveObservaciones}
+                    handleNext={handleNextObservaciones}
+                    handlePrevious={handlePreviousObservaciones}
                     handleClose={handleCloseEditObservaciones}
                 />
             }
