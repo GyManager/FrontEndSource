@@ -4,6 +4,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Paper, 
 import { Add, Delete } from "@mui/icons-material";
 import { ExpandMore, WarningAmberRounded } from "@mui/icons-material";
 import EjercicioAplicado from "./EjercicioAplicado";
+import DeleteButtonWithAlert from "../reusable/buttons/DeleteButtonWithAlert";
 
 export default function Rutina(props){
 
@@ -91,16 +92,12 @@ export default function Rutina(props){
                 <Box sx={{display: 'flex', justifyContent: 'end'}}>
                     {
                         props.editable &&
-                        <Button
-                            size='small'
-                            variant='outlined'
-                            color="error"
-                            sx={{ maxWidth:{ xs:'100%', md:'30%'}}}
-                            startIcon={<Delete />}
-                            onClick={() => props.removeRutina(props.indexRutina)}
-                        >
-                            Eliminar rutina
-                        </Button>
+                        <DeleteButtonWithAlert
+                            handleAccept={() => props.removeRutina(props.indexRutina)}
+                            buttonProps={{size:"small", variant:"outlined", color: "error", sx:{maxWidth:{xs:'100%', md:'30%'}}}}
+                            alertTitle={`Está por eliminar la rutina ${props.nombre}`}
+                            buttonText="Eliminar rutina"
+                        />
                     }
                 </Box>
             </AccordionDetails>
