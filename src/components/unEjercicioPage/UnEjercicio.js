@@ -47,16 +47,6 @@ function UnEjercicioPage() {
       getEjercicio(idEjercicio)
   }, [])
 
-  const guardar = () => {
-    // Implementar el post y put 
-    setEditable(false)
-    idEjercicio === 'new' ?
-      // Implementar post
-      console.log('aca iria el post')
-      :
-      // Implementar put
-      console.log('aca iria el put')
-  }
 console.log(openModal, ' ', modalMsj)
   return (
     <form
@@ -91,7 +81,6 @@ console.log(openModal, ' ', modalMsj)
           </Paper>
         </Grid>
         <ButtonUnEjercicioMobile
-          guardar={guardar}
         />
       </Grid>
       <GenericModal

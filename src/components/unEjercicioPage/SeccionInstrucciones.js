@@ -2,6 +2,7 @@ import { Button, Divider, Grid, Paper, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { EjercicioContext } from '../../context/EjercicioContext'
 import Paso from './Paso'
+import ImagePicker from './ImagePicker'
 import orderBy from 'lodash/orderBy'
 
 export default function SeccionInstrucciones(props) {

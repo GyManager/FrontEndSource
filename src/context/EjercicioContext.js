@@ -27,9 +27,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const [modalMsj, setModalMsj] = useState('')
   const handleCloseModal = () => { setOpenModal(false) }
 
-
-
-
   const formik = useFormik(
     {
       initialValues: {
@@ -63,8 +60,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     }
     return
   }
-
-
 
   const handleSubmit = async () => {
     setEditable(false)
@@ -193,21 +188,12 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       getEjercicio(idEjercicio);
     }
   }
-
+ // DeleteEjercicioByID
   const handleDelete = async () => {
     console.log(idEjercicio)
     const res = await ejercicioService.deleteEjercicio(idEjercicio)
     handleRespuesta(res,'Ejercicio eliminado exitosamente')
-    
-    // if (res instanceof AxiosError) {
-    //   console.log(res)
-    // } else {
-    //   console.log('delete completado informar por snackbar')
-    // }
-    // navigate('/ejercicios')
   }
-
-
 
   return (
     <EjercicioContext.Provider value={{
