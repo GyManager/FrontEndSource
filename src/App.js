@@ -25,21 +25,46 @@ import PlanPage from './pages/PlanPage';
 import { createTheme, ThemeProvider  } from '@mui/material/styles';
 import { Box } from '@mui/system';
 
+/*
+//Opcion 1 -- Imagen 1 -- transparencia 8
 const theme = createTheme({
   palette: {
     primary: {
-      // main: '#ffff00',
-      // main: 'rgb(25, 118, 210)'
-      main: '#9c27b0'
+      main: '#106373',
     },
     secondary: {
-      // main: '#9c0d31',
-      main: '#151923',
-      // main: 'rgb(156, 39, 176)',
+      main: '#7d7c7c ', 
+    },
+	error: {
+      main: '#a55363',
+    },
+	success: {
+      main: '#106373',
+    }
+  },
+  
+});*/
+
+//Opcion 2  -- IMAGEN2 -- transparencia d
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#BA00BA'
+    },
+    secondary: {
+      main: '#202020', 
+    },
+	error: {
+      main: '#606060',
+    },
+	success: {
+      main: '#BA00BA',
     }
   },
   
 });
+
+
 
 function App() {
 
