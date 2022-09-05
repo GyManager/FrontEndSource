@@ -112,7 +112,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
         },
         {
             text: "Micro Planes",
-            icon: <ListAltIcon />,
+            icon: <ListAlt />,
             url: "/micro-planes",
             permiso: "gestion-micro-planes"
         }
