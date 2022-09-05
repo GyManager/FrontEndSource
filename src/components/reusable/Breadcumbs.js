@@ -10,10 +10,14 @@ export default function Breadcumbs(props) {
 
     const navigate = useNavigate()
 
-    const handleClick = (e, index) => {
-        e.preventDefault();
+    const handleClick = (index) => {
+
         const url = props.urls[index]
-        navigate(url)
+        if(typeof url === 'function'){
+            url()
+        } else {
+            navigate(url)
+        }
     }
 
     const ultimo = props.names.length - 1
@@ -22,7 +26,7 @@ export default function Breadcumbs(props) {
 
             index !== ultimo
                 ?
-                <Link underline="hover" key={index} color="inherit" href={props.urls[index]} onClick={() => handleClick(index)}>
+                <Link underline="hover" key={index} color="inherit" sx={{cursor:'pointer'}} onClick={() => handleClick(index)}>
                     {name}
                 </Link>
                 :

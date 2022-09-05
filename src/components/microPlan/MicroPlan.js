@@ -4,23 +4,28 @@ import { useFormik } from "formik";
 import { AxiosError } from "axios";
 import { Box } from "@mui/system";
 import { Button, Paper, Skeleton, TextField, Typography } from "@mui/material";
-import { Add, WarningAmberRounded } from "@mui/icons-material";
+import { Add, PropaneSharp, WarningAmberRounded } from "@mui/icons-material";
 import { ParameterDropdownProvider } from "../../context/ParameterDropdownContext";
 import { Breadcumbs, GenericModal } from "../reusable";
 import FormOptions from "../reusable/FormOptions";
 import microPlanesService from "../../services/micro-planes.service";
 import microPlanSchema from "./microPlanSchema";
 import Rutina from "./Rutina";
-import { DataContext } from "../../context/DataContext";
+import { SnackbarContext } from "../../context/SnackbarContext";
 import FormOptionsSpeedDial from "../reusable/FormOptionsSpeedDial";
 
-export default function MicroPlan() {
+/**
+ * 
+ * @param {idMicroPlan} props 
+ * @returns 
+ */
+export default function MicroPlan(props) {
 
     let { idMicroPlan } = useParams();
-    const esTemplate = true;
+
     const nuevoEjercicio = () => {
         return {
-            esTemplate: esTemplate,
+            esTemplate: props.esTemplate,
             tipoEjercicio: "",
             idEjercicio: "",
             bloque: "",
@@ -32,22 +37,21 @@ export default function MicroPlan() {
             carga: ""
         };
     }
-    const nuevaRutina = () => {return {nombre: "", ejerciciosAplicados: [nuevoEjercicio()], esTemplate: esTemplate};}
+    const nuevaRutina = () => {return {nombre: "", ejerciciosAplicados: [nuevoEjercicio()], esTemplate: props.esTemplate};}
 
-    const {setDataSnackbar} = useContext(DataContext)
+    const {addSnackbar} = useContext(SnackbarContext)
     const [loading, setLoading] = useState(false);
     const [modalMsj, setModalMsj] = useState("");
     const [expanded, setExpanded] = useState(() => false);
-    const [editable, setEditable] = useState(() => false);
+    const [editable, setEditable] = useState(() => props.editable);
 
     const navigate = useNavigate()
 
+    const formikInitialValues = props.microPlan? props.microPlan : 
+        ({ nombre: "", rutinas: [nuevaRutina()], esTemplate: props.esTemplate})
+
     const formik = useFormik({
-        initialValues: {
-            nombre: "",
-            rutinas: [nuevaRutina()],
-            esTemplate: esTemplate
-        },
+        initialValues: formikInitialValues,
         validateOnChange: false,
         validateOnBlur: true,
         validationSchema: microPlanSchema.validationSchema,
@@ -57,9 +61,11 @@ export default function MicroPlan() {
     });
 
     const addRutina = () => {
-        const newRutinas = formik.values.rutinas;
-        newRutinas.push(nuevaRutina())
-        formik.setFieldValue('rutinas', newRutinas, false)
+        if(formik.values.rutinas.length < 7){
+            const newRutinas = formik.values.rutinas;
+            newRutinas.push(nuevaRutina())
+            formik.setFieldValue('rutinas', newRutinas, false)
+        }
     }
 
     const removeRutina = (index) => {
@@ -80,9 +86,9 @@ export default function MicroPlan() {
         formik.setFieldValue(`rutinas[${indexRutina}].ejerciciosAplicados`, newEjercicios, false)
     }
 
-    const getMicroPlanById = async () => {
+    const getMicroPlanById = async (forcedIdMicroPlan) => {
         setLoading(true)
-        const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
+        const respuesta = await microPlanesService.getMicroPlanById(forcedIdMicroPlan);
         setLoading(false)
         if (respuesta instanceof AxiosError) {
             setModalMsj(respuesta?.message)
@@ -93,7 +99,9 @@ export default function MicroPlan() {
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
-        if (idMicroPlan === 'new') {
+        if(props.handleSubmit){
+            props.handleSubmit(formik.values)
+        } else if (idMicroPlan === 'new') {
             const respuesta = await microPlanesService.postMicroPlan(formik.values)
             handleRespuesta(respuesta, 'El micro plan ha sido creado con exito')
         } else {
@@ -102,17 +110,17 @@ export default function MicroPlan() {
         }
     }
 
-    const handleDelete = async () => {
+    const handleDelete = props.handleDelete ? props.handleDelete : async () => {
         const respuesta = await microPlanesService.deleteMicroPlanById(idMicroPlan);
         handleRespuesta(respuesta, 'El micro plan ha sido borrado con exito')
     }
 
-    const handleCancel = () => {
+    const handleCancel = props.handleCancel ? props.handleCancel : () => {
         if (idMicroPlan === 'new') {
             navigate("/micro-planes");
         } else {
             setEditable(false)
-            getMicroPlanById()
+            getMicroPlanById(idMicroPlan)
         }
     }
 
@@ -121,17 +129,30 @@ export default function MicroPlan() {
             setModalMsj(respuesta.response.data.message)
         } else {
             navigate("/micro-planes")
-            setDataSnackbar(mensaje)
+            addSnackbar({message: mensaje, severity: "success"})
         }
     }
 
     useEffect(() => {
         if (idMicroPlan === 'new') {
             setEditable(true)
+        } else if (!props.esTemplate) {
+            setEditable(true)
+            if(props.idMicroPlan){
+                getMicroPlanById(props.idMicroPlan)
+            }
         } else {
-            getMicroPlanById()
+            getMicroPlanById(idMicroPlan)
         }
     }, [idMicroPlan])
+
+    const breadcrums = props.breadcrums ? props.breadcrums :
+        (
+            <Breadcumbs
+                names={['Micro Planes', formik.values.nombre]}
+                urls={['../micro-planes/']}
+            />
+        )
 
     return (
         <Paper 
@@ -141,10 +162,7 @@ export default function MicroPlan() {
         >
             <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Box>
-                    <Breadcumbs
-                        names={['Micro Planes', formik.values.nombre]}
-                        urls={['../micro-planes/']}
-                    />
+                    {breadcrums}
                     <Typography 
                         noWrap={true} 
                         sx={{
@@ -162,7 +180,9 @@ export default function MicroPlan() {
                     handleCancelEdit={handleCancel}
                     handleDeleteClick={handleDelete}
                     handleSubmit={formik.handleSubmit}
+                    submitMessage={props.submitMessage}
                     id={idMicroPlan}
+                    deleteAlertTitle={`Está por eliminar el micro plan ${formik.values.nombre}`}
                 />
             </Box>
 

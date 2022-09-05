@@ -2,13 +2,14 @@ import * as yup from 'yup';
 
 const validationSchema = yup.object(
     {
-        nombre: yup.string()
+        nombre: yup.string().trim()
             .required('El nombre del micro plan es obligatorio'),
         rutinas: yup.array()
             .min(1, 'El micro plan debe tener al menos una rutina')
+            .max(7, 'El micro plan no puede tener mas de 7 rutinas')
             .of(yup.object(
                 {
-                    nombre: yup.string()
+                    nombre: yup.string().trim()
                         .required('El nombre de la rutina es obligatorio'),
                     ejerciciosAplicados: yup.array()
                         .min(1, 'La rutina debe tener al menos un ejercicio')

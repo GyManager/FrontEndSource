@@ -1,10 +1,11 @@
 import React from 'react'
 import { Button } from '@mui/material'
-import { Edit, Delete, Save, Cancel } from '@mui/icons-material/';
+import { Edit, Save, Cancel } from '@mui/icons-material/';
+import DeleteButtonWithAlert from './buttons/DeleteButtonWithAlert';
 
 /**
  * 
- * @param {id, editable, handleCancelEdit, handleEditClick, handleDeleteClick} props 
+ * @param {id, editable, handleCancelEdit, handleEditClick, handleDeleteClick, enableDeleteAlways} props 
  * @returns 
  */
 export default function FormOptions(props) {
@@ -27,7 +28,10 @@ export default function FormOptions(props) {
                     startIcon={<Save />}
                     type='submit'
                 >
-                    {props.id === 'new' ? 'Crear' : 'Guardar '}
+                    {
+                        props.submitMessage ? props.submitMessage :
+                            props.id === 'new' ? 'Crear' : 'Guardar '
+                    }
                 </Button>
             }
 
@@ -53,15 +57,12 @@ export default function FormOptions(props) {
                 </Button>
             }
 
-            {props.id !== 'new' && !props.editable &&
-                <Button
-                id='borrarOption'
-                    {...buttonCommonProperties}
-                    onClick={props.handleDeleteClick}
-                    startIcon={<Delete />}
-                >
-                    Borrar
-                </Button>
+            {(props.enableDeleteAlways || (props.id !== 'new' && !props.editable)) &&
+                <DeleteButtonWithAlert
+                    handleAccept={props.handleDeleteClick}
+                    buttonProps={{id:"borrarOption", ...buttonCommonProperties}}
+                    alertTitle={props.deleteAlertTitle}
+                />
             }
         </div>
     )

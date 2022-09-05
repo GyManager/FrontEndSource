@@ -3,8 +3,9 @@ import authService from './auth.service';
 
 const API_URL = process.env.REACT_APP_API_URL;
 const API_PATH = "/micro-planes";
+const API_PATH_PLANES = "/planes";
 
-const getMicroPlanes = (search, pageSize, page) => {
+const getMicroPlanes = (search, pageSize, page, esTemplate, cantidadRutinas) => {
     let params = {}
     if(search !== undefined){
         params['search'] = search;
@@ -14,6 +15,12 @@ const getMicroPlanes = (search, pageSize, page) => {
     }
     if(page !== undefined){
         params['page'] = page;
+    }
+    if(esTemplate !== undefined){
+        params['esTemplate'] = esTemplate;
+    }
+    if(cantidadRutinas !== undefined){
+        params['cantidadRutinas'] = cantidadRutinas;
     }
 
     return axios.get(API_URL + API_PATH, {
@@ -30,6 +37,18 @@ const getMicroPlanes = (search, pageSize, page) => {
 
 const getMicroPlanById = (idMicroPlan) => {
     return axios.get(API_URL + API_PATH + `/${idMicroPlan}`, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        return handleError(error);
+    })
+}
+
+const getMicroPlanByPlanId = (idPlan) => {
+    return axios.get(API_URL + API_PATH_PLANES + `/${idPlan}` + API_PATH, {
         headers: {
             'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
         }
@@ -95,6 +114,7 @@ const handleError = (error) => {
 const microPlanesService = {
     getMicroPlanes,
     getMicroPlanById,
+    getMicroPlanByPlanId,
     postMicroPlan,
     putMicroPlan,
     deleteMicroPlanById
