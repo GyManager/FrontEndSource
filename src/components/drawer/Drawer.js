@@ -110,11 +110,13 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             url: "/ejercicios",
             permiso: "gestion-ejercicios"
         },
+        {
             text: "Micro Planes",
             icon: <ListAltIcon />,
             url: "/micro-planes",
             permiso: "gestion-micro-planes"
-        }]
+        }
+    ]
 
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>
