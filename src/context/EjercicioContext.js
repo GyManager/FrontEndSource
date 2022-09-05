@@ -44,6 +44,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       },
       validationSchema: ejercicioSchema.validationSchema,
       onSubmit: () => {
+        console.log('holas')
         handleSubmit()
       },
     }
@@ -61,7 +62,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     return
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e?.preventDefault();
+    console.log('hola')
     setEditable(false)
 
     const ejercicio = {
@@ -71,7 +74,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       "pasos": formik.values.pasos,
       "idHerramientaList": formik.values.equipamentoDeEjercicioIds
     }
-
     if (idEjercicio === 'new') {
       const res = await ejerciciosService.postEjercicio(ejercicio)
       handleRespuesta(res, 'Ejercicio creado exitosamente')
@@ -79,6 +81,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       const res = await ejerciciosService.putEjercicio(ejercicio, idEjercicio)
       handleRespuesta(res, 'Ejercicio actualizado exitosamente')
     }
+    console.log(formik.values.pasos)
   }
 
   // getEjercicioById
@@ -188,11 +191,11 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       getEjercicio(idEjercicio);
     }
   }
- // DeleteEjercicioByID
+  // DeleteEjercicioByID
   const handleDelete = async () => {
     console.log(idEjercicio)
     const res = await ejercicioService.deleteEjercicio(idEjercicio)
-    handleRespuesta(res,'Ejercicio eliminado exitosamente')
+    handleRespuesta(res, 'Ejercicio eliminado exitosamente')
   }
 
   return (

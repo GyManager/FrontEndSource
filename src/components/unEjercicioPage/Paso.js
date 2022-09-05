@@ -41,7 +41,7 @@ function Paso(props) {
     return (
         <>
             <Grid container alignItems='center' sx={{ height: '20vh' }}>
-                <Grid item xs={1} {...editableDisplay} sx={{ backgroundColor: 'yellow' }}>
+                <Grid item xs={1} {...editableDisplay} >
                     <Grid container justifyContent='center'>
                         <Button {...ButtonStyle}
                             onClick={() => props.handleSubirPaso(props.nroPaso)}>
@@ -71,7 +71,7 @@ function Paso(props) {
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={1} sx={{ mr: 2, backgroundColor: 'lightBlue' }}>
+                <Grid item xs={1} sx={{ mr: 2 }}>
                     <ImagePicker
                     index={props.index}
                     imagen={props.imagen}

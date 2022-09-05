@@ -17,7 +17,7 @@ export default function ImagePicker(props) {
         accept: 'images*',
         multiple: false,
     });
-    console.log(filesContent)
+    // console.log(filesContent)
     // formik.setFieldValue('pasos[1].imagen', filesContent )
     // if (loading) {
     //     return <div>Loading...</div>;
@@ -53,7 +53,7 @@ export default function ImagePicker(props) {
             height='80'
         />
     }
-console.log(filesContent )
+// console.log(filesContent )
     return (
         <div>
             {
