@@ -16,13 +16,18 @@ import ClientsPage from './pages/ClientsPage';
 import ClientPage from './pages/ClientPage'
 import EjerciciosPage from './components/ejerciciosPage/EjerciciosPage'
 import UnEjercicioPage from './pages/UnEjercicioPage';
+import MicroPlanesPage from './pages/MicroPlanesPage';
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
+import MicroPlanPage from './pages/MicroPlanPage';
+import UnderConstructionPage from './pages/UnderConstructionPage';
+import NoAutorizadoPage from './pages/NoAutorizadoPage';
+import PlanPage from './pages/PlanPage';
 import SnackbarSystem from './components/reusable/SnackbarSystem';
 import { SnackbarProvider } from './context/SnackbarContext';
-
-
+import ErrorModalSystem from './components/reusable/ErrorModalSystem';
+import { ErrorProvider } from './context/ErrorContext';
 
 function App() {
 
@@ -45,27 +50,32 @@ function App() {
 
   return (
     <DataProvider>
-    <SnackbarProvider>
-      <div className="fondo">
-        <BrowserRouter >
-          <Drawer showMenu={true} token={token} />
-          <Routes >
-            <Route path="/" element={<h1>Logeado</h1>} />
+      <ErrorProvider>
+        <SnackbarProvider>
+          <div className="fondo">
+            <BrowserRouter >
+              <Drawer showMenu={true} token={token} />
+              <Routes >
+                <Route path="/" element={<h1>Logeado</h1>} />
 
-            {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
-            {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
-            {token.permisos.includes("gestion-planes") && <Route path="/planes" element={<h1>Gestion de planes</h1>} />}
-            {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<h1>Mis planes</h1>} />}
-            {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<EjerciciosPage/>} />}
-            {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<UnEjercicioPage/>} />}
+                {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
+                {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
+                {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
+                {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
+                {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
+                {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
+                {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<EjerciciosPage/>} />}
+                {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<UnEjercicioPage/>} />}
 
-            <Route path="/*" element={<h1>Error no autorizado</h1>} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-        <SnackbarSystem/>
-      </div>
-      </SnackbarProvider>
+                <Route path="/*" element={<NoAutorizadoPage/>} />
+              </Routes>
+              <Footer />
+            </BrowserRouter>
+            <SnackbarSystem/>
+            <ErrorModalSystem/>
+          </div>
+        </SnackbarProvider>
+      </ErrorProvider>
     </DataProvider>
   );
 }

@@ -4,10 +4,12 @@ import parametersService from "../services/parameter.service";
 
 export const ParameterDropdownContext = createContext();
 
-export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, ejercicio }) => {
+export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, ejercicio, objetivo }) => {
     const [tipoEjercicios, setTipoEjercicios] = useState(() => [])
     const [bloques, setBloques] = useState(() => [])
     const [ejercicios, setEjercicios] = useState(() => [])
+    const [objetivos, setObjetivos] = useState(() => [])
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,11 +60,28 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, eje
 
     }, [ejercicio])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const respuesta = await parametersService.getObjetivos();
+            if (respuesta instanceof AxiosError) {
+                console.log(respuesta)
+            } else {
+                setObjetivos(respuesta);
+            }
+        }
+
+        if(objetivo){
+            fetchData();
+        }
+
+    }, [objetivo])
+    
     return (
         <ParameterDropdownContext.Provider value={{
             tipoEjercicios,
             bloques,
-            ejercicios
+            ejercicios,
+            objetivos
         }}>
             {children}
         </ParameterDropdownContext.Provider>

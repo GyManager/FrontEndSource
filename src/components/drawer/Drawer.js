@@ -10,9 +10,8 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu, Inbox, Logout,
-    Person
+    Person, ListAlt
 } from '@mui/icons-material';
-
 import DrawerItem from './DrawerItem';
 
 import AuthService from '../../services/auth.service'
@@ -106,12 +105,16 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             permiso: "gestion-planes"
         },
         {
-            text: "Mis ejercicios",
+            text: "Ejercicios",
             icon: <FitnessCenter />,
             url: "/ejercicios",
             permiso: "gestion-ejercicios"
-        }
-    ]
+        },
+            text: "Micro Planes",
+            icon: <ListAltIcon />,
+            url: "/micro-planes",
+            permiso: "gestion-micro-planes"
+        }]
 
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>

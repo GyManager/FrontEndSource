@@ -20,6 +20,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import clientsService from '../../services/clients.service';
 import clientSchema from './clientSchema';
 import { DataContext } from "../../context/DataContext";
+import Planes from '../planes/Planes';
 
 function Client() {
     // Estados de Formik
@@ -333,23 +334,21 @@ function Client() {
                                 />
                             </Stack>
                         </Paper>
-                        <Paper elevation={12}>
+
+                        <Paper elevation={12} hidden>
                             <Typography>Input - Medidas</Typography>
                         </Paper>
-                        <Paper
-                            elevation={12}
-                            sx={{
-                                backgroundColor: 'orange'
-                            }}>
-                            <Typography>Input - Planes</Typography>
-                        </Paper>
-                        <Paper
-                            elevation={12}
-                            sx={{
-                                backgroundColor: 'lightblue'
-                            }}>
+
+                        { clienteId !== 'new' &&
+                            <Paper {...paperStyle}>
+                                <Planes idCliente={clienteId}/>
+                            </Paper>
+                        }
+
+                        <Paper elevation={12} sx={{backgroundColor: 'lightblue'}}>
                             <Typography>Input - Matriculas</Typography>
                         </Paper>
+                        
                     </div>
                 </Box>
                 <ButtonClientMobile
