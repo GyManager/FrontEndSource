@@ -27,9 +27,6 @@ export default function ImagePicker(props) {
     useEffect(() => {
         const string2 = { ...filesContent[0] }.content
         formik.setFieldValue(`pasos[${props.index}].imagen`, string2)
-        return () => {
-
-        }
     }, [filesContent, loading])
     // }, [])
 
@@ -37,27 +34,38 @@ export default function ImagePicker(props) {
         openFileSelector()
         if (loading) {
             return <div>Loading...</div>;
-        } else {
-            // const string2 = { ...filesContent[0] }.content
-            // formik.setFieldValue(`pasos[${props.index}].imagen`, string2)
         }
     }
 
     const handleDeleteImage = () => {
         clear()
+        formik.setFieldValue(`pasos[${props.index}].imagen`, '')
     }
 
+    const imagen = () => {
+        <img
+            sx={{
+                position: 'absolute',
+            }}
+            alt={'imagen'}
+            src={formik.values.pasos[props.index].imagen}
+            width='80'
+            height='80'
+        />
+    }
+console.log(filesContent )
     return (
         <div>
             {
-                (editable && formik.values.pasos[props.index].imagen === undefined) &&
+                
+                (editable && (!formik.values.pasos[props.index].imagen)) &&
                 <Button
                     onClick={handleChargeFile}
                     variant='contained'
                 ><AddAPhoto /> </Button>
             }
             {
-                (editable && filesContent.length !== 0) &&
+                (editable && formik.values.pasos[props.index].imagen) &&
                 <>
                     <Box sx={{ position: 'relative' }}>
                         <img
@@ -84,24 +92,28 @@ export default function ImagePicker(props) {
                 </>
             }
             {
-                (!editable && filesContent.length !== 0) &&
+                (!editable && formik.values.pasos[props.index].imagen) &&
                 <>
-                    
-                        <div key={props.index}>
-                            <img
-                                alt={ {...filesContent[0]}.name}
-                                src={ {...filesContent[0]}.content}
-                                width='110'
-                                height='110'
-                            ></img>
-                        </div>
-                   
+
+                    <div key={props.index}>
+                        <img
+                            alt={'imagen'}
+                            src={formik.values.pasos[props.index].imagen}
+                            width='110'
+                            height='110'
+                        ></img>
+                    </div>
+
                 </>
             }
             {
-                (!editable && filesContent.length === 0) &&
+                (!editable && !formik.values.pasos[props.index].imagen) &&
                 <>
-                    <Typography variant="body1" color="initial">Sin imagen disponible</Typography>
+                    <Typography variant="body1"
+                        color="initial"
+                        textAlign='center'
+                    >Sin imagen disponible
+                    </Typography>
                 </>
             }
         </div>
