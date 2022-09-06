@@ -83,9 +83,11 @@ function EjerciciosPage() {
                         <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>Ejercicios</Typography>
                     </Grid>
                     <Grid item sx={{ display: { xs: 'none', md: 'flex' } }} xs={2} >
-                        <Button variant='contained' size='large' fullWidth
+                       
+                        <Button variant='contained' size='medium' fullWidth
                             onClick={() => { Navigate('./new') }}
                         >Crear</Button>
+                       
                     </Grid>
                     <Grid item sx={{ display: 'flex' }} xs={12}>
                         <Search 
