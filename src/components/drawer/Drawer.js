@@ -3,7 +3,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import {
     Box, CssBaseline, Divider, Drawer, IconButton, List, Stack,
-    Typography, Toolbar
+    Typography, Toolbar, ListItemButton, ListItemIcon, ListItem, ListItemText, Avatar
 } from '@mui/material/';
 
 import MuiAppBar from '@mui/material/AppBar';
@@ -15,6 +15,8 @@ import {
 import DrawerItem from './DrawerItem';
 
 import AuthService from '../../services/auth.service'
+
+import logo from '../../images/logo.png'
 
 const drawerWidth = 240;
 
@@ -121,7 +123,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open} sx={{backgroundColor: 'navbar.main'}}>
                 <Stack direction={'row'}
                     justifyContent={'space-between'}
                     alignItems={'center'}
@@ -138,22 +140,8 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                                 <Menu />
                             </IconButton>
                         }
-                        <Typography variant="h6" noWrap component="div">
-                            CorE
-                        </Typography>
                     </Toolbar>
-                    {showMenu &&
-                        <div>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                onClick={handleLogout}
-                                edge="start"
-                                sx={{ mr: 2, ...(open && { display: 'none' }) }}
-                            >
-                                <Logout />
-                            </IconButton>
-                        </div>}
+                    <Avatar alt="Logo" src={logo} width={42} height={42} sx={{mr:2}}/>
                 </Stack>
             </AppBar>
             {showMenu && <div><Drawer
@@ -185,6 +173,14 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                                 handleDrawerClose={handleDrawerClose}
                             />
                         ))}
+                    <ListItem disablePadding onClick={handleLogout}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <Logout/>
+                            </ListItemIcon>
+                            <ListItemText primary={"Cerrar sesion"} />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
                 <Divider />
             </Drawer>

@@ -9,19 +9,27 @@ function footer() {
     };
     return (
         <Box sx={{ pb: 7 }}>
-            <Paper sx={{
+            <Paper 
+            sx={{
                 position: 'fixed',
-                bottom: 0, left: 0, right: 0,
+                bottom: 0, 
+                left: 0, 
+                right: 0,
             }}
                 elevation={3}>
                 <BottomNavigation
                     sx={{
-                        backgroundColor: 'primary.main',
+                        backgroundColor: 'navbar.main',
                         justifyContent: 'left',
                         alignItems: 'center',
                         display: { xs: 'none', md: 'flex' },
                     }}>
-                    <Chip icon={<InstagramIcon />} color="primary" onClick={handleClick} />
+                    <Chip 
+                        icon={<InstagramIcon />} 
+                        color="primary" 
+                        sx={{backgroundColor: 'navbar.main'}} 
+                        onClick={handleClick} 
+                    />
                 </BottomNavigation>
             </Paper>
         </Box>
