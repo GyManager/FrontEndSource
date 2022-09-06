@@ -83,7 +83,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
 
     const menuItem = [
         {
-            text: "Home",
+            text: "Inicio",
             icon: <Home />,
             url: "/",
             permiso: ""
@@ -99,12 +99,6 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             icon: <Person />,
             url: "/clientes",
             permiso: "gestion-clientes"
-        },
-        {
-            text: "Planes",
-            icon: <Inbox />,
-            url: "/planes",
-            permiso: "gestion-planes"
         },
         {
             text: "Ejercicios",
@@ -173,6 +167,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                                 handleDrawerClose={handleDrawerClose}
                             />
                         ))}
+                    <Divider />
                     <ListItem disablePadding onClick={handleLogout}>
                         <ListItemButton>
                             <ListItemIcon>
