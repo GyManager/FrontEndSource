@@ -6,13 +6,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 
 export default function DrawerItem(props) {
   return (
-    <Link to={props.url} onClick={props.handleDrawerClose} className={'Link'}>
+    <Link to={props.url} onClick={props.handleDrawerClose} className={'Link'} >
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>
             {props.icon}
           </ListItemIcon>
-          <ListItemText primary={props.text} />
+          <ListItemText primary={props.text} sx={{color:'black'}}/>
         </ListItemButton>
       </ListItem>
     </Link>
