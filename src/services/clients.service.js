@@ -130,8 +130,6 @@ const deleteClientById = (idCliente) => {
 
 // busca un cliente por id
 const getClientById = (id) => {
-    console.log('id')
-    console.log(id)
     return axios
         .get(API_URL + '/clientes/' + id, {
             headers: {

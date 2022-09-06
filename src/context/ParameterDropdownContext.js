@@ -10,6 +10,7 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, eje
     const [ejercicios, setEjercicios] = useState(() => [])
     const [objetivos, setObjetivos] = useState(() => [])
 
+
     useEffect(() => {
         const fetchData = async () => {
             const respuesta = await parametersService.getTipoEjercicios();
@@ -74,7 +75,7 @@ export const ParameterDropdownProvider = ({ children, tipoEjercicio, bloque, eje
         }
 
     }, [objetivo])
-
+    
     return (
         <ParameterDropdownContext.Provider value={{
             tipoEjercicios,

@@ -1,30 +1,18 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-//Todo (Doing) separar el drawer hacer que importe un componente Appbar (ya creado)
-// y otro (drawer) (quizas llamar a este archivo navbar) ver componente contenedor del
-// curso MUI ya esta implementado.
+import {
+    Box, CssBaseline, Divider, Drawer, IconButton, List, Stack,
+    Typography, Toolbar
+} from '@mui/material/';
 
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import HomeIcon from '@mui/icons-material/Home';
-import LogoutIcon from '@mui/icons-material/Logout';
+
+import {
+    ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu, Inbox, Logout,
+    Person, ListAlt
+} from '@mui/icons-material';
 import DrawerItem from './DrawerItem';
-import { Container } from '@mui/system';
-import Stack from '@mui/material/Stack';
 
 import AuthService from '../../services/auth.service'
 
@@ -86,50 +74,58 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
         setOpen(false);
     };
 
-    const handleLogout = async() => {
-// const BorrarStorage = new Promise()
-
+    const handleLogout = async () => {
         await AuthService.logout();
-        setTimeout(()=>{navigate('/login')},100)
+        setTimeout(() => { navigate('/login') }, 100)
     }
 
     const menuItem = [
         {
             text: "Home",
-            icon: <HomeIcon />,
+            icon: <Home />,
             url: "/",
             permiso: ""
         },
         {
             text: "Mis Planes",
-            icon: <MailIcon />,
+            icon: <Mail />,
             url: "/mis-planes",
             permiso: "mis-planes"
         },
         {
             text: "Clientes",
-            icon: <InboxIcon />,
+            icon: <Person />,
             url: "/clientes",
             permiso: "gestion-clientes"
         },
         {
             text: "Planes",
-            icon: <InboxIcon />,
+            icon: <Inbox />,
             url: "/planes",
             permiso: "gestion-planes"
         },
         {
+            text: "Ejercicios",
+            icon: <FitnessCenter />,
+            url: "/ejercicios",
+            permiso: "gestion-ejercicios"
+        },
+        {
             text: "Micro Planes",
-            icon: <ListAltIcon />,
+            icon: <ListAlt />,
             url: "/micro-planes",
             permiso: "gestion-micro-planes"
-        }]
+        }
+    ]
 
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
-                <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} >
+                <Stack direction={'row'}
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
+                >
                     <Toolbar>
                         {showMenu &&
                             <IconButton
@@ -139,7 +135,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                                 edge="start"
                                 sx={{ mr: 2, ...(open && { display: 'none' }) }}
                             >
-                                <MenuIcon />
+                                <Menu />
                             </IconButton>
                         }
                         <Typography variant="h6" noWrap component="div">
@@ -155,13 +151,12 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                                 edge="start"
                                 sx={{ mr: 2, ...(open && { display: 'none' }) }}
                             >
-                                <LogoutIcon />
+                                <Logout />
                             </IconButton>
-                           
                         </div>}
                 </Stack>
             </AppBar>
-            {showMenu && <Drawer
+            {showMenu && <div><Drawer
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -176,21 +171,41 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             >
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        {theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {menuItem.filter((object) => token.permisos.includes(object.permiso) || object.permiso == "").map((object) => (
-                        <DrawerItem key={object.text} {...object} handleDrawerClose={handleDrawerClose}/>
-                    ))}
+                    {menuItem.filter((object) =>
+                        token.permisos.includes(object.permiso) || object.permiso == "")
+                        .map((object) => (
+                            <DrawerItem
+                                key={object.text}
+                                {...object}
+                                handleDrawerClose={handleDrawerClose}
+                            />
+                        ))}
                 </List>
                 <Divider />
             </Drawer>
+            </div>
             }
             <Main open={open}>
                 <DrawerHeader />
             </Main>
-        </Box >
+            {open &&
+                <Box id='closebox'
+                    sx={{
+                        backgroundColor: '#000000',
+                        opacity: '0.5',
+                        width: '100vw',
+                        height: '110vh',
+                        zIndex: '255',
+                        position: 'absolute',
+                        left: '0vw'
+                    }}
+                    onClick={handleDrawerClose}></Box>
+            }
+        </Box>
     );
 }

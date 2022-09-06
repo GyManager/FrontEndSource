@@ -138,7 +138,6 @@ export default function Clients() {
                         <Grid item xs={12}
                             sx={{
                                 height: '100%',
-
                             }}
                         >
                             <TablesClient

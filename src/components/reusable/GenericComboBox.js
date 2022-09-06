@@ -20,6 +20,7 @@ export default function GenericComboBox(props) {
                     value={props.value}
                     onChange={props.handleChange}
                     autoWidth
+                    // multiple
                     label={props.label}
                     readOnly={props.editable ? false : true}
                     autoFocus={props.autoFocusProp ? true : false}
