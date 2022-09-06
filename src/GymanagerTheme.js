@@ -22,26 +22,34 @@ const theme = createTheme({
 //Opcion 2  -- IMAGEN2 -- transparencia d
 const gymanagerTheme = {
     palette: {
-      primary: {
-        main: '#BA00BA'
-      },
-      secondary: {
-        main: '#606060', 
-      },
-      navbar: {
-        main: '#202020'
-      },
-      error: {
-        main: '#d32f2f',
-      },
-      success: {
-        main: '#2e7d32',
-      },
-      info: {
-        main: '#0288d1',
-      }
+        primary: {
+            main: "#BA00BA",
+        },
+        secondary: {
+            main: "#606060",
+        },
+        navbar: {
+            main: "#202020",
+        },
+        error: {
+            main: "#d32f2f",
+        },
+        success: {
+            main: "#2e7d32",
+        },
+        info: {
+            main: "#0288d1",
+        },
     },
-  
-  };
+    components: {
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#FFFE",
+                },
+            },
+        },
+    },
+};
 
-  export default gymanagerTheme;
+export default gymanagerTheme;
