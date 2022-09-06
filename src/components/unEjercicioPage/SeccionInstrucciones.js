@@ -2,18 +2,19 @@ import { Button, Divider, Grid, Paper, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { EjercicioContext } from '../../context/EjercicioContext'
 import Paso from './Paso'
+
 import orderBy from 'lodash/orderBy'
 
 export default function SeccionInstrucciones(props) {
   const { formik, editable } = useContext(EjercicioContext)
-  // const { formik, setPasos} = useContext(EjercicioContext)
+
   const pasos = formik.values.pasos
-  // console.log('formik.values.pasos', pasos)
 
   const setPasos = (arr) => {
     formik.setFieldValue('pasos', arr, false)
   }
 
+  
   const handleAgregarPaso = () => {
     const nuevoPaso = [
       ...formik.values.pasos,

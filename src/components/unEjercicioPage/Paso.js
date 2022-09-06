@@ -73,9 +73,10 @@ function Paso(props) {
                 </Grid>
                 <Grid item xs={1} sx={{ mr: 2 }}>
                     <ImagePicker
-                    index={props.index}
-                    imagen={props.imagen}
-                     />
+                        index={props.index}
+                        imagen={props.imagen}
+                        
+                    />
                 </Grid>
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container direction='column' justifyContent='flex-start'>
@@ -87,7 +88,6 @@ function Paso(props) {
                 </Grid>
             </Grid>
             <Divider />
-
         </>
     )
 }
