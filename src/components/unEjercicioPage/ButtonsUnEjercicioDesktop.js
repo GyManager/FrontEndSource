@@ -44,14 +44,14 @@ function ButtonsUnEjercicioDesktop(props) {
                 {editable ?
                     <>
                         <Button {...ButtonStyle} type='submit'><Save />Guardar</Button>
-                        <Button {...ButtonStyle} onClick={handleCancelClick}><Cancel />Cancelar</Button>
+                        <Button {...ButtonStyle} onClick={handleCancelClick} color='secondary'><Cancel />Cancelar</Button>
                         {/* <Button {...ButtonStyle} onClick={()=>setEditable(false)}><Edit />Probando</Button> */}
                     </>
 
                     :
                     <>
                         <Button {...ButtonStyle} onClick={handleEditClick}><Edit />Editar</Button>
-                        <Button {...ButtonStyle} onClick={handleDelete}><Delete />Eliminar</Button>
+                        <Button {...ButtonStyle} onClick={handleDelete} color='secondary'><Delete />Eliminar</Button>
                         {/* <Button {...ButtonStyle} onClick={()=>setEditable(true)}><Edit />Probando</Button> */}
                     </>
                 }

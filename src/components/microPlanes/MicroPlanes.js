@@ -142,6 +142,7 @@ export default function MicroPlanes(props) {
                     <Button
                         variant='outlined'
                         size='medium' 
+                        color='secondary'
                         startIcon={<Cancel/>}
                         onClick={props.onCancelSearch}
                     >

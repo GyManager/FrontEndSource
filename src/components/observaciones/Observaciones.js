@@ -180,6 +180,7 @@ export default function Observaciones(props){
                     <Button
                         variant='outlined'
                         size='medium' 
+                        color='secondary'
                         startIcon={<Cancel/>}
                         onClick={props.handleClose}
                     >

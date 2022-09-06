@@ -51,7 +51,6 @@ export default function PlanMicroPlansTable(props) {
                                     <Box sx={{ display: "flex", gap: 2 }}>
                                         <Button
                                             {...microPlanButtonActionsProps}
-                                            color="secondary"
                                             startIcon={!isMediumDevice && <Comment />}
                                             onClick={() => props.handleStartEditObservaciones(index)}
                                         >
@@ -66,7 +65,7 @@ export default function PlanMicroPlansTable(props) {
                                         </Button>
                                         <DeleteButtonWithAlert
                                             handleAccept={() => props.handleDeleteMicroPlan(index)}
-                                            buttonProps={{...microPlanButtonActionsProps, color: "error",}}
+                                            buttonProps={{...microPlanButtonActionsProps, color: "error", variant:"outlined"}}
                                             alertTitle={`Está por eliminar el micro plan ${microPlan.nombre}`}
                                             hideButtonIcon={isMediumDevice}
                                             buttonText={!isMediumDevice ? "Borrar" : <Delete />}

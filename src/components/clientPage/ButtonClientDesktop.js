@@ -32,6 +32,7 @@ export default function ButtonClientDesktop(props) {
                     {...buttonCommonProperties}
                     startIcon={<Cancel />}
                     onClick={props.handleCancelEdit}
+                    color="secondary"
                 >
                     Cancelar
                 </Button>
@@ -54,6 +55,7 @@ export default function ButtonClientDesktop(props) {
                     {...buttonCommonProperties}
                     onClick={props.handleDeleteClick}
                     startIcon={<Delete />}
+                    color="secondary"
                 >
                     Borrar
                 </Button>
