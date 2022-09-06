@@ -14,6 +14,8 @@ import {
 } from '@mui/icons-material';
 import DrawerItem from './DrawerItem';
 
+import { animateScroll as scroll} from 'react-scroll';
+
 import AuthService from '../../services/auth.service'
 
 const drawerWidth = 240;
@@ -80,14 +82,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
     }
 
     const handleWheel = (e) => {
-        //TODO implementar React Scroll 
-        // https://correo-oke.medium.com/scroll-con-react-5cb11eb09a2a
-        e?.preventDefault()
-        window.scroll({
-            top: window.scrollY,
-            left: 0,
-            behavior: 'smooth'
-          });
+        scroll.scrollMore(-1);
     }
 
     const menuItem = [
