@@ -17,7 +17,6 @@ import ButtonsUnEjercicioDesktop from './ButtonsUnEjercicioDesktop';
 import { GenericModal } from '../reusable';
 
 function UnEjercicioPage() {
-  // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
 
   const {
     idEjercicio, formik, getEjercicio, editable, setEditable, 

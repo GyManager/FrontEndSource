@@ -9,6 +9,7 @@ import { useFilePicker } from 'use-file-picker';
 import ModalCardPaso from './ModalCardPaso'
 
 import { Box } from '@mui/system';
+import shadows from '@mui/material/styles/shadows';
 
 export default function ImagePicker(props) {
 
@@ -42,17 +43,19 @@ export default function ImagePicker(props) {
     return (
         <div>
             {
-                
+
                 (editable && (!formik.values.pasos[props.index].imagen)) &&
                 <Button
                     onClick={handleChargeFile}
                     variant='contained'
+                    size='small'
                 ><AddAPhoto /> </Button>
             }
             {
                 (editable && formik.values.pasos[props.index].imagen) &&
                 <>
                     <Box sx={{ position: 'relative' }}>
+                        <Button>
                         <img
                             sx={{
                                 position: 'absolute',
@@ -63,17 +66,18 @@ export default function ImagePicker(props) {
                             height='80'
                             onClick={handleOpenModalCardPaso}
                         />
-                        <IconButton aria-label="delete" size="small" color='primary'
+                        <IconButton aria-label="delete" size="small" color='error'
                             sx={{
                                 position: 'absolute',
                                 top: '0%',
                                 right: '0',
-                                zIndex: '255',
-                                backgroundColor: 'lightGrey'
+                                zIndex: '0',
+                                backgroundColor: 'white'
                             }}
                             onClick={handleDeleteImage}>
                             <HighlightOff fontSize="small" />
                         </IconButton>
+                        </Button>
                     </Box>
                 </>
             }

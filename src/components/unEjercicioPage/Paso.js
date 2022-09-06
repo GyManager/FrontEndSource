@@ -35,12 +35,19 @@ function Paso(props) {
     }
     const editableDisplay =
     {
-        sx: { display: editable ? '' : 'none' }
+        // sx: { display: editable ? '' : 'none' }
+        sx: { visibility: editable ? '' : 'hidden' }
     }
 
     return (
         <>
-            <Grid container alignItems='center' sx={{ height: '20vh' }}>
+            <Grid container alignItems='center' justifyContent='space-around' sx={{ minHeight: '20vh' }}>
+                <Grid item xs={1} sx={{  }}>
+                    <ImagePicker
+                        index={props.index}
+                        imagen={props.imagen}
+                    />
+                </Grid>
                 <Grid item xs={1} {...editableDisplay} >
                     <Grid container justifyContent='center'>
                         <Button {...ButtonStyle}
@@ -56,7 +63,8 @@ function Paso(props) {
                         </Button>
                     </Grid>
                 </Grid>
-                <Grid item xs={7} md={8} sx={{ mr: 5 }}>
+
+                <Grid item xs={8} sx={{  }}>
                     <Grid container justifyContent='center' >
                         <TextField
                             fullWidth
@@ -71,21 +79,20 @@ function Paso(props) {
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={1} sx={{ mr: 2 }}>
-                    <ImagePicker
-                        index={props.index}
-                        imagen={props.imagen}
-                        
-                    />
-                </Grid>
+
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container direction='column' justifyContent='flex-start'>
                         <Button
                             {...ImgButtonStyle}
+                            variant='outlined'
+                            size='medium'
+                            color='error'
                             onClick={() => props.handleDelete(props.nroPaso)} >
-                            <Delete fontSize='small' /></Button>
+                            <Delete fontSize='small' />
+                        </Button>
                     </Grid>
                 </Grid>
+
             </Grid>
             <Divider />
         </>
