@@ -46,6 +46,7 @@ const gymanagerTheme = {
             styleOverrides: {
                 root: {
                     backgroundColor: "#FFFE",
+                    backdropFilter: 'blur(3px)'
                 },
             },
         },
