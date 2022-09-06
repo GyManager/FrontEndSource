@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 
 import { EjercicioContext } from '../../context/EjercicioContext';
 
-import { Button, IconButton, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
 import { AddAPhoto, HighlightOff } from '@mui/icons-material/';
 
 import { useFilePicker } from 'use-file-picker';

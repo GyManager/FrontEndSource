@@ -79,7 +79,10 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
         setTimeout(() => { navigate('/login') }, 100)
     }
 
-    const handleWheel = () => {
+    const handleWheel = (e) => {
+        //TODO implementar React Scroll 
+        // https://correo-oke.medium.com/scroll-con-react-5cb11eb09a2a
+        e?.preventDefault()
         window.scroll({
             top: window.scrollY,
             left: 0,

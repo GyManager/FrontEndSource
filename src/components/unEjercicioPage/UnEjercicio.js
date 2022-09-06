@@ -1,14 +1,11 @@
 //Librerias
-import React, { useContext, useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useFormik } from 'formik'
-import { AxiosError } from 'axios'
+import React, { useContext, useEffect } from 'react'
 
 //Data
 import { EjercicioContext } from "../../context/EjercicioContext";
 
 //Vista
-import { Paper, Container, Grid, Typography, Button } from '@mui/material'
+import { Paper, Grid, Typography } from '@mui/material'
 import Breadcumbs from '../reusable/Breadcumbs'
 
 import ButtonUnEjercicioMobile from './ButtonUnEjercicioMobile'
@@ -17,7 +14,6 @@ import SeccionInstrucciones from './SeccionInstrucciones';
 import SeccionVideo from './SeccionVideo';
 import SeccionEquipamento from './SeccionEquipamento'
 import ButtonsUnEjercicioDesktop from './ButtonsUnEjercicioDesktop';
-import { Cancel, Delete, Edit, Save } from '@mui/icons-material';
 import { GenericModal } from '../reusable';
 
 function UnEjercicioPage() {
@@ -47,7 +43,6 @@ function UnEjercicioPage() {
       getEjercicio(idEjercicio)
   }, [])
 
-console.log(openModal, ' ', modalMsj)
   return (
     <form
       method="post"
@@ -72,7 +67,6 @@ console.log(openModal, ' ', modalMsj)
           <Paper {...paperStyle} >
             <SeccionInstrucciones />
           </Paper>
-
           <Paper {...paperStyle}>
             <SeccionVideo />
           </Paper>

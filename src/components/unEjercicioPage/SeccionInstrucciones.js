@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Paper, Typography } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { EjercicioContext } from '../../context/EjercicioContext'
 import Paso from './Paso'
