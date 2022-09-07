@@ -25,7 +25,7 @@ function UnEjercicioPage() {
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const handleClickOpenAlertDialog = () => {
     setOpenAlertDialog(true);
-};
+  };
 
   const paperStyle = {
     elevation: 2,
@@ -46,6 +46,7 @@ function UnEjercicioPage() {
       getEjercicio(idEjercicio)
   }, [])
 
+
   return (
     <form
       method="post"
@@ -62,8 +63,8 @@ function UnEjercicioPage() {
           </Typography>
         </Grid>
         <ButtonsUnEjercicioDesktop
-        openAlertDialog={handleClickOpenAlertDialog}
-         />
+          openAlertDialog={handleClickOpenAlertDialog}
+        />
         <Grid item xs={12}>
           <SeccionNombreYTipo
             paperStyle={paperStyle}
@@ -91,10 +92,10 @@ function UnEjercicioPage() {
         open={openAlertDialog}
         setOpen={setOpenAlertDialog}
         title={'Está por eliminar al ejercicio' + formik.values.nombre}
-      content='¿Seguro desea eliminarlo?'
-      buttonTextAccept='Borrar'
-      buttonTextDeny='Cancelar'
-      buttonActionAccept={handleDelete}
+        content='¿Seguro desea eliminarlo?'
+        buttonTextAccept='Borrar'
+        buttonTextDeny='Cancelar'
+        buttonActionAccept={handleDelete}
       />
     </form>
   )

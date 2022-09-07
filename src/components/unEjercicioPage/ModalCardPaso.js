@@ -29,8 +29,8 @@ console.log(props.paso)
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Número de paso: {props.paso.numeroPaso}
+                    <Typography id="modal-modal-title" variant="h6" component="h2" textAlign='center'>
+                        Paso: {props.paso.numeroPaso}
                     </Typography>
 
 

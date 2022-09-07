@@ -41,30 +41,39 @@ function Paso(props) {
 
     return (
         <>
-            <Grid container alignItems='center' justifyContent='space-around' sx={{ minHeight: '20vh' }}>
-                <Grid item xs={1} sx={{  }}>
+            <Grid container 
+            alignItems='center' justifyContent='space-around'
+             sx={{ minHeight: '20vh' }}>
+                <Grid item  xs={1} >
                     <ImagePicker
                         index={props.index}
                         imagen={props.imagen}
                     />
                 </Grid>
-                <Grid item xs={1} {...editableDisplay} >
-                    <Grid container justifyContent='center'>
-                        <Button {...ButtonStyle}
-                            onClick={() => props.handleSubirPaso(props.nroPaso)}>
-                            <ArrowUpward fontSize='small' />
-                        </Button>
-                        <Typography {...ButtonStyle}
-                            sx={{ fontSize: { xs: 10, md: 12, lg: 14, xl: 18 }, p: 1 }}
-                        >{props.nroPaso}</Typography>
-                        <Button {...ButtonStyle}
-                            onClick={() => props.handleBajarPaso(props.nroPaso)}>
-                            <ArrowDownward fontSize='small' />
-                        </Button>
+                <Grid item xs={1} {...editableDisplay}  >
+                    <Grid container direction="column" justifyContent='center'  alignItems='center'>
+                        <Grid item>
+                            <Button {...ButtonStyle} 
+                                onClick={() => props.handleSubirPaso(props.nroPaso)}>
+                                <ArrowUpward fontSize='small' />
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Typography 
+                                sx={{ fontSize: { xs: 10, md: 12, lg: 14, xl: 18 }, p: 1 }}
+                            >{props.nroPaso}</Typography>
+
+                        </Grid>
+                        <Grid item>
+                            <Button {...ButtonStyle}
+                                onClick={() => props.handleBajarPaso(props.nroPaso)}>
+                                <ArrowDownward fontSize='small' />
+                            </Button>
+                        </Grid>
                     </Grid>
                 </Grid>
 
-                <Grid item xs={8} sx={{  }}>
+                <Grid item xs={8}>
                     <Grid container justifyContent='center' >
                         <TextField
                             fullWidth
