@@ -15,7 +15,7 @@ import ButtonAddEjercicioMobile from './ButtonAddEjercicioMobile'
 
 import ejerciciosService from '../../services/ejercicios.service'
 
-function EjerciciosPage() {
+function Ejercicios() {
     const Navigate = useNavigate()
 
     const [ejercicios, setEjercicios] = useState(() => []);
@@ -124,4 +124,4 @@ function EjerciciosPage() {
     )
 }
 
-export default EjerciciosPage
+export default Ejercicios

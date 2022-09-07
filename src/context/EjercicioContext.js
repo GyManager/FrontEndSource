@@ -7,7 +7,7 @@ import orderBy from 'lodash/orderBy'
 
 import ejerciciosService from '../services/ejercicios.service'
 
-import ejercicioSchema from '../components/unEjercicioPage/ejercicioSchema'
+import ejercicioSchema from '../components/ejercicio/ejercicioSchema'
 
 import { SnackbarContext } from '../context/SnackbarContext'
 

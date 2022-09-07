@@ -14,8 +14,8 @@ import AuthService from './services/auth.service';
 import LoginPage from './pages/LoginPage';
 import ClientsPage from './pages/ClientsPage';
 import ClientPage from './pages/ClientPage'
-import EjerciciosPage from './components/ejerciciosPage/EjerciciosPage'
-import UnEjercicioPage from './pages/UnEjercicioPage';
+import Ejercicios from './components/ejercicios/Ejercicios'
+import EjercicioPage from './pages/EjercicioPage';
 import MicroPlanesPage from './pages/MicroPlanesPage';
 
 //Probando context below
@@ -64,8 +64,8 @@ function App() {
                 {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
                 {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
                 {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
-                {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<EjerciciosPage/>} />}
-                {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<UnEjercicioPage/>} />}
+                {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
+                {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
 
                 <Route path="/*" element={<NoAutorizadoPage/>} />
               </Routes>
