@@ -18,6 +18,7 @@ import authService from '../../services/auth.service';
 import PlanMicroPlansTable from './PlanMicroPlanTable';
 import planSchema from './planSchema';
 import { ErrorContext } from '../../context/ErrorContext';
+import FormOptionsSpeedDial from '../reusable/FormOptionsSpeedDial';
 
 export default function Plan() {
 
@@ -387,6 +388,15 @@ export default function Plan() {
                     />
                 </Box>
             </Modal>
+            <FormOptionsSpeedDial
+                editable={true}
+                handleCancelEdit={handleCancel}
+                handleSubmit={formik.handleSubmit}
+                enableDeleteAlways={(idPlan !== "new")}
+                handleDeleteClick={handleDelete}
+                id={idPlan}
+                deleteAlertTitle="Esta por eliminar el plan"
+            />
         </Fragment>
     )
 }

@@ -53,7 +53,7 @@ export default function FormOptionsSpeedDial(props) {
             />
             }
 
-            { props.id !== 'new' && !props.editable &&
+            { (props.enableDeleteAlways || (props.id !== 'new' && !props.editable)) &&
             <SpeedDialAction
                 key='Borrar'
                 icon={<Delete />}

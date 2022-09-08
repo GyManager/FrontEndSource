@@ -44,7 +44,7 @@ function ButtonsUnEjercicioDesktop(props) {
                     :
                     <>
                         <div><Button {...ButtonStyle} id='ButtonEditTest' color='primary' onClick={handleEditClick}><Edit />Editar</Button></div>
-                        <div><Button {...ButtonStyle} id='ButtonDeleteTest' color='error' onClick={props.openAlertDialog}><Delete />Eliminar</Button></div>
+                        <div><Button {...ButtonStyle} id='ButtonDeleteTest' color='secondary' onClick={props.openAlertDialog}><Delete />Eliminar</Button></div>
                     </>
                 }
             </Grid>

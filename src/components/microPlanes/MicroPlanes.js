@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
-import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton, Stack, Button } from "@mui/material";
+import { Typography, Paper, TableContainer, TableHead, TableRow, TableCell,Table, TableBody, TablePagination, Divider, Skeleton, Stack, Button, Fab } from "@mui/material";
 import { AxiosError } from "axios";
 import SearchBar from "../clientsPage/SearchBar";
 import microPlanesService from "../../services/micro-planes.service";
 import { GenericComboBox, GenericModal } from "../reusable";
-import ButtonToFabCrear from "../reusable/ButtonToFabCrear";
-import { Cancel, Edit } from "@mui/icons-material";
+import { Add, Cancel, Edit } from "@mui/icons-material";
 
 export default function MicroPlanes(props) {
 
@@ -80,10 +79,15 @@ export default function MicroPlanes(props) {
                 <Typography sx={{ fontSize: { xs: 24, md: 30, lg: 36, xl: 40 } }}>
                     Micro Planes
                 </Typography>
-                <ButtonToFabCrear
-                    label="Crear Micro Plan"
+                <Button
+                    sx={{display: { xs: 'none', md: 'inline-flex' }}}
+                    variant='contained'
+                    startIcon={<Add/>}
+                    size='medium'
                     onClick={props.onNewMicroPlan ? props.onNewMicroPlan : (() => navigate("/micro-planes/new"))}
-                />
+                >
+                    Crear Micro Plan
+                </Button>
             </Box>
 
 
@@ -142,6 +146,7 @@ export default function MicroPlanes(props) {
                     <Button
                         variant='outlined'
                         size='medium' 
+                        color='secondary'
                         startIcon={<Cancel/>}
                         onClick={props.onCancelSearch}
                     >
@@ -157,6 +162,18 @@ export default function MicroPlanes(props) {
                     serverMsj={modalMsj} 
                 />
             }
+            <Box
+                sx={{
+                    display: { xs: 'block', md: 'none'}, 
+                    position: 'fixed',
+                    right: '4vw',
+                    bottom: '4vh'
+                }}
+            >
+                <Fab color='primary' aria-label='add' onClick={props.onNewMicroPlan ? props.onNewMicroPlan : (() => navigate("/micro-planes/new"))}>
+                    <Add/>
+                </Fab>
+            </Box>
         </Paper>
     )
 }

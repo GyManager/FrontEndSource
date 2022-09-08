@@ -1,7 +1,7 @@
 // Todo hacer el checkbox "Recordar usuario"
 // Todo separa mejor por capas la funcion connectToServices() y llevar su
 //      codigo al componente AuthService
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -79,9 +79,9 @@ const LoginFormWithFormik = () => {
     });
 
     return (
-        <div>
+        <Fragment>
             <Paper
-                sx={{ borderRadius: 3 }}
+                sx={{ borderRadius: 3}}
                 elevation={3}
             >
                 <Container
@@ -175,7 +175,7 @@ const LoginFormWithFormik = () => {
                 show={openBackdrop}
                 hide={handleCloseBackdrop} />
 
-        </div>
+        </Fragment>
     )
 }
 

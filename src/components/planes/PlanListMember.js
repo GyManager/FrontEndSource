@@ -12,7 +12,7 @@ export default function PlanListMember(props){
     const navigate = useNavigate()
     const [collapsed, setCollapsed] = useState(false);
     const avatar = (
-        <Avatar sx={{ bgcolor: '#1976d2' }}>
+        <Avatar sx={{ bgcolor: 'primary.main' }}>
             {props.objetivo.charAt(0)}
         </Avatar>
     )

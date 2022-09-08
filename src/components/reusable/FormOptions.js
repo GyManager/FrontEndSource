@@ -41,6 +41,7 @@ export default function FormOptions(props) {
                     {...buttonCommonProperties}
                     startIcon={<Cancel />}
                     onClick={props.handleCancelEdit}
+                    color="secondary"
                 >
                     Cancelar
                 </Button>
@@ -60,7 +61,7 @@ export default function FormOptions(props) {
             {(props.enableDeleteAlways || (props.id !== 'new' && !props.editable)) &&
                 <DeleteButtonWithAlert
                     handleAccept={props.handleDeleteClick}
-                    buttonProps={{id:"borrarOption", ...buttonCommonProperties}}
+                    buttonProps={{id:"borrarOption", ...buttonCommonProperties, color:'secondary'}}
                     alertTitle={props.deleteAlertTitle}
                 />
             }
