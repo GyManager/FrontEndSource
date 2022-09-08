@@ -79,6 +79,7 @@ function Ejercicios() {
                     <Grid item sx={{ display: { xs: 'none', md: 'flex' } }} xs={2} md={3} >
                         <div>
                             <Button
+                                id='ButtonCrearEjercicioTest'
                                 variant='contained'
                                 size='medium'
                                 startIcon={<Add />}

@@ -14,6 +14,8 @@ import shadows from '@mui/material/styles/shadows';
 export default function ImagePicker(props) {
 
     const { editable, formik } = useContext(EjercicioContext)
+    const [openModalCardPaso, setOpenModalCardPaso] = useState(false);
+    const handleOpenModalCardPaso = () => setOpenModalCardPaso(true);
     let [openFileSelector, { filesContent, loading, clear }] = useFilePicker({
         readAs: 'DataURL',
         accept: 'images*',
@@ -37,8 +39,6 @@ export default function ImagePicker(props) {
         formik.setFieldValue(`pasos[${props.index}].imagen`, '')
     }
 
-    const [openModalCardPaso, setOpenModalCardPaso] = useState(false);
-    const handleOpenModalCardPaso = () => setOpenModalCardPaso(true);
 
     return (
         <div>
@@ -46,6 +46,7 @@ export default function ImagePicker(props) {
 
                 (editable && (!formik.values.pasos[props.index].imagen)) &&
                 <Button
+                    id={'ButtonAddPhotoTest' + props.index}
                     onClick={handleChargeFile}
                     variant='contained'
                     size='small'
@@ -55,28 +56,30 @@ export default function ImagePicker(props) {
                 (editable && formik.values.pasos[props.index].imagen) &&
                 <>
                     <Box sx={{ position: 'relative' }}>
-                        <Button>
-                        <img
-                            sx={{
-                                position: 'absolute',
-                            }}
-                            alt={'imagen'}
-                            src={formik.values.pasos[props.index].imagen}
-                            width='80'
-                            height='80'
-                            onClick={handleOpenModalCardPaso}
-                        />
-                        <IconButton aria-label="delete" size="small" color='error'
-                            sx={{
-                                position: 'absolute',
-                                top: '0%',
-                                right: '0',
-                                zIndex: '0',
-                                backgroundColor: 'white'
-                            }}
-                            onClick={handleDeleteImage}>
-                            <HighlightOff fontSize="small" />
-                        </IconButton>
+                        <Button
+                        id={'ButtonShowPhotoTest'+props.index}>
+                            <img
+                                sx={{
+                                    position: 'absolute',
+                                }}
+                                alt={'imagen'}
+                                src={formik.values.pasos[props.index].imagen}
+                                width='80'
+                                height='80'
+                                onClick={handleOpenModalCardPaso}
+                            />
+                            <IconButton aria-label="delete" size="small" color='error'
+                                id={'ButtonDeletePhotoTest'+props.index}
+                                sx={{
+                                    position: 'absolute',
+                                    top: '0%',
+                                    right: '0',
+                                    zIndex: '0',
+                                    backgroundColor: 'white'
+                                }}
+                                onClick={handleDeleteImage}>
+                                <HighlightOff fontSize="small" />
+                            </IconButton>
                         </Button>
                     </Box>
                 </>
@@ -87,6 +90,7 @@ export default function ImagePicker(props) {
 
                     <Button key={props.index}>
                         <img
+                        id={'ButtonShowPhoto'+props.index}
                             alt={'imagen'}
                             src={formik.values.pasos[props.index].imagen}
                             width='110'
@@ -113,6 +117,6 @@ export default function ImagePicker(props) {
                 handleOpen={handleOpenModalCardPaso}
                 paso={formik.values.pasos[props.index]}
             />
-        </div>
+        </div >
     );
 }

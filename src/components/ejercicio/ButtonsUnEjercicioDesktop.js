@@ -37,16 +37,14 @@ function ButtonsUnEjercicioDesktop(props) {
 
                 {editable ?
                     <>
-                        <div><Button {...ButtonStyle} type='submit' color='primary'><Save />Guardar</Button></div>
-                        <div><Button {...ButtonStyle} color='secondary' onClick={handleCancelClick}><Cancel />Cancelar</Button></div>
-                        {/* <Button {...ButtonStyle} onClick={()=>setEditable(false)}><Edit />Probando</Button> */}
+                        <div><Button {...ButtonStyle} id='ButtonSaveTest' type='submit' color='primary'><Save />Guardar</Button></div>
+                        <div><Button {...ButtonStyle} id='ButtonCancelTest' color='secondary' onClick={handleCancelClick}><Cancel />Cancelar</Button></div>
                     </>
 
                     :
                     <>
-                        <div><Button {...ButtonStyle} color='primary' onClick={handleEditClick}><Edit />Editar</Button></div>
-                        <div><Button {...ButtonStyle} color='error' onClick={props.openAlertDialog}><Delete />Eliminar</Button></div>
-                        {/* <Button {...ButtonStyle} onClick={()=>setEditable(true)}><Edit />Probando</Button> */}
+                        <div><Button {...ButtonStyle} id='ButtonEditTest' color='primary' onClick={handleEditClick}><Edit />Editar</Button></div>
+                        <div><Button {...ButtonStyle} id='ButtonDeleteTest' color='error' onClick={props.openAlertDialog}><Delete />Eliminar</Button></div>
                     </>
                 }
             </Grid>

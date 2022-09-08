@@ -41,31 +41,33 @@ function Paso(props) {
 
     return (
         <>
-            <Grid container 
-            alignItems='center' justifyContent='space-around'
-             sx={{ minHeight: '20vh' }}>
-                <Grid item  xs={1} >
+            <Grid container
+                alignItems='center' justifyContent='space-around'
+                sx={{ minHeight: '20vh' }}>
+                <Grid item xs={1} >
                     <ImagePicker
                         index={props.index}
                         imagen={props.imagen}
                     />
                 </Grid>
                 <Grid item xs={1} {...editableDisplay}  >
-                    <Grid container direction="column" justifyContent='center'  alignItems='center'>
+                    <Grid container direction="column" justifyContent='center' alignItems='center'>
                         <Grid item>
-                            <Button {...ButtonStyle} 
+                            <Button {...ButtonStyle}
+                                id={'ButtonMoveUpTest' + props.index}
                                 onClick={() => props.handleSubirPaso(props.nroPaso)}>
                                 <ArrowUpward fontSize='small' />
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Typography 
+                            <Typography
                                 sx={{ fontSize: { xs: 10, md: 12, lg: 14, xl: 18 }, p: 1 }}
                             >{props.nroPaso}</Typography>
 
                         </Grid>
                         <Grid item>
                             <Button {...ButtonStyle}
+                                id={'ButtonMoveDownTest' + props.index}
                                 onClick={() => props.handleBajarPaso(props.nroPaso)}>
                                 <ArrowDownward fontSize='small' />
                             </Button>
@@ -92,6 +94,7 @@ function Paso(props) {
                 <Grid item xs={1} {...editableDisplay}>
                     <Grid container direction='column' justifyContent='flex-start'>
                         <Button
+                         id={'ButtonDeletePasoTest'+props.index}
                             {...ImgButtonStyle}
                             variant='outlined'
                             size='medium'
