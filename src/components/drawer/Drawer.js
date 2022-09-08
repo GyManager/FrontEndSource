@@ -10,9 +10,11 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu, Inbox, Logout,
-    Person, ListAlt
+    Person, ListAlt, WindowSharp
 } from '@mui/icons-material';
 import DrawerItem from './DrawerItem';
+
+import { animateScroll as scroll} from 'react-scroll';
 
 import AuthService from '../../services/auth.service'
 
@@ -79,6 +81,10 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
     const handleLogout = async () => {
         await AuthService.logout();
         setTimeout(() => { navigate('/login') }, 100)
+    }
+
+    const handleWheel = (e) => {
+        scroll.scrollMore(-1);
     }
 
     const menuItem = [
@@ -190,12 +196,15 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                         backgroundColor: '#000000',
                         opacity: '0.5',
                         width: '100vw',
-                        height: '110vh',
+                        height: '300vh',
                         zIndex: '255',
                         position: 'absolute',
-                        left: '0vw'
+                        left: '0vw',
+
                     }}
-                    onClick={handleDrawerClose}></Box>
+                    onClick={handleDrawerClose}
+                    onWheel={handleWheel}
+                ></Box>
             }
         </Box>
     );

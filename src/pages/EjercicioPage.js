@@ -1,9 +1,8 @@
 import { Paper } from '@mui/material'
 import { Container } from '@mui/system'
 import React from 'react'
-import { ParameterDropdownProvider } from '../context/ParameterDropdownContext'
 import { EjercicioProvider } from '../context/EjercicioContext'
-import UnEjercicio from '../components/unEjercicioPage/UnEjercicio'
+import EjercicioPage from '../components/ejercicio/Ejercicio'
 
 function UnEjercicioPage() {
     return (
@@ -21,7 +20,7 @@ function UnEjercicioPage() {
                 }}
             >
                 <EjercicioProvider paso unIdEjercicio >
-                        <UnEjercicio />
+                        <EjercicioPage />
                 </EjercicioProvider>
 
             </Paper>

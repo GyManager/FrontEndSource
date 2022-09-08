@@ -58,7 +58,7 @@ const getEjercicios = (search, pageSize, page) => {
     if (page !== undefined) {
         params['page'] = page;
     }
-    return fetchData('/ejercicios', params)
+    return fetchData('/ejercicios?sortBy=NOMBRE', params)
 }
 
 const getEjercicioById = (id) => {
