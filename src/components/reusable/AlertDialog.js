@@ -40,9 +40,9 @@ function AlertDialog(props) {
         <DialogActions sx={{
           justifyContent: 'space-between',
         }}>
-          <Button id='cancelarAlertDialog' onClick={handleCloseAlertDialog} autoFocus>
+          <Button color='primary' variant='contained' id='cancelarAlertDialog' onClick={handleCloseAlertDialog} autoFocus>
           Cancelar</Button>
-          <Button id='aceptarAlertDialog' onClick={handleAcceptButton} >
+          <Button color='error' variant='contained' id='aceptarAlertDialog' onClick={handleAcceptButton} >
           {props.buttonTextAccept}
             </Button>
         </DialogActions>

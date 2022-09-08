@@ -26,13 +26,14 @@ export default function CustomizedInputBase(props) {
       sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, mb: '1vh' }}
     >
       <InputBase
+      id='InputSearchTest'
         sx={{ ml: 1, flex: 1 }}
         placeholder="Ingrese su busqueda"
         inputProps={{ 'aria-label': 'Ingrese su busqueda' }}
         autoFocus
         onChange={handleChange}
       />
-      <IconButton type="submit" sx={{ p: '10px' }} aria-label="Search">
+      <IconButton id='ButtonSearchTest' type="submit" sx={{ p: '10px' }} aria-label="Search">
         <SearchIcon />
       </IconButton>
     </Paper>

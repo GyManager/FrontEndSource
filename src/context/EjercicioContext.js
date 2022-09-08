@@ -7,7 +7,7 @@ import orderBy from 'lodash/orderBy'
 
 import ejerciciosService from '../services/ejercicios.service'
 
-import ejercicioSchema from '../components/unEjercicioPage/ejercicioSchema'
+import ejercicioSchema from '../components/ejercicio/ejercicioSchema'
 
 import { SnackbarContext } from '../context/SnackbarContext'
 
@@ -52,8 +52,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
 
   const handleRespuesta = (res, msj) => {
+    console.log(res)
     if (res instanceof AxiosError) {
-      setModalMsj(res.message)
+      setModalMsj(res?.message)
       setOpenModal(true)
     } else {
       addSnackbar({ message: msj, severity: "success", duration: 3000 })
@@ -193,7 +194,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   }
   // DeleteEjercicioByID
   const handleDelete = async () => {
-    console.log(idEjercicio)
     const res = await ejercicioService.deleteEjercicio(idEjercicio)
     handleRespuesta(res, 'Ejercicio eliminado exitosamente')
   }

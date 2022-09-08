@@ -1,15 +1,11 @@
 //Librerias
-import React, { useContext, useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useFormik } from 'formik'
-import { AxiosError } from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
 
 //Data
 import { EjercicioContext } from "../../context/EjercicioContext";
 
 //Vista
-import { Paper, Container, Grid, Typography, Button } from '@mui/material'
-import Breadcumbs from '../reusable/Breadcumbs'
+import { Paper, Grid, Typography } from '@mui/material'
 
 import ButtonUnEjercicioMobile from './ButtonUnEjercicioMobile'
 import SeccionNombreYTipo from './SeccionNombreYTipo'
@@ -17,16 +13,19 @@ import SeccionInstrucciones from './SeccionInstrucciones';
 import SeccionVideo from './SeccionVideo';
 import SeccionEquipamento from './SeccionEquipamento'
 import ButtonsUnEjercicioDesktop from './ButtonsUnEjercicioDesktop';
-import { Cancel, Delete, Edit, Save } from '@mui/icons-material';
-import { GenericModal } from '../reusable';
+import { AlertDialog, Breadcumbs, GenericModal } from '../reusable';
 
 function UnEjercicioPage() {
-  // const [tiposDeEjercicio, setTiposDeEjercicio] = useState(() => '')
 
   const {
-    idEjercicio, formik, getEjercicio, editable, setEditable, 
-    openModal, modalMsj, handleCloseModal
+    idEjercicio, formik, getEjercicio, editable, setEditable,
+    openModal, modalMsj, handleCloseModal, handleDelete
   } = useContext(EjercicioContext);
+  // Estados AlertDialog
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
+  const handleClickOpenAlertDialog = () => {
+    setOpenAlertDialog(true);
+  };
 
   const paperStyle = {
     elevation: 2,
@@ -47,7 +46,7 @@ function UnEjercicioPage() {
       getEjercicio(idEjercicio)
   }, [])
 
-console.log(openModal, ' ', modalMsj)
+
   return (
     <form
       method="post"
@@ -63,7 +62,9 @@ console.log(openModal, ' ', modalMsj)
           >Ejercicio: {formik.values.nombre}
           </Typography>
         </Grid>
-        <ButtonsUnEjercicioDesktop />
+        <ButtonsUnEjercicioDesktop
+          openAlertDialog={handleClickOpenAlertDialog}
+        />
         <Grid item xs={12}>
           <SeccionNombreYTipo
             paperStyle={paperStyle}
@@ -72,7 +73,6 @@ console.log(openModal, ' ', modalMsj)
           <Paper {...paperStyle} >
             <SeccionInstrucciones />
           </Paper>
-
           <Paper {...paperStyle}>
             <SeccionVideo />
           </Paper>
@@ -86,8 +86,17 @@ console.log(openModal, ' ', modalMsj)
       <GenericModal
         show={openModal}
         hide={handleCloseModal}
-        serverMsj={modalMsj} 
-        />
+        serverMsj={modalMsj}
+      />
+      <AlertDialog
+        open={openAlertDialog}
+        setOpen={setOpenAlertDialog}
+        title={'Está por eliminar al ejercicio' + formik.values.nombre}
+        content='¿Seguro desea eliminarlo?'
+        buttonTextAccept='Borrar'
+        buttonTextDeny='Cancelar'
+        buttonActionAccept={handleDelete}
+      />
     </form>
   )
 }

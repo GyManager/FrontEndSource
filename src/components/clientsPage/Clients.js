@@ -84,21 +84,17 @@ export default function Clients() {
 
         <Box sx={{
             display: 'flex', flexwrap: 'wrap',
-            // backgroundColor: 'green'
         }}
             justifyContent='center'>
             <Paper
                 elevation={12}
-                // TODO  006
                 sx={{
-                    // backgroundColor: 'yellow',
                     height: {xs:'87vh', md: '75vh' },
                 }}
             >
                 <Grid container width='90vw'
                     sx={{
                         mt: 1, mb: 1, mx: 2,
-                        //  backgroundColor: 'red' ,
                     }}
                     alignItems='center'  >
                     <Grid container item justifyContent='space-between' alignItems='center'>
@@ -154,7 +150,6 @@ export default function Clients() {
                     <Grid container>
                         <Grid item xs={12} md={12}
                             sx={{
-                                // backgroundColor: 'yellow',
                                 display: { xs: 'block', md: 'none' },
                                 position: 'fixed',
                                 right: '4vw',
