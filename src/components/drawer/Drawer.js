@@ -9,9 +9,10 @@ import {
 import MuiAppBar from '@mui/material/AppBar';
 
 import {
-    ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu, Inbox, Logout,
-    Person, ListAlt, WindowSharp
+    AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
+    Logout, Person, ListAlt, WindowSharp
 } from '@mui/icons-material';
+
 import DrawerItem from './DrawerItem';
 
 import { animateScroll as scroll} from 'react-scroll';
@@ -117,6 +118,12 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             icon: <ListAlt />,
             url: "/micro-planes",
             permiso: "gestion-micro-planes"
+        },
+        {
+            text: "Usuarios",
+            icon: <AdminPanelSettings />,
+            url: "/usuarios",
+            permiso: "gestion-usuarios"
         }
     ]
 
