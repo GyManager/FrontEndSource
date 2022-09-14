@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Modal, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
-import { Add } from '@mui/icons-material';
+import { Add, WarningAmberRounded } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { AxiosError } from 'axios';
 import { ParameterDropdownContext } from '../../context/ParameterDropdownContext';
@@ -346,6 +346,15 @@ export default function Plan() {
                     <Typography sx={{fontSize: {xs: 20, md: 22, lg: 24, xl: 28}}}>
                         {loading ? <Skeleton/> : `Micro planes`}
                     </Typography>
+                    {
+                        ( formik.errors.microPlans !== undefined && !Array.isArray(formik.errors.microPlans)) &&
+                        <Box sx={{display: 'flex'}}>
+                            <WarningAmberRounded color='error' sx={{mr: 1}}/>
+                            <Typography color='error'>
+                                {formik.errors.microPlans}
+                            </Typography>
+                        </Box>
+                    }
 
                     <PlanMicroPlansTable
                         loading={loading}
