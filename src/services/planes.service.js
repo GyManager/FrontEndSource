@@ -7,11 +7,16 @@ const API_PATH_CLIENTE = "/clientes";
 const API_PATH_PLANES = "/planes";
 
 
-const getPlanesByIdCliente = (idCliente) => {
+const getPlanesByIdCliente = (idCliente, state) => {
+    let params = {}
+    if(state !== undefined){
+        params['planesFilter'] = state;
+    }
     const options =  {
         headers: {
             'Authorization': `Bearer ${access_token}`
-        }
+        },
+        params
     }
 
     return axios.get(API_URL + API_PATH_CLIENTE + `/${idCliente}` + API_PATH_PLANES, options)

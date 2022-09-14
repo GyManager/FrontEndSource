@@ -20,7 +20,11 @@ export default function Planes(props){
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const respuesta = await planesService.getPlanesByIdCliente(props.idCliente);
+            let filter = props.tipo === 'vigentes' ? 'ACTIVOS' :
+                props.tipo === 'futuros' ? 'FUTUROS' :
+                props.tipo === 'vencidos' ? 'VENCIDOS' :
+                'TODOS'
+            const respuesta = await planesService.getPlanesByIdCliente(props.idCliente, filter);
             setLoading(false)
             if (respuesta instanceof AxiosError) {
                 console.log(respuesta)
@@ -33,22 +37,24 @@ export default function Planes(props){
 
     return (
         <Box>
-            <Typography sx={{fontSize: { xs: 20, md: 24}}}>Planes</Typography>
+            <Typography sx={{fontSize: { xs: 20, md: 24}}}>Planes {props.tipo}</Typography>
             {
                 loading ? <Skeleton/> :
                     planes.map(plan => (
                         <PlanListMember key={plan.idPlan} {...plan} idCliente={props.idCliente}/>
                     ))
             }
-            <Button
-                size='medium'
-                variant='contained'
-                sx={{ maxWidth:{ xs:'100%', md:'30%'}, mt: 2}}
-                startIcon={<Add />}
-                onClick={() => navigate(`/clientes/${props.idCliente}/planes/new`)}
-            >
-                Nuevo plan
-            </Button>
+            { !loading && planes.length === 0 &&
+                <Button
+                    size='medium'
+                    variant='contained'
+                    sx={{ maxWidth:{ xs:'100%', md:'30%'}, mt: 2}}
+                    startIcon={<Add />}
+                    onClick={() => navigate(`/clientes/${props.idCliente}/planes/new`)}
+                >
+                    Nuevo plan
+                </Button>
+            }
         </Box>
     )    
 }

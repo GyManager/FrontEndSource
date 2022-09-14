@@ -341,7 +341,9 @@ function Client() {
 
                         { clienteId !== 'new' &&
                             <Paper {...paperStyle}>
-                                <Planes idCliente={clienteId}/>
+                                <Planes idCliente={clienteId} tipo='vigentes'/>
+                                <br/>
+                                <Planes idCliente={clienteId} tipo='futuros'/>
                             </Paper>
                         }
 
