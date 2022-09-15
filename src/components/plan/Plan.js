@@ -94,9 +94,7 @@ export default function Plan() {
 
     const confirmSubmit = (e) => {
         e?.preventDefault();
-        console.log(formik.values.fechaDesde < new Date(clientePlanesSummary.fechaHastaPlanVigente))
-        console.log(formik.values.fechaDesde)
-        console.log(new Date(clientePlanesSummary.fechaHastaPlanVigente))
+        
         if(formik.values.fechaDesde < new Date(clientePlanesSummary.fechaHastaPlanVigente) 
             && idPlan != clientePlanesSummary.idPlanVigente){
             setShowAlertPlanVigente(true);
