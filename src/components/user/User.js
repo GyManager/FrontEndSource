@@ -12,8 +12,7 @@ import GenericModal from '../reusable/GenericModal'
 
 // import { , Breadcumbs, GenericComboBox, Modal } from '../reusable/'
 
-import ButtonClientMobile from './ButtonClientMobile';
-import ButtonClientDesktop from './ButtonClientDesktop';
+import ButtonsUser from './ButtonsUser';
 import SeccionRoles from './SeccionRoles'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -101,14 +100,14 @@ function User() {
         }
     }
 
-    const deleteCliente = async () => {
-        const respuesta = await usersService.deleteClientById(idUsuario);
-        handleRespuesta(respuesta, 'El cliente ha sido borrado con exito')
+    const deleteUsuario = async () => {
+        const respuesta = await usersService.deleteUserById(idUsuario);
+        handleRespuesta(respuesta, 'El usuario ha sido borrado con exito')
     }
 
     const handleRespuesta = (respuesta, mensaje) => {
         if (respuesta instanceof AxiosError) {
-            setModalMsj(respuesta.response.data.message)
+            setModalMsj('Error en la respuesta ' + respuesta.response.data.message)
             setOpenModal(true)
         } else {
             setOpenModal(true)
@@ -182,7 +181,7 @@ function User() {
                         display: { xs: 'none', sm: 'none', md: 'inline-block' },
                         justifyContent: 'right'
                     }}>
-                        <ButtonClientDesktop
+                        <ButtonsUser
                             editable={editable}
                             handleEditClick={() => setEditable(true)}
                             handleDeleteClick={handleClickOpenAlertDialog}
@@ -278,14 +277,6 @@ function User() {
 
                     </div>
                 </Box>
-                <ButtonClientMobile
-                    editable={editable}
-                    handleEditClick={() => setEditable(true)}
-                    handleDeleteClick={deleteCliente}
-                    handleCancelEdit={handleCancelEdit}
-                    idUsuario={idUsuario}
-                    handleSubmit={formik.handleSubmit}
-                />
             </form>
             <GenericModal
                 show={openModal}
@@ -302,7 +293,7 @@ function User() {
                 content='¿Seguro desea eliminarlo?'
                 buttonTextAccept='Borrar'
                 buttonTextDeny='Cancelar'
-                buttonActionAccept={deleteCliente}
+                buttonActionAccept={deleteUsuario}
             >
                 <DeleteForeverIcon color="warning" fontSize="medium" />
             </AlertDialog>

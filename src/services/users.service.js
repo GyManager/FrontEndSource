@@ -68,8 +68,8 @@ const putUser = (usuario, idUsuario) => {
     })
 }
 
-const deleteClientById = (idCliente) => {
-    return axios.delete(API_URL + '/clientes/' + idCliente,
+const deleteUserById = (idUsuario) => {
+    return axios.delete(API_URL + '/usuarios/' + idUsuario,
         {
             headers: { 'Authorization': `Bearer ${access_token}` }
         }
@@ -94,24 +94,6 @@ const getUserById = (id) => {
         }
         )
         .then((response) => {
-            // const usu = response.data
-            // const usuariosPlano = {
-            //     "direccion": usu.direccion,
-            //     "fechaNacimiento": usu.fechaNacimiento,
-            //     "idCliente": usu.idCliente,
-            //     "objetivo": usu.objetivo,
-            //     "observaciones": usu.observaciones,
-            //     "idUsuario": usu.usuario.idUsuario,
-            //     "numeroDocumento": usu.usuario.numeroDocumento,
-            //     "tipoDocumento": usu.usuario.tipoDocumento,
-            //     "apellido": usu.usuario.apellido,
-            //     "nombre": usu.usuario.nombre,
-            //     "sexo": usu.usuario.sexo,
-            //     "mail": usu.usuario.mail,
-            //     "celular": usu.usuario.celular,
-            //     "fechaAlta": usu.usuario.fechaAlta,
-            //     "fechaBaja": usu.usuario.fechaBaja
-            // }
             return response.data
         }
         )
@@ -140,8 +122,12 @@ const handleError = (error) => {
         console.log("Error in response, message: ", error.response.data);
         console.log("Status code: ", error.response.status);
         console.log("Headers: ", error.response.headers);
-        if (error.response.status === 403) {
+        // if (error.response.status === 403) {
+        if (error.response.status === 401) {
             authService.refreshToken()
+        }
+        if (error.response.status === 403) {
+            console.log('error 403 el Usuario esta asociado a un cliente')
         }
     } else if (error.request) {
         console.log("Error in request:", error.request);
@@ -155,7 +141,7 @@ const clientsService = {
     getUsers,
     getUserById,
     putUser,
-    deleteClientById,
+    deleteUserById,
     postUser,
     getAllRoles
 }

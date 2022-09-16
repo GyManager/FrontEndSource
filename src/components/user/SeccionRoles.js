@@ -8,7 +8,6 @@ import { MultipleSelectChipV2 } from '../reusable';
 import { Grid, Typography } from '@mui/material';
 
 export default function SeccionRoles(props) {
-  const rolesDeUsuario = props.formikRoles
   const [todosLosRoles, setTodosLosRoles] = useState([])
 
   useEffect(() => {
@@ -21,9 +20,6 @@ export default function SeccionRoles(props) {
 
   }, [])
 
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
-  };
   return (
     <>
       <Grid item xs={12} container>
@@ -39,7 +35,6 @@ export default function SeccionRoles(props) {
             <MultipleSelectChipV2
               label="Seleccione el permisos"
               opcionesSeleccionadas={props.formikRoles}
-              // setOpcionesSeleccionadas={props.formikSetRoles}
               formik={props.formik}
               opcionesTodas={todosLosRoles}
             />
@@ -48,7 +43,7 @@ export default function SeccionRoles(props) {
 
               {props.formikRoles.map(unRol => {
                 return (
-                  <Chip label={unRol} onDelete={handleDelete} />
+                  <Chip label={unRol} />
                 )
               })}
             </Stack>}

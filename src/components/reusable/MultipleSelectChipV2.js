@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
+import {
+  Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Chip
+} from '@mui/material';
+import zIndex from '@mui/material/styles/zIndex';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -35,12 +32,7 @@ export default function MultipleSelectChip(props) {
   const [opcionesSeleccionadas, setOpcionesSeleccionadas] = useState([...props.opcionesSeleccionadas]);
   const theme = useTheme();
 
-  const subirEstadoOpcionesSeleccionadas = (array) => {
-    props.setOpcionesSeleccionadas('roles', array, false)
-  }
-
   useEffect(() => {
-    // subirEstadoOpcionesSeleccionadas(opcionesSeleccionadas)
     props.formik.setFieldValue('roles', opcionesSeleccionadas || '', false)
   }, [opcionesSeleccionadas])
 
@@ -69,7 +61,10 @@ export default function MultipleSelectChip(props) {
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip 
+                key={value}
+                  label={value}
+                   />
               ))}
             </Box>
           )}
@@ -91,14 +86,25 @@ export default function MultipleSelectChip(props) {
 }
 
 
-// En el padre (es reutilizable solo pasar props)
+// En el padre
 // Se necesita el estado de las opciones que ya estan seleccionadas
 // [opcionesSeleccionadas, setOpcionesSeleccionadas] = useState([])
 // Se necesita consultar a la base todas las opciones disponibles
 
 // <MultipleSelectChipV2
-//               label=""
-//               opcionesSeleccionadas=[""] // Viene de consulta
-//               setOpcionesSeleccionadas= funcion set del estado
-//               opcionesTodas= [""]
+// Las siguientes son los tipos de las props que debe recibir
+//               label:"Titulo"
+//               opcionesSeleccionadas:[""] // normalmente viene de un getOptionById
+//               formik:{objetoFormik} funcion set del estado // Pasar el elemento formik
+//               opcionesTodas: [""]  //normalmente viene de un getallOptions
 //             />
+
+/*
+//Ejemplo:
+<MultipleSelectChipV2
+  label="Seleccione el permisos"
+  opcionesSeleccionadas={props.formikRoles}
+  formik={props.formik}
+  opcionesTodas={todosLosRoles}
+/>
+*/
