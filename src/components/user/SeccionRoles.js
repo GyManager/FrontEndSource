@@ -16,8 +16,6 @@ export default function SeccionRoles(props) {
       setTodosLosRoles(await todosLosRoles)
     }
     getAllRoles()
-    // todosLosRoles = getAllRoles()
-
   }, [])
 
   return (
@@ -35,7 +33,7 @@ export default function SeccionRoles(props) {
             <MultipleSelectChipV2
               label="Seleccione el permisos"
               opcionesSeleccionadas={props.formikRoles}
-              formik={props.formik}
+              setOpcionesSeleccionadas={props.formikSetRoles}
               opcionesTodas={todosLosRoles}
             />
             :

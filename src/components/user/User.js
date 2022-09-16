@@ -268,10 +268,10 @@ function User() {
 
                         <Paper {...paperStyle}>
                             <SeccionRoles
-                                formik={formik}
                                 formikRoles={formik.values.roles}
-                                // formikSetRoles={formik.setFieldValue}
+                                formikSetRoles={formik.setFieldValue}
                                 editable={editable}
+                                // formik={formik}
                             />
                         </Paper>
 

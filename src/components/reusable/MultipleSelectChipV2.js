@@ -33,7 +33,8 @@ export default function MultipleSelectChip(props) {
   const theme = useTheme();
 
   useEffect(() => {
-    props.formik.setFieldValue('roles', opcionesSeleccionadas || '', false)
+    //La siguiente es la funcion formik.setFieldValue que viene por props
+    props.setOpcionesSeleccionadas('roles', opcionesSeleccionadas || '', false)
   }, [opcionesSeleccionadas])
 
   const handleChange = (event) => {
@@ -95,16 +96,16 @@ export default function MultipleSelectChip(props) {
 // Las siguientes son los tipos de las props que debe recibir
 //               label:"Titulo"
 //               opcionesSeleccionadas:[""] // normalmente viene de un getOptionById
-//               formik:{objetoFormik} funcion set del estado // Pasar el elemento formik
+//               setOpcionesSeleccionadas:{formik.setFieldValue} funcion set del estado formik
 //               opcionesTodas: [""]  //normalmente viene de un getallOptions
 //             />
 
 /*
 //Ejemplo:
 <MultipleSelectChipV2
-  label="Seleccione el permisos"
-  opcionesSeleccionadas={props.formikRoles}
-  formik={props.formik}
+  label="Seleccione los permisos"
+  opcionesSeleccionadas={props.values.formikRoles}
+  setOpcionesSeleccionadas={props.formik.setFieldValue}
   opcionesTodas={todosLosRoles}
 />
 */
