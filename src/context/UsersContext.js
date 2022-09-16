@@ -5,7 +5,6 @@ const dataFixed = ''
 
 export const UsersContext = createContext();
 
-// export const DataProvider = ({ children }) => {
 export const UsersProvider = ({ children }) => {
     const [dataSnackbar, setDataSnackbar] = useState(dataFixed)
 

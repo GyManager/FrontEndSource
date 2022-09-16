@@ -17,6 +17,7 @@ import ButtonAddUsersDesktop from './ButtonAddUsersDesktop'
 import SearchBar from './SearchBar'
 import TableUsers from './TableUsers'
 
+
 export default function Users() {
 
     const isMediumDevice = useMediaQuery('(max-width:900px');
@@ -35,33 +36,33 @@ export default function Users() {
     //Estados del Snackbar
     const { dataSnackbar, setDataSnackbar } = useContext(UsersContext)
     const [openSnackbar, setOpenSnackbar] = useState();
-
+    
     // Importo el value data que se define en el contextProvider, podria ser
     // otro estado o metodo
-
+    
     const [usuarios, setUsuarios] = useState([{}]);
     const [usuariosTotal, setUsuariosTotal] = useState(() => 0)
-
+    
     const [page, setPage] = useState(() => 0);
     const [rowsPerPage, setRowsPerPage] = useState(() => isMediumDevice ? 10 : 15);
     const [valueToSearch, setValueToSearch] = useState('');
-
+    
     const searchUsuarios = (newValueToSearch) => {
         console.log('searchUsuarios')
         setValueToSearch(newValueToSearch)
         setPage(0)
     }
-
+    
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
     }
-
+    
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(event.target.value)
         setPage(0)
     }
-
-
+    
+    
     useEffect(() => {
         const fetchData = async () => {
             setOpenBackdrop(true)
@@ -78,11 +79,11 @@ export default function Users() {
         fetchData();
         setOpenSnackbar(dataSnackbar !== '' ? true : false)
         setTimeout(() => setDataSnackbar(''), 6100)
-
+        
     }, [valueToSearch, rowsPerPage, page, dataSnackbar, setDataSnackbar])
-
+    
     return (
-
+        
         <Box sx={{
             display: 'flex', flexwrap: 'wrap',
         }}
