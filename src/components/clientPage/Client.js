@@ -92,10 +92,10 @@ function Client() {
             "usuario": {
                 "numeroDocumento": Number(formik.values.numeroDocumento),
                 "tipoDocumento": formik.values.tipoDocumento,
-                "nombre": formik.values.nombre,
-                "apellido": formik.values.apellido,
+                "nombre": formik.values.nombre.trim(),
+                "apellido": formik.values.apellido.trim(),
                 "sexo": formik.values.sexo,
-                "mail": formik.values.mail,
+                "mail": formik.values.mail.trim(),
                 "celular": Number(formik.values.celular)
             },
             "objetivo": formik.values.objetivo,

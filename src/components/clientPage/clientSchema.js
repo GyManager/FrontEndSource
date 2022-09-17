@@ -16,16 +16,12 @@ const validationSchema = yup.object({
     nombre: yup.string()
         .required('El nombre es obligatorio')
         .max(50, 'El nombre tiene como maximo 50 caracteres')
-        .matches(/^[\w]/g, 'El nombre no puede empezar con un caracter vacio')
-        .matches(/[\w]$/g, 'El nombre no puede terminar en un espacio vacio')
-        .matches(/^[aA-zZ\s]+$/, 'El nombre no puede tener numeros')
+        .matches(/^[^0-9]+$/, 'El nombre no puede tener numeros')
     ,
     apellido: yup.string()
         .required('El apellido es obligatorio')
         .max(50, 'El apellido tiene como maximo 50 caracteres')
-        .matches(/^[\w]/g, 'El apellido no puede empezar con un caracter vacio')
-        .matches(/[\w]$/g, 'El apellido no puede terminar en un espacio vacio')
-        .matches(/^[aA-zZ\s]+$/, 'El nombre no puede tener numeros'),
+        .matches(/^[^0-9]+$/, 'El nombre no puede tener numeros'),
     mail: yup.string()
         .email('El campo debe tener un email valido')
         .required('El email es obligatorio')
