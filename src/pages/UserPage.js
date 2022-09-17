@@ -2,7 +2,6 @@ import React from 'react'
 
 import { Container, Paper } from '@mui/material/';
 import User from '../components/user/User';
-import { UsersProvider } from '../context/UsersContext'
 
 export default function UserPage() {
     return (
@@ -14,9 +13,7 @@ export default function UserPage() {
                     mb: 1
                 }}
             >
-                <UsersProvider>
                     <User />
-                </UsersProvider>
             </Paper>
         </Container>
     )

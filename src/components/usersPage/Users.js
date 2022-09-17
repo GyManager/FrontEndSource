@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { AxiosError } from 'axios'
 
 // Imports Data
-import { UsersContext } from "../../context/UsersContext";
+import { DataContext } from "../../context/DataContext";
 import usersService from '../../services/users.service'
 
 // Imports Vista
@@ -34,7 +34,7 @@ export default function Users() {
     };
 
     //Estados del Snackbar
-    const { dataSnackbar, setDataSnackbar } = useContext(UsersContext)
+    const { dataSnackbar, setDataSnackbar } = useContext(DataContext)
     const [openSnackbar, setOpenSnackbar] = useState();
     
     // Importo el value data que se define en el contextProvider, podria ser
@@ -46,6 +46,8 @@ export default function Users() {
     const [page, setPage] = useState(() => 0);
     const [rowsPerPage, setRowsPerPage] = useState(() => isMediumDevice ? 10 : 15);
     const [valueToSearch, setValueToSearch] = useState('');
+
+    console.log(dataSnackbar)
     
     const searchUsuarios = (newValueToSearch) => {
         console.log('searchUsuarios')

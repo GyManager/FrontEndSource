@@ -19,7 +19,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 // Imports Datos
 import usersService from '../../services/users.service';
 import userSchema from './userSchema';
-import { UsersContext } from "../../context/UsersContext";
+import { DataContext } from "../../context/DataContext";
 
 function User() {
     // Estados de Formik
@@ -31,7 +31,7 @@ function User() {
             apellido: "",
             mail: "",
             celular: "",
-            roles: [""]
+            roles: []
         },
         validationSchema: userSchema.validationSchema,
         onSubmit: () => {
@@ -51,7 +51,7 @@ function User() {
     };
 
     // Estados compartidos del Snackbar (Contexto)
-    const { setDataSnackbar } = useContext(UsersContext)
+    const { setDataSnackbar } = useContext(DataContext)
 
     // Variables generales
     const navigate = useNavigate()
@@ -80,7 +80,6 @@ function User() {
         e?.preventDefault();
         //TODO HACER ESTE MAPEO DESDE EL SERVICE??? Hay que mandar la info...
         const usuarioSubmit = {
-            "usuario": {
                 "numeroDocumento": Number(formik.values.numeroDocumento),
                 "tipoDocumento": formik.values.tipoDocumento,
                 "nombre": formik.values.nombre,
@@ -88,14 +87,12 @@ function User() {
                 "mail": formik.values.mail,
                 "celular": Number(formik.values.celular),
                 "roles": formik.values.roles
-            },
         }
-        console.log('submit', usuarioSubmit)
         if (idUsuario === 'new') {
-            const respuesta = await usersService.postUser(usuarioSubmit.usuario)
+            const respuesta = await usersService.postUser(usuarioSubmit)
             handleRespuesta(respuesta, 'El usuario ha sido creado con exito')
         } else {
-            const respuesta = await usersService.putUser(usuarioSubmit.usuario, idUsuario)
+            const respuesta = await usersService.putUser(usuarioSubmit, idUsuario)
             handleRespuesta(respuesta, 'El usuario ha sido modificado con exito')
         }
     }
@@ -112,9 +109,12 @@ function User() {
         } else {
             setOpenModal(true)
             navigate("/usuarios")
+            console.log(mensaje)
             setDataSnackbar(mensaje)
         }
+        AlertDialog(respuesta)
     }
+    // console.log(userDataSnackbar)
 
     const handleCancelEdit = () => {
         if (idUsuario === 'new') {
@@ -154,8 +154,6 @@ function User() {
         variant: "standard",
         onChange: formik.handleChange
     }
-
-
 
     return (
         <div>
@@ -271,7 +269,6 @@ function User() {
                                 formikRoles={formik.values.roles}
                                 formikSetRoles={formik.setFieldValue}
                                 editable={editable}
-                                // formik={formik}
                             />
                         </Paper>
 
