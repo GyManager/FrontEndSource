@@ -3,9 +3,8 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 
 import {
-  Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Chip
+  Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Chip, Checkbox, ListItemText
 } from '@mui/material';
-import zIndex from '@mui/material/styles/zIndex';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -48,24 +47,33 @@ export default function MultipleSelectChip(props) {
     );
   };
 
+  const handleDelete = () => {
+    console.log('You clicked the delete icon.');
+  };
+
   return (
     <div>
       <FormControl sx={{ m: 1, width: '100%' }}>
-        <InputLabel id="demo-multiple-chip-label">{props.label}</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">
+          {props.label}
+        </InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
-          multiple
+          label={props.label}
           value={opcionesSeleccionadas}
+          multiple
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip 
-                key={value}
+                <Chip
+                  sx={{ zIndex: 255 }}
+                  onDelete={{ handleDelete }}
+                  key={value}
                   label={value}
-                   />
+                />
               ))}
             </Box>
           )}
@@ -77,7 +85,8 @@ export default function MultipleSelectChip(props) {
               value={unaOpcion}
               style={getStyles(unaOpcion, opcionesSeleccionadas, theme)}
             >
-              {unaOpcion}
+              <Checkbox checked={opcionesSeleccionadas.indexOf(unaOpcion) > -1} />
+              <ListItemText primary={unaOpcion} />
             </MenuItem>
           ))}
         </Select>
