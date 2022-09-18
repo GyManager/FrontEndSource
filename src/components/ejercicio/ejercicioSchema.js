@@ -6,18 +6,9 @@ const validationSchema = yup.object({
         .max(300, 'La descripcion tiene como maximo 300 caracteres'),
     tipoDeEjercicio: yup.string()
         .typeError('El tipo de ejercicio debe ser un una cadena de texto')
-        .required('El tipo de ejercicio es obligatorio')
-        ,
-    // pasos: yup.array()
-    //     .of(yup.object()
-    //         .shape({
-    //             descripcion: yup.string().required('La descripcion del paso es obligatoria'),
-    //             image: yup.string().url('Debe proveer una url valida para la imagen') })
-    //         ),
+        .required('El tipo de ejercicio es obligatorio'),
             linkVideo: yup.string().url('Debe proveer una url valida para el video')
                 .typeError('El link del video debe ser un link valido'),
-    //         equipamentoDeEjercicio: yup.array().of(yup.string())
-
 });
 
 const ejercicioSchema = {

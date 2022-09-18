@@ -17,6 +17,9 @@ import ClientPage from './pages/ClientPage'
 import Ejercicios from './components/ejercicios/Ejercicios'
 import EjercicioPage from './pages/EjercicioPage';
 import MicroPlanesPage from './pages/MicroPlanesPage';
+import UsersPage from './pages/UsersPage'
+import UserPage from './pages/UserPage'
+
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -73,6 +76,8 @@ function App() {
                   {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
                   {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
                   {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
+                  {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
+                  {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
                   <Route path="/*" element={<NoAutorizadoPage/>} />
                 </Routes>

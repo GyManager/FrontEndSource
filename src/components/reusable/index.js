@@ -16,6 +16,9 @@ export * from './GenericModal';
 export { default as MultipleSelectChip } from './MultipleSelectChip';
 export * from './MultipleSelectChip';
 
+export { default as MultipleSelectChipV2 } from './MultipleSelectChipV2';
+export * from './MultipleSelectChipV2';
+
 export { default as Snackbar } from './Snackbar';
 export * from './Snackbar';
 
