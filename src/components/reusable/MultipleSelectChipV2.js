@@ -47,30 +47,23 @@ export default function MultipleSelectChip(props) {
     );
   };
 
-  const handleDelete = () => {
-    console.log('You clicked the delete icon.');
-  };
-
   return (
     <div>
       <FormControl sx={{ m: 1, width: '100%' }}>
-        <InputLabel id="demo-multiple-chip-label">
+        <InputLabel id="demo-multiple-chip-label" htmlFor="demo-multiple-chip">
           {props.label}
         </InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
-          label={props.label}
           value={opcionesSeleccionadas}
           multiple
           onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          input={<OutlinedInput id="demo-multiple-chip" label={props.label} />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
                 <Chip
-                  sx={{ zIndex: 255 }}
-                  onDelete={{ handleDelete }}
                   key={value}
                   label={value}
                 />
