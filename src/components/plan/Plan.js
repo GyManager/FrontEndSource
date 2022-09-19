@@ -84,7 +84,9 @@ export default function Plan() {
             } else {
                 if(idPlan === 'new'){
                     formik.setFieldValue(`objetivo`, respuesta.objetivo, false)
-                    formik.setFieldValue(`fechaDesde`, respuesta.fechaHastaPlanVigente, false)
+                    if(respuesta.fechaHastaPlanVigente !== null && respuesta.fechaHastaPlanVigente !== undefined) {
+                        formik.setFieldValue(`fechaDesde`, new Date(respuesta.fechaHastaPlanVigente), false)
+                    }
                 } 
                 setClientePlanesSummary(respuesta);
             }
