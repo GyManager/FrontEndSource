@@ -17,7 +17,7 @@ export default function TablesClient(props) {
 
   const navigate = useNavigate()
 
-  const isMediumDevice = useMediaQuery('(max-width:900px');
+  const isMediumDevice = useMediaQuery('max-width:900px');
 
   const handleClickRow = (id) => {
     navigate('/clientes/' + id)
