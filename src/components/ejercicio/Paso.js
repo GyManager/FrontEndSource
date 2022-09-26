@@ -43,15 +43,15 @@ function Paso(props) {
         <>
             <Grid container
                 alignItems='center' justifyContent='space-around'
-                sx={{ minHeight: '20vh' }}>
-                <Grid item xs={1} >
+                sx={{ minHeight: '20vh'}}>
+                <Grid container item xs={12} sm={2} justifyContent='center' >
                     <ImagePicker
                         index={props.index}
                         imagen={props.imagen}
                     />
                 </Grid>
-                <Grid item xs={1} {...editableDisplay}  >
-                    <Grid container direction="column" justifyContent='center' alignItems='center'>
+                <Grid container item xs={1} direction="column" justifyContent='center' alignItems='center' {...editableDisplay}  >
+                    {/* <Grid container direction="column" justifyContent='center' alignItems='center'> */}
                         <Grid item>
                             <Button {...ButtonStyle}
                                 id={'ButtonMoveUpTest' + props.index}
@@ -66,17 +66,17 @@ function Paso(props) {
 
                         </Grid>
                         <Grid item>
-                            <Button {...ButtonStyle}
+                            <Button {...ButtonStyle} sx={{width:'20'}}
                                 id={'ButtonMoveDownTest' + props.index}
                                 onClick={() => props.handleBajarPaso(props.nroPaso)}>
                                 <ArrowDownward fontSize='small' />
                             </Button>
                         </Grid>
-                    </Grid>
+                    {/* </Grid> */}
                 </Grid>
 
-                <Grid item xs={8}>
-                    <Grid container justifyContent='center' >
+                <Grid container justifyContent='center' item xs={8}>
+                    {/* <Grid  > */}
                         <TextField
                             fullWidth
                             {...TextFieldStyle}
@@ -88,11 +88,11 @@ function Paso(props) {
                             helperText={formik.touched.descripcion && formik.errors.descripcion}
                             multiline={true}
                         />
-                    </Grid>
+                    {/* </Grid> */}
                 </Grid>
 
-                <Grid item xs={1} {...editableDisplay}>
-                    <Grid container direction='column' justifyContent='flex-start'>
+                <Grid container direction='column' item xs={1} {...editableDisplay}>
+                    {/* <Grid container direction='column' > */}
                         <Button
                          id={'ButtonDeletePasoTest'+props.index}
                             {...ImgButtonStyle}
@@ -102,7 +102,7 @@ function Paso(props) {
                             onClick={() => props.handleDelete(props.nroPaso)} >
                             <Delete fontSize='small' />
                         </Button>
-                    </Grid>
+                    {/* </Grid> */}
                 </Grid>
 
             </Grid>
