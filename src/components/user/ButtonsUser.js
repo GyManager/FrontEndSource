@@ -51,13 +51,13 @@ export default function ButtonsUser(props) {
 
             {props.clienteId !== 'new' && !props.editable &&
                 <Button
-                id='borrarCliente'
+                id='borrarUsuario'
                     {...buttonCommonProperties}
                     onClick={props.handleDeleteClick}
                     startIcon={<Delete />}
                     color="secondary"
                 >
-                    Borrar
+                    {process.env.REACT_APP_LOGICAL_DELETE ? 'Desactivar' : 'Borrar'}
                 </Button>
             }
         </div>

@@ -57,7 +57,7 @@ export default function ButtonClientDesktop(props) {
                     startIcon={<Delete />}
                     color="secondary"
                 >
-                    Borrar
+                    {process.env.REACT_APP_LOGICAL_DELETE ? 'Desactivar' : 'Borrar'}
                 </Button>
             }
         </div>
