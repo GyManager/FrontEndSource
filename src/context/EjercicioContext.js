@@ -51,11 +51,14 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
 
   const handleRespuesta = (res, msj) => {
-    console.log(res)
     if (res instanceof AxiosError) {
-      setModalMsj(res?.message)
+      // setModalMsj(res?.message)
+      setModalMsj(res.response.data.errors.map((error) => {
+        return <p>{error.defaultMessage}</p>;
+      }));
       setOpenModal(true)
     } else {
+      setEditable(false)
       addSnackbar({ message: msj, severity: "success", duration: 3000 })
       navigate('/ejercicios')
     }
@@ -64,8 +67,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   const handleSubmit = async (e) => {
     e?.preventDefault();
-    console.log('hola')
-    setEditable(false)
 
     const ejercicio = {
       "nombre": formik.values.nombre.trim(),
@@ -81,7 +82,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       const res = await ejerciciosService.putEjercicio(ejercicio, idEjercicio)
       handleRespuesta(res, 'Ejercicio actualizado exitosamente')
     }
-    console.log(formik.values.pasos)
+  
   }
 
   // getEjercicioById
