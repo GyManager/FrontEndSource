@@ -1,4 +1,4 @@
-import { Avatar, TableCell, TableRow } from "@mui/material";
+import { Avatar, Chip, TableCell, TableRow } from "@mui/material";
 
 
 export default function TablesClientRow(props) {
@@ -13,7 +13,7 @@ export default function TablesClientRow(props) {
             <TableCell align='left' key={"apellido"}> {props.apellido}</TableCell>
             <TableCell align='left' key={"numdoc"}> {props.numeroDocumento}</TableCell>
             { !props.isMediumDevice && <TableCell align='left' key={"mail"}> {props.mail}</TableCell> }
-            { !props.isMediumDevice && <TableCell align='left' key={"estado"}> {props.estado}</TableCell> }
+            { !props.isMediumDevice && <TableCell align='left' key={"estado"}> <Chip label={props.clienteEstado}/></TableCell> }
         </TableRow>
     )
 }

@@ -137,7 +137,6 @@ export default function MicroPlan(props) {
         if (idMicroPlan === 'new') {
             setEditable(true)
         } else if (!props.esTemplate) {
-            setEditable(true)
             if(props.idMicroPlan){
                 getMicroPlanById(props.idMicroPlan)
             }
@@ -182,6 +181,7 @@ export default function MicroPlan(props) {
                     handleSubmit={formik.handleSubmit}
                     submitMessage={props.submitMessage}
                     id={idMicroPlan}
+                    viewModeOnly={!editable && !props.esTemplate}
                     deleteAlertTitle={`Está por eliminar el micro plan ${formik.values.nombre}`}
                 />
             </Box>
