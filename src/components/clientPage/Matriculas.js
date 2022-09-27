@@ -1,14 +1,12 @@
 import {
     Box,
-    Card,
-    CardContent,
-    CardHeader,
     Skeleton,
     Typography,
 } from "@mui/material";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import matriculasService from "../../services/matriculas.service";
+import Matricula from "./Matricula";
 
 /**
  *
@@ -47,28 +45,31 @@ export default function Matriculas(props) {
 
     return (
         <Box>
-            <Typography sx={{ fontSize: { xs: 20, md: 24 } }}>Matricula del cliente</Typography>
-            <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>Estado: {props.clienteEstado}</Typography>
+            <Typography sx={{ fontSize: { xs: 20, md: 24 } }}>
+                Matricula del cliente
+            </Typography>
+            <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
+                Estado: {props.clienteEstado}
+            </Typography>
             {loading && <Skeleton />}
             {!loading &&
                 matriculaVigente !== null &&
                 matriculaVigente !== undefined && (
-                    <Card>
-                        <CardHeader
-                            title={"Matricula Vigente"}
-                            titleTypographyProps={{ variant: "h6" }}
-                        />
-                        <CardContent sx={{ pt: 0 }}>
-                            <Typography variant="p">
-                                Fecha de pago: {matriculaVigente.fechaPago}
-                                <br />
-                                Fecha de inicio: {matriculaVigente.fechaInicio}
-                                <br />
-                                Fecha de vencimiento:{" "}
-                                {matriculaVigente.fechaVencimiento}
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                    <Matricula
+                        title="Matricula Vigente"
+                        {...matriculaVigente}
+                    />
+                )}
+            {!loading &&
+                matriculasFuturas !== null &&
+                matriculasFuturas !== undefined && 
+                matriculasFuturas.length > 0 && 
+                matriculasFuturas.map( matricula => 
+                    <Matricula
+                        title="Matricula Siguiente"
+                        collapsable
+                        {...matricula}
+                    />
                 )}
         </Box>
     );
