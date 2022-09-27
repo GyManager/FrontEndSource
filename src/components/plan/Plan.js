@@ -43,6 +43,8 @@ export default function Plan() {
     const [clientePlanesSummary, setClientePlanesSummary] = useState({})
     const [showAlertPlanVigente, setShowAlertPlanVigente] = useState(false)
 
+    const [editable, setEditable] = useState(() => idPlan === 'new');
+
     const formik = useFormik({
         initialValues: {
             descripcion: "",
@@ -59,20 +61,21 @@ export default function Plan() {
     const cantidadSemanas = formik.values.microPlans.flatMap(microPlan => microPlan.observaciones).length;
     const fechaHasta = Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000);
 
+    const getPlanById = async () => {
+        setLoading(true)
+        const respuesta = await planesService.getPlanById(idPlan);
+        setLoading(false)
+        if (respuesta instanceof AxiosError) {
+            console.log(respuesta)
+        } else {
+            respuesta.microPlans = respuesta.microPlans.sort((a,b) => a.numeroOrden - b.numeroOrden)
+            formik.setValues(respuesta, false)
+        }
+    }
+
     useEffect(() => {
         if (idPlan !== 'new') {
-            const fetchData = async () => {
-                setLoading(true)
-                const respuesta = await planesService.getPlanById(idPlan);
-                setLoading(false)
-                if (respuesta instanceof AxiosError) {
-                    console.log(respuesta)
-                } else {
-                    respuesta.microPlans = respuesta.microPlans.sort((a,b) => a.numeroOrden - b.numeroOrden)
-                    formik.setValues(respuesta, false)
-                }
-            }
-            fetchData();
+            getPlanById();
         }
     }, [idPlan])
 
@@ -128,7 +131,12 @@ export default function Plan() {
     }
 
     const handleCancel = () => {
-        navigate(`/clientes/${clienteId}`)
+        if (idPlan === 'new') {
+            navigate(`/clientes/${clienteId}`)
+        } else {
+            setEditable(false)
+            getPlanById(idPlan)
+        }
     }
 
     const handleRespuesta = (respuesta, mensaje) => {
@@ -264,7 +272,7 @@ export default function Plan() {
         return (
             <MicroPlan
                 esTemplate={false}
-                editable={true}
+                editable={editable}
                 microPlan={microPlanEditado}
                 idMicroPlan={idMicroPlanEdicion}
                 handleSubmit={handleSubmitMicroPlan}
@@ -299,10 +307,10 @@ export default function Plan() {
                         </Typography>
                     </Box>
                     <FormOptions
-                        editable={true}
+                        editable={editable}
+                        handleEditClick={() => setEditable(true)}
                         handleCancelEdit={handleCancel}
                         handleSubmit={formik.handleSubmit}
-                        enableDeleteAlways={(idPlan !== "new")}
                         handleDeleteClick={handleDelete}
                         id={idPlan}
                         deleteAlertTitle="Esta por eliminar el plan"
@@ -318,6 +326,7 @@ export default function Plan() {
                         variant="standard"
                         value={formik.values.descripcion || ''}
                         onChange={formik.handleChange}
+                        disabled={!editable}
                         multiline
                         error={formik.touched.descripcion && Boolean(formik.errors.descripcion)}
                         helperText={formik.touched.descripcion && formik.errors.descripcion}
@@ -338,7 +347,7 @@ export default function Plan() {
                             valueForNone=""
                             labelForNone=""
                             minWidth={250}
-                            editable={true}
+                            editable={editable}
                             errorProp={formik.touched.objetivo  && Boolean(formik.errors.objetivo)}
                             helperTextProp={formik.touched.objetivo && formik.errors.objetivo}
                         />
@@ -358,13 +367,13 @@ export default function Plan() {
                             id="fechaDesde"
                             name="fechaDesde"
                             label="Fecha desde"
-                            editable={true}
+                            editable={editable}
                             onChange={formik.setFieldValue}
                             errorProp={formik.touched.fechaDesde && Boolean(formik.errors.fechaDesde)}
                             helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
                         />
                         <DatePicker
-                            value={fechaHasta || ""}
+                            value={(editable? fechaHasta : formik.values.fechaHasta) || ""}
                             id="fechaHasta"
                             name="fechaHasta"
                             label="Fecha hasta"
@@ -394,11 +403,19 @@ export default function Plan() {
                         handleStartEditObservaciones={handleStartEditObservaciones}
                         handleEditMicroPlan={handleEditMicroPlan}
                         handleDeleteMicroPlan={handleDeleteMicroPlan}
+                        editable={editable}
                     />
 
-                    <Button variant='contained' size='medium' onClick={handleBuscarMicroPlan} startIcon={<Add />}>
-                         Agregar Micro Plan 
-                    </Button>
+                    { editable &&
+                        <Button
+                            variant='contained'
+                            size='medium'
+                            onClick={handleBuscarMicroPlan}
+                            startIcon={<Add />}
+                        >
+                            Agregar Micro Plan 
+                        </Button>
+                    }  
                 </Paper>
             </Paper>
 
