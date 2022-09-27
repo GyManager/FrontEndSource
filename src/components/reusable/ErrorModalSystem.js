@@ -48,9 +48,9 @@ export default function ErrorModalSystem() {
         <Modal
             open={open}
             onClose={handleClose}
-            sx={{display:'flex', alignItems:'center',justifyContent:'center'}}
+            sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
         >
-            <Paper sx={{p:2}}>
+            <Paper sx={{p:2, maxWidth:'50vw'}}>
                 <Typography variant="h5" sx={{mb:2}}>
                     {"Algo salio mal :("}
                 </Typography>
