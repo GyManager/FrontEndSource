@@ -1,10 +1,7 @@
-import {
-    Box,
-    Skeleton,
-    Typography,
-} from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Button, Skeleton, Typography } from "@mui/material";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import matriculasService from "../../services/matriculas.service";
 import Matricula from "./Matricula";
 
@@ -44,7 +41,7 @@ export default function Matriculas(props) {
     );
 
     return (
-        <Box>
+        <Fragment>
             <Typography sx={{ fontSize: { xs: 20, md: 24 } }}>
                 Matricula del cliente
             </Typography>
@@ -62,15 +59,29 @@ export default function Matriculas(props) {
                 )}
             {!loading &&
                 matriculasFuturas !== null &&
-                matriculasFuturas !== undefined && 
-                matriculasFuturas.length > 0 && 
-                matriculasFuturas.map( matricula => 
+                matriculasFuturas !== undefined &&
+                matriculasFuturas.length > 0 &&
+                matriculasFuturas.map((matricula) => (
                     <Matricula
                         title="Matricula Siguiente"
                         collapsable
                         {...matricula}
                     />
+                ))}
+            {!loading &&
+                (matriculasFuturas === null ||
+                    matriculasFuturas === undefined ||
+                    matriculasFuturas.length === 0) && (
+                    <Button
+                        size="medium"
+                        variant="contained"
+                        sx={{ maxWidth: { xs: "100%", md: "55%" }, mt: 2 }}
+                        startIcon={<Add />}
+                        onClick={() => console.log("placeholder")}
+                    >
+                        Agregar matricula
+                    </Button>
                 )}
-        </Box>
+        </Fragment>
     );
 }
