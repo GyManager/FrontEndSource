@@ -10,6 +10,7 @@ import ejerciciosService from '../services/ejercicios.service'
 import ejercicioSchema from '../components/ejercicio/ejercicioSchema'
 
 import { SnackbarContext } from '../context/SnackbarContext'
+import { ErrorContext } from "./ErrorContext";
 
 
 export const EjercicioContext = createContext();
@@ -26,6 +27,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const [openModal, setOpenModal] = useState(false)
   const [modalMsj, setModalMsj] = useState('')
   const handleCloseModal = () => { setOpenModal(false) }
+  const {processErrorMessage} = useContext(ErrorContext)
 
   const formik = useFormik(
     {
@@ -53,8 +55,8 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const handleRespuesta = (res, msj) => {
     console.log(res)
     if (res instanceof AxiosError) {
-      setModalMsj(res?.message)
-      setOpenModal(true)
+      console.log(res)
+      processErrorMessage(res.response.data)
     } else {
       addSnackbar({ message: msj, severity: "success", duration: 3000 })
       navigate('/ejercicios')
