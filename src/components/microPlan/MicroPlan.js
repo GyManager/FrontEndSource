@@ -246,6 +246,7 @@ export default function MicroPlan(props) {
                     sx={{ maxWidth:{ xs:'100%', md:'30%'}}}
                     startIcon={<Add />}
                     onClick={addRutina}
+                    disabled={formik.values.rutinas.length >= 7}
                 >
                     Agregar rutina
                 </Button>

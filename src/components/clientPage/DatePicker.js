@@ -14,7 +14,7 @@ export default function DatePicker(props) {
 
     const datePickerCommonProperties = {
         label: "Fecha de nacimiento",
-        inputFormat: "MM/dd/yyyy",
+        inputFormat: "dd/MM/yyyy",
         readOnly: !props.editable,
         id: "fechaNacimiento",
     }

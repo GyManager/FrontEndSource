@@ -11,35 +11,29 @@ import { AlertDialog, Breadcumbs, GenericComboBox } from '../reusable'
 import GenericModal from '../reusable/GenericModal'
 
 // import { , Breadcumbs, GenericComboBox, Modal } from '../reusable/'
-import DatePicker from './DatePicker'
-import ButtonClientMobile from './ButtonClientMobile';
-import ButtonClientDesktop from './ButtonClientDesktop';
+
+import ButtonsUser from './ButtonsUser';
+import SeccionRoles from './SeccionRoles'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Imports Datos
-import clientsService from '../../services/clients.service';
-import clientSchema from './clientSchema';
-import Matriculas from './Matriculas';
+import usersService from '../../services/users.service';
+import userSchema from './userSchema';
 import { DataContext } from "../../context/DataContext";
-import Planes from '../planes/Planes';
 
-function Client() {
+function User() {
     // Estados de Formik
     const formik = useFormik({
         initialValues: {
-            tipoDocumento: "",
             numeroDocumento: "",
+            tipoDocumento: "",
             nombre: "",
             apellido: "",
-            fechaNacimiento: "",
-            sexo: "",
             mail: "",
             celular: "",
-            direccion: "",
-            objetivo: "",
-            observaciones: ""
+            roles: []
         },
-        validationSchema: clientSchema.validationSchema,
+        validationSchema: userSchema.validationSchema,
         onSubmit: () => {
             handleSubmit()
         },
@@ -61,26 +55,20 @@ function Client() {
 
     // Variables generales
     const navigate = useNavigate()
-    let { clienteId } = useParams();
+    let { idUsuario } = useParams();
     const [editable, setEditable] = useState(false)
-    const [clienteEstado, setClienteEstado] = useState("")
 
-    const getClientById = async () => {
+    const getUserById = async () => {
         try {
-            await clientsService.getClientById(clienteId).then(
+            await usersService.getUserById(idUsuario).then(
                 (persona) => {
                     formik.setFieldValue('numeroDocumento', persona.numeroDocumento || '', false)
                     formik.setFieldValue('tipoDocumento', persona.tipoDocumento || '', false)
                     formik.setFieldValue('apellido', persona.apellido || '', false)
                     formik.setFieldValue('nombre', persona.nombre || '', false)
                     formik.setFieldValue('mail', persona.mail || '', false)
-                    formik.setFieldValue('fechaNacimiento', persona.fechaNacimiento || '', false)
-                    formik.setFieldValue('sexo', persona.sexo || '', false)
-                    formik.setFieldValue('objetivo', persona.objetivo || '', false)
                     formik.setFieldValue('celular', persona.celular || '', false)
-                    formik.setFieldValue('direccion', persona.direccion || '', false)
-                    formik.setFieldValue('observaciones', persona.observaciones || '', false)
-                    setClienteEstado(persona.clienteEstado)
+                    formik.setFieldValue('roles', persona.roles || '', false)
                 }
             )
         } catch (error) {
@@ -91,60 +79,57 @@ function Client() {
     const handleSubmit = async (e) => {
         e?.preventDefault();
         //TODO HACER ESTE MAPEO DESDE EL SERVICE??? Hay que mandar la info...
-        const clienteSubmit = {
-            "usuario": {
+        const usuarioSubmit = {
                 "numeroDocumento": Number(formik.values.numeroDocumento),
                 "tipoDocumento": formik.values.tipoDocumento,
-                "nombre": formik.values.nombre.trim(),
-                "apellido": formik.values.apellido.trim(),
-                "sexo": formik.values.sexo,
-                "mail": formik.values.mail.trim(),
-                "celular": Number(formik.values.celular)
-            },
-            "objetivo": formik.values.objetivo,
-            "direccion": formik.values.direccion,
-            "fechaNacimiento": formik.values.fechaNacimiento,
-            "observaciones": formik.values.observaciones
+                "nombre": formik.values.nombre,
+                "apellido": formik.values.apellido,
+                "mail": formik.values.mail,
+                "celular": Number(formik.values.celular),
+                "roles": formik.values.roles
         }
-        if (clienteId === 'new') {
-            const respuesta = await clientsService.postClient(clienteSubmit)
-            handleRespuesta(respuesta, 'El cliente ha sido creado con exito')
+        if (idUsuario === 'new') {
+            const respuesta = await usersService.postUser(usuarioSubmit)
+            handleRespuesta(respuesta, 'El usuario ha sido creado con exito')
         } else {
-            const respuesta = await clientsService.putClient(clienteSubmit, clienteId)
-            handleRespuesta(respuesta, 'El cliente ha sido modificado con exito')
+            const respuesta = await usersService.putUser(usuarioSubmit, idUsuario)
+            handleRespuesta(respuesta, 'El usuario ha sido modificado con exito')
         }
     }
 
-    const deleteCliente = async () => {
-        const respuesta = await clientsService.deleteClientById(clienteId);
-        handleRespuesta(respuesta, 'El cliente ha sido borrado con exito')
+    const deleteUsuario = async () => {
+        const respuesta = await usersService.deleteUserById(idUsuario);
+        handleRespuesta(respuesta, 'El usuario ha sido borrado con exito')
     }
 
     const handleRespuesta = (respuesta, mensaje) => {
         if (respuesta instanceof AxiosError) {
-            setModalMsj(respuesta.response.data.message)
+            setModalMsj('Error en la respuesta ' + respuesta.response.data.message)
             setOpenModal(true)
         } else {
             setOpenModal(true)
-            navigate("/clientes")
+            navigate("/usuarios")
+            console.log(mensaje)
             setDataSnackbar(mensaje)
         }
+        AlertDialog(respuesta)
     }
+    // console.log(userDataSnackbar)
 
     const handleCancelEdit = () => {
-        if (clienteId === 'new') {
-            navigate("/clientes");
+        if (idUsuario === 'new') {
+            navigate("/usuarios");
         } else {
             setEditable(false)
-            getClientById();
+            getUserById();
         }
     }
 
     useEffect(() => {
-        if (clienteId === 'new') {
+        if (idUsuario === 'new') {
             setEditable(true)
         } else {
-            getClientById()
+            getUserById()
         }
     }, [])
 
@@ -179,27 +164,27 @@ function Client() {
                 >
                     <div>
                         <Breadcumbs
-                            names={['Clientes', 'Cliente']}
-                            urls={['../clientes/']}
+                            names={['Usuarios', 'Usuario']}
+                            urls={['../usuarios/']}
                         />
                         <Typography noWrap={true} sx={{
                             width: { xs: '88vw', md: '45vw', lg: '40vw' },
                             fontSize: { xs: 24, md: 28, lg: 30, xl: 34 },
                             mb: '1vh',
                         }} >
-                            Cliente: {formik.values.nombre} {formik.values.apellido}
+                            Usuario: {formik.values.nombre} {formik.values.apellido}
                         </Typography>
                     </div>
                     <div sx={{
                         display: { xs: 'none', sm: 'none', md: 'inline-block' },
                         justifyContent: 'right'
                     }}>
-                        <ButtonClientDesktop
+                        <ButtonsUser
                             editable={editable}
                             handleEditClick={() => setEditable(true)}
                             handleDeleteClick={handleClickOpenAlertDialog}
                             handleCancelEdit={handleCancelEdit}
-                            clienteId={clienteId}
+                            idUsuario={idUsuario}
                             handleSubmit={formik.handleSubmit}
                         />
                     </div>
@@ -255,27 +240,6 @@ function Client() {
                                 />
                             </Stack>
 
-                            <Stack {...stackStyle} sx={{ mt: 2 }}>
-                                <DatePicker
-                                    calendarValue={formik.values.fechaNacimiento}
-                                    setFieldValue={formik.setFieldValue}
-                                    editable={editable}
-                                    errorProp={formik.touched.fechaNacimiento && Boolean(formik.errors.fechaNacimiento)}
-                                    helperTextProp={formik.touched.fechaNacimiento && formik.errors.fechaNacimiento}
-                                />
-
-                                <GenericComboBox
-                                    label="Sexo"
-                                    id="sexo"
-                                    value={formik.values.sexo}
-                                    handleChange={formik.handleChange}
-                                    editable={editable}
-                                    valueForNone=""
-                                    labelForNone="Seleccionar sexo"
-                                    values={["Masculino", "Femenino", "No especifica"]}
-                                    minWidth={250}
-                                />
-                            </Stack>
                         </Paper>
 
                         <Paper {...paperStyle}>
@@ -297,78 +261,19 @@ function Client() {
                                     error={formik.touched.celular && Boolean(formik.errors.celular)}
                                     helperText={formik.touched.celular && formik.errors.celular}
                                 />
-                                <TextField fullWidth
-                                    {...TextFieldStyle}
-                                    label="Direccion"
-                                    id="direccion"
-                                    value={formik.values.direccion}
-                                    error={formik.touched.direccion && Boolean(formik.errors.direccion)}
-                                    helperText={formik.touched.direccion && formik.errors.direccion}
-                                />
                             </Stack>
                         </Paper>
 
                         <Paper {...paperStyle}>
-                            <Stack direction={'column'} spacing={2}>
-                                <GenericComboBox
-                                    label="Objetivo"
-                                    id="objetivo"
-                                    value={formik.values.objetivo}
-                                    handleChange={formik.handleChange}
-                                    editable={editable}
-                                    valueForNone=""
-                                    labelForNone="Seleccionar objetivo"
-                                    values={["Ganar masa muscular", "Perder peso", "Tonificar", "No especifica"]}
-                                    minWidth={250}
-                                    errorProp={formik.touched.objetivo && Boolean(formik.errors.objetivo)}
-                                    helperTextProp={formik.touched.objetivo && formik.errors.objetivo}
-
-                                />
-                                <TextField fullWidth
-                                    label="Observaciones"
-                                    id="observaciones"
-                                    variant="standard"
-                                    value={formik.values.observaciones}
-                                    onChange={formik.handleChange}
-                                    inputProps={{ readOnly: Boolean(!editable) }}
-                                    multiline
-                                    error={formik.touched.observaciones && Boolean(formik.errors.observaciones)}
-                                    helperText={formik.touched.observaciones && formik.errors.observaciones}
-                                />
-                            </Stack>
+                            <SeccionRoles
+                                formikRoles={formik.values.roles}
+                                formikSetRoles={formik.setFieldValue}
+                                editable={editable}
+                            />
                         </Paper>
 
-                        <Paper elevation={12} hidden>
-                            <Typography>Input - Medidas</Typography>
-                        </Paper>
-
-                        { clienteId !== 'new' &&
-                            <Paper {...paperStyle}>
-                                <Planes idCliente={clienteId} tipo='vigentes'/>
-                                <br/>
-                                <Planes idCliente={clienteId} tipo='futuros'/>
-                            </Paper>
-                        }
-
-                        { clienteId !== 'new' &&
-                            <Paper {...paperStyle}>
-                                <Matriculas 
-                                    idCliente={clienteId}
-                                    clienteEstado={clienteEstado}
-                                />
-                            </Paper>
-                        }
-                        
                     </div>
                 </Box>
-                <ButtonClientMobile
-                    editable={editable}
-                    handleEditClick={() => setEditable(true)}
-                    handleDeleteClick={deleteCliente}
-                    handleCancelEdit={handleCancelEdit}
-                    clienteId={clienteId}
-                    handleSubmit={formik.handleSubmit}
-                />
             </form>
             <GenericModal
                 show={openModal}
@@ -385,11 +290,11 @@ function Client() {
                 content='¿Seguro desea eliminarlo?'
                 buttonTextAccept='Borrar'
                 buttonTextDeny='Cancelar'
-                buttonActionAccept={deleteCliente}
+                buttonActionAccept={deleteUsuario}
             >
                 <DeleteForeverIcon color="warning" fontSize="medium" />
             </AlertDialog>
         </div>
     )
 }
-export default Client
+export default User

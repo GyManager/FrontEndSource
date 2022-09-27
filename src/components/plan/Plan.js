@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Modal, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
-import { Add } from '@mui/icons-material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Modal, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
+import { Add, WarningAmberRounded } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { AxiosError } from 'axios';
 import { ParameterDropdownContext } from '../../context/ParameterDropdownContext';
@@ -40,6 +40,9 @@ export default function Plan() {
     const [editarObservaciones, setEditarObservaciones] = useState(false)
     const [indexObservacionesEdicion, setIndexObservacionesEdicion] = useState()
 
+    const [clientePlanesSummary, setClientePlanesSummary] = useState({})
+    const [showAlertPlanVigente, setShowAlertPlanVigente] = useState(false)
+
     const formik = useFormik({
         initialValues: {
             descripcion: "",
@@ -49,7 +52,7 @@ export default function Plan() {
         },
         validationSchema: planSchema.validationSchema,
         onSubmit: () => {
-            handleSubmit();
+            confirmSubmit();
         },
     });
 
@@ -72,6 +75,35 @@ export default function Plan() {
             fetchData();
         }
     }, [idPlan])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const respuesta = await planesService.getPlaneSummaryByIdCliente(clienteId);
+            if (respuesta instanceof AxiosError) {
+                console.log(respuesta)
+            } else {
+                if(idPlan === 'new'){
+                    formik.setFieldValue(`objetivo`, respuesta.objetivo, false)
+                    if(respuesta.fechaHastaPlanVigente !== null && respuesta.fechaHastaPlanVigente !== undefined) {
+                        formik.setFieldValue(`fechaDesde`, new Date(respuesta.fechaHastaPlanVigente), false)
+                    }
+                } 
+                setClientePlanesSummary(respuesta);
+            }
+        }
+        fetchData();
+    }, [clienteId, idPlan])
+
+    const confirmSubmit = (e) => {
+        e?.preventDefault();
+        
+        if(formik.values.fechaDesde < new Date(clientePlanesSummary.fechaHastaPlanVigente) 
+            && idPlan != clientePlanesSummary.idPlanVigente){
+            setShowAlertPlanVigente(true);
+        } else {
+            handleSubmit(e);
+        }
+    }
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
@@ -346,6 +378,15 @@ export default function Plan() {
                     <Typography sx={{fontSize: {xs: 20, md: 22, lg: 24, xl: 28}}}>
                         {loading ? <Skeleton/> : `Micro planes`}
                     </Typography>
+                    {
+                        ( formik.errors.microPlans !== undefined && !Array.isArray(formik.errors.microPlans)) &&
+                        <Box sx={{display: 'flex'}}>
+                            <WarningAmberRounded color='error' sx={{mr: 1}}/>
+                            <Typography color='error'>
+                                {formik.errors.microPlans}
+                            </Typography>
+                        </Box>
+                    }
 
                     <PlanMicroPlansTable
                         loading={loading}
@@ -388,6 +429,29 @@ export default function Plan() {
                     />
                 </Box>
             </Modal>
+            <Dialog
+                open={showAlertPlanVigente}
+                onClose={() => setShowAlertPlanVigente(false)}
+                sx={{display:'flex', alignItems:'center',justifyContent:'center'}}
+            >
+                <DialogTitle alignItems="center">
+                    Este plan se superpone con el plan vigente
+                </DialogTitle>
+                <DialogContent>
+                    <Stack direction="row" justifyContent="center" alignItems="center">
+                        <DialogContentText>
+                            El plan que esta creando o editando se superpone con el plan vigente el cual termina en la fecha {clientePlanesSummary.fechaHastaAValidar}.
+                            Si desea guardar este plan, el plan vigente tendra como fecha de finalizacion la fecha de inicio de este plan.
+                        </DialogContentText>
+                    </Stack>
+                </DialogContent>
+                <DialogActions sx={{ justifyContent: "space-between" }}>
+                    <Button onClick={() => setShowAlertPlanVigente(false)}>Cancelar</Button>
+                    <Button onClick={handleSubmit}>
+                        Confirmar!
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <FormOptionsSpeedDial
                 editable={true}
                 handleCancelEdit={handleCancel}

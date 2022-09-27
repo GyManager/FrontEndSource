@@ -1,14 +1,6 @@
 import { createContext, useState } from "react";
 
-//Informacion de Hardcodeada inicial
 const dataFixed = ''
-/*
-{
-    
-    nombre: 'Informacion',
-    edad: 'Hardcodeada Inicial'
-}
-*/
 
 export const DataContext = createContext();
 

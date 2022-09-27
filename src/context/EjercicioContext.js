@@ -44,7 +44,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       },
       validationSchema: ejercicioSchema.validationSchema,
       onSubmit: () => {
-        console.log('holas')
         handleSubmit()
       },
     }
@@ -69,7 +68,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
     setEditable(false)
 
     const ejercicio = {
-      "nombre": formik.values.nombre,
+      "nombre": formik.values.nombre.trim(),
       "tipoEjercicio": formik.values.tipoDeEjercicio,
       "video": formik.values.linkVideo,
       "pasos": formik.values.pasos,
@@ -120,10 +119,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       }
     }
     fetchPasosByIdEjercicio(idEjercicio)
-    // }
-    // if (unIdEjercicio) {
-    //   fetchPasosByIdEjercicio(idEjercicio)
-    // }
   }, [])
 
   // getAllEquipamentos
@@ -133,10 +128,8 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       if (res instanceof AxiosError) {
         console.log(res?.message)
       } else {
-        // console.log('clg', res)
         const equipamentoNombres = res.map((unEquipamento) => { return unEquipamento.nombre })
         const orderedEquipamentosNombres = orderBy(equipamentoNombres, 'nombre')
-        // console.log('clg', orderedEquipamentosNombres)
         setEquipamentos(orderedEquipamentosNombres)
       }
     }
@@ -206,7 +199,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       idEjercicio,
       getEjercicio,
       allTipoEjercicios,
-      // equipamentoDeEjercicio, setEquipamentoDeEjercicio,
       equipamentos, setEquipamentos,
       handleCancelEdit,
       handleDelete,

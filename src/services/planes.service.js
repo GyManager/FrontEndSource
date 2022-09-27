@@ -5,13 +5,19 @@ const API_URL = process.env.REACT_APP_API_URL;
 const access_token = authService.getStoredSession()?  authService.getStoredSession().access_token : '';
 const API_PATH_CLIENTE = "/clientes";
 const API_PATH_PLANES = "/planes";
+const API_PATH_PLANES_RESUMEN = "/planes-resumen";
 
 
-const getPlanesByIdCliente = (idCliente) => {
+const getPlanesByIdCliente = (idCliente, state) => {
+    let params = {}
+    if(state !== undefined){
+        params['planesFilter'] = state;
+    }
     const options =  {
         headers: {
             'Authorization': `Bearer ${access_token}`
-        }
+        },
+        params
     }
 
     return axios.get(API_URL + API_PATH_CLIENTE + `/${idCliente}` + API_PATH_PLANES, options)
@@ -73,6 +79,22 @@ const deletePlanById = (idCliente, idPlan) => {
     })
 }
 
+const getPlaneSummaryByIdCliente = (idCliente) => {
+    
+    const options =  {
+        headers: {
+            'Authorization': `Bearer ${access_token}`
+        }
+    }
+
+    return axios.get(API_URL + API_PATH_CLIENTE + `/${idCliente}` + API_PATH_PLANES_RESUMEN, options)
+    .then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error);
+    })
+}
+
 const handleError = (error) => {
     if(error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -100,7 +122,8 @@ const planesService = {
     getPlanById,
     postPlan,
     putPlan,
-    deletePlanById
+    deletePlanById,
+    getPlaneSummaryByIdCliente
 }
 
 
