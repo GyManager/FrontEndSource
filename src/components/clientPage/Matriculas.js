@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { Fragment, useEffect, useState } from "react";
 import matriculasService from "../../services/matriculas.service";
 import Matricula from "./Matricula";
+import MatriculaModal from "./MatriculaModal";
 
 /**
  *
@@ -13,6 +14,7 @@ import Matricula from "./Matricula";
 export default function Matriculas(props) {
     const [loading, setLoading] = useState(false);
     const [matriculas, setMatriculas] = useState([]);
+    const [openAddModal, setOpenAddModal] = useState(() => false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +50,9 @@ export default function Matriculas(props) {
             <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
                 Estado: {props.clienteEstado}
             </Typography>
+
             {loading && <Skeleton />}
+
             {!loading &&
                 matriculaVigente !== null &&
                 matriculaVigente !== undefined && (
@@ -57,6 +61,7 @@ export default function Matriculas(props) {
                         {...matriculaVigente}
                     />
                 )}
+
             {!loading &&
                 matriculasFuturas !== null &&
                 matriculasFuturas !== undefined &&
@@ -68,8 +73,11 @@ export default function Matriculas(props) {
                         {...matricula}
                     />
                 ))}
+
             {!loading &&
-                (matriculasFuturas === null ||
+                (matriculaVigente === null ||
+                    matriculaVigente === undefined ||
+                    matriculasFuturas === null ||
                     matriculasFuturas === undefined ||
                     matriculasFuturas.length === 0) && (
                     <Button
@@ -77,11 +85,18 @@ export default function Matriculas(props) {
                         variant="contained"
                         sx={{ maxWidth: { xs: "100%", md: "55%" }, mt: 2 }}
                         startIcon={<Add />}
-                        onClick={() => console.log("placeholder")}
+                        onClick={() => setOpenAddModal(true)}
                     >
                         Agregar matricula
                     </Button>
                 )}
+            {openAddModal && (
+                <MatriculaModal
+                    open={openAddModal}
+                    setOpen={setOpenAddModal}
+                    idCliente={props.idCliente}
+                />
+            )}
         </Fragment>
     );
 }
