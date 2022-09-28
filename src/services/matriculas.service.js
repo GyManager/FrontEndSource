@@ -38,6 +38,18 @@ const postMatricula = (matricula, idCliente) => {
     })
 }
 
+const deleteMatriculaById = (idCliente, idMatricula) => {
+    return axios.delete(API_URL + API_PATH_CLIENTE + `/${idCliente}` + API_PATH_MATRICULAS + `/${idMatricula}`, {
+        headers: {
+            'Authorization': `Bearer ${authService.getStoredSession().access_token}`,
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        return handleError(error)
+    })
+}
+
 const handleError = (error) => {
     if(error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -62,7 +74,8 @@ const handleError = (error) => {
 
 const matriculasService = {
     getMatriculasByIdCliente,
-    postMatricula
+    postMatricula,
+    deleteMatriculaById
 }
 
 

@@ -1,11 +1,14 @@
+import { Delete } from "@mui/icons-material";
 import {
     Card,
+    CardActions,
     CardContent,
     CardHeader,
     Collapse,
     Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { Fragment, useState } from "react";
+import DeleteButtonWithAlert from "../reusable/buttons/DeleteButtonWithAlert";
 
 /**
  *
@@ -13,6 +16,10 @@ import { useState } from "react";
  */
 export default function Matricula(props) {
     const [collapsed, setCollapsed] = useState(false);
+
+    async function deleteMatricula() {
+        props.deleteMatricula(props.idCliente, props.idMatricula);
+    }
 
     const cardContent = (
         <CardContent sx={{ pt: 0 }}>
@@ -28,9 +35,21 @@ export default function Matricula(props) {
         </CardContent>
     );
 
+    const cardActions = (
+        <CardActions disableSpacing>
+            <DeleteButtonWithAlert
+                handleAccept={deleteMatricula}
+                alertTitle={`Está por eliminar esta matricula`}
+                buttonIcon={<Delete color="secondary" />}
+                alertContent="¿Seguro desea eliminarla?"
+                isIconButton
+            />
+        </CardActions>
+    );
+
     return (
-        <Card 
-            sx={{mt:1}}
+        <Card
+            sx={{ mt: 1 }}
             onMouseEnter={() => setCollapsed(true)}
             onMouseLeave={() => setCollapsed(false)}
         >
@@ -40,9 +59,15 @@ export default function Matricula(props) {
                 titleTypographyProps={{ variant: "h6" }}
             />
             {props.collapsable ? (
-                <Collapse in={collapsed} timeout={{enter:300,exit:1000}}>{cardContent}</Collapse>
+                <Collapse in={collapsed} timeout={{ enter: 300, exit: 1000 }}>
+                    {cardContent}
+                    {cardActions}
+                </Collapse>
             ) : (
-                cardContent
+                <Fragment>
+                    {cardContent}
+                    {cardActions}
+                </Fragment>
             )}
         </Card>
     );

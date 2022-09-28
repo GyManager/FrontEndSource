@@ -1,7 +1,9 @@
 import { Add } from "@mui/icons-material";
 import { Button, Skeleton, Typography } from "@mui/material";
 import { AxiosError } from "axios";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { ErrorContext } from "../../context/ErrorContext";
+import { SnackbarContext } from "../../context/SnackbarContext";
 import matriculasService from "../../services/matriculas.service";
 import Matricula from "./Matricula";
 import MatriculaModal from "./MatriculaModal";
@@ -12,26 +14,56 @@ import MatriculaModal from "./MatriculaModal";
  * @returns
  */
 export default function Matriculas(props) {
+    const { addSnackbar } = useContext(SnackbarContext);
+    const { processErrorMessage } = useContext(ErrorContext);
+
     const [loading, setLoading] = useState(false);
     const [matriculas, setMatriculas] = useState([]);
     const [openAddModal, setOpenAddModal] = useState(() => false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            const respuesta = await matriculasService.getMatriculasByIdCliente(
-                props.idCliente,
-                "NO_VENCIDAS"
-            );
-            setLoading(false);
-            if (respuesta instanceof AxiosError) {
-                console.log(respuesta);
-            } else {
-                setMatriculas(respuesta);
-            }
-        };
-        fetchData();
+        getMatriculasByIdCliente();
     }, [props.idCliente]);
+
+    async function getMatriculasByIdCliente() {
+        setLoading(true);
+        const respuesta = await matriculasService.getMatriculasByIdCliente(
+            props.idCliente,
+            "NO_VENCIDAS"
+        );
+        setLoading(false);
+        if (respuesta instanceof AxiosError) {
+            console.log(respuesta);
+        } else {
+            setMatriculas(respuesta);
+        }
+    };
+
+    async function postMatricula(matricula, idCliente) {
+        const respuesta = await matriculasService.postMatricula(
+            matricula,
+            idCliente
+        );
+        handleRespuesta(respuesta, "La matricula se ha cargado con exito");
+    }
+
+    async function deleteMatricula(idCliente, idMatricula) {
+        const respuesta = await matriculasService.deleteMatriculaById(
+            idCliente,
+            idMatricula
+        );
+        handleRespuesta(respuesta, "La matricula se ha eliminado con exito");
+    }
+
+    const handleRespuesta = (respuesta, mensaje) => {
+        if (respuesta instanceof AxiosError) {
+            processErrorMessage(respuesta.response.data);
+        } else {
+            addSnackbar({ message: mensaje, severity: "success" });
+            getMatriculasByIdCliente();
+            setOpenAddModal(false);
+        }
+    };
 
     const matriculaVigente = matriculas.filter(
         (matricula) =>
@@ -58,6 +90,7 @@ export default function Matriculas(props) {
                 matriculaVigente !== undefined && (
                     <Matricula
                         title="Matricula Vigente"
+                        deleteMatricula={deleteMatricula}
                         {...matriculaVigente}
                     />
                 )}
@@ -70,6 +103,7 @@ export default function Matriculas(props) {
                     <Matricula
                         title="Matricula Siguiente"
                         collapsable
+                        deleteMatricula={deleteMatricula}
                         {...matricula}
                     />
                 ))}
@@ -92,6 +126,7 @@ export default function Matriculas(props) {
                 )}
             {openAddModal && (
                 <MatriculaModal
+                    postMatricula={postMatricula}
                     open={openAddModal}
                     setOpen={setOpenAddModal}
                     idCliente={props.idCliente}

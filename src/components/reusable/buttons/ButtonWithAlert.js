@@ -5,12 +5,13 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    IconButton,
     Stack,
 } from "@mui/material";
 import { Fragment, useState } from "react";
 
 /**
- * @param {handleAccept, buttonProps, buttonIcon, buttonText, alertTitle, alertContent, alertContentIcon} props
+ * @param {handleAccept, buttonProps, buttonIcon, buttonText, alertTitle, alertContent, alertContentIcon, isIconButton} props
  * @returns
  */
 export default function ButtonWithAlert(props) {
@@ -21,15 +22,21 @@ export default function ButtonWithAlert(props) {
         setOpen(false);
     };
 
+    const button = props.isIconButton ? (
+        <IconButton onClick={() => setOpen(true)} {...props.buttonProps}>{props.buttonIcon}</IconButton>
+    ) : (
+        <Button
+            {...props.buttonProps}
+            onClick={() => setOpen(true)}
+            startIcon={props.buttonIcon}
+        >
+            {props.buttonText}
+        </Button>
+    );
+
     return (
         <Fragment>
-            <Button
-                {...props.buttonProps}
-                onClick={() => setOpen(true)}
-                startIcon={props.buttonIcon}
-            >
-                {props.buttonText}
-            </Button>
+            {button}
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle alignItems="center">
                     {props.alertTitle}

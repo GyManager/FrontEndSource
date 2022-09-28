@@ -9,12 +9,6 @@ import {
 import { useFormik } from "formik";
 import DatePicker from "../reusable/DatePicker";
 import matriculaSchema from "./matriculaSchema";
-import matriculasService from "../../services/matriculas.service";
-import { SnackbarContext } from "../../context/SnackbarContext";
-import { ErrorContext } from "../../context/ErrorContext";
-import { useContext } from "react";
-import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
 
 /**
  *
@@ -22,10 +16,6 @@ import { useNavigate } from "react-router-dom";
  * @returns
  */
 export default function MatriculaModal(props) {
-    const { addSnackbar } = useContext(SnackbarContext);
-    const { processErrorMessage } = useContext(ErrorContext);
-    const navigate = useNavigate();
-
     const formik = useFormik({
         initialValues: {
             fechaPago: new Date(),
@@ -39,24 +29,9 @@ export default function MatriculaModal(props) {
         },
     });
 
-    async function handleSubmit(e) {
-        e?.preventDefault();
-        const respuesta = await matriculasService.postMatricula(
-            formik.values,
-            props.idCliente
-        );
-        handleRespuesta(respuesta, "La matricula se ha cargado con exito");
+    async function handleSubmit() {
+        props.postMatricula(formik.values, props.idCliente);
     }
-
-    const handleRespuesta = (respuesta, mensaje) => {
-        if (respuesta instanceof AxiosError) {
-            processErrorMessage(respuesta.response.data);
-        } else {
-            navigate(`/clientes/${props.idCliente}`);
-            addSnackbar({ message: mensaje, severity: "success" });
-            props.setOpen(false);
-        }
-    };
 
     return (
         <Modal
