@@ -13,6 +13,7 @@ import GenericModal from '../reusable/GenericModal'
 // import { , Breadcumbs, GenericComboBox, Modal } from '../reusable/'
 
 import ButtonsUser from './ButtonsUser';
+import ButtonUserMobile from './ButtonUserMobile'
 import SeccionRoles from './SeccionRoles'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -274,6 +275,14 @@ function User() {
 
                     </div>
                 </Box>
+                <ButtonUserMobile
+                    editable={editable}
+                    handleEditClick={() => setEditable(true)}
+                    handleDeleteClick={deleteUsuario}
+                    handleCancelEdit={handleCancelEdit}
+                    clienteId={idUsuario}
+                    handleSubmit={formik.handleSubmit}
+                />
             </form>
             <GenericModal
                 show={openModal}
