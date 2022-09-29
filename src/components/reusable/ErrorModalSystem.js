@@ -23,7 +23,7 @@ export default function ErrorModalSystem() {
     }
 
     const errors = (Array.isArray(errorMessage)) ?
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List sx={{ width: '100%' }}>
             {errorMessage.map(error => (
                 <ListItem>
                     <ListItemIcon>
@@ -34,10 +34,14 @@ export default function ErrorModalSystem() {
             )) }
         </List>
         :  (typeof errorMessage === "string") ?
-        <Typography>
-            <Warning color="warning" />
-            {errorMessage}
-        </Typography>
+        <List sx={{ width: '100%' }}>
+            <ListItem>
+                <ListItemIcon>
+                    <Warning color="warning" />
+                </ListItemIcon>
+                <ListItemText primary={errorMessage} />
+            </ListItem>
+        </List>
         :
         <Typography>
             <Warning color="warning" />
@@ -48,9 +52,9 @@ export default function ErrorModalSystem() {
         <Modal
             open={open}
             onClose={handleClose}
-            sx={{display:'flex', alignItems:'center',justifyContent:'center'}}
+            sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
         >
-            <Paper sx={{p:2}}>
+            <Paper sx={{p:2, maxWidth:{xs:'99vw', sm:'70vw', md:'50vw'}}}>
                 <Typography variant="h5" sx={{mb:2}}>
                     {"Algo salio mal :("}
                 </Typography>

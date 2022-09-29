@@ -64,6 +64,7 @@ function Client() {
     let { clienteId } = useParams();
     const [editable, setEditable] = useState(false)
     const [clienteEstado, setClienteEstado] = useState("")
+    const logicalDelete = process.env.REACT_APP_LOGICAL_DELETE;
 
     const getClientById = async () => {
         try {
@@ -379,11 +380,11 @@ function Client() {
                 open={openAlertDialog}
                 setOpen={setOpenAlertDialog}
                 title={
-                    'Está por eliminar al cliente '
+                    `Está por ${logicalDelete ? 'desactivar' : 'eliminar'} al cliente `
                     + formik.values.nombre + ' ' + formik.values.apellido
                 }
-                content='¿Seguro desea eliminarlo?'
-                buttonTextAccept='Borrar'
+                content={`¿Seguro desea ${logicalDelete ? 'desactivarlo' : 'eliminarlo'}?`}
+                buttonTextAccept={logicalDelete ? 'Desactivar' : 'Borrar'}
                 buttonTextDeny='Cancelar'
                 buttonActionAccept={deleteCliente}
             >
