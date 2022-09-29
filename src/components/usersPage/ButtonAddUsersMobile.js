@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import { Fab } from '@mui/material/'
 import AddIcon from '@mui/icons-material/Add'
 
-function ButtonAddClientMobile() {
+function ButtonAddUsersMobile() {
     return (
         <div>
-            <Link to='/clientes/new'>
+            <Link to='/usuarios/new'>
                 <Fab color='primary' aria-label='add' >
                     <AddIcon />
                 </Fab>
@@ -16,4 +16,4 @@ function ButtonAddClientMobile() {
     )
 }
 
-export default ButtonAddClientMobile
+export default ButtonAddUsersMobile
