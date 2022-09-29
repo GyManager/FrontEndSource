@@ -57,6 +57,7 @@ function User() {
     const navigate = useNavigate()
     let { idUsuario } = useParams();
     const [editable, setEditable] = useState(false)
+    const logicalDelete = process.env.REACT_APP_LOGICAL_DELETE;
 
     const getUserById = async () => {
         try {
@@ -284,11 +285,11 @@ function User() {
                 open={openAlertDialog}
                 setOpen={setOpenAlertDialog}
                 title={
-                    'Está por eliminar al cliente '
+                    `Está por ${logicalDelete ? 'desactivar' : 'eliminar'} al usuario `
                     + formik.values.nombre + ' ' + formik.values.apellido
                 }
-                content='¿Seguro desea eliminarlo?'
-                buttonTextAccept='Borrar'
+                content={`¿Seguro desea ${logicalDelete ? 'desactivarlo' : 'eliminarlo'}?`}
+                buttonTextAccept={logicalDelete ? 'Desactivar' : 'Borrar'}
                 buttonTextDeny='Cancelar'
                 buttonActionAccept={deleteUsuario}
             >

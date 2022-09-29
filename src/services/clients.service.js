@@ -31,7 +31,8 @@ const aplanadora = (response) => {
             "objetivo": usuMap.objetivo,
             "direccion": usuMap.direccion,
             "fechaNacimiento": usuMap.fechaNacimiento,
-            "observaciones": usuMap.observaciones
+            "observaciones": usuMap.observaciones,
+            "clienteEstado":usuMap.clienteEstado
         }))
 }
 
