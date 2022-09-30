@@ -10,6 +10,7 @@ import ejerciciosService from '../services/ejercicios.service'
 import ejercicioSchema from '../components/ejercicio/ejercicioSchema'
 
 import { SnackbarContext } from '../context/SnackbarContext'
+import { ErrorContext } from "./ErrorContext";
 
 
 export const EjercicioContext = createContext();
@@ -26,6 +27,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
   const [openModal, setOpenModal] = useState(false)
   const [modalMsj, setModalMsj] = useState('')
   const handleCloseModal = () => { setOpenModal(false) }
+  const {processErrorMessage} = useContext(ErrorContext)
 
   const formik = useFormik(
     {
@@ -51,11 +53,10 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
 
   const handleRespuesta = (res, msj) => {
-    console.log(res)
     if (res instanceof AxiosError) {
-      setModalMsj(res?.message)
-      setOpenModal(true)
+      processErrorMessage(res.response.data)
     } else {
+      setEditable(false)
       addSnackbar({ message: msj, severity: "success", duration: 3000 })
       navigate('/ejercicios')
     }
@@ -64,8 +65,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
 
   const handleSubmit = async (e) => {
     e?.preventDefault();
-    console.log('hola')
-    setEditable(false)
 
     const ejercicio = {
       "nombre": formik.values.nombre.trim(),
@@ -81,7 +80,7 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       const res = await ejerciciosService.putEjercicio(ejercicio, idEjercicio)
       handleRespuesta(res, 'Ejercicio actualizado exitosamente')
     }
-    console.log(formik.values.pasos)
+  
   }
 
   // getEjercicioById

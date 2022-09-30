@@ -16,7 +16,9 @@ export default function PlanListMember(props){
             {props.objetivo.charAt(0)}
         </Avatar>
     )
-    const fechas = props.fechaHasta ? `${props.fechaDesde} - ${props.fechaHasta}` : props.fechaDesde;
+    const fechas = props.fechaHasta ? 
+        `${new Date(props.fechaDesde).toLocaleDateString()} - ${new Date(props.fechaHasta).toLocaleDateString()}` 
+        : new Date(props.fechaDesde).toLocaleDateString();
 
     return (
         <Card 

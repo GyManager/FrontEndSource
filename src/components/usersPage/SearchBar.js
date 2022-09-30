@@ -15,11 +15,11 @@ export default function SearchBar(props) {
         e.preventDefault();
         props.searchUsuarios(valueToSearch);
     };
-
     return (
         <Paper
             component="form"
             onSubmit={onSubmit}
+
             sx={{
                 p: "2px 4px",
                 display: "flex",
@@ -40,6 +40,7 @@ export default function SearchBar(props) {
                 id="buttonSearchClientes"
                 type="submit"
                 sx={{ p: "10px" }}
+
                 aria-label="Buscar"
             >
                 <SearchIcon />

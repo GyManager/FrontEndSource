@@ -5,7 +5,7 @@ import DeleteButtonWithAlert from './buttons/DeleteButtonWithAlert';
 
 /**
  * 
- * @param {id, editable, handleCancelEdit, handleEditClick, handleDeleteClick, enableDeleteAlways} props 
+ * @param {id, editable, handleCancelEdit, handleEditClick, handleDeleteClick, enableDeleteAlways, viewModeOnly} props 
  * @returns 
  */
 export default function FormOptions(props) {
@@ -35,7 +35,7 @@ export default function FormOptions(props) {
                 </Button>
             }
 
-            {props.editable &&
+            {(props.editable || props.viewModeOnly) &&
                 <Button
                     id='cancelarOption'
                     {...buttonCommonProperties}
@@ -47,7 +47,7 @@ export default function FormOptions(props) {
                 </Button>
             }
 
-            {props.id !== 'new' && !props.editable &&
+            {props.id !== 'new' && !props.editable && !props.viewModeOnly &&
                 <Button
                     id='editarOption'
                     {...buttonCommonProperties}
@@ -58,7 +58,7 @@ export default function FormOptions(props) {
                 </Button>
             }
 
-            {(props.enableDeleteAlways || (props.id !== 'new' && !props.editable)) &&
+            {(props.enableDeleteAlways || (props.id !== 'new' && !props.editable)) && !props.viewModeOnly &&
                 <DeleteButtonWithAlert
                     handleAccept={props.handleDeleteClick}
                     buttonProps={{id:"borrarOption", ...buttonCommonProperties, color:'secondary'}}

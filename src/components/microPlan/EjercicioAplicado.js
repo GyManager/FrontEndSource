@@ -40,6 +40,20 @@ export default function EjercicioAplicado(props){
             };
         })
 
+    const ejercicioInicial = {
+        id:props.idEjercicio,
+        value:props.nombreEjercicio
+    }
+
+    if(props.idEjercicio !== undefined 
+        && props.idEjercicio !== null 
+        && ejerciciosOptions.find(ejercicio => ejercicio.id === props.idEjercicio) === undefined){
+        ejerciciosOptions.push({
+            id:props.idEjercicio,
+            value:props.nombreEjercicio
+        })
+    }
+
     return (
         <Box>
             <Stack {...stackStyle}>

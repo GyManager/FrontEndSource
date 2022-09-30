@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Modal, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
-import { Add } from '@mui/icons-material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Modal, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material/';
+import { Add, WarningAmberRounded } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import { AxiosError } from 'axios';
 import { ParameterDropdownContext } from '../../context/ParameterDropdownContext';
@@ -40,6 +40,11 @@ export default function Plan() {
     const [editarObservaciones, setEditarObservaciones] = useState(false)
     const [indexObservacionesEdicion, setIndexObservacionesEdicion] = useState()
 
+    const [clientePlanesSummary, setClientePlanesSummary] = useState({})
+    const [showAlertPlanVigente, setShowAlertPlanVigente] = useState(false)
+
+    const [editable, setEditable] = useState(() => idPlan === 'new');
+
     const formik = useFormik({
         initialValues: {
             descripcion: "",
@@ -49,29 +54,59 @@ export default function Plan() {
         },
         validationSchema: planSchema.validationSchema,
         onSubmit: () => {
-            handleSubmit();
+            confirmSubmit();
         },
     });
 
     const cantidadSemanas = formik.values.microPlans.flatMap(microPlan => microPlan.observaciones).length;
     const fechaHasta = Date.parse(formik.values.fechaDesde) + (cantidadSemanas * 7 * 24 * 60 * 60 * 1000);
 
+    const getPlanById = async () => {
+        setLoading(true)
+        const respuesta = await planesService.getPlanById(idPlan);
+        setLoading(false)
+        if (respuesta instanceof AxiosError) {
+            console.log(respuesta)
+        } else {
+            respuesta.microPlans = respuesta.microPlans.sort((a,b) => a.numeroOrden - b.numeroOrden)
+            formik.setValues(respuesta, false)
+        }
+    }
+
     useEffect(() => {
         if (idPlan !== 'new') {
-            const fetchData = async () => {
-                setLoading(true)
-                const respuesta = await planesService.getPlanById(idPlan);
-                setLoading(false)
-                if (respuesta instanceof AxiosError) {
-                    console.log(respuesta)
-                } else {
-                    respuesta.microPlans = respuesta.microPlans.sort((a,b) => a.numeroOrden - b.numeroOrden)
-                    formik.setValues(respuesta, false)
-                }
-            }
-            fetchData();
+            getPlanById();
         }
     }, [idPlan])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const respuesta = await planesService.getPlaneSummaryByIdCliente(clienteId);
+            if (respuesta instanceof AxiosError) {
+                console.log(respuesta)
+            } else {
+                if(idPlan === 'new'){
+                    formik.setFieldValue(`objetivo`, respuesta.objetivo, false)
+                    if(respuesta.fechaHastaPlanVigente !== null && respuesta.fechaHastaPlanVigente !== undefined) {
+                        formik.setFieldValue(`fechaDesde`, new Date(respuesta.fechaHastaPlanVigente), false)
+                    }
+                } 
+                setClientePlanesSummary(respuesta);
+            }
+        }
+        fetchData();
+    }, [clienteId, idPlan])
+
+    const confirmSubmit = (e) => {
+        e?.preventDefault();
+        
+        if(formik.values.fechaDesde < new Date(clientePlanesSummary.fechaHastaPlanVigente) 
+            && idPlan != clientePlanesSummary.idPlanVigente){
+            setShowAlertPlanVigente(true);
+        } else {
+            handleSubmit(e);
+        }
+    }
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
@@ -96,7 +131,12 @@ export default function Plan() {
     }
 
     const handleCancel = () => {
-        navigate(`/clientes/${clienteId}`)
+        if (idPlan === 'new') {
+            navigate(`/clientes/${clienteId}`)
+        } else {
+            setEditable(false)
+            getPlanById(idPlan)
+        }
     }
 
     const handleRespuesta = (respuesta, mensaje) => {
@@ -232,7 +272,7 @@ export default function Plan() {
         return (
             <MicroPlan
                 esTemplate={false}
-                editable={true}
+                editable={editable}
                 microPlan={microPlanEditado}
                 idMicroPlan={idMicroPlanEdicion}
                 handleSubmit={handleSubmitMicroPlan}
@@ -267,10 +307,10 @@ export default function Plan() {
                         </Typography>
                     </Box>
                     <FormOptions
-                        editable={true}
+                        editable={editable}
+                        handleEditClick={() => setEditable(true)}
                         handleCancelEdit={handleCancel}
                         handleSubmit={formik.handleSubmit}
-                        enableDeleteAlways={(idPlan !== "new")}
                         handleDeleteClick={handleDelete}
                         id={idPlan}
                         deleteAlertTitle="Esta por eliminar el plan"
@@ -286,6 +326,7 @@ export default function Plan() {
                         variant="standard"
                         value={formik.values.descripcion || ''}
                         onChange={formik.handleChange}
+                        disabled={!editable}
                         multiline
                         error={formik.touched.descripcion && Boolean(formik.errors.descripcion)}
                         helperText={formik.touched.descripcion && formik.errors.descripcion}
@@ -306,7 +347,7 @@ export default function Plan() {
                             valueForNone=""
                             labelForNone=""
                             minWidth={250}
-                            editable={true}
+                            editable={editable}
                             errorProp={formik.touched.objetivo  && Boolean(formik.errors.objetivo)}
                             helperTextProp={formik.touched.objetivo && formik.errors.objetivo}
                         />
@@ -326,13 +367,13 @@ export default function Plan() {
                             id="fechaDesde"
                             name="fechaDesde"
                             label="Fecha desde"
-                            editable={true}
+                            editable={editable}
                             onChange={formik.setFieldValue}
                             errorProp={formik.touched.fechaDesde && Boolean(formik.errors.fechaDesde)}
                             helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
                         />
                         <DatePicker
-                            value={fechaHasta || ""}
+                            value={(editable? fechaHasta : formik.values.fechaHasta) || ""}
                             id="fechaHasta"
                             name="fechaHasta"
                             label="Fecha hasta"
@@ -346,6 +387,15 @@ export default function Plan() {
                     <Typography sx={{fontSize: {xs: 20, md: 22, lg: 24, xl: 28}}}>
                         {loading ? <Skeleton/> : `Micro planes`}
                     </Typography>
+                    {
+                        ( formik.errors.microPlans !== undefined && !Array.isArray(formik.errors.microPlans)) &&
+                        <Box sx={{display: 'flex'}}>
+                            <WarningAmberRounded color='error' sx={{mr: 1}}/>
+                            <Typography color='error'>
+                                {formik.errors.microPlans}
+                            </Typography>
+                        </Box>
+                    }
 
                     <PlanMicroPlansTable
                         loading={loading}
@@ -353,11 +403,19 @@ export default function Plan() {
                         handleStartEditObservaciones={handleStartEditObservaciones}
                         handleEditMicroPlan={handleEditMicroPlan}
                         handleDeleteMicroPlan={handleDeleteMicroPlan}
+                        editable={editable}
                     />
 
-                    <Button variant='contained' size='medium' onClick={handleBuscarMicroPlan} startIcon={<Add />}>
-                         Agregar Micro Plan 
-                    </Button>
+                    { editable &&
+                        <Button
+                            variant='contained'
+                            size='medium'
+                            onClick={handleBuscarMicroPlan}
+                            startIcon={<Add />}
+                        >
+                            Agregar Micro Plan 
+                        </Button>
+                    }  
                 </Paper>
             </Paper>
 
@@ -388,6 +446,29 @@ export default function Plan() {
                     />
                 </Box>
             </Modal>
+            <Dialog
+                open={showAlertPlanVigente}
+                onClose={() => setShowAlertPlanVigente(false)}
+                sx={{display:'flex', alignItems:'center',justifyContent:'center'}}
+            >
+                <DialogTitle alignItems="center">
+                    Este plan se superpone con el plan vigente
+                </DialogTitle>
+                <DialogContent>
+                    <Stack direction="row" justifyContent="center" alignItems="center">
+                        <DialogContentText>
+                            El plan que esta creando o editando se superpone con el plan vigente el cual termina en la fecha {clientePlanesSummary.fechaHastaAValidar}.
+                            Si desea guardar este plan, el plan vigente tendra como fecha de finalizacion la fecha de inicio de este plan.
+                        </DialogContentText>
+                    </Stack>
+                </DialogContent>
+                <DialogActions sx={{ justifyContent: "space-between" }}>
+                    <Button onClick={() => setShowAlertPlanVigente(false)}>Cancelar</Button>
+                    <Button onClick={handleSubmit}>
+                        Confirmar!
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <FormOptionsSpeedDial
                 editable={true}
                 handleCancelEdit={handleCancel}
