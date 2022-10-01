@@ -1,6 +1,5 @@
 import { Avatar, TableCell, TableRow } from "@mui/material";
 
-
 export default function TableUserRow(props) {
     return (
         <TableRow hover

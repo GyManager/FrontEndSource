@@ -1,4 +1,5 @@
 // Import Librerias
+
 import { React, useState, useEffect, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -13,6 +14,7 @@ import GenericModal from '../reusable/GenericModal'
 // import { , Breadcumbs, GenericComboBox, Modal } from '../reusable/'
 
 import ButtonsUser from './ButtonsUser';
+import ButtonUserMobile from "./ButtonUserMobile";
 import SeccionRoles from './SeccionRoles'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -42,7 +44,9 @@ function User() {
     //Estados de Modal
     const [modalMsj, setModalMsj] = useState("");
     const [openModal, setOpenModal] = useState(false);
+
     const handleCloseModal = () => { setOpenModal(false) }
+
 
     //Estados del AlertDialog
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
@@ -144,42 +148,55 @@ function User() {
     const paperStyle = {
         elevation: 2,
         sx: {
-            p: 2, my: 2,
-            width: { xs: '80vw', md: '50vw' }
-        }
-    }
+            p: 2,
+            my: 2,
+            width: { xs: "80vw", md: "50vw" },
+        },
+    };
 
     const TextFieldStyle = {
         disabled: !editable,
         inputProps: { readOnly: Boolean(!editable) },
         variant: "standard",
-        onChange: formik.handleChange
-    }
+        onChange: formik.handleChange,
+    };
 
     return (
         <div>
-            <form
-                method="post"
-                onSubmit={formik.handleSubmit}>
-                <Stack direction='row' justifyContent='space-between' alignItems='center'
+            <form method="post" onSubmit={formik.handleSubmit}>
+                <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
                 >
                     <div>
                         <Breadcumbs
-                            names={['Usuarios', 'Usuario']}
-                            urls={['../usuarios/']}
+                            names={["Usuarios", "Usuario"]}
+                            urls={["../usuarios/"]}
                         />
-                        <Typography noWrap={true} sx={{
-                            width: { xs: '88vw', md: '45vw', lg: '40vw' },
-                            fontSize: { xs: 24, md: 28, lg: 30, xl: 34 },
-                            mb: '1vh',
-                        }} >
-                            Usuario: {formik.values.nombre} {formik.values.apellido}
+                        <Typography
+                            noWrap={true}
+                            sx={{
+                                width: { xs: "88vw", md: "45vw", lg: "40vw" },
+                                fontSize: { xs: 24, md: 28, lg: 30, xl: 34 },
+                                mb: "1vh",
+                            }}
+                        >
+                            Usuario: {formik.values.nombre}{" "}
+                            {formik.values.apellido}
                         </Typography>
                     </div>
-                    <div sx={{
-                        display: { xs: 'none', sm: 'none', md: 'inline-block' },
-                        justifyContent: 'right'
-                    }}>
+                    <div
+                        sx={{
+                            display: {
+                                xs: "none",
+                                sm: "none",
+                                md: "inline-block",
+                            },
+                            justifyContent: "right",
+                        }}
+                    >
+
                         <ButtonsUser
                             editable={editable}
                             handleEditClick={() => setEditable(true)}
@@ -190,7 +207,8 @@ function User() {
                         />
                     </div>
                 </Stack>
-                <Box display='flex' flexWrap='flexwrap' justifyContent='center'>
+                <Box display="flex" flexWrap="flexwrap" justifyContent="center">
+
                     <div>
                         <Paper {...paperStyle}>
                             <Stack {...stackStyle}>
@@ -204,18 +222,31 @@ function User() {
                                     labelForNone="Seleccionar tipo de documento"
                                     values={["DNI", "Pasaporte"]}
                                     minWidth={250}
-                                    errorProp={formik.touched.tipoDocumento && Boolean(formik.errors.tipoDocumento)}
-                                    helperTextProp={formik.touched.tipoDocumento && formik.errors.tipoDocumento}
-                                    autoFocusProp={true}
 
+                                    errorProp={
+                                        formik.touched.tipoDocumento &&
+                                        Boolean(formik.errors.tipoDocumento)
+                                    }
+                                    helperTextProp={
+                                        formik.touched.tipoDocumento &&
+                                        formik.errors.tipoDocumento
+                                    }
+                                    autoFocusProp={true}
                                 />
-                                <TextField fullWidth
+                                <TextField
+                                    fullWidth
                                     {...TextFieldStyle}
                                     label="Numero de documento"
                                     id="numeroDocumento"
                                     value={formik.values.numeroDocumento}
-                                    error={formik.touched.numeroDocumento && Boolean(formik.errors.numeroDocumento)}
-                                    helperText={formik.touched.numeroDocumento && formik.errors.numeroDocumento}
+                                    error={
+                                        formik.touched.numeroDocumento &&
+                                        Boolean(formik.errors.numeroDocumento)
+                                    }
+                                    helperText={
+                                        formik.touched.numeroDocumento &&
+                                        formik.errors.numeroDocumento
+                                    }
 
                                 />
                             </Stack>
@@ -223,44 +254,74 @@ function User() {
 
                         <Paper {...paperStyle}>
                             <Stack {...stackStyle}>
-                                <TextField fullwidth
+                                <TextField
+                                    fullwidth
                                     {...TextFieldStyle}
                                     label="Nombre"
                                     id="nombre"
                                     value={formik.values.nombre}
-                                    error={formik.touched.nombre && Boolean(formik.errors.nombre)}
-                                    helperText={formik.touched.nombre && formik.errors.nombre}
+                                    error={
+                                        formik.touched.nombre &&
+                                        Boolean(formik.errors.nombre)
+                                    }
+                                    helperText={
+                                        formik.touched.nombre &&
+                                        formik.errors.nombre
+                                    }
                                 />
-                                <TextField fullwidth
+                                <TextField
+                                    fullwidth
+
                                     {...TextFieldStyle}
                                     label="Apellido"
                                     id="apellido"
                                     value={formik.values.apellido}
-                                    error={formik.touched.apellido && Boolean(formik.errors.apellido)}
-                                    helperText={formik.touched.apellido && formik.errors.apellido}
+                                    error={
+                                        formik.touched.apellido &&
+                                        Boolean(formik.errors.apellido)
+                                    }
+                                    helperText={
+                                        formik.touched.apellido &&
+                                        formik.errors.apellido
+                                    }
                                 />
                             </Stack>
-
                         </Paper>
 
                         <Paper {...paperStyle}>
                             <Stack {...stackStyle}>
-                                <TextField fullWidth
+                                <TextField
+                                    fullWidth
+
                                     {...TextFieldStyle}
                                     label="Email"
                                     id="mail"
                                     value={formik.values.mail}
-                                    error={formik.touched.mail && Boolean(formik.errors.mail)}
-                                    helperText={formik.touched.mail && formik.errors.mail}
 
+                                    error={
+                                        formik.touched.mail &&
+                                        Boolean(formik.errors.mail)
+                                    }
+                                    helperText={
+                                        formik.touched.mail &&
+                                        formik.errors.mail
+                                    }
                                 />
-                                <TextField fullWidth
+                                <TextField
+                                    fullWidth
+
                                     {...TextFieldStyle}
                                     label="Celular"
                                     id="celular"
                                     value={formik.values.celular}
-                                    error={formik.touched.celular && Boolean(formik.errors.celular)}
-                                    helperText={formik.touched.celular && formik.errors.celular}
+                                    error={
+                                        formik.touched.celular &&
+                                        Boolean(formik.errors.celular)
+                                    }
+                                    helperText={
+                                        formik.touched.celular &&
+                                        formik.errors.celular
+                                    }
                                 />
                             </Stack>
                         </Paper>
@@ -275,11 +336,20 @@ function User() {
 
                     </div>
                 </Box>
+                <ButtonUserMobile
+                    editable={editable}
+                    handleEditClick={() => setEditable(true)}
+                    handleDeleteClick={deleteUsuario}
+                    handleCancelEdit={handleCancelEdit}
+                    clienteId={idUsuario}
+                    handleSubmit={formik.handleSubmit}
+                />
             </form>
             <GenericModal
                 show={openModal}
                 hide={handleCloseModal}
-                serverMsj={modalMsj} />
+                serverMsj={modalMsj}
+            />
 
             <AlertDialog
                 open={openAlertDialog}
@@ -296,6 +366,8 @@ function User() {
                 <DeleteForeverIcon color="warning" fontSize="medium" />
             </AlertDialog>
         </div>
-    )
+
+    );
 }
-export default User
+export default User;
+
