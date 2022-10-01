@@ -31,7 +31,7 @@ export default function PlanListMember(props){
                     title={props.objetivo}
                     subheader={fechas}
                 />
-                <Collapse in={collapsed}>
+                <Collapse in={collapsed} timeout={{enter:300,exit:1000}}>
                     <CardContent sx={{pt: 0}}>
                         <Typography variant="body2" color="text.secondary">{props.descripcion}</Typography>
                     </CardContent>

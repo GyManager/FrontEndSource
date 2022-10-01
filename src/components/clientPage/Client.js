@@ -17,8 +17,9 @@ import ButtonClientDesktop from "./ButtonClientDesktop";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 // Imports Datos
-import clientsService from "../../services/clients.service";
-import clientSchema from "./clientSchema";
+import clientsService from '../../services/clients.service';
+import clientSchema from './clientSchema';
+import Matriculas from './Matriculas';
 import { DataContext } from "../../context/DataContext";
 import Planes from "../planes/Planes";
 
@@ -64,6 +65,7 @@ function Client() {
   const navigate = useNavigate();
   let { clienteId } = useParams();
   const [editable, setEditable] = useState(false);
+  const [clienteEstado, setClienteEstado] = useState("")
   const logicalDelete = process.env.REACT_APP_LOGICAL_DELETE;
 
   const getClientById = async () => {
@@ -96,6 +98,7 @@ function Client() {
           persona.observaciones || "",
           false
         );
+        setClienteEstado(persona.clienteEstado)
       });
     } catch (error) {
       console.log(error);
@@ -421,9 +424,14 @@ function Client() {
               </Paper>
             )}
 
-            <Paper elevation={12} sx={{ backgroundColor: "lightblue" }}>
-              <Typography>Input - Matriculas</Typography>
-            </Paper>
+            {clienteId !== 'new' && (
+              <Paper {...paperStyle}>
+                <Matriculas 
+                  idCliente={clienteId}
+                  clienteEstado={clienteEstado}
+                />
+              </Paper>
+            )}
           </div>
         </Box>
         <ButtonClientMobile

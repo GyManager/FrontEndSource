@@ -48,7 +48,7 @@ export default function Planes(props){
                 <Button
                     size='medium'
                     variant='contained'
-                    sx={{ maxWidth:{ xs:'100%', md:'30%'}, mt: 2}}
+                    sx={{ maxWidth:{ xs:'100%', md:'40%'}, mt: 2}}
                     startIcon={<Add />}
                     onClick={() => navigate(`/clientes/${props.idCliente}/planes/new`)}
                 >

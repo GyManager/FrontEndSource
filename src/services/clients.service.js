@@ -32,7 +32,7 @@ const aplanadora = (response) => {
             "direccion": usuMap.direccion,
             "fechaNacimiento": usuMap.fechaNacimiento,
             "observaciones": usuMap.observaciones,
-            "clienteEstado":usuMap.clienteEstado
+            "clienteEstado": usuMap.clienteEstado
         }))
 }
 
@@ -155,7 +155,8 @@ const getClientById = (id) => {
                 "mail": usu.usuario.mail,
                 "celular": usu.usuario.celular,
                 "fechaAlta": usu.usuario.fechaAlta,
-                "fechaBaja": usu.usuario.fechaBaja
+                "fechaBaja": usu.usuario.fechaBaja,
+                "clienteEstado": usu.clienteEstado
             }
             return usuariosPlano
         }
