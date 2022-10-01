@@ -12,7 +12,7 @@ import { useMediaQuery } from '@mui/material';
 import { Grid, Box, Paper, Typography } from '@mui/material/'
 import { Backdrop, GenericModal, Snackbar } from '../reusable/'
 
-import ButtonAddClientMobile from './ButtonAddClientMobile'
+import ButtonAddUsersMobile from './ButtonAddUsersMobile'
 import ButtonAddUsersDesktop from './ButtonAddUsersDesktop'
 import SearchBar from './SearchBar'
 import TableUsers from './TableUsers'
@@ -160,7 +160,8 @@ export default function Users() {
                                 right: '4vw',
                                 bottom: '4vh'
                             }} >
-                            <ButtonAddClientMobile />
+                            <ButtonAddUsersMobile />
+
                         </Grid>
                     </Grid>
                 </Grid>

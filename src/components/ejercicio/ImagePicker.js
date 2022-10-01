@@ -55,17 +55,19 @@ export default function ImagePicker(props) {
             {
                 (editable && formik.values.pasos[props.index].imagen) &&
                 <>
-                    <Box sx={{ position: 'relative' }}>
+                    <Box sx={{ position: 'relative', maxHeight:'30vh' }}>
                         <Button
+                        size="small"
                         id={'ButtonShowPhotoTest'+props.index}>
                             <img
                                 sx={{
                                     position: 'absolute',
-                                }}
+                                    maxHeigth: '50px'
+                                    }}
                                 alt={'imagen'}
                                 src={formik.values.pasos[props.index].imagen}
-                                width='80'
-                                height='80'
+                                width='95%'
+                                height='100'
                                 onClick={handleOpenModalCardPaso}
                             />
                             <IconButton aria-label="delete" size="small" color='error'

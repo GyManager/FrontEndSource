@@ -29,7 +29,7 @@ function UnEjercicioPage() {
 
   const paperStyle = {
     elevation: 2,
-    sx: { p: 2, mt: 2 }
+    sx: { px: 2, mt: 2 }
   }
 
   const TextFieldStyle = {
