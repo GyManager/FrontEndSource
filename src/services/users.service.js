@@ -2,17 +2,8 @@ import axios from 'axios';
 import authService from './auth.service';
 
 //TODO IMPLEMENTAR DOTENV PARA API_URL
-const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
-
-let access_token = ''
-
-try {
-    const datosDeSesion = authService.getStoredSession()
-    access_token = datosDeSesion.access_token
-}
-catch (error) {
-    access_token = ''
-}
+const API_URL = process.env.REACT_APP_API_URL;
+const access_token = authService.getStoredSession() ?  authService.getStoredSession().access_token : '';
 
 const getUsers = (search, pageSize, page) => {
     let params = {}
@@ -117,6 +108,18 @@ const getAllRoles = () => {
     }).catch((err) => { console.log(err) })
 }
 
+const getUserInfo = () => {
+    return axios.get(API_URL + '/usuarios/info', {
+        headers: { 
+            'Authorization': `Bearer ${access_token}` 
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((err) => {
+         handleError(err)
+    })
+}
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -143,7 +146,8 @@ const clientsService = {
     putUser,
     deleteUserById,
     postUser,
-    getAllRoles
+    getAllRoles,
+    getUserInfo
 }
 
 export default clientsService

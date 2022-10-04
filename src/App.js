@@ -33,6 +33,9 @@ import ErrorModalSystem from './components/reusable/ErrorModalSystem';
 import { ErrorProvider } from './context/ErrorContext';
 import gymanagerTheme from './GymanagerTheme';
 import { createTheme, ThemeProvider } from '@mui/material';
+import MisPlanes from './components/misPlanes/MisPlanes';
+import { UserProvider } from './context/UserContext';
+import MiPlan from './components/misPlanes/MiPlan';
 
 function App() {
 
@@ -59,36 +62,42 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <DataProvider>
-        <ErrorProvider>
-          <SnackbarProvider>
-            <div className="fondo">
-              <BrowserRouter >
-                <Drawer showMenu={true} token={token} />
-                <Routes >
-                  <Route path="/" element={<h1>Logeado</h1>} />
+      <UserProvider>
+        <DataProvider>
+          <ErrorProvider>
+            <SnackbarProvider>
+              <div className="fondo">
+                <BrowserRouter >
+                  <Drawer showMenu={true} token={token} />
+                  <Routes >
+                    <Route path="/" element={<h1>Logeado</h1>} />
 
-                  {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
-                  {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
-                  {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
-                  {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
-                  {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
-                  {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
-                  {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
-                  {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
-                  {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
-                  {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
+                    {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
+                    {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
+                    {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<MisPlanes/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<UnderConstructionPage title='Mis planes - MicroPlan'/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina/ejercicio/:idEjercicioAplicado" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
+                    {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
+                    {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
+                    {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
+                    {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
-                  <Route path="/*" element={<NoAutorizadoPage/>} />
-                </Routes>
-                <Footer />
-              </BrowserRouter>
-              <SnackbarSystem/>
-              <ErrorModalSystem/>
-            </div>
-          </SnackbarProvider>
-        </ErrorProvider>
-      </DataProvider>
+                    <Route path="/*" element={<NoAutorizadoPage/>} />
+                  </Routes>
+                  <Footer />
+                </BrowserRouter>
+                <SnackbarSystem/>
+                <ErrorModalSystem/>
+              </div>
+            </SnackbarProvider>
+          </ErrorProvider>
+        </DataProvider>
+      </UserProvider>
     </ThemeProvider>
   );
 }
