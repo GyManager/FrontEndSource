@@ -1,5 +1,5 @@
 import { Check, ElectricBolt, Lock } from "@mui/icons-material";
-import { Badge, Card, CardActionArea, CardContent, Chip, Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, Chip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export default function MicroPlanCard(props) {
     const esVigente =
         props.semanaInicio <= props.semanaActual && props.semanaFin >= props.semanaActual;
 
-    const color = esFuturo ? "#e2dbdb" : esVigente ? "#FFFFFF" : "#cce2cd"; //"#9f9f9f" "#e399e3" "#81b184";
+    const color = esFuturo ? "#e2dbdb" : esVigente ? "#FFFFFF" : "#cce2cd";
 
     const badge = esFuturo ? (
         <Chip label="Pendiente" color="secondary" variant="contained" icon={<Lock />} />
@@ -21,7 +21,7 @@ export default function MicroPlanCard(props) {
     );
 
     return (
-        <Card sx={{ mx: 1, p: 0, mt: 2 }}>
+        <Card sx={{ mx: 1, p: 0, mt: 2, borderRadius: 4}}>
             <CardActionArea onClick={() => navigate(props.route)} sx={{ backgroundColor: color }}>
                 <CardContent sx={{ pb: 0 }}>
                     <Typography variant="h6" align="center">

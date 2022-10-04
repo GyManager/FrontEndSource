@@ -1,8 +1,8 @@
 import { Container, LinearProgress, Paper, Skeleton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { AxiosError } from "axios";
-import { Fragment, useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import planesService from "../../services/planes.service";
 import MicroPlanCard from "./MicroPlanCard";
 
@@ -12,9 +12,7 @@ export default function MiPlan() {
     const [loading, setLoading] = useState(() => true);
     const [plan, setPlan] = useState(() => {});
 
-    const navigate = useNavigate();
-
-    const getPlanesByIdCliente = async () => {
+    const getPlanById = async () => {
         setLoading(true);
 
         const respuesta = await planesService.getPlanById(idPlan);
@@ -31,7 +29,7 @@ export default function MiPlan() {
     };
 
     useEffect(() => {
-        getPlanesByIdCliente();
+        getPlanById();
     }, []);
 
     const semanaActual = loading

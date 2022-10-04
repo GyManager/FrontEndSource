@@ -36,6 +36,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import MisPlanes from './components/misPlanes/MisPlanes';
 import { UserProvider } from './context/UserContext';
 import MiPlan from './components/misPlanes/MiPlan';
+import MiMicroPlan from './components/misPlanes/MiMicroPlan';
 
 function App() {
 
@@ -79,7 +80,7 @@ function App() {
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<MisPlanes/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
-                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<UnderConstructionPage title='Mis planes - MicroPlan'/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<MiMicroPlan/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina/ejercicio/:idEjercicioAplicado" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
                     {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
