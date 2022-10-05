@@ -20,7 +20,6 @@ import MicroPlanesPage from './pages/MicroPlanesPage';
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
 
-
 //Probando context below
 import { DataProvider } from "./context/DataContext";
 import MicroPlanPage from './pages/MicroPlanPage';
@@ -37,6 +36,8 @@ import MisPlanes from './components/misPlanes/MisPlanes';
 import { UserProvider } from './context/UserContext';
 import MiPlan from './components/misPlanes/MiPlan';
 import MiMicroPlan from './components/misPlanes/MiMicroPlan';
+import MiRutina from './components/misPlanes/MiRutina';
+import MiPlanContextLayout from './context/MiPlanContextLayout';
 
 function App() {
 
@@ -79,10 +80,12 @@ function App() {
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<MisPlanes/>} />}
-                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
-                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<MiMicroPlan/>} />}
-                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
-                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina/ejercicio/:idEjercicioAplicado" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
+                    <Route element={<MiPlanContextLayout />}>
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<MiMicroPlan/>} />}
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina" element={<MiRutina/>} />}
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina/ejercicio/:idEjercicioAplicado" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
+                    </Route>
                     {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
                     {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}

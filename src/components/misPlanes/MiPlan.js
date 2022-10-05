@@ -1,36 +1,14 @@
 import { Container, LinearProgress, Paper, Skeleton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import planesService from "../../services/planes.service";
+import { MiPlanContext } from "../../context/MiPlanContext";
 import MicroPlanCard from "./MicroPlanCard";
 
 export default function MiPlan() {
     let { idPlan } = useParams();
 
-    const [loading, setLoading] = useState(() => true);
-    const [plan, setPlan] = useState(() => {});
-
-    const getPlanById = async () => {
-        setLoading(true);
-
-        const respuesta = await planesService.getPlanById(idPlan);
-
-        if (respuesta instanceof AxiosError) {
-            console.log(respuesta);
-        } else {
-            setPlan(respuesta);
-            respuesta.microPlans = respuesta.microPlans.sort(
-                (a, b) => a.numeroOrden - b.numeroOrden
-            );
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getPlanById();
-    }, []);
+    const { plan, loading } = useContext(MiPlanContext);
 
     const semanaActual = loading
         ? ""
@@ -79,7 +57,6 @@ export default function MiPlan() {
             );
         })
     );
-    console.log(microPlanActivo);
 
     return (
         <Container maxWidth="md" disableGutters>

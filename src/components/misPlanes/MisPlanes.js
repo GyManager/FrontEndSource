@@ -26,7 +26,7 @@ export default function MisPlanes() {
         setLoading(false);
 
         if (respuesta instanceof AxiosError) {
-            console.log(respuesta);
+            console.log(respuesta); // TODO improve
         } else {
             if (respuesta.length === 0) {
                 setNingunPlanVigente(true);

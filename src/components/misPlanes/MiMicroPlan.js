@@ -1,33 +1,18 @@
 import { Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import microPlanesService from "../../services/micro-planes.service";
+import { MiPlanContext } from "../../context/MiPlanContext";
 import RutinaCard from "./RutinaCard";
 
 export default function MiMicroPlan(props) {
     let { idPlan, idMicroPlan } = useParams();
 
-    const [loading, setLoading] = useState(() => true);
-    const [microPlan, setMicroPlan] = useState(() => {});
+    const { plan, loading } = useContext(MiPlanContext);
 
-    const getMicroPlanPlanById = async () => {
-        setLoading(true);
-
-        const respuesta = await microPlanesService.getMicroPlanById(idMicroPlan);
-
-        if (respuesta instanceof AxiosError) {
-            console.log(respuesta);
-        } else {
-            setMicroPlan(respuesta);
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getMicroPlanPlanById();
-    }, []);
+    const microPlan = plan
+        ? plan.microPlans.filter((microPlan) => microPlan.idMicroPlan == idMicroPlan)[0]
+        : {};
 
     const paperStyles = {
         sx: { mx: 1, p: 1, my: 2 },
