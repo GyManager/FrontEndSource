@@ -47,6 +47,16 @@ export default function MiRutina() {
                     <Divider />
 
                     <AccordionDetails>
+                        {loading ? (
+                            <Skeleton></Skeleton>
+                        ) : (
+                            rutina.ejerciciosAplicados.map((ejercicioAplicado) => (
+                                <EjercicioAplicadoCard
+                                    {...ejercicioAplicado}
+                                    key={ejercicioAplicado.idEjercicioAplicado}
+                                />
+                            ))
+                        )}
                         <EjercicioAplicadoCard />
                     </AccordionDetails>
                 </Accordion>
