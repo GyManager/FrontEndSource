@@ -1,18 +1,9 @@
-import { ExpandMore } from "@mui/icons-material";
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Divider,
-    Paper,
-    Skeleton,
-    Typography,
-} from "@mui/material";
+import { Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { MiPlanContext } from "../../context/MiPlanContext";
-import EjercicioAplicadoCard from "./EjercicioAplicadoCard";
+import BloqueAccordion from "./BloqueAccordion";
 
 export default function MiRutina() {
     let { idPlan, idMicroPlan, idRutina } = useParams();
@@ -30,6 +21,28 @@ export default function MiRutina() {
         elevation: 2,
     };
 
+    let ejerciciosAplicados = <Skeleton></Skeleton>;
+
+    if (!loading) {
+        const bloqueSet = new Set();
+        rutina.ejerciciosAplicados.forEach((ejercicioAplicado) =>
+            bloqueSet.add(ejercicioAplicado.bloque)
+        );
+
+        const bloquesEjercicios = Array.from(bloqueSet).map((bloque) => {
+            return {
+                bloque: bloque,
+                ejerciciosAplicadosBloque: rutina.ejerciciosAplicados.filter(
+                    (ejercicioAplicado) => ejercicioAplicado.bloque === bloque
+                ),
+            };
+        });
+
+        ejerciciosAplicados = bloquesEjercicios.map((bloque) => (
+            <BloqueAccordion key={bloque.bloque} {...bloque} />
+        ));
+    }
+
     return (
         <Container maxWidth="md" disableGutters>
             <Paper {...paperStyles}>
@@ -38,29 +51,7 @@ export default function MiRutina() {
                 </Typography>
             </Paper>
 
-            <Container maxWidth="md">
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                        <Typography variant="h6">Bloque calentamiento</Typography>
-                    </AccordionSummary>
-
-                    <Divider />
-
-                    <AccordionDetails>
-                        {loading ? (
-                            <Skeleton></Skeleton>
-                        ) : (
-                            rutina.ejerciciosAplicados.map((ejercicioAplicado) => (
-                                <EjercicioAplicadoCard
-                                    {...ejercicioAplicado}
-                                    key={ejercicioAplicado.idEjercicioAplicado}
-                                />
-                            ))
-                        )}
-                        <EjercicioAplicadoCard />
-                    </AccordionDetails>
-                </Accordion>
-            </Container>
+            <Container maxWidth="md">{ejerciciosAplicados}</Container>
         </Container>
     );
 }
