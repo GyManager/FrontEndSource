@@ -1,14 +1,16 @@
 import { Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MiPlanContext } from "../../context/MiPlanContext";
 import BloqueAccordion from "./BloqueAccordion";
+import Ejercicio from "./Ejercicio";
 
 export default function MiRutina() {
     let { idPlan, idMicroPlan, idRutina } = useParams();
 
     const { plan, loading } = useContext(MiPlanContext);
+    const [ejercicioSeleccionado, setEjercicioSeleccionado] = useState();
 
     const rutina = plan
         ? plan.microPlans
@@ -39,8 +41,20 @@ export default function MiRutina() {
         });
 
         ejerciciosAplicados = bloquesEjercicios.map((bloque) => (
-            <BloqueAccordion key={bloque.bloque} {...bloque} />
+            <BloqueAccordion
+                key={bloque.bloque}
+                {...bloque}
+                setEjercicioSeleccionado={setEjercicioSeleccionado}
+            />
         ));
+    }
+
+    if (ejercicioSeleccionado !== null && ejercicioSeleccionado !== undefined) {
+        const ejercicioAplicado = rutina.ejerciciosAplicados.filter(
+            (ejercicioAp) => ejercicioAp.idEjercicioAplicado === ejercicioSeleccionado
+        )[0];
+
+        return <Ejercicio {...ejercicioAplicado} />;
     }
 
     return (

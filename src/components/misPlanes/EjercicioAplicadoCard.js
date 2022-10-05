@@ -16,7 +16,7 @@ export default function EjercicioAplicadoCard(props) {
                 titleTypographyProps={{ variant: "h6" }}
                 sx={{ pb: 2 }}
                 action={
-                    <IconButton aria-label="info" onClick={(e) => alert("link")}>
+                    <IconButton aria-label="info" onClick={(e) => props.setEjercicioSeleccionado(props.idEjercicioAplicado)}>
                         <InfoOutlined />
                     </IconButton>
                 }
