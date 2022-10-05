@@ -19,6 +19,7 @@ import EjercicioPage from './pages/EjercicioPage';
 import MicroPlanesPage from './pages/MicroPlanesPage';
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
+import Home from './components/home/Home'
 
 
 //Probando context below
@@ -39,7 +40,7 @@ function App() {
   const token = AuthService.getStoredSession();
 
   const theme = createTheme(gymanagerTheme);
-
+console.log(token)
   if (!token) {
     return (
       <ThemeProvider theme={theme}>
@@ -78,7 +79,7 @@ function App() {
                   {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
                   {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                   {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
-
+                  <Route path="/home" element={<Home token={token}/>}  />
                   <Route path="/*" element={<NoAutorizadoPage/>} />
                 </Routes>
                 <Footer />

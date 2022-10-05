@@ -10,7 +10,7 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, WindowSharp
+    Logout, Person, ListAlt
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';
@@ -92,7 +92,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
         {
             text: "Inicio",
             icon: <Home />,
-            url: "/",
+            url: "/home",
             permiso: ""
         },
         {
