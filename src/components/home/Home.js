@@ -1,7 +1,6 @@
-import { Avatar, Box, IconButton, Typography, useMediaQuery } from "@mui/material";
-import { Button, Paper, Stack } from "@mui/material";
-import { Container, height } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
+import { Avatar, Box, IconButton, Typography, useMediaQuery, Button, Paper, Stack, Fab } from "@mui/material";
+import { Container } from "@mui/system";
 import {
     Newspaper,
     Straighten,
@@ -12,20 +11,23 @@ import {
     ArrowCircleUp,
 } from "@mui/icons-material";
 import Card from "./Card";
+import MiniReportes from "./MiniReportes"
 import logo from "../../images/logo.png";
-import Fab from "@mui/material/Fab";
 
 import { animateScroll as scroll } from 'react-scroll'
 
 function Home(props) {
+const [ isOnTop, setIsOnTop ] = useState(true)
+const [isScrolling, setIsScrolling]= useState(false)
+
     const iconMediumStyle = {
         width: "40%",
-        height: "10vh",
+        height: "8vh",
         color: "primary.main",
     };
     const iconLargeStyle = {
         width: "100%",
-        height: "10vh",
+        height: "8vh",
         color: "primary.main",
     };
 
@@ -63,38 +65,69 @@ function Home(props) {
             descripcion: "aca podras acceder a todos los planes que has hecho.",
             icon: <History {...iconStyle} />,
         },
+        {
+            titulo: "mis medidas",
+            descripcion: "mantene actualizadas tus dimensiones corporales.",
+            icon: <Straighten {...iconStyle} />,
+        },
+        {
+            titulo: "mis datos",
+            descripcion: "datos generales de tu perfil.",
+            icon: <FolderShared {...iconStyle} />,
+        },
+        {
+            titulo: "mi matricula",
+            descripcion: "consulta el estado de tu matricula.",
+            icon: <HowToReg {...iconStyle} />,
+        },
+        {
+            titulo: "historico planes",
+            descripcion: "aca podras acceder a todos los planes que has hecho.",
+            icon: <History {...iconStyle} />,
+        },
     ];
+
+    const handleWheel = (e) => {
+        e.preventDefault();
+       if(!isScrolling) {
+        setIsScrolling(true)
+        isOnTop ? scroll.scrollToBottom() : scroll.scrollToTop()
+        setIsOnTop(!isOnTop)}
+setTimeout(()=>{},1000)
+    }
     return (
         <>
-            <Container sx={{ display: "flex", justifyContent: "center" }}>
+            <Container sx={{ display: "flex", justifyContent: "center" }} >
                 <Paper
                     sx={{
-                        width: "90vw",
+                        width: "70vw",
+                        height: '20vh',
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "center",
                         alignItems: "center",
                         p: 2,
                     }}
+                    onWheel={handleWheel}
                 >
                     <Avatar
                         alt="Logo"
                         src={logo}
                         sx={{
                             mr: 2,
-                            width: "12vw",
-                            height: "12vw",
-                            minWidth: "120px",
-                            minHeight: "120px",
+                            width: "5vw",
+                            height: "5vw",
+                            minWidth: "80px",
+                            minHeight: "80px",
                         }}
                     />
-                    <Typography variant="h4">
+                    <Typography variant="h5">
                         Bienvenido a CoreE <i>UsuarioName</i>{" "}
                     </Typography>
                 </Paper>
             </Container>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
-                <Paper sx={{ width: "90vw", mt: 2, p: 2 }}>
+                <Paper sx={{ width: "60vw", height:'57vh', mt: 2, p: 1 }}>
                     <Stack
                         direction={isMediumDevice ? "column" : "row"}
                         spacing={2}
@@ -122,18 +155,27 @@ function Home(props) {
                         </Box>
                     </Stack>
                 </Paper>
-            </Container>
-            <Container sx={{ display: "flex", justifyContent: "center" }}>
-                <Fab color="primary" aria-label="add" sx={{width:'4vw', height:'4vw', mt:1}} onClick={()=>{scroll.scrollToBottom()}}>
-                    <ArrowCircleDown sx={{width:'3vw', height:'3vw'}}/>
+                {/* <Container> */}
+                <Box  display={{xs:'none', lg:'flex'}} sx={{alignItems:'flex-end', position:'relative', left:-15, top:'2vh' }} >
+                <Fab color="primary" aria-label="add" size="large" onClick={scroll.scrollToBottom}>
+                    <ArrowCircleDown />
                 </Fab>
-                
+                </Box>
+                {/* </Container> */}
             </Container>
-            <Paper sx={{height:'86vh'}}>
-            <Fab color="primary" aria-label="add" sx={{width:'4vw', height:'4vw', mt:1}} onClick={()=>{scroll.scrollToTop()}}>
-                    <ArrowCircleUp sx={{width:'3vw', height:'3vw'}}/>
+            <Container sx={{ }}>
+            <Paper sx={{height:'80vh', mt:'10vh'}} onWheel={handleWheel}>
+            {/* <Fab color="primary" aria-label="add" sx={{width:'4vw', height:'4vw'}} onClick={scroll.scrollToTop}>
+                    <ArrowCircleUp sx={{width:'4vw', height:'4vw'}}/>
+                </Fab> */}
+                <Box  display={{xs:'none', lg:'flex'}}sx={{ alignItems:'flex-end', position:'absolute', right:'1vw', top:'1vh' }} >
+                <Fab color="primary" aria-label="add" size="large" onClick={scroll.scrollToTop}>
+                    <ArrowCircleUp />
                 </Fab>
+                </Box>
+                <MiniReportes />
             </Paper>
+            </Container>
         </>
     );
 }
