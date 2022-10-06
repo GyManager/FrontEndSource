@@ -3,6 +3,7 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
+    Button,
     Card,
     CardContent,
     CardMedia,
@@ -71,6 +72,7 @@ export default function Ejercicio(props) {
                 <Typography variant="h5">
                     {loading ? <Skeleton></Skeleton> : ejercicio.nombre}
                 </Typography>
+                <Button variant="outlined" onClick={props.volver}>Volver</Button>
                 <Typography variant="h6">
                     {loading ? <Skeleton></Skeleton> : ejercicio.tipoEjercicio}
                 </Typography>

@@ -1,4 +1,4 @@
-import { Paper, Skeleton, Typography } from "@mui/material";
+import { Collapse, Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -49,23 +49,31 @@ export default function MiRutina() {
         ));
     }
 
-    if (ejercicioSeleccionado !== null && ejercicioSeleccionado !== undefined) {
-        const ejercicioAplicado = rutina.ejerciciosAplicados.filter(
-            (ejercicioAp) => ejercicioAp.idEjercicioAplicado === ejercicioSeleccionado
-        )[0];
-
-        return <Ejercicio {...ejercicioAplicado} />;
-    }
+    const ejMostrado = loading
+        ? null
+        : rutina.ejerciciosAplicados.filter(
+              (ejercicioAp) => ejercicioAp.idEjercicioAplicado === ejercicioSeleccionado
+          )[0];
 
     return (
         <Container maxWidth="md" disableGutters>
-            <Paper {...paperStyles}>
-                <Typography variant="h5" align="center">
-                    {loading ? <Skeleton></Skeleton> : `Rutina ${rutina.nombre}`}
-                </Typography>
-            </Paper>
+            <Collapse in={ejercicioSeleccionado === null || ejercicioSeleccionado === undefined}>
+                <Paper {...paperStyles}>
+                    <Typography variant="h5" align="center">
+                        {loading ? <Skeleton></Skeleton> : `Rutina ${rutina.nombre}`}
+                    </Typography>
+                </Paper>
 
-            <Container maxWidth="md">{ejerciciosAplicados}</Container>
+                <Container maxWidth="md">{ejerciciosAplicados}</Container>
+            </Collapse>
+
+            <Collapse
+                in={ejercicioSeleccionado !== null && ejercicioSeleccionado !== undefined}
+                mountOnEnter
+                unmountOnExit
+            >
+                <Ejercicio {...ejMostrado} volver={() => setEjercicioSeleccionado(null)} />
+            </Collapse>
         </Container>
     );
 }
