@@ -3,7 +3,6 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Button,
     Card,
     CardContent,
     CardMedia,
@@ -18,6 +17,8 @@ import ejerciciosService from "../../services/ejercicios.service";
 
 export default function Ejercicio(props) {
     const [loading, setLoading] = useState(() => true);
+    const [loadingPasos, setLoadingPasos] = useState(() => true);
+    const [loadingHerramientas, setLoadingHerramientas] = useState(() => true);
     const [ejercicio, setEjercicio] = useState(() => {});
     const [herramientas, setHerramientas] = useState(() => []);
     const [pasos, setPasos] = useState(() => []);
@@ -43,24 +44,28 @@ export default function Ejercicio(props) {
     }, []);
 
     useEffect(() => {
+        setLoadingPasos(true);
         async function fetchPasosByIdEjercicio() {
             const response = await ejerciciosService.getPasosByEjercicioId(props.idEjercicio);
             if (response instanceof AxiosError) {
                 console.log(response); //improve
             } else {
                 setPasos(response);
+                setLoadingPasos(false);
             }
         }
         fetchPasosByIdEjercicio();
     }, []);
 
     useEffect(() => {
+        setLoadingHerramientas(true);
         async function fetchEquipamentoDeEjercicio() {
             const response = await ejerciciosService.getEquipamentoByEjercicio(props.idEjercicio);
             if (response instanceof AxiosError) {
                 console.log(response); //improve
             } else {
                 setHerramientas(response);
+                setLoadingHerramientas(false);
             }
         }
         fetchEquipamentoDeEjercicio();
@@ -72,7 +77,6 @@ export default function Ejercicio(props) {
                 <Typography variant="h5">
                     {loading ? <Skeleton></Skeleton> : ejercicio.nombre}
                 </Typography>
-                <Button variant="outlined" onClick={props.volver}>Volver</Button>
                 <Typography variant="h6">
                     {loading ? <Skeleton></Skeleton> : ejercicio.tipoEjercicio}
                 </Typography>
@@ -83,9 +87,13 @@ export default function Ejercicio(props) {
                     </AccordionSummary>
 
                     <AccordionDetails>
-                        {herramientas.map((herramienta) => (
-                            <Typography>{herramienta}</Typography>
-                        ))}
+                        {loadingHerramientas ? (
+                            <Skeleton></Skeleton>
+                        ) : (
+                            herramientas.map((herramienta) => (
+                                <Typography>{herramienta}</Typography>
+                            ))
+                        )}
                     </AccordionDetails>
                 </Accordion>
 
@@ -95,24 +103,22 @@ export default function Ejercicio(props) {
                     </AccordionSummary>
 
                     <AccordionDetails>
-                        {pasos.map((paso) => (
-                            <Card>
-                                {paso.imagen !== null &&
-                                    paso.imagen !== undefined &&
-                                    paso.imagen !== "" && (
-                                        <CardMedia
-                                            component="img"
-                                            image={paso.imagen}
-                                            alt=""
-                                        />
-                                    )}
-                                <CardContent>
-                                    <Typography >
-                                        {paso.contenido}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        ))}
+                        {loadingPasos ? (
+                            <Skeleton></Skeleton>
+                        ) : (
+                            pasos.map((paso) => (
+                                <Card>
+                                    {paso.imagen !== null &&
+                                        paso.imagen !== undefined &&
+                                        paso.imagen !== "" && (
+                                            <CardMedia component="img" image={paso.imagen} alt="" />
+                                        )}
+                                    <CardContent>
+                                        <Typography>{paso.contenido}</Typography>
+                                    </CardContent>
+                                </Card>
+                            ))
+                        )}
                     </AccordionDetails>
                 </Accordion>
 

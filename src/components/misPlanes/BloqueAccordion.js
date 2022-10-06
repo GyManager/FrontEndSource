@@ -16,7 +16,6 @@ export default function BloqueAccordion(props) {
                     <EjercicioAplicadoCard
                         {...ejercicioAplicado}
                         key={ejercicioAplicado.idEjercicioAplicado}
-                        setEjercicioSeleccionado={props.setEjercicioSeleccionado}
                     />
                 ))}
             </AccordionDetails>

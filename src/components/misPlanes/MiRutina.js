@@ -1,7 +1,7 @@
 import { Collapse, Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 import { MiPlanContext } from "../../context/MiPlanContext";
 import BloqueAccordion from "./BloqueAccordion";
 import Ejercicio from "./Ejercicio";
@@ -10,7 +10,8 @@ export default function MiRutina() {
     let { idPlan, idMicroPlan, idRutina } = useParams();
 
     const { plan, loading } = useContext(MiPlanContext);
-    const [ejercicioSeleccionado, setEjercicioSeleccionado] = useState();
+    let [searchParams, setSearchParams] = useSearchParams();
+    const ejercicioSeleccionado = searchParams.get("idEjercicioAplicado");
 
     const rutina = plan
         ? plan.microPlans
@@ -41,18 +42,14 @@ export default function MiRutina() {
         });
 
         ejerciciosAplicados = bloquesEjercicios.map((bloque) => (
-            <BloqueAccordion
-                key={bloque.bloque}
-                {...bloque}
-                setEjercicioSeleccionado={setEjercicioSeleccionado}
-            />
+            <BloqueAccordion key={bloque.bloque} {...bloque} />
         ));
     }
 
     const ejMostrado = loading
         ? null
         : rutina.ejerciciosAplicados.filter(
-              (ejercicioAp) => ejercicioAp.idEjercicioAplicado === ejercicioSeleccionado
+              (ejercicioAp) => ejercicioAp.idEjercicioAplicado == ejercicioSeleccionado
           )[0];
 
     return (
@@ -72,7 +69,7 @@ export default function MiRutina() {
                 mountOnEnter
                 unmountOnExit
             >
-                <Ejercicio {...ejMostrado} volver={() => setEjercicioSeleccionado(null)} />
+                <Ejercicio {...ejMostrado} volver={() => setSearchParams()} />
             </Collapse>
         </Container>
     );

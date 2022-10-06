@@ -1,21 +1,23 @@
 import { InfoOutlined } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Collapse, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 
 export default function EjercicioAplicadoCard(props) {
     const [collapsed, setCollapsed] = useState(false);
+    let [searchParams, setSearchParams] = useSearchParams();
 
     function clickCard(e) {
         setCollapsed(!collapsed);
     }
 
-    function clickInfo(e){
+    function clickInfo(e) {
         e?.stopPropagation();
-        props.setEjercicioSeleccionado(props.idEjercicioAplicado)
+        setSearchParams({ idEjercicioAplicado: props.idEjercicioAplicado });
     }
 
     return (
-        <Card sx={{ my: 0.5, borderRadius: 1}} elevation={2}>
+        <Card sx={{ my: 0.5, borderRadius: 1 }} elevation={2}>
             <CardHeader
                 onClick={clickCard}
                 title={props.nombreEjercicio}
