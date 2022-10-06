@@ -8,6 +8,12 @@ export default function EjercicioAplicadoCard(props) {
     function clickCard(e) {
         setCollapsed(!collapsed);
     }
+
+    function clickInfo(e){
+        e?.stopPropagation();
+        props.setEjercicioSeleccionado(props.idEjercicioAplicado)
+    }
+
     return (
         <Card sx={{ my: 0.5, borderRadius: 1}} elevation={2}>
             <CardHeader
@@ -16,7 +22,7 @@ export default function EjercicioAplicadoCard(props) {
                 titleTypographyProps={{ variant: "h6" }}
                 sx={{ pb: 2 }}
                 action={
-                    <IconButton aria-label="info" onClick={(e) => props.setEjercicioSeleccionado(props.idEjercicioAplicado)}>
+                    <IconButton aria-label="info" onClick={clickInfo}>
                         <InfoOutlined />
                     </IconButton>
                 }
