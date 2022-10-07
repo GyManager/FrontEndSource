@@ -40,8 +40,10 @@ export default function Ejercicio(props) {
     }
 
     useEffect(() => {
-        getEjercicio();
-    }, []);
+        if(props.idEjercicio !== null && props.idEjercicio !== undefined){
+            getEjercicio();
+        }
+    }, [props.idEjercicio]);
 
     useEffect(() => {
         setLoadingPasos(true);
@@ -54,8 +56,10 @@ export default function Ejercicio(props) {
                 setLoadingPasos(false);
             }
         }
-        fetchPasosByIdEjercicio();
-    }, []);
+        if(props.idEjercicio !== null && props.idEjercicio !== undefined){
+            fetchPasosByIdEjercicio();
+        }
+    }, [props.idEjercicio]);
 
     useEffect(() => {
         setLoadingHerramientas(true);
@@ -68,8 +72,10 @@ export default function Ejercicio(props) {
                 setLoadingHerramientas(false);
             }
         }
-        fetchEquipamentoDeEjercicio();
-    }, []);
+        if(props.idEjercicio !== null && props.idEjercicio !== undefined){
+            fetchEquipamentoDeEjercicio();
+        }
+    }, [props.idEjercicio]);
 
     return (
         <Container maxWidth="md" disableGutters>
@@ -125,6 +131,7 @@ export default function Ejercicio(props) {
                 <Accordion defaultExpanded>
                     <AccordionSummary expandIcon={<ExpandMore />}>
                         <Typography variant="h6">¿Como te fue hoy?</Typography>
+                        
                     </AccordionSummary>
                 </Accordion>
             </Paper>
