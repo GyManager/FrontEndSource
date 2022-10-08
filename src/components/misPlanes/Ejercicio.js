@@ -11,6 +11,9 @@ import {
     Card,
     CardContent,
     CardMedia,
+    List,
+    ListItem,
+    ListItemText,
     Paper,
     Skeleton,
     Stack,
@@ -139,9 +142,13 @@ export default function Ejercicio(props) {
                         {loadingHerramientas ? (
                             <Skeleton></Skeleton>
                         ) : (
-                            herramientas.map((herramienta) => (
-                                <Typography key={herramienta}>{herramienta}</Typography>
-                            ))
+                            <List sx={{ py: 0 }}>
+                                {herramientas.map((herramienta) => (
+                                    <ListItem key={herramienta} sx={{ py: 0 }}>
+                                        <ListItemText primary={herramienta} />
+                                    </ListItem>
+                                ))}
+                            </List>
                         )}
                     </AccordionDetails>
                 </Accordion>
@@ -151,7 +158,7 @@ export default function Ejercicio(props) {
                         <Typography variant="h6">Como realizar el ejercicio</Typography>
                     </AccordionSummary>
 
-                    <AccordionDetails>
+                    <AccordionDetails sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                         {loadingPasos ? (
                             <Skeleton></Skeleton>
                         ) : (
