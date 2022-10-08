@@ -11,7 +11,7 @@ export default function MiMicroPlan(props) {
     const { plan, loading } = useContext(MiPlanContext);
 
     const microPlan = plan
-        ? plan.microPlans.filter((microPlan) => microPlan.idMicroPlan == idMicroPlan)[0]
+        ? plan.microPlans.filter((microPlan) => microPlan.idMicroPlan === parseInt(idMicroPlan))[0]
         : {};
 
     const paperStyles = {

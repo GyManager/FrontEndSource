@@ -37,6 +37,7 @@ export default function MiPlan() {
             acumSemanas += microPlan.observaciones.length;
             return (
                 <MicroPlanCard
+                    key={microPlan.idMicroPlan}
                     nombre={microPlan.nombre}
                     semanaInicio={semanaInicio}
                     semanaFin={acumSemanas - 1}

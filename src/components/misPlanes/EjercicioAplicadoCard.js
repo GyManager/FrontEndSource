@@ -1,13 +1,14 @@
 import { InfoOutlined } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Collapse, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export default function EjercicioAplicadoCard(props) {
     const [collapsed, setCollapsed] = useState(false);
     let [searchParams, setSearchParams] = useSearchParams();
 
     function clickCard(e) {
+        e.preventDefault();
         setCollapsed(!collapsed);
     }
 

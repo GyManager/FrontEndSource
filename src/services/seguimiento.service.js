@@ -4,9 +4,6 @@ import authService from "./auth.service";
 const API_URL = process.env.REACT_APP_API_URL;
 const API_PATH_PLANES = "/planes";
 const API_PATH = "/seguimiento";
-const access_token = authService.getStoredSession()
-    ? authService.getStoredSession().access_token
-    : "";
 
 const postSeguimientoEjercicio = (seguimientoEjercicio, idPlan, idEjercicioAplicado) => {
     let params = {

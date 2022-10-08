@@ -59,7 +59,7 @@ export default function Ejercicio(props) {
                 formik.values.tiempo !== "")
         ) {
             setFormikSubmitted(true);
-            const response = await seguimientoService.postSeguimientoEjercicio(
+            seguimientoService.postSeguimientoEjercicio(
                 formik.values,
                 idPlan,
                 props.idEjercicioAplicado
@@ -72,19 +72,18 @@ export default function Ejercicio(props) {
         elevation: 2,
     };
 
-    async function getEjercicio() {
-        setLoading(true);
-        const response = await ejerciciosService.getEjercicioById(props.idEjercicio);
-        if (response instanceof AxiosError) {
-            console.log(response); // improve
-        } else {
-            setEjercicio(response);
-            setLoading(false);
-        }
-    }
-
     useEffect(() => {
         if (props.idEjercicio !== null && props.idEjercicio !== undefined) {
+            async function getEjercicio() {
+                setLoading(true);
+                const response = await ejerciciosService.getEjercicioById(props.idEjercicio);
+                if (response instanceof AxiosError) {
+                    console.log(response); // improve
+                } else {
+                    setEjercicio(response);
+                    setLoading(false);
+                }
+            }
             getEjercicio();
         }
     }, [props.idEjercicio]);
@@ -141,7 +140,7 @@ export default function Ejercicio(props) {
                             <Skeleton></Skeleton>
                         ) : (
                             herramientas.map((herramienta) => (
-                                <Typography>{herramienta}</Typography>
+                                <Typography key={herramienta}>{herramienta}</Typography>
                             ))
                         )}
                     </AccordionDetails>
@@ -157,7 +156,7 @@ export default function Ejercicio(props) {
                             <Skeleton></Skeleton>
                         ) : (
                             pasos.map((paso) => (
-                                <Card>
+                                <Card key={paso.idPaso}>
                                     {paso.imagen !== null &&
                                         paso.imagen !== undefined &&
                                         paso.imagen !== "" && (

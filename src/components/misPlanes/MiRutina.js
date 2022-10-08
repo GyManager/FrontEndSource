@@ -7,7 +7,7 @@ import BloqueAccordion from "./BloqueAccordion";
 import Ejercicio from "./Ejercicio";
 
 export default function MiRutina() {
-    let { idPlan, idMicroPlan, idRutina } = useParams();
+    let { idMicroPlan, idRutina } = useParams();
 
     const { plan, loading } = useContext(MiPlanContext);
     let [searchParams, setSearchParams] = useSearchParams();
@@ -15,8 +15,8 @@ export default function MiRutina() {
 
     const rutina = plan
         ? plan.microPlans
-              .filter((microPlan) => microPlan.idMicroPlan == idMicroPlan)[0]
-              .rutinas.filter((rutina) => rutina.idRutina == idRutina)[0]
+              .filter((microPlan) => microPlan.idMicroPlan === parseInt(idMicroPlan))[0]
+              .rutinas.filter((rutina) => rutina.idRutina === parseInt(idRutina))[0]
         : {};
 
     const paperStyles = {
@@ -49,7 +49,7 @@ export default function MiRutina() {
     const ejMostrado = loading
         ? null
         : rutina.ejerciciosAplicados.filter(
-              (ejercicioAp) => ejercicioAp.idEjercicioAplicado == ejercicioSeleccionado
+              (ejercicioAp) => ejercicioAp.idEjercicioAplicado === parseInt(ejercicioSeleccionado)
           )[0];
 
     return (

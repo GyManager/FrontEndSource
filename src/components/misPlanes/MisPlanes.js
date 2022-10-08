@@ -14,7 +14,7 @@ export default function MisPlanes() {
 
     const navigate = useNavigate();
 
-    const getPlanesByIdCliente = async () => {
+    async function getPlanesByIdCliente(){
         setLoading(true);
 
         let usuario = await getUserInfo();
