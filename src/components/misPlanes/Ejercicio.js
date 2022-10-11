@@ -1,13 +1,10 @@
-import { ExpandMore, Save, ThumbUpSharp } from "@mui/icons-material";
-import * as yup from "yup";
+import { ExpandMore } from "@mui/icons-material";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Button,
     Card,
     CardContent,
     CardMedia,
@@ -16,14 +13,10 @@ import {
     ListItemText,
     Paper,
     Skeleton,
-    Stack,
-    TextField,
     Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import ejerciciosService from "../../services/ejercicios.service";
-import { useFormik } from "formik";
-import seguimientoService from "../../services/seguimiento.service";
 
 export default function Ejercicio(props) {
     const [loading, setLoading] = useState(() => true);
@@ -32,43 +25,6 @@ export default function Ejercicio(props) {
     const [ejercicio, setEjercicio] = useState(() => {});
     const [herramientas, setHerramientas] = useState(() => []);
     const [pasos, setPasos] = useState(() => []);
-    const [formikSubmitted, setFormikSubmitted] = useState(() => false);
-    let { idPlan } = useParams();
-
-    const formik = useFormik({
-        initialValues: { carga: "", tiempo: "" },
-        validationSchema: yup.object({
-            carga: yup
-                .number()
-                .typeError("La carga debe ser un numero")
-                .integer("debe ser un numero entero")
-                .positive("La carga debe debe ser un valor positivo")
-                .max(9999999999, "Maximo de 10 caracteres"),
-            tiempo: yup.string().max(10, "Maximo de 10 caracteres").trim(),
-        }),
-        onSubmit: () => {
-            handleSubmit();
-        },
-    });
-
-    async function handleSubmit(e) {
-        e?.preventDefault();
-        if (
-            (formik.values.carga !== null &&
-                formik.values.carga !== null &&
-                formik.values.carga !== "") ||
-            (formik.values.tiempo !== null &&
-                formik.values.tiempo !== null &&
-                formik.values.tiempo !== "")
-        ) {
-            setFormikSubmitted(true);
-            seguimientoService.postSeguimientoEjercicio(
-                formik.values,
-                idPlan,
-                props.idEjercicioAplicado
-            );
-        }
-    }
 
     const paperStyles = {
         sx: { mx: 1, p: 1, my: 2 },
@@ -175,53 +131,6 @@ export default function Ejercicio(props) {
                                 </Card>
                             ))
                         )}
-                    </AccordionDetails>
-                </Accordion>
-
-                <Accordion defaultExpanded>
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                        <Typography variant="h6">¿Como te fue hoy?</Typography>
-                    </AccordionSummary>
-
-                    <AccordionDetails>
-                        <Stack
-                            direction={{ xs: "column", sm: "row" }}
-                            spacing={{ xs: 1, sm: 2, md: 4 }}
-                            justifyContent="center"
-                        >
-                            <TextField
-                                label="Carga"
-                                id="carga"
-                                name="carga"
-                                value={formik.values.carga}
-                                onChange={formik.handleChange}
-                                error={formik.touched.carga && Boolean(formik.errors.carga)}
-                                helperText={formik.touched.carga && formik.errors.carga}
-                                variant="standard"
-                                type="number"
-                            />
-                            <TextField
-                                label="Tiempo"
-                                id="tiempo"
-                                name="tiempo"
-                                value={formik.values.tiempo}
-                                onChange={formik.handleChange}
-                                error={formik.touched.tiempo && Boolean(formik.errors.tiempo)}
-                                helperText={formik.touched.tiempo && formik.errors.tiempo}
-                                variant="standard"
-                            />
-                        </Stack>
-                        <Stack mt={3} alignItems="center" direction={"column"}>
-                            <Button
-                                variant="contained"
-                                sx={{ maxWidth: 300, width: "100%" }}
-                                onClick={formik.handleSubmit}
-                                disabled={formikSubmitted}
-                                endIcon={formikSubmitted ? <ThumbUpSharp /> : <Save />}
-                            >
-                                {formikSubmitted ? "Guardado" : "Guardar"}
-                            </Button>
-                        </Stack>
                     </AccordionDetails>
                 </Accordion>
             </Paper>

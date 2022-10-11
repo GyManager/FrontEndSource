@@ -19,7 +19,7 @@ export default function RutinaCard(props) {
             <CardActionArea onClick={() => navigate(props.route)} sx={{ backgroundColor: color }}>
                 <CardContent sx={{ pb: 0 }}>
                     <Typography variant="h6" align="center">
-                        Rutina {props.nombre}
+                        Rutina dia {props.dia} : {props.nombre}
                     </Typography>
                     <Box
                         sx={{

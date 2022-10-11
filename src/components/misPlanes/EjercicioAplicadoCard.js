@@ -1,5 +1,14 @@
-import { InfoOutlined } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Collapse, IconButton, Typography } from "@mui/material";
+import { InfoOutlined, DataSaverOnOutlined } from "@mui/icons-material";
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Collapse,
+    IconButton,
+    Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -15,6 +24,11 @@ export default function EjercicioAplicadoCard(props) {
     function clickInfo(e) {
         e?.stopPropagation();
         setSearchParams({ idEjercicioAplicado: props.idEjercicioAplicado });
+    }
+
+    function clickSaveResults(e) {
+        e?.stopPropagation();
+        props.cargarSeguimiento(props.idEjercicioAplicado);
     }
 
     return (
@@ -51,6 +65,13 @@ export default function EjercicioAplicadoCard(props) {
                         {props.carga !== null && `Carga: ${props.carga}`}
                     </Typography>
                 </CardContent>
+
+                <CardActions>
+                    <Button size="small" onClick={clickSaveResults}>Anotar resultados</Button>
+                    <IconButton color="primary" onClick={clickSaveResults}>
+                        <DataSaverOnOutlined />
+                    </IconButton>
+                </CardActions>
             </Collapse>
         </Card>
     );

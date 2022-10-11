@@ -23,10 +23,11 @@ export default function MiMicroPlan(props) {
     const rutinas = loading ? (
         <Skeleton variant="rectangular" height={80} sx={{ m: 1 }} />
     ) : (
-        microPlan.rutinas.map((rutina) => (
+        microPlan.rutinas.map((rutina, index) => (
             <RutinaCard
                 key={rutina.idRutina}
                 nombre={rutina.nombre}
+                dia={index + 1}
                 route={`/mis-planes/${idPlan}/micro-plan/${idMicroPlan}/rutina/${rutina.idRutina}`}
             />
         ))

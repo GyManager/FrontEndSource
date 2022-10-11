@@ -16,6 +16,7 @@ export default function BloqueAccordion(props) {
                     <EjercicioAplicadoCard
                         {...ejercicioAplicado}
                         key={ejercicioAplicado.idEjercicioAplicado}
+                        cargarSeguimiento={props.cargarSeguimiento}
                     />
                 ))}
             </AccordionDetails>

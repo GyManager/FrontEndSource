@@ -1,10 +1,11 @@
 import { Collapse, Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { MiPlanContext } from "../../context/MiPlanContext";
 import BloqueAccordion from "./BloqueAccordion";
 import Ejercicio from "./Ejercicio";
+import FeedbackEjercicioModal from "./FeedbackEjercicioModal";
 
 export default function MiRutina() {
     let { idMicroPlan, idRutina } = useParams();
@@ -12,6 +13,7 @@ export default function MiRutina() {
     const { plan, loading } = useContext(MiPlanContext);
     let [searchParams, setSearchParams] = useSearchParams();
     const ejercicioSeleccionado = searchParams.get("idEjercicioAplicado");
+    const [cargarSeguimiento, setCargarSeguimiento] = useState();
 
     const rutina = plan
         ? plan.microPlans
@@ -42,7 +44,11 @@ export default function MiRutina() {
         });
 
         ejerciciosAplicados = bloquesEjercicios.map((bloque) => (
-            <BloqueAccordion key={bloque.bloque} {...bloque} />
+            <BloqueAccordion
+                key={bloque.bloque}
+                {...bloque}
+                cargarSeguimiento={setCargarSeguimiento}
+            />
         ));
     }
 
@@ -50,6 +56,12 @@ export default function MiRutina() {
         ? null
         : rutina.ejerciciosAplicados.filter(
               (ejercicioAp) => ejercicioAp.idEjercicioAplicado === parseInt(ejercicioSeleccionado)
+          )[0];
+
+    const ejercicioACargarSeguimiento = loading
+        ? null
+        : rutina.ejerciciosAplicados.filter(
+              (ejercicioAp) => ejercicioAp.idEjercicioAplicado === cargarSeguimiento
           )[0];
 
     return (
@@ -62,6 +74,12 @@ export default function MiRutina() {
                 </Paper>
 
                 <Container maxWidth="md">{ejerciciosAplicados}</Container>
+                {!loading && cargarSeguimiento !== null && cargarSeguimiento !== undefined && (
+                    <FeedbackEjercicioModal
+                        {...ejercicioACargarSeguimiento}
+                        setClose={() => setCargarSeguimiento(null)}
+                    />
+                )}
             </Collapse>
 
             <Collapse
