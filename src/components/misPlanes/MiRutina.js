@@ -1,19 +1,40 @@
 import { Collapse, Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { useContext, useState } from "react";
+import { AxiosError } from "axios";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { MiPlanContext } from "../../context/MiPlanContext";
+import seguimientoService from "../../services/seguimiento.service";
 import BloqueAccordion from "./BloqueAccordion";
 import Ejercicio from "./Ejercicio";
 import FeedbackEjercicioModal from "./FeedbackEjercicioModal";
 
 export default function MiRutina() {
-    let { idMicroPlan, idRutina } = useParams();
+    let { idPlan, idMicroPlan, idRutina } = useParams();
 
     const { plan, loading } = useContext(MiPlanContext);
     let [searchParams, setSearchParams] = useSearchParams();
     const ejercicioSeleccionado = searchParams.get("idEjercicioAplicado");
     const [cargarSeguimiento, setCargarSeguimiento] = useState();
+    const [seguimientos, setSeguimientos] = useState(() => []);
+
+    async function getSeguimientos() {
+        const respuesta = await seguimientoService.getSeguimientoEjercicioByIdRutina(
+            idPlan,
+            idMicroPlan,
+            idRutina,
+            "HOY"
+        );
+        if (respuesta instanceof AxiosError) {
+            console.log(respuesta); // TODO IMPROVE
+        } else {
+            setSeguimientos(respuesta);
+        }
+    }
+
+    useEffect(() => {
+        getSeguimientos();
+    }, []);
 
     const rutina = plan
         ? plan.microPlans
@@ -48,6 +69,7 @@ export default function MiRutina() {
                 key={bloque.bloque}
                 {...bloque}
                 cargarSeguimiento={setCargarSeguimiento}
+                seguimientos={seguimientos}
             />
         ));
     }
@@ -78,6 +100,12 @@ export default function MiRutina() {
                     <FeedbackEjercicioModal
                         {...ejercicioACargarSeguimiento}
                         setClose={() => setCargarSeguimiento(null)}
+                        reload={getSeguimientos}
+                        seguimientoActual={seguimientos.filter(
+                            (seguimiento) =>
+                                seguimiento.idEjercicioAplicado ===
+                                ejercicioACargarSeguimiento.idEjercicioAplicado
+                        )[0]}
                     />
                 )}
             </Collapse>

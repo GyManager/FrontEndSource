@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function RutinaCard(props) {
     const navigate = useNavigate();
 
-    const color = props.completado ? "#cce2cd" : "#ffffff";
+    const color = props.completado ? "#cce2cd" : "#ffffff77";
 
     const badge = props.completado ? (
         <Chip label="Completado esta semana" color="success" variant="contained" icon={<Check />} />
@@ -15,11 +15,11 @@ export default function RutinaCard(props) {
     );
 
     return (
-        <Card sx={{ mx: 1, p: 0, mt: 2, borderRadius: 4 }}>
+        <Card sx={{ mx: 1, p: 0, mt: 2, borderRadius: 4, backgroundColor: color }}>
             <CardActionArea onClick={() => navigate(props.route)} sx={{ backgroundColor: color }}>
-                <CardContent sx={{ pb: 0 }}>
+                <CardContent sx={{ pb: 0, backgroundColor: color }}>
                     <Typography variant="h6" align="center">
-                        Rutina dia {props.dia} : {props.nombre}
+                        Rutina dia {props.dia}: <b>{props.nombre}</b>
                     </Typography>
                     <Box
                         sx={{

@@ -5,6 +5,30 @@ const API_URL = process.env.REACT_APP_API_URL;
 const API_PATH_PLANES = "/planes";
 const API_PATH = "/seguimiento";
 
+const getSeguimientoEjercicioByIdRutina = (idPlan, idMicroPlan, idRutina, seguimientosFilter) => {
+    let params = {};
+    if (seguimientosFilter !== undefined) {
+        params["seguimientosFilter"] = seguimientosFilter;
+    }
+
+    return axios
+        .get(
+            `${API_URL}/planes/${idPlan}/micro-planes/${idMicroPlan}/rutinas/${idRutina}/seguimientos-ejercicios`,
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+                params,
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const postSeguimientoEjercicio = (seguimientoEjercicio, idPlan, idEjercicioAplicado) => {
     let params = {
         idEjercicioAplicado: idEjercicioAplicado,
@@ -44,6 +68,7 @@ const handleError = (error) => {
 
 const seguimientoService = {
     postSeguimientoEjercicio,
+    getSeguimientoEjercicioByIdRutina
 };
 
 export default seguimientoService;

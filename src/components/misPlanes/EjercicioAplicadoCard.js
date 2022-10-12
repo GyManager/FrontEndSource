@@ -66,12 +66,18 @@ export default function EjercicioAplicadoCard(props) {
                     </Typography>
                 </CardContent>
 
-                <CardActions>
-                    <Button size="small" onClick={clickSaveResults}>Anotar resultados</Button>
-                    <IconButton color="primary" onClick={clickSaveResults}>
-                        <DataSaverOnOutlined />
-                    </IconButton>
-                </CardActions>
+                <Collapse direction={"horizontal"} in={true} unmountOnExit>
+                    <CardActions>
+                        <Button
+                            size="small"
+                            onClick={clickSaveResults}
+                            color={props.tieneSeguimiento ? "secondary" : "primary"}
+                            endIcon={<DataSaverOnOutlined />}
+                        >
+                            {props.tieneSeguimiento ? "Editar resultados" : "Anotar resultados"}
+                        </Button>
+                    </CardActions>
+                </Collapse>
             </Collapse>
         </Card>
     );

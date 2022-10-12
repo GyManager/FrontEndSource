@@ -17,6 +17,11 @@ export default function BloqueAccordion(props) {
                         {...ejercicioAplicado}
                         key={ejercicioAplicado.idEjercicioAplicado}
                         cargarSeguimiento={props.cargarSeguimiento}
+                        tieneSeguimiento={props.seguimientos.some(
+                            (seguimiento) =>
+                                seguimiento.idEjercicioAplicado ===
+                                ejercicioAplicado.idEjercicioAplicado
+                        )}
                     />
                 ))}
             </AccordionDetails>

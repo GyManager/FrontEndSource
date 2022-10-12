@@ -1,5 +1,6 @@
 import { Save } from "@mui/icons-material";
 import { Button, Modal, Paper, Stack, TextField, Typography } from "@mui/material";
+import { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import * as yup from "yup";
@@ -9,15 +10,21 @@ export default function FeedbackEjercicioModal(props) {
     let { idPlan } = useParams();
 
     const formik = useFormik({
-        initialValues: { carga: "", tiempo: "" },
+        initialValues: {
+            cargaReal: props.seguimientoActual?.cargaReal || "",
+            tiempoReal: props.seguimientoActual?.tiempoReal || "",
+        },
         validationSchema: yup.object({
-            carga: yup
+            cargaReal: yup
                 .number()
                 .typeError("La carga debe ser un numero")
-                .integer("debe ser un numero entero")
                 .positive("La carga debe debe ser un valor positivo")
                 .max(9999999999, "Maximo de 10 caracteres"),
-            tiempo: yup.string().max(10, "Maximo de 10 caracteres").trim(),
+            tiempoReal: yup
+                .number()
+                .typeError("La carga debe ser un numero")
+                .positive("La carga debe debe ser un valor positivo")
+                .max(9999999999, "Maximo de 10 caracteres"),
         }),
         onSubmit: () => {
             handleSubmit();
@@ -27,18 +34,23 @@ export default function FeedbackEjercicioModal(props) {
     async function handleSubmit(e) {
         e?.preventDefault();
         if (
-            (formik.values.carga !== null &&
-                formik.values.carga !== null &&
-                formik.values.carga !== "") ||
-            (formik.values.tiempo !== null &&
-                formik.values.tiempo !== null &&
-                formik.values.tiempo !== "")
+            (formik.values.cargaReal !== null &&
+                formik.values.cargaReal !== null &&
+                formik.values.cargaReal !== "") ||
+            (formik.values.tiempoReal !== null &&
+                formik.values.tiempoReal !== null &&
+                formik.values.tiempoReal !== "")
         ) {
-            seguimientoService.postSeguimientoEjercicio(
+            const respuesta = await seguimientoService.postSeguimientoEjercicio(
                 formik.values,
                 idPlan,
                 props.idEjercicioAplicado
             );
+            if (respuesta instanceof AxiosError) {
+                console.log(respuesta); // TODO IMPROVE
+            } else {
+                props.reload();
+            }
             props.setClose();
         }
     }
@@ -73,25 +85,26 @@ export default function FeedbackEjercicioModal(props) {
                     justifyContent="center"
                 >
                     <TextField
-                        label="Carga"
-                        id="carga"
-                        name="carga"
-                        value={formik.values.carga}
+                        label="Carga (Kg)"
+                        id="cargaReal"
+                        name="cargaReal"
+                        value={formik.values.cargaReal}
                         onChange={formik.handleChange}
-                        error={formik.touched.carga && Boolean(formik.errors.carga)}
-                        helperText={formik.touched.carga && formik.errors.carga}
+                        error={formik.touched.cargaReal && Boolean(formik.errors.cargaReal)}
+                        helperText={formik.touched.cargaReal && formik.errors.cargaReal}
                         variant="standard"
                         type="number"
                     />
                     <TextField
-                        label="Tiempo"
-                        id="tiempo"
-                        name="tiempo"
-                        value={formik.values.tiempo}
+                        label="Tiempo (minutos)"
+                        id="tiempoReal"
+                        name="tiempoReal"
+                        value={formik.values.tiempoReal}
                         onChange={formik.handleChange}
-                        error={formik.touched.tiempo && Boolean(formik.errors.tiempo)}
-                        helperText={formik.touched.tiempo && formik.errors.tiempo}
+                        error={formik.touched.tiempoReal && Boolean(formik.errors.tiempoReal)}
+                        helperText={formik.touched.tiempoReal && formik.errors.tiempoReal}
                         variant="standard"
+                        type="number"
                     />
                 </Stack>
                 <Stack mt={3} alignItems="center" direction={"column"}>
