@@ -22,8 +22,8 @@ export default function FeedbackEjercicioModal(props) {
                 .max(9999999999, "Maximo de 10 caracteres"),
             tiempoReal: yup
                 .number()
-                .typeError("La carga debe ser un numero")
-                .positive("La carga debe debe ser un valor positivo")
+                .typeError("El tiempo debe ser un numero")
+                .positive("El tiempo debe debe ser un valor positivo")
                 .max(9999999999, "Maximo de 10 caracteres"),
         }),
         onSubmit: () => {
@@ -93,7 +93,6 @@ export default function FeedbackEjercicioModal(props) {
                         error={formik.touched.cargaReal && Boolean(formik.errors.cargaReal)}
                         helperText={formik.touched.cargaReal && formik.errors.cargaReal}
                         variant="standard"
-                        type="number"
                     />
                     <TextField
                         label="Tiempo (minutos)"
@@ -104,7 +103,6 @@ export default function FeedbackEjercicioModal(props) {
                         error={formik.touched.tiempoReal && Boolean(formik.errors.tiempoReal)}
                         helperText={formik.touched.tiempoReal && formik.errors.tiempoReal}
                         variant="standard"
-                        type="number"
                     />
                 </Stack>
                 <Stack mt={3} alignItems="center" direction={"column"}>
