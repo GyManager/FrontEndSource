@@ -120,18 +120,24 @@ export default function EjercicioAplicado(props){
                     {...textFieldProps}
                 />
                 <TextField 
-                    label="Tiempo"
+                    label="Tiempo (minutos)"
                     id={`${props.namePrefix}.tiempo`}
                     name={`${props.namePrefix}.tiempo`}
                     value={props.tiempo || ''}
                     {...textFieldProps}
+                    error={touched.tiempo && Boolean(errors.tiempo)}
+                    helperText={touched.tiempo && errors.tiempo}
+                    type="number"
                 />
                 <TextField 
-                    label="Carga"
+                    label="Carga (Kg)"
                     id={`${props.namePrefix}.carga`}
                     name={`${props.namePrefix}.carga`}
                     value={props.carga || ''}
                     {...textFieldProps}
+                    error={touched.carga && Boolean(errors.carga)}
+                    helperText={touched.carga && errors.carga}
+                    type="number"
                 />
                 
                 <Box sx={{display: 'flex', justifyContent: 'end', alignItems: 'end' }}>
