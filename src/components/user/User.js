@@ -104,7 +104,7 @@ function User() {
 
     const deleteUsuario = async () => {
         const respuesta = await usersService.deleteUserById(idUsuario);
-        handleRespuesta(respuesta, 'El usuario ha sido borrado con exito')
+        handleRespuesta(respuesta, `El usuario ha sido ${logicalDelete ? 'desactivado' : 'borrado'} con exito`)
     }
 
     const handleRespuesta = (respuesta, mensaje) => {

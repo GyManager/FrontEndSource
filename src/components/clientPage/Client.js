@@ -137,7 +137,7 @@ function Client() {
 
   const deleteCliente = async () => {
     const respuesta = await clientsService.deleteClientById(clienteId);
-    handleRespuesta(respuesta, "El cliente ha sido borrado con exito");
+    handleRespuesta(respuesta, `El cliente ha sido ${logicalDelete ? 'desactivado' : 'borrado'} con exito`);
   };
 
   const handleRespuesta = (respuesta, mensaje) => {
