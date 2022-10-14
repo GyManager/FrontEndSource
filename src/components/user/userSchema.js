@@ -19,16 +19,19 @@ const validationSchema = yup.object({
         .required(nroDocTxt + "es obligatorio"),
     nombre: yup
         .string()
+        .trim()
         .required("El nombre es obligatorio")
         .max(50, "El nombre tiene como maximo 50 caracteres")
         .matches(/^[^0-9]+$/, "El nombre no puede tener numeros"),
     apellido: yup
         .string()
+        .trim()
         .required("El apellido es obligatorio")
         .max(50, "El apellido tiene como maximo 50 caracteres")
         .matches(/^[^0-9]+$/, "El apellido no puede tener numeros"),
     mail: yup
         .string()
+        .trim()
         .email("El campo debe tener un email valido")
         .required("El email es obligatorio")
         .max(100, "El email tiene como maximo 100 caracteres"),

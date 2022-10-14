@@ -1,5 +1,4 @@
 // Import Librerias
-
 import { React, useState, useEffect, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -8,10 +7,6 @@ import { AxiosError } from 'axios';
 // Imports Vista
 import { Typography, Box, Paper, Stack, TextField } from '@mui/material'
 import { AlertDialog, Breadcumbs, GenericComboBox } from '../reusable'
-
-import GenericModal from '../reusable/GenericModal'
-
-// import { , Breadcumbs, GenericComboBox, Modal } from '../reusable/'
 
 import ButtonsUser from './ButtonsUser';
 import ButtonUserMobile from "./ButtonUserMobile";
@@ -22,6 +17,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import usersService from '../../services/users.service';
 import userSchema from './userSchema';
 import { DataContext } from "../../context/DataContext";
+import { ErrorContext } from '../../context/ErrorContext';
 
 function User() {
     // Estados de Formik
@@ -41,12 +37,8 @@ function User() {
         },
     });
 
-    //Estados de Modal
-    const [modalMsj, setModalMsj] = useState("");
-    const [openModal, setOpenModal] = useState(false);
-
-    const handleCloseModal = () => { setOpenModal(false) }
-
+    //Error Message Handling Context
+    const {processErrorMessage} = useContext(ErrorContext)
 
     //Estados del AlertDialog
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
@@ -109,10 +101,8 @@ function User() {
 
     const handleRespuesta = (respuesta, mensaje) => {
         if (respuesta instanceof AxiosError) {
-            setModalMsj('Error en la respuesta ' + respuesta.response.data.message)
-            setOpenModal(true)
+            processErrorMessage(respuesta.response.data)
         } else {
-            setOpenModal(true)
             navigate("/usuarios")
             console.log(mensaje)
             setDataSnackbar(mensaje)
@@ -345,11 +335,6 @@ function User() {
                     handleSubmit={formik.handleSubmit}
                 />
             </form>
-            <GenericModal
-                show={openModal}
-                hide={handleCloseModal}
-                serverMsj={modalMsj}
-            />
 
             <AlertDialog
                 open={openAlertDialog}
