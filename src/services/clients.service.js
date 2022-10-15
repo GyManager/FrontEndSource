@@ -2,7 +2,7 @@ import axios from 'axios';
 import authService from './auth.service';
 
 //TODO IMPLEMENTAR DOTENV PARA API_URL
-const API_URL = "https://gymanager-dev-api.herokuapp.com/api"
+const API_URL = process.env.REACT_APP_API_URL;
 
 let access_token = ''
 
