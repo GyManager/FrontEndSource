@@ -1,4 +1,4 @@
-import { Collapse, Paper, Skeleton, Typography } from "@mui/material";
+import { Button, Collapse, Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { AxiosError } from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import seguimientoService from "../../services/seguimiento.service";
 import BloqueAccordion from "./BloqueAccordion";
 import Ejercicio from "./Ejercicio";
 import FeedbackEjercicioModal from "./FeedbackEjercicioModal";
+import ModalFinDia from "./modalFinDia/ModalFinDia";
 
 export default function MiRutina() {
     let { idPlan, idMicroPlan, idRutina } = useParams();
@@ -17,6 +18,7 @@ export default function MiRutina() {
     const ejercicioSeleccionado = searchParams.get("idEjercicioAplicado");
     const [cargarSeguimiento, setCargarSeguimiento] = useState();
     const [seguimientos, setSeguimientos] = useState(() => []);
+    const [openModalFinDia, setOpenModalFinDia] = useState(() => false);
 
     async function getSeguimientos() {
         const respuesta = await seguimientoService.getSeguimientoEjercicioByIdRutina(
@@ -96,18 +98,34 @@ export default function MiRutina() {
                 </Paper>
 
                 <Container maxWidth="md">{ejerciciosAplicados}</Container>
+
                 {!loading && cargarSeguimiento !== null && cargarSeguimiento !== undefined && (
                     <FeedbackEjercicioModal
                         {...ejercicioACargarSeguimiento}
                         setClose={() => setCargarSeguimiento(null)}
                         reload={getSeguimientos}
-                        seguimientoActual={seguimientos.filter(
-                            (seguimiento) =>
-                                seguimiento.idEjercicioAplicado ===
-                                ejercicioACargarSeguimiento.idEjercicioAplicado
-                        )[0]}
+                        seguimientoActual={
+                            seguimientos.filter(
+                                (seguimiento) =>
+                                    seguimiento.idEjercicioAplicado ===
+                                    ejercicioACargarSeguimiento.idEjercicioAplicado
+                            )[0]
+                        }
                     />
                 )}
+
+                <Container maxWidth="md" align="center" sx={{ mt: 2 }}>
+                    <Button size="large" variant="contained" onClick={() => setOpenModalFinDia(true)}>
+                        Terminar dia de entrenamiento
+                    </Button>
+                </Container>
+                
+                <ModalFinDia
+                    open={openModalFinDia}
+                    setClose={() => setOpenModalFinDia(false)}
+                />
+
+                
             </Collapse>
 
             <Collapse

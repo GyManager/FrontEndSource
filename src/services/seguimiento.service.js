@@ -48,6 +48,27 @@ const postSeguimientoEjercicio = (seguimientoEjercicio, idPlan, idEjercicioAplic
         });
 };
 
+const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina) => {
+    return axios
+        .post(
+            API_URL +
+                API_PATH_PLANES +
+                `/${idPlan}/micro-planes/${idMicroPlan}/rutinas/${idRutina}/seguimientos`,
+            seguimientoRutina,
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -68,7 +89,8 @@ const handleError = (error) => {
 
 const seguimientoService = {
     postSeguimientoEjercicio,
-    getSeguimientoEjercicioByIdRutina
+    getSeguimientoEjercicioByIdRutina,
+    postSeguimientoRutina
 };
 
 export default seguimientoService;
