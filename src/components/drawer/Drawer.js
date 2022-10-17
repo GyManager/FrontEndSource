@@ -23,6 +23,50 @@ import logo from '../../images/logo.png'
 
 const drawerWidth = 240;
 
+
+export const menuItem = [
+    {
+        text: "Inicio",
+        icon: <Home />,
+        url: "/home",
+        permiso: ""
+    },
+    {
+        text: "Mis Planes",
+        icon: <Mail />,
+        iconName: "Mail",
+        url: "/mis-planes",
+        permiso: "mis-planes",
+        descripcion: ""
+    },
+    {
+        text: "Clientes",
+        icon: <Person />,
+        url: "/clientes",
+        permiso: "gestion-clientes",
+        descripcion: "Consultar modificar y crear clientes"
+    },
+    {
+        text: "Ejercicios",
+        icon: <FitnessCenter />,
+        url: "/ejercicios",
+        permiso: "gestion-ejercicios"
+    },
+    {
+        text: "Micro Planes",
+        icon: <ListAlt />,
+        url: "/micro-planes",
+        permiso: "gestion-micro-planes"
+    },
+    {
+        text: "Usuarios",
+        icon: <AdminPanelSettings />,
+        url: "/usuarios",
+        permiso: "gestion-usuarios"
+    }
+]
+
+
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
@@ -87,45 +131,6 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
     const handleWheel = (e) => {
         scroll.scrollMore(-1);
     }
-
-    const menuItem = [
-        {
-            text: "Inicio",
-            icon: <Home />,
-            url: "/home",
-            permiso: ""
-        },
-        {
-            text: "Mis Planes",
-            icon: <Mail />,
-            url: "/mis-planes",
-            permiso: "mis-planes"
-        },
-        {
-            text: "Clientes",
-            icon: <Person />,
-            url: "/clientes",
-            permiso: "gestion-clientes"
-        },
-        {
-            text: "Ejercicios",
-            icon: <FitnessCenter />,
-            url: "/ejercicios",
-            permiso: "gestion-ejercicios"
-        },
-        {
-            text: "Micro Planes",
-            icon: <ListAlt />,
-            url: "/micro-planes",
-            permiso: "gestion-micro-planes"
-        },
-        {
-            text: "Usuarios",
-            icon: <AdminPanelSettings />,
-            url: "/usuarios",
-            permiso: "gestion-usuarios"
-        }
-    ]
 
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>

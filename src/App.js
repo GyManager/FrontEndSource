@@ -19,7 +19,7 @@ import EjercicioPage from './pages/EjercicioPage';
 import MicroPlanesPage from './pages/MicroPlanesPage';
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
-import Home from './components/home/Home'
+import Dash from './components/home/Dash'
 
 
 //Probando context below
@@ -79,7 +79,7 @@ console.log(token)
                   {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
                   {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                   {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
-                  <Route path="/home" element={<Home token={token}/>}  />
+                  <Route path="/home" element={<Dash token={token}/>}  />
                   <Route path="/*" element={<NoAutorizadoPage/>} />
                 </Routes>
                 <Footer />

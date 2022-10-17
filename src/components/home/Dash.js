@@ -10,6 +10,20 @@ import {
     Stack,
     Fab,
 } from "@mui/material";
+
+import {
+    AdminPanelSettings,
+    ChevronLeft,
+    ChevronRight,
+    FitnessCenter,
+    Home,
+    Mail,
+    Menu,
+    Logout,
+    Person,
+    ListAlt,
+} from "@mui/icons-material";
+
 import { Container } from "@mui/system";
 import {
     Newspaper,
@@ -23,10 +37,11 @@ import {
 import Card from "./Card";
 import MiniReportes from "./MiniReportes";
 import logo from "../../images/logo.png";
+import { menuItem } from "../drawer/Drawer";
 
 import { animateScroll as scroll } from "react-scroll";
 
-function Home(props) {
+function Dash(props) {
     const [isOnTop, setIsOnTop] = useState(true);
     const [isScrolling, setIsScrolling] = useState(false);
 
@@ -47,6 +62,33 @@ function Home(props) {
         sx: isMediumDevice ? iconMediumStyle : iconLargeStyle,
         color: "white",
     };
+
+    const icons = [
+        {
+            text: "Inicio",
+            icon: <Home {...iconStyle} />,
+        },
+        {
+            text: "Mis Planes",
+            icon: <Mail {...iconStyle} />,
+        },
+        {
+            text: "Clientes",
+            icon: <Person {...iconStyle} />,
+        },
+        {
+            text: "Ejercicios",
+            icon: <FitnessCenter {...iconStyle} />,
+        },
+        {
+            text: "Micro Planes",
+            icon: <ListAlt {...iconStyle} />,
+        },
+        {
+            text: "Usuarios",
+            icon: <AdminPanelSettings {...iconStyle} />,
+        },
+    ];
 
     const dataCardsCliente = [
         {
@@ -107,8 +149,6 @@ function Home(props) {
         setTimeout(() => {}, 1000);
     };
 
-
-
     return (
         <>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
@@ -135,7 +175,7 @@ function Home(props) {
                             minWidth: "130px",
                             minHeight: "130px",
                             maxWidth: "140px",
-                            maxHeight: "140px"
+                            maxHeight: "140px",
                         }}
                     />
                     <Typography variant="h5">
@@ -164,25 +204,44 @@ function Home(props) {
                                 justifyContent: "center",
                             }}
                         >
-                            {props.token.permisos.includes("gestion-planes") &&
-                                dataCardsCliente.map((card) => {
+                            {/* {props.token.permisos.includes("gestion-planes") &&
+                            menuItem.map((card) => {
                                     return (
                                         <Card
-                                            title={card.titulo}
+                                            title={card.text}
                                             description={card.descripcion}
                                             isMediumDevice={isMediumDevice}
+                                            url={card.url}
                                         >
                                             {card.icon}
+                                        </Card>
+                                    );
+                                })} */}
+
+                            {menuItem
+                                .filter(
+                                    (object) =>
+                                        props.token.permisos.includes(object.permiso) ||
+                                        object.permiso == ""
+                                )
+                                .map((item) => {
+                                    return (
+                                        <Card
+                                            title={item.text}
+                                            description={item.descripcion}
+                                            isMediumDevice={isMediumDevice}
+                                            url={item.url}
+                                        >
+                                            {icons.filter((icon) => (menuItem.includes(icon.text)))}
                                         </Card>
                                     );
                                 })}
                         </Box>
                     </Stack>
                 </Paper>
-              </Container>
-</>
-)}
+            </Container>
+        </>
+    );
+}
 
-export default Home;
-
-
+export default Dash;
