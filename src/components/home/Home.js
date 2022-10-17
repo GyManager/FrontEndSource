@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Avatar, Box, IconButton, Typography, useMediaQuery, Button, Paper, Stack, Fab } from "@mui/material";
+import {
+    Avatar,
+    Box,
+    IconButton,
+    Typography,
+    useMediaQuery,
+    Button,
+    Paper,
+    Stack,
+    Fab,
+} from "@mui/material";
 import { Container } from "@mui/system";
 import {
     Newspaper,
@@ -11,14 +21,14 @@ import {
     ArrowCircleUp,
 } from "@mui/icons-material";
 import Card from "./Card";
-import MiniReportes from "./MiniReportes"
+import MiniReportes from "./MiniReportes";
 import logo from "../../images/logo.png";
 
-import { animateScroll as scroll } from 'react-scroll'
+import { animateScroll as scroll } from "react-scroll";
 
 function Home(props) {
-const [ isOnTop, setIsOnTop ] = useState(true)
-const [isScrolling, setIsScrolling]= useState(false)
+    const [isOnTop, setIsOnTop] = useState(true);
+    const [isScrolling, setIsScrolling] = useState(false);
 
     const iconMediumStyle = {
         width: "40%",
@@ -89,19 +99,24 @@ const [isScrolling, setIsScrolling]= useState(false)
 
     const handleWheel = (e) => {
         e.preventDefault();
-       if(!isScrolling) {
-        setIsScrolling(true)
-        isOnTop ? scroll.scrollToBottom() : scroll.scrollToTop()
-        setIsOnTop(!isOnTop)}
-setTimeout(()=>{},1000)
-    }
+        if (!isScrolling) {
+            setIsScrolling(true);
+            isOnTop ? scroll.scrollToBottom() : scroll.scrollToTop();
+            setIsOnTop(!isOnTop);
+        }
+        setTimeout(() => {}, 1000);
+    };
+
+
+
     return (
         <>
-            <Container sx={{ display: "flex", justifyContent: "center" }} >
+            <Container sx={{ display: "flex", justifyContent: "center" }}>
                 <Paper
                     sx={{
-                        width: "70vw",
-                        height: '20vh',
+                        width: isMediumDevice ? "90vw" : "70vw",
+                        height: "20vh",
+                        maxHeight: "250px",
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "center",
@@ -115,10 +130,12 @@ setTimeout(()=>{},1000)
                         src={logo}
                         sx={{
                             mr: 2,
-                            width: "5vw",
-                            height: "5vw",
-                            minWidth: "80px",
-                            minHeight: "80px",
+                            width: "15vw",
+                            height: "15vw",
+                            minWidth: "130px",
+                            minHeight: "130px",
+                            maxWidth: "140px",
+                            maxHeight: "140px"
                         }}
                     />
                     <Typography variant="h5">
@@ -127,7 +144,14 @@ setTimeout(()=>{},1000)
                 </Paper>
             </Container>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
-                <Paper sx={{ width: "60vw", height:'57vh', mt: 2, p: 1 }}>
+                <Paper
+                    sx={{
+                        width: isMediumDevice ? "90vw" : "70vw",
+                        // height: "57vh",
+                        mt: 2,
+                        p: 1,
+                    }}
+                >
                     <Stack
                         direction={isMediumDevice ? "column" : "row"}
                         spacing={2}
@@ -155,29 +179,10 @@ setTimeout(()=>{},1000)
                         </Box>
                     </Stack>
                 </Paper>
-                {/* <Container> */}
-                <Box  display={{xs:'none', lg:'flex'}} sx={{alignItems:'flex-end', position:'relative', left:-15, top:'2vh' }} >
-                <Fab color="primary" aria-label="add" size="large" onClick={scroll.scrollToBottom}>
-                    <ArrowCircleDown />
-                </Fab>
-                </Box>
-                {/* </Container> */}
-            </Container>
-            <Container sx={{ }}>
-            <Paper sx={{height:'80vh', mt:'10vh'}} onWheel={handleWheel}>
-            {/* <Fab color="primary" aria-label="add" sx={{width:'4vw', height:'4vw'}} onClick={scroll.scrollToTop}>
-                    <ArrowCircleUp sx={{width:'4vw', height:'4vw'}}/>
-                </Fab> */}
-                <Box  display={{xs:'none', lg:'flex'}}sx={{ alignItems:'flex-end', position:'absolute', right:'1vw', top:'1vh' }} >
-                <Fab color="primary" aria-label="add" size="large" onClick={scroll.scrollToTop}>
-                    <ArrowCircleUp />
-                </Fab>
-                </Box>
-                <MiniReportes />
-            </Paper>
-            </Container>
-        </>
-    );
-}
+              </Container>
+</>
+)}
 
 export default Home;
+
+
