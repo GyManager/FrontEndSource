@@ -1,10 +1,11 @@
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, PlayArrow } from "@mui/icons-material";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
+    Button,
     Card,
     CardContent,
     CardMedia,
@@ -130,6 +131,19 @@ export default function Ejercicio(props) {
                                     </CardContent>
                                 </Card>
                             ))
+                        )}
+                        {!loading && ejercicio.video && (
+                            <Button
+                                size="medium"
+                                color="error"
+                                variant="contained"
+                                endIcon={<PlayArrow />}
+                                href={ejercicio.video}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Video instructivo
+                            </Button>
                         )}
                     </AccordionDetails>
                 </Accordion>
