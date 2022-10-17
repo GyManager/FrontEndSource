@@ -91,7 +91,7 @@ export default function ModalFinDia(props) {
                 </Collapse>
 
                 <Collapse in={modalPage === 3}>
-                    <ModalViewCongrats />
+                    <ModalViewCongrats run={modalPage === 3}/>
                 </Collapse>
             </Paper>
         </Modal>
