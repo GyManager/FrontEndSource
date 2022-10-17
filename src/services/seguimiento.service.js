@@ -48,6 +48,27 @@ const postSeguimientoEjercicio = (seguimientoEjercicio, idPlan, idEjercicioAplic
         });
 };
 
+const getSeguimientoRutinaByIdMicroPlan = (idPlan, idMicroPlan, seguimientosFilter) => {
+    let params = {};
+    if (seguimientosFilter !== undefined) {
+        params["seguimientosFilter"] = seguimientosFilter;
+    }
+
+    return axios
+        .get(`${API_URL}/planes/${idPlan}/micro-planes/${idMicroPlan}/seguimientos`, {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+            params,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina) => {
     return axios
         .post(
@@ -90,7 +111,8 @@ const handleError = (error) => {
 const seguimientoService = {
     postSeguimientoEjercicio,
     getSeguimientoEjercicioByIdRutina,
-    postSeguimientoRutina
+    postSeguimientoRutina,
+    getSeguimientoRutinaByIdMicroPlan,
 };
 
 export default seguimientoService;
