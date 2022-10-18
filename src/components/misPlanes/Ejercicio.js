@@ -8,6 +8,7 @@ import {
     Button,
     Card,
     CardContent,
+    CardHeader,
     CardMedia,
     List,
     ListItem,
@@ -121,14 +122,12 @@ export default function Ejercicio(props) {
                         ) : (
                             pasos.map((paso) => (
                                 <Card key={paso.idPaso}>
+                                    <CardHeader title={`${paso.numeroPaso}. ${paso.contenido}`} titleTypographyProps={{variant:'p'}}/>
                                     {paso.imagen !== null &&
                                         paso.imagen !== undefined &&
                                         paso.imagen !== "" && (
-                                            <CardMedia component="img" image={paso.imagen} alt="" />
+                                            <CardMedia component="img" image={paso.imagen} alt="" sx={{pb:2}}/>
                                         )}
-                                    <CardContent>
-                                        <Typography>{paso.contenido}</Typography>
-                                    </CardContent>
                                 </Card>
                             ))
                         )}
