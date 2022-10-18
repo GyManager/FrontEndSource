@@ -120,16 +120,26 @@ export default function Ejercicio(props) {
                         {loadingPasos ? (
                             <Skeleton></Skeleton>
                         ) : (
-                            pasos.map((paso) => (
-                                <Card key={paso.idPaso}>
-                                    <CardHeader title={`${paso.numeroPaso}. ${paso.contenido}`} titleTypographyProps={{variant:'p'}}/>
-                                    {paso.imagen !== null &&
-                                        paso.imagen !== undefined &&
-                                        paso.imagen !== "" && (
-                                            <CardMedia component="img" image={paso.imagen} alt="" sx={{pb:2}}/>
-                                        )}
-                                </Card>
-                            ))
+                            pasos
+                                .sort((a, b) => a.numeroPaso - b.numeroPaso)
+                                .map((paso) => (
+                                    <Card key={paso.idPaso}>
+                                        <CardHeader
+                                            title={`${paso.numeroPaso}. ${paso.contenido}`}
+                                            titleTypographyProps={{ variant: "p" }}
+                                        />
+                                        {paso.imagen !== null &&
+                                            paso.imagen !== undefined &&
+                                            paso.imagen !== "" && (
+                                                <CardMedia
+                                                    component="img"
+                                                    image={paso.imagen}
+                                                    alt=""
+                                                    sx={{ pb: 2 }}
+                                                />
+                                            )}
+                                    </Card>
+                                ))
                         )}
                         {!loading && ejercicio.video && (
                             <Button
