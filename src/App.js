@@ -39,6 +39,7 @@ import MiMicroPlan from './components/misPlanes/MiMicroPlan';
 import MiRutina from './components/misPlanes/MiRutina';
 import MiPlanContextLayout from './context/MiPlanContextLayout';
 import PasswordChange from './components/password/PasswordChange';
+import HistoricoPlanes from './components/historicoPlanes/HistoricoPlanes';
 
 function App() {
 
@@ -81,6 +82,7 @@ function App() {
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<MisPlanes/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/historico-planes" element={<HistoricoPlanes/>} />}
                     <Route element={<MiPlanContextLayout />}>
                       {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
                       {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<MiMicroPlan/>} />}

@@ -10,7 +10,7 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, WindowSharp, Lock
+    Logout, Person, ListAlt, WindowSharp, Lock, FolderCopy
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';
@@ -99,6 +99,12 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             text: "Mis Planes",
             icon: <Mail />,
             url: "/mis-planes",
+            permiso: "mis-planes"
+        },
+        {
+            text: "Historico Planes",
+            icon: <FolderCopy/>,
+            url: "/historico-planes",
             permiso: "mis-planes"
         },
         {
