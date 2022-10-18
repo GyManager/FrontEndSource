@@ -6,13 +6,13 @@ const validationSchema = yup.object({
     tipoDocumento: yup.string()
         .typeError('El tipo de documento debe ser un una cadena de texto')
         .required('El tipo de documento es obligatorio'),
-    numeroDocumento: yup.number()
-        .typeError(nroDocTxt + 'debe ser un numero')
-        .positive(nroDocTxt + 'debe ser un valor positivo')
-        .integer(nroDocTxt + 'debe ser un numero entero')
-        .min(999999, nroDocTxt + 'debe ser tener como minimo 7 caracteres')
-        .max(999999999999, nroDocTxt + 'debe ser tener como maximo 12 caracteres')
-        .required(nroDocTxt + 'es obligatorio'),
+    numeroDocumento: yup
+        .string()
+        .matches(/^\d*$/, nroDocTxt + "debe ser solo caracteres numericos")
+        .min(7, nroDocTxt + "debe ser tener como minimo 7 caracteres")
+        .max(15, nroDocTxt + "debe ser tener como maximo 15 caracteres")
+        .required(nroDocTxt + "es obligatorio")
+        .trim(),
     nombre: yup.string()
         .required('El nombre es obligatorio')
         .max(50, 'El nombre tiene como maximo 50 caracteres')
@@ -31,9 +31,11 @@ const validationSchema = yup.object({
         .required('La fecha de nacimiento es obligatoria')
         .max(currentDate, 'La fecha no puede ser posterior a la fecha actual'),
     sexo: yup.string(),
-    celular: yup.number()
-        .typeError('El celular debe ser un numero')
-        .max(999999999999999, 'El celular tiene como maximo 15 caracteres'),
+    celular: yup
+        .string()
+        .matches(/^\d*$/, "El celular debe ser solo caracteres numericos")
+        .max(15, "El celular tiene como maximo 15 caracteres")
+        .trim(),
     direccion: yup.string()
         .max(255, 'Las direccion tienen como maximo 255 caracteres'),
     objetivo: yup.string()
