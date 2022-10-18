@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Box, Typography, useMediaQuery, Paper, Stack } from "@mui/material";
 
 import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt } from "@mui/icons-material";
@@ -8,7 +8,15 @@ import Card from "./Card";
 import logo from "../../images/logo.png";
 import { menuItem } from "../drawer/Drawer";
 
+// import userService from "../../services/users.service";
+
+import useFetchUserInfo from "./servicesHooks"
+
 function Dash(props) {
+    const { userInfo } = useFetchUserInfo();
+    
+
+
     const iconMediumStyle = {
         width: "40%",
         height: "8vh",
@@ -79,9 +87,10 @@ function Dash(props) {
                             maxHeight: "140px",
                         }}
                     />
-                    <Typography variant="h5">
-                        Bienvenido a CoreE <i>UsuarioName</i>{" "}
-                    </Typography>
+                    <Box sx={{ display: 'block', justifyContent: "center" }}>
+                        <Typography variant="h5">Bienvenido a CoreE</Typography>
+                        <Typography variant="h5">{userInfo.nombre}</Typography>
+                    </Box>
                 </Paper>
             </Container>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
