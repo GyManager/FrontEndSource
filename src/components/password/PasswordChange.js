@@ -1,4 +1,5 @@
-import { Button, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Save } from "@mui/icons-material";
+import { Button, Divider, Fab, Paper, Stack, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { AxiosError } from "axios";
 import { useFormik } from "formik";
@@ -51,6 +52,7 @@ export default function PasswordChange() {
         if (respuesta instanceof AxiosError) {
             processErrorMessage(respuesta.response.data);
         } else {
+            navigate("/home");
             addSnackbar({
                 message: "La contraseña fue actualizada con exito",
                 severity: "success",
@@ -66,12 +68,16 @@ export default function PasswordChange() {
                 component="form"
                 onSubmit={formik.handleSubmit}
             >
-                <Typography variant="h4" align="center">
-                    Cambio de contraseña
-                </Typography>
+                <Typography variant="h5">Cambio de contraseña</Typography>
                 <Container
                     maxWidth="sm"
-                    sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 1,
+                        mt: 2,
+                    }}
                 >
                     <Stack spacing={2} sx={{ width: "100%" }}>
                         <TextField
@@ -115,11 +121,40 @@ export default function PasswordChange() {
                             type="password"
                         />
                     </Stack>
-                    <Button variant="contained" type="submit" sx={{ mt: 2, maxWidth: 300 }}>
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        sx={{ mt: 2, maxWidth: 300, display: { xs: "none", md: "flex" } }}
+                    >
                         Cambiar contraseña
                     </Button>
+                    <Divider></Divider>
+                    <Typography variant="body2">
+                        Recorda que la contraseña debe tener:
+                        <ul>
+                            <li>Minimo 8 Caracteres</li>
+                            <li> Maximo 25 Caracteres </li>
+                            <li>Un numero</li>
+                            <li>Una mayuscula</li>
+                            <li>Una minuscula</li>
+                        </ul>
+                    </Typography>
                 </Container>
             </Paper>
+
+            <Fab
+                type="submit"
+                onClick={formik.handleSubmit}
+                color="primary"
+                sx={{
+                    position: "fixed",
+                    bottom: 16,
+                    right: 16,
+                    display: { md: "none", lg: "none", xl: "none" },
+                }}
+            >
+                <Save />
+            </Fab>
         </Container>
     );
 }
