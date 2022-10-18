@@ -8,7 +8,7 @@ import orderBy from 'lodash/orderBy'
 export default function SeccionInstrucciones(props) {
   const { formik, editable } = useContext(EjercicioContext)
 
-  const pasos = formik.values.pasos
+  // const pasos = formik.values.pasos
 
   const setPasos = (arr) => {
     formik.setFieldValue('pasos', arr, false)
@@ -16,20 +16,20 @@ export default function SeccionInstrucciones(props) {
 
   
   const handleAgregarPaso = () => {
-    const nuevoPaso = [
+    const nuevaPasos = [
       ...formik.values.pasos,
       {
-        "numeroPaso": pasos.length + 1,
+        "numeroPaso": formik.values.pasos.length + 1,
         "contenido": "",
         "imagen": "",
       }
     ];
-    formik.setFieldValue('pasos', nuevoPaso, false)
-    console.log(pasos)
+    formik.setFieldValue('pasos', nuevaPasos, false)
+    console.log(formik.values.pasos)
   }
 
   const handleSubirPaso = (nroPaso) => {
-    const copiaPasos = [...pasos]
+    const copiaPasos = [...formik.values.pasos]
     if (nroPaso === 1) {
       console.log('No se puede subir mas')
     } else {
@@ -37,21 +37,21 @@ export default function SeccionInstrucciones(props) {
       const indexPasoABajar = nroPaso - 2
       copiaPasos[indexPasoASubir].numeroPaso--
       copiaPasos[indexPasoABajar].numeroPaso++
-      const orderedUpdate = orderBy(pasos, 'numeroPaso')
+      const orderedUpdate = orderBy(formik.values.pasos, 'numeroPaso')
       setPasos(orderedUpdate)
     }
   }
 
   const handleBajarPaso = (nroPaso) => {
-    const copiaPasos = [...pasos]
-    if (nroPaso === pasos.length) {
+    const copiaPasos = [...formik.values.pasos]
+    if (nroPaso === formik.values.pasos.length) {
       console.log('No se puede bajar mas')
     } else {
       const indexPasoASubir = nroPaso
       const indexPasoABajar = nroPaso - 1
       copiaPasos[indexPasoASubir].numeroPaso--
       copiaPasos[indexPasoABajar].numeroPaso++
-      const orderedUpdate = orderBy(pasos, 'numeroPaso')
+      const orderedUpdate = orderBy(formik.values.pasos, 'numeroPaso')
       setPasos(orderedUpdate)
     }
   }
@@ -59,21 +59,21 @@ export default function SeccionInstrucciones(props) {
   const handleDelete = (nroPaso) => {
     console.log(nroPaso)
     const index = nroPaso - 1;
-    console.log(pasos);
-    if (pasos.length <= 1) {
+    console.log(formik.values.pasos);
+    if (formik.values.pasos.length <= 1) {
       console.log('Debe haber al menos un paso')
     } else {
       console.log(nroPaso, index)
       const slicedArray = [
-        ...pasos.slice(0, index),
-        ...pasos.slice(index + 1)
+        ...formik.values.pasos.slice(0, index),
+        ...formik.values.pasos.slice(index + 1)
       ]
       const arrayUpdateNroPaso = slicedArray.map((unPaso, i) => {
         return (
           { ...unPaso, "numeroPaso": i + 1 })
       })
       setPasos(arrayUpdateNroPaso);
-      console.log(pasos)
+      // console.log(pasos)
     }
   }
 
@@ -87,7 +87,7 @@ export default function SeccionInstrucciones(props) {
           </Typography>
         </Grid>
           {
-            pasos.map((unPaso, index) => {
+            formik.values.pasos.map((unPaso, index) => {
               return (
                 <Paso
                   index={index}

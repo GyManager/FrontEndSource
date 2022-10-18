@@ -113,14 +113,12 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         console.log('Hubo un error')
       } else {
         const orderedRes = orderBy(res, ['numeroPaso'], ['asc'])
-        console.log(orderedRes)
-        console.log(formik.values.pasos)
-        formik.setFieldValue('pasos', orderedRes, false)
+        formik.setFieldValue('pasos', orderedRes, true)
 
       }
     }
     fetchPasosByIdEjercicio(idEjercicio)
-  }, [])
+  }, [idEjercicio])
 
   // getAllEquipamentos
   useEffect(() => {
