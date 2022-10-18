@@ -13,7 +13,7 @@ import ModalFinDia from "./modalFinDia/ModalFinDia";
 export default function MiRutina() {
     let { idPlan, idMicroPlan, idRutina } = useParams();
 
-    const { plan, loading } = useContext(MiPlanContext);
+    const { plan, loading, esCompletado } = useContext(MiPlanContext);
     let [searchParams, setSearchParams] = useSearchParams();
     const ejercicioSeleccionado = searchParams.get("idEjercicioAplicado");
     const [cargarSeguimiento, setCargarSeguimiento] = useState();
@@ -72,6 +72,7 @@ export default function MiRutina() {
                 {...bloque}
                 cargarSeguimiento={setCargarSeguimiento}
                 seguimientos={seguimientos}
+                disableInput={esCompletado}
             />
         ));
     }
@@ -111,21 +112,22 @@ export default function MiRutina() {
                                     ejercicioACargarSeguimiento.idEjercicioAplicado
                             )[0]
                         }
+                        hideResultados={esCompletado}
                     />
                 )}
+                {!esCompletado && (
+                    <Container maxWidth="md" align="center" sx={{ mt: 2 }}>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            onClick={() => setOpenModalFinDia(true)}
+                        >
+                            Terminar dia de entrenamiento
+                        </Button>
+                    </Container>
+                )}
 
-                <Container maxWidth="md" align="center" sx={{ mt: 2 }}>
-                    <Button size="large" variant="contained" onClick={() => setOpenModalFinDia(true)}>
-                        Terminar dia de entrenamiento
-                    </Button>
-                </Container>
-                
-                <ModalFinDia
-                    open={openModalFinDia}
-                    setClose={() => setOpenModalFinDia(false)}
-                />
-
-                
+                <ModalFinDia open={openModalFinDia} setClose={() => setOpenModalFinDia(false)} />
             </Collapse>
 
             <Collapse

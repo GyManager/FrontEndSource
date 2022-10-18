@@ -10,7 +10,7 @@ import RutinaCard from "./RutinaCard";
 export default function MiMicroPlan(props) {
     let { idPlan, idMicroPlan } = useParams();
 
-    const { plan, loading } = useContext(MiPlanContext);
+    const { plan, loading, esCompletado } = useContext(MiPlanContext);
     const [seguimientoRutinas, setSeguimientoRutinas] = useState(() => []);
     const [loadingState, setLoadingState] = useState(() => false);
 
@@ -56,6 +56,7 @@ export default function MiMicroPlan(props) {
                 completado={seguimientoRutinas.some(
                     (seguimiento) => seguimiento.idRutina === rutina.idRutina
                 )}
+                hideState={esCompletado}
             />
         ))
     );

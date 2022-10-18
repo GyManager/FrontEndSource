@@ -2,7 +2,6 @@ import { Paper, Skeleton, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { AxiosError } from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ErrorContext } from "../../context/ErrorContext";
 import { UserContext } from "../../context/UserContext";
 import planesService from "../../services/planes.service";
