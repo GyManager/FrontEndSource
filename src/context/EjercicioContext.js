@@ -113,7 +113,9 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
         console.log('Hubo un error')
       } else {
         const orderedRes = orderBy(res, ['numeroPaso'], ['asc'])
-        formik.setFieldValue('pasos', orderedRes, true)
+        console.log(orderedRes)
+        console.log(formik.values.pasos)
+        formik.setFieldValue('pasos', orderedRes, false)
 
       }
     }
@@ -143,7 +145,6 @@ export const EjercicioProvider = ({ children, paso, unIdEjercicio }) => {
       if (res instanceof AxiosError) {
       } else {
         const orderedRes = orderBy(res, ['nombre'], ['asc'])
-        // setEquipamentoDeEjercicio(orderedRes)
         formik.setFieldValue('equipamentoDeEjercicio', orderedRes, false)
       }
     }

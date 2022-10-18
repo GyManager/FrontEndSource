@@ -86,7 +86,6 @@ export default function SeccionInstrucciones(props) {
             Instrucciones
           </Typography>
         </Grid>
-        {/* <Grid item xs={12}> */}
           {
             pasos.map((unPaso, index) => {
               return (
@@ -102,7 +101,6 @@ export default function SeccionInstrucciones(props) {
                 />
               )
             })}
-        {/* </Grid> */}
         <Grid item xs={12}>
           <Button
             variant='contained'
