@@ -38,6 +38,7 @@ import MiPlan from './components/misPlanes/MiPlan';
 import MiMicroPlan from './components/misPlanes/MiMicroPlan';
 import MiRutina from './components/misPlanes/MiRutina';
 import MiPlanContextLayout from './context/MiPlanContextLayout';
+import PasswordChange from './components/password/PasswordChange';
 
 function App() {
 
@@ -91,6 +92,7 @@ function App() {
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
+                    {token && <Route path="/password" element={<PasswordChange/>} />}
                     <Route path="/*" element={<NoAutorizadoPage/>} />
                   </Routes>
                   <Footer />

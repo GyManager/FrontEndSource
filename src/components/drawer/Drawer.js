@@ -10,7 +10,7 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, WindowSharp
+    Logout, Person, ListAlt, WindowSharp, Lock
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';
@@ -124,6 +124,12 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
             icon: <AdminPanelSettings />,
             url: "/usuarios",
             permiso: "gestion-usuarios"
+        },
+        {
+            text: "Cambiar Contraseña",
+            icon: <Lock/>,
+            url: "/password",
+            permiso: ""
         }
     ]
 
