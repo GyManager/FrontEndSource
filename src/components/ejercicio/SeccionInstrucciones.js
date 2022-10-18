@@ -76,7 +76,7 @@ export default function SeccionInstrucciones(props) {
       // console.log(pasos)
     }
   }
-
+console.log(formik.values.pasos)
   return (
     <Grid item xs={12}>
       <Grid container>
