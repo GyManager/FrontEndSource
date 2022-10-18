@@ -68,7 +68,7 @@ export default function PasswordChange() {
                 component="form"
                 onSubmit={formik.handleSubmit}
             >
-                <Typography variant="h5">Cambio de contraseña</Typography>
+                <Typography variant="h4">Cambiar contraseña</Typography>
                 <Container
                     maxWidth="sm"
                     sx={{
@@ -76,7 +76,6 @@ export default function PasswordChange() {
                         flexDirection: "column",
                         alignItems: "center",
                         gap: 1,
-                        mt: 2,
                     }}
                 >
                     <Stack spacing={2} sx={{ width: "100%" }}>
