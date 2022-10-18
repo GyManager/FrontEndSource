@@ -18,6 +18,8 @@ import usersService from '../../services/users.service';
 import userSchema from './userSchema';
 import { DataContext } from "../../context/DataContext";
 import { ErrorContext } from '../../context/ErrorContext';
+import { Button } from 'react-scroll';
+import SeccionPassword from './SeccionPassword';
 
 function User() {
     // Estados de Formik
@@ -323,6 +325,13 @@ function User() {
                                 editable={editable}
                             />
                         </Paper>
+
+                        <SeccionPassword
+                            idUsuario={idUsuario}
+                            paperStyle={paperStyle}
+                            nombre={formik.values.nombre}
+                            apellido={formik.values.apellido}
+                        />
 
                     </div>
                 </Box>

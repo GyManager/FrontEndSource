@@ -59,6 +59,39 @@ const putUser = (usuario, idUsuario) => {
     })
 }
 
+const putUserPassword = (passwords, idUsuario) => {
+    return axios.put(`${API_URL}/usuarios/${idUsuario}/password`, passwords,
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
+
+const putUserPasswordReset = ( idUsuario) => {
+    return axios.put(`${API_URL}/usuarios/${idUsuario}/password-reset`, {},
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const deleteUserById = (idUsuario) => {
     return axios.delete(API_URL + '/usuarios/' + idUsuario,
         {
@@ -147,7 +180,9 @@ const clientsService = {
     deleteUserById,
     postUser,
     getAllRoles,
-    getUserInfo
+    getUserInfo,
+    putUserPassword,
+    putUserPasswordReset
 }
 
 export default clientsService
