@@ -1,50 +1,14 @@
-import React, { useState } from "react";
-import {
-    Avatar,
-    Box,
-    IconButton,
-    Typography,
-    useMediaQuery,
-    Button,
-    Paper,
-    Stack,
-    Fab,
-} from "@mui/material";
+import React from "react";
+import { Avatar, Box, Typography, useMediaQuery, Paper, Stack } from "@mui/material";
 
-import {
-    AdminPanelSettings,
-    ChevronLeft,
-    ChevronRight,
-    FitnessCenter,
-    Home,
-    Mail,
-    Menu,
-    Logout,
-    Person,
-    ListAlt,
-} from "@mui/icons-material";
+import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt } from "@mui/icons-material";
 
 import { Container } from "@mui/system";
-import {
-    Newspaper,
-    Straighten,
-    FolderShared,
-    HowToReg,
-    History,
-    ArrowCircleDown,
-    ArrowCircleUp,
-} from "@mui/icons-material";
 import Card from "./Card";
-import MiniReportes from "./MiniReportes";
 import logo from "../../images/logo.png";
 import { menuItem } from "../drawer/Drawer";
 
-import { animateScroll as scroll } from "react-scroll";
-
 function Dash(props) {
-    const [isOnTop, setIsOnTop] = useState(true);
-    const [isScrolling, setIsScrolling] = useState(false);
-
     const iconMediumStyle = {
         width: "40%",
         height: "8vh",
@@ -63,11 +27,7 @@ function Dash(props) {
         color: "white",
     };
 
-    const icons = [
-        {
-            text: "Inicio",
-            icon: <Home {...iconStyle} />,
-        },
+    const styledIcons = [
         {
             text: "Mis Planes",
             icon: <Mail {...iconStyle} />,
@@ -90,65 +50,6 @@ function Dash(props) {
         },
     ];
 
-    const dataCardsCliente = [
-        {
-            titulo: "plan vigente",
-            descripcion: "accede a todos los planes que has hecho",
-            icon: <Newspaper {...iconStyle} />,
-            url: "",
-        },
-        {
-            titulo: "mis medidas",
-            descripcion: "mantene actualizadas tus dimensiones corporales.",
-            icon: <Straighten {...iconStyle} />,
-        },
-        {
-            titulo: "mis datos",
-            descripcion: "datos generales de tu perfil.",
-            icon: <FolderShared {...iconStyle} />,
-        },
-        {
-            titulo: "mi matricula",
-            descripcion: "consulta el estado de tu matricula.",
-            icon: <HowToReg {...iconStyle} />,
-        },
-        {
-            titulo: "historico planes",
-            descripcion: "aca podras acceder a todos los planes que has hecho.",
-            icon: <History {...iconStyle} />,
-        },
-        {
-            titulo: "mis medidas",
-            descripcion: "mantene actualizadas tus dimensiones corporales.",
-            icon: <Straighten {...iconStyle} />,
-        },
-        {
-            titulo: "mis datos",
-            descripcion: "datos generales de tu perfil.",
-            icon: <FolderShared {...iconStyle} />,
-        },
-        {
-            titulo: "mi matricula",
-            descripcion: "consulta el estado de tu matricula.",
-            icon: <HowToReg {...iconStyle} />,
-        },
-        {
-            titulo: "historico planes",
-            descripcion: "aca podras acceder a todos los planes que has hecho.",
-            icon: <History {...iconStyle} />,
-        },
-    ];
-
-    const handleWheel = (e) => {
-        e.preventDefault();
-        if (!isScrolling) {
-            setIsScrolling(true);
-            isOnTop ? scroll.scrollToBottom() : scroll.scrollToTop();
-            setIsOnTop(!isOnTop);
-        }
-        setTimeout(() => {}, 1000);
-    };
-
     return (
         <>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
@@ -156,14 +57,14 @@ function Dash(props) {
                     sx={{
                         width: isMediumDevice ? "90vw" : "70vw",
                         height: "20vh",
-                        maxHeight: "250px",
+                        minHeight: "145px",
+                        maxHeight: "200px",
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "center",
                         alignItems: "center",
                         p: 2,
                     }}
-                    onWheel={handleWheel}
                 >
                     <Avatar
                         alt="Logo"
@@ -187,7 +88,6 @@ function Dash(props) {
                 <Paper
                     sx={{
                         width: isMediumDevice ? "90vw" : "70vw",
-                        // height: "57vh",
                         mt: 2,
                         p: 1,
                     }}
@@ -204,25 +104,12 @@ function Dash(props) {
                                 justifyContent: "center",
                             }}
                         >
-                            {/* {props.token.permisos.includes("gestion-planes") &&
-                            menuItem.map((card) => {
-                                    return (
-                                        <Card
-                                            title={card.text}
-                                            description={card.descripcion}
-                                            isMediumDevice={isMediumDevice}
-                                            url={card.url}
-                                        >
-                                            {card.icon}
-                                        </Card>
-                                    );
-                                })} */}
-
                             {menuItem
                                 .filter(
                                     (object) =>
-                                        props.token.permisos.includes(object.permiso) ||
-                                        object.permiso == ""
+                                        object.text !== "Inicio" &&
+                                        (props.token.permisos.includes(object.permiso) ||
+                                            object.permiso === "")
                                 )
                                 .map((item) => {
                                     return (
@@ -232,7 +119,11 @@ function Dash(props) {
                                             isMediumDevice={isMediumDevice}
                                             url={item.url}
                                         >
-                                            {icons.filter((icon) => (menuItem.includes(icon.text)))}
+                                            {
+                                                styledIcons.filter(
+                                                    (icon) => icon.text === item.text
+                                                )[0].icon
+                                            }
                                         </Card>
                                     );
                                 })}
