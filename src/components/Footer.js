@@ -4,7 +4,6 @@ import { Box, BottomNavigation, Chip, Paper, } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 function footer() {
-
     return (
         <Box sx={{ pb: 7 }}>
             <Paper 

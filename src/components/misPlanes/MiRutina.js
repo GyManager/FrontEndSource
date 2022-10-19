@@ -98,7 +98,6 @@ export default function MiRutina() {
                 </Paper>
 
                 <Container maxWidth="md">{ejerciciosAplicados}</Container>
-
                 {!loading && cargarSeguimiento !== null && cargarSeguimiento !== undefined && (
                     <FeedbackEjercicioModal
                         {...ejercicioACargarSeguimiento}

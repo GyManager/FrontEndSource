@@ -19,7 +19,11 @@ const style = {
 export default function ModalCardPaso(props) {
 
     const handleClose = () => props.setOpen(false);
+<<<<<<< HEAD
 
+=======
+console.log(props.paso)
+>>>>>>> main
     return (
         <div>
             <Modal

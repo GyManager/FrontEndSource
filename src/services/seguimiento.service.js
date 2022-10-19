@@ -48,6 +48,7 @@ const postSeguimientoEjercicio = (seguimientoEjercicio, idPlan, idEjercicioAplic
         });
 };
 
+<<<<<<< HEAD
 const getSeguimientoRutinaByIdMicroPlan = (idPlan, idMicroPlan, seguimientosFilter) => {
     let params = {};
     if (seguimientosFilter !== undefined) {
@@ -90,6 +91,8 @@ const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina)
         });
 };
 
+=======
+>>>>>>> main
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -110,9 +113,13 @@ const handleError = (error) => {
 
 const seguimientoService = {
     postSeguimientoEjercicio,
+<<<<<<< HEAD
     getSeguimientoEjercicioByIdRutina,
     postSeguimientoRutina,
     getSeguimientoRutinaByIdMicroPlan,
+=======
+    getSeguimientoEjercicioByIdRutina
+>>>>>>> main
 };
 
 export default seguimientoService;
