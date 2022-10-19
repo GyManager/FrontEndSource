@@ -37,38 +37,41 @@ export const menuItem = [
         iconName: "Mail",
         url: "/mis-planes",
         permiso: "mis-planes",
-        descripcion: ""
+        descripcion: "Revisa los planes que finalizaste y los que vienen"
     },
     {
         text: "Clientes",
         icon: <Person />,
         url: "/clientes",
         permiso: "gestion-clientes",
-        descripcion: "Consultar modificar y crear clientes"
+        descripcion: "consulta los clientes y asigna planes"
     },
     {
         text: "Ejercicios",
         icon: <FitnessCenter />,
         url: "/ejercicios",
-        permiso: "gestion-ejercicios"
+        permiso: "gestion-ejercicios",
+        descripcion:"revisa los ejercicios que hay y agrega nuevos"
     },
     {
         text: "Micro Planes",
         icon: <ListAlt />,
         url: "/micro-planes",
-        permiso: "gestion-micro-planes"
+        permiso: "gestion-micro-planes",
+        descripcion:"consulta y modifica microplanes"
     },
     {
         text: "Usuarios",
         icon: <AdminPanelSettings />,
         url: "/usuarios",
-        permiso: "gestion-usuarios"
+        permiso: "gestion-usuarios",
+        descripcion: "consulta los usuarios y modifica permisos"
     },
     {
         text: "Cambiar Contraseña",
         icon: <Lock/>,
         url: "/password",
-        permiso: ""
+        permiso: "Modifica tu contraseña"
     }
 ]
 
