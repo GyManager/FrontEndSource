@@ -10,7 +10,7 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, WindowSharp, Lock, FolderCopy
+    Logout, Person, ListAlt, Lock, FolderCopy
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';
@@ -22,6 +22,68 @@ import AuthService from '../../services/auth.service'
 import logo from '../../images/logo.png'
 
 const drawerWidth = 240;
+
+
+export const menuItem = [
+    {
+        text: "Inicio",
+        icon: <Home />,
+        url: "/home",
+        permiso: ""
+    },
+    {
+        text: "Mis Planes",
+        icon: <Mail />,
+        iconName: "Mail",
+        url: "/mis-planes",
+        permiso: "mis-planes",
+        descripcion: "Revisa los planes que finalizaste y los que vienen"
+    },
+    {
+        text: "Historico Planes",
+        icon: <FolderCopy/>,
+        iconName: "FolderCopy",
+        url: "/historico-planes",
+        permiso: "mis-planes",
+        descripcion: ""
+    },
+    {
+        text: "Clientes",
+        icon: <Person />,
+        url: "/clientes",
+        permiso: "gestion-clientes",
+        descripcion: "consulta los clientes y asigna planes"
+    },
+    {
+        text: "Ejercicios",
+        icon: <FitnessCenter />,
+        url: "/ejercicios",
+        permiso: "gestion-ejercicios",
+        descripcion:"revisa los ejercicios que hay y agrega nuevos"
+    },
+    {
+        text: "Micro Planes",
+        icon: <ListAlt />,
+        url: "/micro-planes",
+        permiso: "gestion-micro-planes",
+        descripcion:"consulta y modifica microplanes"
+    },
+    {
+        text: "Usuarios",
+        icon: <AdminPanelSettings />,
+        url: "/usuarios",
+        permiso: "gestion-usuarios",
+        descripcion: "consulta los usuarios y modifica permisos"
+    },
+    {
+        text: "Cambiar Contraseña",
+        icon: <Lock/>,
+        url: "/password",
+        permiso: "",
+        descripcion: "Modifica tu contraseña"
+    }
+]
+
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
@@ -87,57 +149,6 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
     const handleWheel = (e) => {
         scroll.scrollMore(-1);
     }
-
-    const menuItem = [
-        {
-            text: "Inicio",
-            icon: <Home />,
-            url: "/",
-            permiso: ""
-        },
-        {
-            text: "Mis Planes",
-            icon: <Mail />,
-            url: "/mis-planes",
-            permiso: "mis-planes"
-        },
-        {
-            text: "Historico Planes",
-            icon: <FolderCopy/>,
-            url: "/historico-planes",
-            permiso: "mis-planes"
-        },
-        {
-            text: "Clientes",
-            icon: <Person />,
-            url: "/clientes",
-            permiso: "gestion-clientes"
-        },
-        {
-            text: "Ejercicios",
-            icon: <FitnessCenter />,
-            url: "/ejercicios",
-            permiso: "gestion-ejercicios"
-        },
-        {
-            text: "Micro Planes",
-            icon: <ListAlt />,
-            url: "/micro-planes",
-            permiso: "gestion-micro-planes"
-        },
-        {
-            text: "Usuarios",
-            icon: <AdminPanelSettings />,
-            url: "/usuarios",
-            permiso: "gestion-usuarios"
-        },
-        {
-            text: "Cambiar Contraseña",
-            icon: <Lock/>,
-            url: "/password",
-            permiso: ""
-        }
-    ]
 
     return (
         <Box sx={{ display: 'flex', height: '9.5vh' }}>
