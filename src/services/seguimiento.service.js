@@ -90,6 +90,21 @@ const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina)
         });
 };
 
+const putSeguimientoPlan = (seguimientoRutina, idPlan) => {
+    return axios
+        .put(API_URL + API_PATH_PLANES + `/${idPlan}/seguimientos`, seguimientoRutina, {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -113,6 +128,7 @@ const seguimientoService = {
     getSeguimientoEjercicioByIdRutina,
     postSeguimientoRutina,
     getSeguimientoRutinaByIdMicroPlan,
+    putSeguimientoPlan
 };
 
 export default seguimientoService;

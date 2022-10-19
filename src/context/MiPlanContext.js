@@ -39,6 +39,7 @@ export const MiPlanProvider = ({ children }) => {
                 plan,
                 loading,
                 esCompletado,
+                getPlanById
             }}
         >
             {children}

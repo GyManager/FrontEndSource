@@ -1,8 +1,10 @@
-import { Container, LinearProgress, Paper, Skeleton, Typography } from "@mui/material";
+import { Comment } from "@mui/icons-material";
+import { Button, Container, LinearProgress, Paper, Skeleton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { MiPlanContext } from "../../context/MiPlanContext";
+import FeedbackPlan from "./FeedbackPlan";
 import MicroPlanCard from "./MicroPlanCard";
 
 export default function MiPlan() {
@@ -104,6 +106,9 @@ export default function MiPlan() {
             </Paper>
 
             {microPlanActivo}
+            {esCompletado && plan.estadoSeguimientoDto === null && (
+                <FeedbackPlan paperStyles={paperStyles} />
+            )}
 
             <Paper {...paperStyles}>
                 <Typography variant="h5">Actividades del plan</Typography>

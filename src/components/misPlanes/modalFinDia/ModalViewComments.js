@@ -26,6 +26,7 @@ export default function ModalViewComments(props) {
                     size="medium"
                     startIcon={<Send />}
                     onClick={() => props.handleEnviar(comentario)}
+                    disabled={props.loadingSubmit}
                 >
                     Enviar
                 </Button>
@@ -35,6 +36,7 @@ export default function ModalViewComments(props) {
                     color="secondary"
                     startIcon={<Cancel />}
                     onClick={props.handleCancelar}
+                    disabled={props.loadingSubmit}
                 >
                     Cancelar
                 </Button>
