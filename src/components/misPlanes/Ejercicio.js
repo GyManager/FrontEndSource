@@ -1,12 +1,14 @@
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, PlayArrow } from "@mui/icons-material";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
+    Button,
     Card,
     CardContent,
+    CardHeader,
     CardMedia,
     List,
     ListItem,
@@ -118,18 +120,39 @@ export default function Ejercicio(props) {
                         {loadingPasos ? (
                             <Skeleton></Skeleton>
                         ) : (
-                            pasos.map((paso) => (
-                                <Card key={paso.idPaso}>
-                                    {paso.imagen !== null &&
-                                        paso.imagen !== undefined &&
-                                        paso.imagen !== "" && (
-                                            <CardMedia component="img" image={paso.imagen} alt="" />
-                                        )}
-                                    <CardContent>
-                                        <Typography>{paso.contenido}</Typography>
-                                    </CardContent>
-                                </Card>
-                            ))
+                            pasos
+                                .sort((a, b) => a.numeroPaso - b.numeroPaso)
+                                .map((paso) => (
+                                    <Card key={paso.idPaso}>
+                                        <CardHeader
+                                            title={`${paso.numeroPaso}. ${paso.contenido}`}
+                                            titleTypographyProps={{ variant: "p" }}
+                                        />
+                                        {paso.imagen !== null &&
+                                            paso.imagen !== undefined &&
+                                            paso.imagen !== "" && (
+                                                <CardMedia
+                                                    component="img"
+                                                    image={paso.imagen}
+                                                    alt=""
+                                                    sx={{ pb: 2 }}
+                                                />
+                                            )}
+                                    </Card>
+                                ))
+                        )}
+                        {!loading && ejercicio.video && (
+                            <Button
+                                size="medium"
+                                color="error"
+                                variant="contained"
+                                endIcon={<PlayArrow />}
+                                href={ejercicio.video}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Video instructivo
+                            </Button>
                         )}
                     </AccordionDetails>
                 </Accordion>

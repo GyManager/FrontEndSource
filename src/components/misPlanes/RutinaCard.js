@@ -1,5 +1,12 @@
 import { Check, ElectricBolt } from "@mui/icons-material";
-import { Card, CardActionArea, CardContent, Chip, Typography } from "@mui/material";
+import {
+    Card,
+    CardActionArea,
+    CardContent,
+    Chip,
+    CircularProgress,
+    Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +15,9 @@ export default function RutinaCard(props) {
 
     const color = props.completado ? "#cce2cd" : "#ffffff77";
 
-    const badge = props.completado ? (
+    const badge = props.loadingState ? (
+        <CircularProgress size={31} />
+    ) : props.completado ? (
         <Chip label="Completado esta semana" color="success" variant="contained" icon={<Check />} />
     ) : (
         <Chip label="Pendiente" color="primary" variant="contained" icon={<ElectricBolt />} />

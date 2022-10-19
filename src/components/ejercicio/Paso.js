@@ -35,7 +35,6 @@ function Paso(props) {
     }
     const editableDisplay =
     {
-        // sx: { display: editable ? '' : 'none' }
         sx: { visibility: editable ? '' : 'hidden' }
     }
 
@@ -51,7 +50,6 @@ function Paso(props) {
                     />
                 </Grid>
                 <Grid container item xs={1} direction="column" justifyContent='center' alignItems='center' {...editableDisplay}  >
-                    {/* <Grid container direction="column" justifyContent='center' alignItems='center'> */}
                         <Grid item>
                             <Button {...ButtonStyle}
                                 id={'ButtonMoveUpTest' + props.index}
@@ -72,11 +70,9 @@ function Paso(props) {
                                 <ArrowDownward fontSize='small' />
                             </Button>
                         </Grid>
-                    {/* </Grid> */}
                 </Grid>
 
                 <Grid container justifyContent='center' item xs={8}>
-                    {/* <Grid  > */}
                         <TextField
                             fullWidth
                             {...TextFieldStyle}
@@ -88,11 +84,9 @@ function Paso(props) {
                             helperText={formik.touched.descripcion && formik.errors.descripcion}
                             multiline={true}
                         />
-                    {/* </Grid> */}
                 </Grid>
 
                 <Grid container direction='column' item xs={1} {...editableDisplay}>
-                    {/* <Grid container direction='column' > */}
                         <Button
                          id={'ButtonDeletePasoTest'+props.index}
                             {...ImgButtonStyle}
@@ -102,7 +96,6 @@ function Paso(props) {
                             onClick={() => props.handleDelete(props.nroPaso)} >
                             <Delete fontSize='small' />
                         </Button>
-                    {/* </Grid> */}
                 </Grid>
 
             </Grid>

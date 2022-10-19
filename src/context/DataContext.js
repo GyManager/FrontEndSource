@@ -6,6 +6,7 @@ export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
     const [dataSnackbar, setDataSnackbar] = useState(dataFixed)
+    
 
     return (
         <DataContext.Provider value={{

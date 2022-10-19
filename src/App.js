@@ -19,6 +19,7 @@ import EjercicioPage from './pages/EjercicioPage';
 import MicroPlanesPage from './pages/MicroPlanesPage';
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
+import Dash from './components/home/Dash'
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -38,13 +39,14 @@ import MiPlan from './components/misPlanes/MiPlan';
 import MiMicroPlan from './components/misPlanes/MiMicroPlan';
 import MiRutina from './components/misPlanes/MiRutina';
 import MiPlanContextLayout from './context/MiPlanContextLayout';
+import PasswordChange from './components/password/PasswordChange';
 
 function App() {
 
   const token = AuthService.getStoredSession();
 
   const theme = createTheme(gymanagerTheme);
-
+console.log(token)
   if (!token) {
     return (
       <ThemeProvider theme={theme}>
@@ -91,7 +93,10 @@ function App() {
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
+                    {token && <Route path="/password" element={<PasswordChange/>} />}
+                    <Route path="/home" element={<Dash token={token}/>}  />
                     <Route path="/*" element={<NoAutorizadoPage/>} />
+                    
                   </Routes>
                   <Footer />
                 </BrowserRouter>

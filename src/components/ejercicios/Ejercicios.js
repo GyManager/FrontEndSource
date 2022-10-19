@@ -56,7 +56,6 @@ function Ejercicios() {
             }
         }
         fetchData()
-        console.log(ejercicios)
     }, [valueToSearch, rowsPerPage, page])
 
     return (

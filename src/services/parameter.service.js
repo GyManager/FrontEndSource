@@ -5,6 +5,10 @@ const API_URL = process.env.REACT_APP_API_URL;
 const access_token = authService.getStoredSession()?  authService.getStoredSession().access_token : '';
 
 
+const getEstadosSeguimiento = () => {
+    return getParameters('/estados-seguimiento');
+}
+
 const getTipoDocumentos = () => {
     return getParameters('/tipo-documentos');
 }
@@ -86,7 +90,8 @@ const parametersService = {
     getBloques,
     getObjetivos,
     getTipoEjercicios,
-    getEjercicios
+    getEjercicios,
+    getEstadosSeguimiento
 }
 
 
