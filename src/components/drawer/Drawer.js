@@ -10,7 +10,7 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, WindowSharp, Lock
+    Logout, Person, ListAlt, Lock
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';

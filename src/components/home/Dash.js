@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Typography, useMediaQuery, Paper, Stack } from "@mui/material";
 
-import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt } from "@mui/icons-material";
+import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt, Lock } from "@mui/icons-material";
 
 import { Container } from "@mui/system";
 import Card from "./Card";
@@ -56,6 +56,10 @@ function Dash(props) {
             text: "Usuarios",
             icon: <AdminPanelSettings {...iconStyle} />,
         },
+        {
+            text: "Cambiar Contraseña",
+            icon: <Lock {...iconStyle} />,
+        }
     ];
 
     return (
