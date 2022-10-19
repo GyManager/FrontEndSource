@@ -4,9 +4,7 @@ import { Box, BottomNavigation, Chip, Paper, } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 function footer() {
-    const handleClick = () => {
-        console.info('You clicked the Chip.');
-    };
+
     return (
         <Box sx={{ pb: 7 }}>
             <Paper 
@@ -25,10 +23,12 @@ function footer() {
                         display: { xs: 'none', md: 'flex' },
                     }}>
                     <Chip 
+                    clickable
                         icon={<InstagramIcon />} 
                         color="primary" 
-                        sx={{backgroundColor: 'navbar.main'}} 
-                        onClick={handleClick} 
+                        sx={{backgroundColor: 'navbar.main'}}
+                        component="a"
+                        href="https://www.instagram.com/core.gimnasio/"
                     />
                 </BottomNavigation>
             </Paper>
