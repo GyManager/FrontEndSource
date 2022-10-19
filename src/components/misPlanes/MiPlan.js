@@ -45,6 +45,7 @@ export default function MiPlan() {
                     semanaFin={acumSemanas - 1}
                     semanaActual={semanaActual}
                     route={`/mis-planes/${idPlan}/micro-plan/${microPlan.idMicroPlan}`}
+                    esCompletado={esCompletado}
                 />
             );
         })
@@ -56,7 +57,8 @@ export default function MiPlan() {
         microPlanes.filter((microPlan) => {
             return (
                 microPlan.props.semanaInicio <= semanaActual &&
-                microPlan.props.semanaFin >= semanaActual
+                microPlan.props.semanaFin >= semanaActual &&
+                !esCompletado
             );
         })
     );
