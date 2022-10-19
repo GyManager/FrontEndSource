@@ -48,6 +48,48 @@ const postSeguimientoEjercicio = (seguimientoEjercicio, idPlan, idEjercicioAplic
         });
 };
 
+const getSeguimientoRutinaByIdMicroPlan = (idPlan, idMicroPlan, seguimientosFilter) => {
+    let params = {};
+    if (seguimientosFilter !== undefined) {
+        params["seguimientosFilter"] = seguimientosFilter;
+    }
+
+    return axios
+        .get(`${API_URL}/planes/${idPlan}/micro-planes/${idMicroPlan}/seguimientos`, {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+            params,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
+const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina) => {
+    return axios
+        .post(
+            API_URL +
+                API_PATH_PLANES +
+                `/${idPlan}/micro-planes/${idMicroPlan}/rutinas/${idRutina}/seguimientos`,
+            seguimientoRutina,
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -68,7 +110,9 @@ const handleError = (error) => {
 
 const seguimientoService = {
     postSeguimientoEjercicio,
-    getSeguimientoEjercicioByIdRutina
+    getSeguimientoEjercicioByIdRutina,
+    postSeguimientoRutina,
+    getSeguimientoRutinaByIdMicroPlan,
 };
 
 export default seguimientoService;

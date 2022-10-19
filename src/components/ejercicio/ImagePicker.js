@@ -9,7 +9,6 @@ import { useFilePicker } from 'use-file-picker';
 import ModalCardPaso from './ModalCardPaso'
 
 import { Box } from '@mui/system';
-import shadows from '@mui/material/styles/shadows';
 
 export default function ImagePicker(props) {
 
@@ -23,8 +22,8 @@ export default function ImagePicker(props) {
     });
 
     useEffect(() => {
-        const string2 = { ...filesContent[0] }.content
-        formik.setFieldValue(`pasos[${props.index}].imagen`, string2)
+        const dataIMG = { ...filesContent[0] }.content
+        formik.setFieldValue(`pasos[${props.index}].imagen`, dataIMG)
     }, [filesContent, loading])
 
     const handleChargeFile = () => {
