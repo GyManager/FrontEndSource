@@ -32,12 +32,12 @@ export const menuItem = [
         permiso: ""
     },
     {
-        text: "Mis Planes",
+        text: "Plan Vigente",
         icon: <Mail />,
         iconName: "Mail",
         url: "/mis-planes",
         permiso: "mis-planes",
-        descripcion: "Revisa los planes que finalizaste y los que vienen"
+        descripcion: "Entrta al plan que tenes vigente y entrena!"
     },
     {
         text: "Historico Planes",
@@ -45,7 +45,7 @@ export const menuItem = [
         iconName: "FolderCopy",
         url: "/historico-planes",
         permiso: "mis-planes",
-        descripcion: ""
+        descripcion: "Revisa los planes que finalizaste y los que vienen"
     },
     {
         text: "Clientes",

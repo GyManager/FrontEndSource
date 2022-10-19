@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Typography, useMediaQuery, Paper, Stack } from "@mui/material";
 
-import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt, Lock } from "@mui/icons-material";
+import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt, Lock, FolderCopy } from "@mui/icons-material";
 
 import { Container } from "@mui/system";
 import Card from "./Card";
@@ -37,8 +37,12 @@ function Dash(props) {
 
     const styledIcons = [
         {
-            text: "Mis Planes",
+            text: "Plan Vigente",
             icon: <Mail {...iconStyle} />,
+        },
+        {
+            text: "Historico Planes",
+            icon: <FolderCopy {...iconStyle} />,
         },
         {
             text: "Clientes",
