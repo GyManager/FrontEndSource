@@ -1,17 +1,24 @@
-import { Check, ElectricBolt, Lock } from "@mui/icons-material";
+import { Check, ElectricBolt, Lock, WarningAmberRounded } from "@mui/icons-material";
 import {
-    Avatar,
+    Button,
     Card,
     CardActionArea,
     CardContent,
     CardHeader,
     Chip,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    Stack,
     Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useNavigate, useParams } from "react-router-dom";
+import { Fragment, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function PlanCard(props) {
+    const [open, setOpen] = useState(() => false);
     const navigate = useNavigate();
 
     const esFuturo = new Date(props.fechaDesde) > new Date();
@@ -34,38 +41,55 @@ export default function PlanCard(props) {
           ).toLocaleDateString()}`
         : new Date(props.fechaDesde).toLocaleDateString();
 
-    const avatar = <Avatar sx={{ bgcolor: "primary.main" }}>{props.objetivo.charAt(0)}</Avatar>;
-
     function handleClick() {
         if (esFuturo) {
+            setOpen(true);
         } else {
             navigate(props.route);
         }
     }
 
     return (
-        <Card sx={{ mx: 1, p: 0, mt: 2, borderRadius: 4 }}>
-            <CardActionArea onClick={handleClick} sx={{ backgroundColor: color }}>
-                <CardHeader
-                    title={props.objetivo}
-                    subheader={fechas}
-                    titleTypographyProps={{ variant: "h5", align: "center" }}
-                    subheaderTypographyProps={{ variant: "body2", align: "center" }}
-                />
-                <CardContent sx={{ pt: 0, pb: 1 }}>
-                    <Typography variant="body2">{props.descripcion}</Typography>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            direction: "row",
-                            justifyContent: "flex-end",
-                            mb: 1,
-                        }}
-                    >
-                        {badge}
-                    </Box>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <Fragment>
+            <Card sx={{ mx: 1, p: 0, mt: 2, borderRadius: 4 }}>
+                <CardActionArea onClick={handleClick} sx={{ backgroundColor: color }}>
+                    <CardHeader
+                        title={props.objetivo}
+                        subheader={fechas}
+                        titleTypographyProps={{ variant: "h5", align: "center" }}
+                        subheaderTypographyProps={{ variant: "body2", align: "center" }}
+                    />
+                    <CardContent sx={{ pt: 0, pb: 1 }}>
+                        <Typography variant="body2">{props.descripcion}</Typography>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                direction: "row",
+                                justifyContent: "flex-end",
+                                mb: 1,
+                            }}
+                        >
+                            {badge}
+                        </Box>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+            <Dialog open={open} onClose={() => setOpen(false)}>
+                <DialogContent>
+                    <Stack direction="column" justifyContent="center" alignItems="center">
+                        <WarningAmberRounded
+                            sx={{ width: "100%", height: "8vh", color: "secondary.main" }}
+                        />
+                        <DialogContentText id="alert-dialog-description" align="center">
+                            Aun no tienes acceso al plan, podras acceder desde el{" "}
+                            {new Date(props.fechaDesde).toLocaleDateString()}
+                        </DialogContentText>
+                    </Stack>
+                </DialogContent>
+                <DialogActions sx={{ justifyContent: "center" }}>
+                    <Button onClick={() => setOpen(false)}>Aceptar</Button>
+                </DialogActions>
+            </Dialog>
+        </Fragment>
     );
 }
