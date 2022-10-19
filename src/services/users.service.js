@@ -2,16 +2,9 @@ import axios from "axios";
 import authService from "./auth.service";
 
 //TODO IMPLEMENTAR DOTENV PARA API_URL
-const API_URL = "https://gymanager-dev-api.herokuapp.com/api";
 
-let access_token = "";
-
-try {
-    const datosDeSesion = authService.getStoredSession();
-    access_token = datosDeSesion.access_token;
-} catch (error) {
-    access_token = "";
-}
+const API_URL = process.env.REACT_APP_API_URL;
+const access_token = authService.getStoredSession() ?  authService.getStoredSession().access_token : '';
 
 const getActiveUser = () => {
     return axios
@@ -92,6 +85,39 @@ const putUser = (usuario, idUsuario) => {
         });
 };
 
+const putUserPassword = (passwords, idUsuario) => {
+    return axios.put(`${API_URL}/usuarios/${idUsuario}/password`, passwords,
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
+
+const putUserPasswordReset = ( idUsuario) => {
+    return axios.put(`${API_URL}/usuarios/${idUsuario}/password-reset`, {},
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const deleteUserById = (idUsuario) => {
     return axios
         .delete(API_URL + "/usuarios/" + idUsuario, {
@@ -143,6 +169,18 @@ const getAllRoles = () => {
         });
 };
 
+const getUserInfo = () => {
+    return axios.get(API_URL + '/usuarios/info', {
+        headers: { 
+            'Authorization': `Bearer ${access_token}` 
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((err) => {
+         handleError(err)
+    })
+}
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -171,6 +209,10 @@ const clientsService = {
     deleteUserById,
     postUser,
     getAllRoles,
+    getUserInfo,
+    putUserPassword,
+    putUserPasswordReset
 };
+
 
 export default clientsService;

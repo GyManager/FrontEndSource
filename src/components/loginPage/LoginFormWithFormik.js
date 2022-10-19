@@ -22,7 +22,6 @@ const validationSchema = yup.object({
         .required('El email es obligatorio'),
     password: yup
         .string('Ingrese su contraseña')
-        .min(8, 'La contraseña debería tener como mínimo 8 caracteres')
         .required('La contraseña es obligatoria'),
 });
 

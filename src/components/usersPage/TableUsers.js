@@ -32,7 +32,6 @@ export default function TableUsers(props) {
               <TableCell align='left' style={{ minWidth: 8 }}> Nro. de Documento </TableCell>
               {!isMediumDevice && <TableCell align='left' style={{ minWidth: 30 }}> Email </TableCell>}
               {!isMediumDevice && <TableCell align='left' style={{ minWidth: 30 }}> F. Alta </TableCell>}
-              {!isMediumDevice && <TableCell align='left' style={{ minWidth: 30 }}> F. Baja </TableCell>}
             </TableRow>
           </TableHead>
 

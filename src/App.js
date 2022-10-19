@@ -21,7 +21,6 @@ import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
 import Dash from './components/home/Dash'
 
-
 //Probando context below
 import { DataProvider } from "./context/DataContext";
 import MicroPlanPage from './pages/MicroPlanPage';
@@ -34,6 +33,13 @@ import ErrorModalSystem from './components/reusable/ErrorModalSystem';
 import { ErrorProvider } from './context/ErrorContext';
 import gymanagerTheme from './GymanagerTheme';
 import { createTheme, ThemeProvider } from '@mui/material';
+import MisPlanes from './components/misPlanes/MisPlanes';
+import { UserProvider } from './context/UserContext';
+import MiPlan from './components/misPlanes/MiPlan';
+import MiMicroPlan from './components/misPlanes/MiMicroPlan';
+import MiRutina from './components/misPlanes/MiRutina';
+import MiPlanContextLayout from './context/MiPlanContextLayout';
+import PasswordChange from './components/password/PasswordChange';
 
 function App() {
 
@@ -60,36 +66,47 @@ console.log(token)
 
   return (
     <ThemeProvider theme={theme}>
-      <DataProvider>
-        <ErrorProvider>
-          <SnackbarProvider>
-            <div className="fondo">
-              <BrowserRouter >
-                <Drawer showMenu={true} token={token} />
-                <Routes >
-                  <Route path="/" element={<h1>Logeado</h1>} />
+      <UserProvider>
+        <DataProvider>
+          <ErrorProvider>
+            <SnackbarProvider>
+              <div className="fondo">
+                <BrowserRouter >
+                  <Drawer showMenu={true} token={token} />
+                  <Routes >
+                    <Route path="/" element={<h1>Logeado</h1>} />
 
-                  {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
-                  {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
-                  {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
-                  {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
-                  {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
-                  {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<UnderConstructionPage title='Mis planes'/>} />}
-                  {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
-                  {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
-                  {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
-                  {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
-                  <Route path="/home" element={<Dash token={token}/>}  />
-                  <Route path="/*" element={<NoAutorizadoPage/>} />
-                </Routes>
-                <Footer />
-              </BrowserRouter>
-              <SnackbarSystem/>
-              <ErrorModalSystem/>
-            </div>
-          </SnackbarProvider>
-        </ErrorProvider>
-      </DataProvider>
+                    {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
+                    {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
+                    {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
+                    {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<MisPlanes/>} />}
+                    <Route element={<MiPlanContextLayout />}>
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<MiMicroPlan/>} />}
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina" element={<MiRutina/>} />}
+                      {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan/rutina/:idRutina/ejercicio/:idEjercicioAplicado" element={<UnderConstructionPage title='Mis planes - MicroPlan - Rutina'/>} />}
+                    </Route>
+                    {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios" element={<Ejercicios/>} />}
+                    {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
+                    {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
+                    {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
+
+                    {token && <Route path="/password" element={<PasswordChange/>} />}
+                    <Route path="/home" element={<Dash token={token}/>}  />
+                    <Route path="/*" element={<NoAutorizadoPage/>} />
+                    
+                  </Routes>
+                  <Footer />
+                </BrowserRouter>
+                <SnackbarSystem/>
+                <ErrorModalSystem/>
+              </div>
+            </SnackbarProvider>
+          </ErrorProvider>
+        </DataProvider>
+      </UserProvider>
     </ThemeProvider>
   );
 }

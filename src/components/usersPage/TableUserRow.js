@@ -13,7 +13,6 @@ export default function TableUserRow(props) {
             <TableCell align='left' key={"numdoc"}> {props.numeroDocumento}</TableCell>
             { !props.isMediumDevice && <TableCell align='left' key={"mail"}> {props.mail}</TableCell> }
             { !props.isMediumDevice && <TableCell align='left' key={"F. Alta"}> {props.fechaAlta}</TableCell> }
-            { !props.isMediumDevice && <TableCell align='left' key={"F. Baja"}> {props.fechaBaja}</TableCell> }
         </TableRow>
     )
 }
