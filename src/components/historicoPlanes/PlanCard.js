@@ -1,4 +1,4 @@
-import { Check, ElectricBolt, Lock, WarningAmberRounded } from "@mui/icons-material";
+import { Check, Comment, ElectricBolt, Lock, WarningAmberRounded } from "@mui/icons-material";
 import {
     Button,
     Card,
@@ -24,6 +24,8 @@ export default function PlanCard(props) {
     const esFuturo = new Date(props.fechaDesde) > new Date();
     const esVigente =
         new Date(props.fechaDesde) <= new Date() && new Date(props.fechaHasta) >= new Date();
+    const pendienteFeedback =
+        props.estadoSeguimientoDto === null || props.estadoSeguimientoDto === undefined;
 
     const color = esFuturo ? "#e2dbdb" : esVigente ? "#FFFFFF" : "#cce2cd";
 
@@ -69,7 +71,17 @@ export default function PlanCard(props) {
                                 mb: 1,
                             }}
                         >
-                            {badge}
+                            <Stack gap={1}>
+                                {badge}
+                                {!esVigente && !esFuturo && pendienteFeedback && (
+                                    <Chip
+                                        label="Queremos conocer tu opinion"
+                                        color="success"
+                                        variant="contained"
+                                        icon={<Comment />}
+                                    />
+                                )}
+                            </Stack>
                         </Box>
                     </CardContent>
                 </CardActionArea>

@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Avatar, Box, Typography, useMediaQuery, Paper, Stack } from "@mui/material";
+import React, { useContext } from "react";
+import { Avatar, Box, Typography, useMediaQuery, Paper, Stack, Badge } from "@mui/material";
 
-import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt, Lock, FolderCopy } from "@mui/icons-material";
+import {
+    AdminPanelSettings,
+    FitnessCenter,
+    Mail,
+    Person,
+    ListAlt,
+    Lock,
+    FolderCopy,
+} from "@mui/icons-material";
 
 import { Container } from "@mui/system";
 import Card from "./Card";
@@ -10,12 +18,12 @@ import { menuItem } from "../drawer/Drawer";
 
 // import userService from "../../services/users.service";
 
-import useFetchUserInfo from "./servicesHooks"
+import useFetchUserInfo from "./servicesHooks";
+import { UserContext } from "../../context/UserContext";
 
 function Dash(props) {
     const { userInfo } = useFetchUserInfo();
-    
-
+    const { notificaciones, loadingNotificaciones } = useContext(UserContext);
 
     const iconMediumStyle = {
         width: "40%",
@@ -35,6 +43,10 @@ function Dash(props) {
         color: "white",
     };
 
+    const feedbackPlanesPendientes = loadingNotificaciones
+        ? 0
+        : notificaciones.filter((notificacion) => notificacion.id === "FEEDBACK_PLANES")[0]?.valor;
+
     const styledIcons = [
         {
             text: "Plan Vigente",
@@ -42,7 +54,20 @@ function Dash(props) {
         },
         {
             text: "Historico Planes",
-            icon: <FolderCopy {...iconStyle} />,
+            icon: (
+                <Badge
+                    badgeContent={feedbackPlanesPendientes}
+                    color="success"
+                    component="span"
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                    }}
+                    sx={{ mx: 2.79 }}
+                >
+                    <FolderCopy sx={iconLargeStyle} />
+                </Badge>
+            ),
         },
         {
             text: "Clientes",
@@ -63,7 +88,7 @@ function Dash(props) {
         {
             text: "Cambiar Contraseña",
             icon: <Lock {...iconStyle} />,
-        }
+        },
     ];
 
     return (
@@ -95,7 +120,7 @@ function Dash(props) {
                             maxHeight: "140px",
                         }}
                     />
-                    <Box sx={{ display: 'block', justifyContent: "center" }}>
+                    <Box sx={{ display: "block", justifyContent: "center" }}>
                         <Typography variant="h5">Bienvenido a CoreE</Typography>
                         <Typography variant="h5">{userInfo.nombre}</Typography>
                     </Box>
