@@ -10,7 +10,7 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, Lock
+    Logout, Person, ListAlt, Lock, Receipt
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';
@@ -66,6 +66,13 @@ export const menuItem = [
         url: "/usuarios",
         permiso: "gestion-usuarios",
         descripcion: "consulta los usuarios y modifica permisos"
+    },
+    {
+        text: "Mi Matricula",
+        icon: <Receipt/>,
+        url: "/home",
+        permiso: "mis-matriculas",
+        descripcion: "Como esta mi matricula?"
     },
     {
         text: "Cambiar Contraseña",
