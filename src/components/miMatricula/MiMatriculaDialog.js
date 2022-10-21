@@ -3,10 +3,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import { DialogContent } from "@mui/material";
 import InformeMatriculaActual from "./InformeMatriculaActual";
+import InformeMatriculaFutura from "./InformeMatriculaFutura";
 import _ from "lodash";
 
 function SimpleDialog(props) {
-    console.log("props.userMatriculas", props.userMatriculas);
+    // console.log("props.userMatriculas", props.userMatriculas);
     const { onClose, selectedValue, open } = props;
     // const [matriculaActiva, setMatriculaActiva] = useState()
 
@@ -14,16 +15,25 @@ function SimpleDialog(props) {
         onClose(selectedValue);
     };
     let matriculaActiva;
-    // setMatriculaActiva(props.userMatriculas.filter((unaMatricula)=> unaMatricula.matriculaEstado === "ACTIVA"))
+    let matriculaFutura;
+
     if (props.userMatriculas) {
         matriculaActiva = props.userMatriculas.filter(
             (unaMatricula) => unaMatricula.matriculaEstado === "ACTIVA"
         );
-        // console.log("miMatriculaDialog: matriculaActiva:", matriculaActiva);
-        console.log("miMatriculaDialog: matriculaActiva:23", {...matriculaActiva[0]}.fechaVencimiento);
+        matriculaActiva = { ...matriculaActiva[0] }.fechaVencimiento;
+        // console.log('matriculaActiva',matriculaActiva)
+        if (matriculaActiva === undefined) {
+            matriculaActiva = "No tenes una matricula vigente";
+        }
+        matriculaFutura = props.userMatriculas.filter(
+            (unaMatricula) => unaMatricula.matriculaEstado === "NO_INICIADA"
+        );
+        
     } else {
-        matriculaActiva = 'Sin datos'
+        matriculaActiva = "";
     }
+
     return (
         <Dialog onClose={handleClose} open={open}>
             {/* <DialogTitle>Set backup account</DialogTitle> */}
@@ -33,13 +43,12 @@ function SimpleDialog(props) {
                     .map((matriculaActual)=>
                         <InformeMatriculaActual fechaVencimiento={matriculaActual.fechaVencimiento} />
                     )} */}
-                {matriculaActiva ? (
-                    <InformeMatriculaActual
-                        fechaVencimiento={{...matriculaActiva[0]}.fechaVencimiento}
-                    />
-                ) : (
-                    <></>
-                )}
+                {/* {matriculaActiva ? ( */}
+                <InformeMatriculaActual fechaVencimiento={matriculaActiva} />
+                <InformeMatriculaFutura inicio={{ ...matriculaFutura[0] }.fechaVencimiento} />
+                {/* ) : ( */}
+                {/* <></> */}
+                {/* )} */}
             </DialogContent>
         </Dialog>
     );
