@@ -223,6 +223,40 @@ const getUserNotificaciones = () => {
         });
 };
 
+const getUserAvatar = (idUsuario) => {
+    return axios
+        .get(API_URL + `/usuarios/${idUsuario}/avatar`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((err) => {
+            handleError(err);
+        });
+};
+
+const putUserAvatar = (imagen, idUsuario) => {
+    return axios
+        .put(
+            API_URL + `/usuarios/${idUsuario}/avatar`,
+            { imagen: imagen },
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((err) => {
+            handleError(err);
+        });
+};
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -256,6 +290,8 @@ const clientsService = {
     putUserPassword,
     putUserPasswordReset,
     getUserNotificaciones,
+    getUserAvatar,
+    putUserAvatar,
 };
 
 export default clientsService;

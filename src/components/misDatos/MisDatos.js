@@ -1,5 +1,5 @@
 import { Save } from "@mui/icons-material";
-import { Button, Container, Fab, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Button, Container, Fab, Paper, Stack, TextField, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useContext, useEffect, useState } from "react";
@@ -13,6 +13,8 @@ import { GenericComboBox } from "../reusable";
 import DatePicker from "../reusable/DatePicker";
 import userSchema from "../user/userSchema";
 import userService from "../../services/users.service";
+import GenericImagePicker from "../reusable/GenericImagePicker";
+import AvatarProfilePic from "../reusable/AvatarProfilePic";
 
 const paperStyles = {
     sx: { mx: 1, p: 2, my: 2 },
@@ -113,12 +115,35 @@ export default function MisDatos() {
         }
     }
 
+    async function handleChangeImage(imagen) {
+        if (imagen !== null && imagen !== undefined) {
+            let usuario = await getUserInfo();
+            const respuesta = await userService.putUserAvatar(imagen, usuario.idUsuario);
+
+            if (respuesta instanceof AxiosError) {
+                processErrorMessage(respuesta.response.data);
+            } else {
+                loadUserInfo();
+                navigate("/home");
+                addSnackbar({
+                    message: "Imagen de perfil actualizada",
+                    severity: "success",
+                });
+            }
+        }
+    }
+
     return (
         <Container maxWidth="md" disableGutters component="form" onSubmit={formik.handleSubmit}>
             <Paper sx={{ mx: 1, p: 1, my: 2 }} elevation={2}>
                 <Typography variant="h4" align="center">
                     Mis datos
                 </Typography>
+
+                <Stack {...stackStyle} alignItems="center" justifyContent="center">
+                    <AvatarProfilePic size={105} currentUser />
+                    <GenericImagePicker handlePick={handleChangeImage} />
+                </Stack>
 
                 <Paper {...paperStyles}>
                     <Stack {...stackStyle}>
