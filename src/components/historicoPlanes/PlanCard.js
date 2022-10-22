@@ -76,7 +76,7 @@ export default function PlanCard(props) {
                                 {!esVigente && !esFuturo && pendienteFeedback && (
                                     <Chip
                                         label="Queremos conocer tu opinion"
-                                        color="success"
+                                        color="warning"
                                         variant="contained"
                                         icon={<Comment />}
                                     />

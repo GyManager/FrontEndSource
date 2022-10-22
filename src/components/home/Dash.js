@@ -57,7 +57,7 @@ function Dash(props) {
             icon: (
                 <Badge
                     badgeContent={feedbackPlanesPendientes}
-                    color="success"
+                    color="warning"
                     component="span"
                     anchorOrigin={{
                         vertical: "top",

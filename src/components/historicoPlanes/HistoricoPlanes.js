@@ -11,7 +11,7 @@ import PlanCard from "./PlanCard";
 export default function HistoricoPlanes() {
     const [loading, setLoading] = useState(false);
     const [planes, setPlanes] = useState([]);
-    const [fechaBusqueda, setFechaBusqueda] = useState(() => "");
+    const [fechaBusqueda, setFechaBusqueda] = useState(() => null);
     const { getUserInfo } = useContext(UserContext);
     const { processErrorMessage } = useContext(ErrorContext);
 
@@ -21,7 +21,8 @@ export default function HistoricoPlanes() {
         let usuario = await getUserInfo();
         const respuesta = await planesService.getPlanesByIdCliente(
             usuario.cliente.idCliente,
-            "TODOS"
+            "TODOS",
+            fechaBusqueda
         );
 
         if (respuesta instanceof AxiosError) {
@@ -34,7 +35,7 @@ export default function HistoricoPlanes() {
 
     useEffect(() => {
         getPlanesByIdCliente();
-    }, []);
+    }, [fechaBusqueda]);
 
     const planesShow = loading ? (
         <Skeleton variant="rectangular" height={108} sx={{ m: 1 }} />
