@@ -98,7 +98,7 @@ export default function MisDatos() {
             };
             respuesta = await clientsService.putClient(cliente, usuario.cliente.idCliente);
         } else {
-            respuesta = await userService.putUser(formik.values, usuario.idUsuario);
+            respuesta = await userService.putMyUser(formik.values, usuario.idUsuario);
         }
 
         if (respuesta instanceof AxiosError) {
