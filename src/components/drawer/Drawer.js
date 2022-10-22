@@ -76,6 +76,13 @@ export const menuItem = [
         descripcion: "consulta los usuarios y modifica permisos"
     },
     {
+        text: "Mis datos",
+        icon: <Person/>,
+        url: "/mis-datos",
+        permiso: "",
+        descripcion: "Mis datos personales"
+    },
+    {
         text: "Cambiar Contraseña",
         icon: <Lock/>,
         url: "/password",

@@ -41,6 +41,7 @@ import MiRutina from './components/misPlanes/MiRutina';
 import MiPlanContextLayout from './context/MiPlanContextLayout';
 import PasswordChange from './components/password/PasswordChange';
 import HistoricoPlanes from './components/historicoPlanes/HistoricoPlanes';
+import MisDatos from './components/misDatos/MisDatos';
 
 function App() {
 
@@ -95,6 +96,7 @@ console.log(token)
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
+                    {token && <Route path="/mis-datos" element={<MisDatos/>} />}
                     {token && <Route path="/password" element={<PasswordChange/>} />}
                     <Route path="/home" element={<Dash token={token}/>}  />
                     <Route path="/*" element={<NoAutorizadoPage/>} />

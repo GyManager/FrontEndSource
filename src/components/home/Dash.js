@@ -86,6 +86,10 @@ function Dash(props) {
             icon: <AdminPanelSettings {...iconStyle} />,
         },
         {
+            text: "Mis datos",
+            icon: <Person {...iconStyle} />,
+        },
+        {
             text: "Cambiar Contraseña",
             icon: <Lock {...iconStyle} />,
         },
