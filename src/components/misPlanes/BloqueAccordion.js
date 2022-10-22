@@ -22,6 +22,7 @@ export default function BloqueAccordion(props) {
                                 seguimiento.idEjercicioAplicado ===
                                 ejercicioAplicado.idEjercicioAplicado
                         )}
+                        disableInput={props.disableInput}
                     />
                 ))}
             </AccordionDetails>

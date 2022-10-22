@@ -31,11 +31,15 @@ export const MiPlanProvider = ({ children }) => {
         getPlanById();
     }, []);
 
+    const esCompletado = loading ? false : new Date(plan.fechaHasta) < new Date();
+
     return (
         <MiPlanContext.Provider
             value={{
                 plan,
                 loading,
+                esCompletado,
+                getPlanById
             }}
         >
             {children}

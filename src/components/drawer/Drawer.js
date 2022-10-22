@@ -10,7 +10,7 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, Lock
+    Logout, Person, ListAlt, Lock, FolderCopy
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';
@@ -32,10 +32,18 @@ export const menuItem = [
         permiso: ""
     },
     {
-        text: "Mis Planes",
+        text: "Plan Vigente",
         icon: <Mail />,
         iconName: "Mail",
         url: "/mis-planes",
+        permiso: "mis-planes",
+        descripcion: "Entrta al plan que tenes vigente y entrena!"
+    },
+    {
+        text: "Historico Planes",
+        icon: <FolderCopy/>,
+        iconName: "FolderCopy",
+        url: "/historico-planes",
         permiso: "mis-planes",
         descripcion: "Revisa los planes que finalizaste y los que vienen"
     },

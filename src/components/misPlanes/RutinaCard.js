@@ -38,7 +38,7 @@ export default function RutinaCard(props) {
                             mb: 1,
                         }}
                     >
-                        {badge}
+                        {!props.hideState && badge}
                     </Box>
                 </CardContent>
             </CardActionArea>
