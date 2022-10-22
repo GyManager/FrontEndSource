@@ -5,7 +5,7 @@ import { UserContext } from "../../context/UserContext";
 import clientsService from "../../services/users.service";
 
 export default function AvatarProfilePic(props) {
-    const { size = 24 } = props;
+    const { size = 40 } = props;
     const { getUserInfo } = useContext(UserContext);
     const [imagen, setImagen] = useState(() => "");
 

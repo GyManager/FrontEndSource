@@ -1,4 +1,5 @@
-import { Avatar, Chip, TableCell, TableRow } from "@mui/material";
+import { Chip, TableCell, TableRow } from "@mui/material";
+import AvatarProfilePic from "../reusable/AvatarProfilePic";
 
 
 export default function TablesClientRow(props) {
@@ -8,7 +9,7 @@ export default function TablesClientRow(props) {
             onClick={() => props.handleClickRow(props.idCliente)} 
             sx={{ cursor: 'pointer' }}
         >
-            { !props.isMediumDevice && <TableCell align='left' key={"avatar"}> <Avatar alt="Remy Sharp" src={props.avatar} /> </TableCell> }
+            { !props.isMediumDevice && <TableCell align='left' key={"avatar"}> <AvatarProfilePic idUsuario={props.idUsuario}/> </TableCell> }
             <TableCell align='left' key={"nombre"}> {props.nombre}</TableCell>
             <TableCell align='left' key={"apellido"}> {props.apellido}</TableCell>
             <TableCell align='left' key={"numdoc"}> {props.numeroDocumento}</TableCell>
