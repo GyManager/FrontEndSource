@@ -1,15 +1,11 @@
-import { React, useState } from "react";
-import DialogTitle from "@mui/material/DialogTitle";
+import { React } from "react";
 import Dialog from "@mui/material/Dialog";
-import { DialogContent } from "@mui/material";
+import { Button, DialogContent } from "@mui/material";
 import InformeMatriculaActual from "./InformeMatriculaActual";
 import InformeMatriculaFutura from "./InformeMatriculaFutura";
-import _ from "lodash";
 
 function SimpleDialog(props) {
-    // console.log("props.userMatriculas", props.userMatriculas);
     const { onClose, selectedValue, open } = props;
-    // const [matriculaActiva, setMatriculaActiva] = useState()
 
     const handleClose = () => {
         onClose(selectedValue);
@@ -22,33 +18,37 @@ function SimpleDialog(props) {
             (unaMatricula) => unaMatricula.matriculaEstado === "ACTIVA"
         );
         matriculaActiva = { ...matriculaActiva[0] }.fechaVencimiento;
-        // console.log('matriculaActiva',matriculaActiva)
         if (matriculaActiva === undefined) {
             matriculaActiva = "No tenes una matricula vigente";
         }
+
         matriculaFutura = props.userMatriculas.filter(
             (unaMatricula) => unaMatricula.matriculaEstado === "NO_INICIADA"
         );
-        
+        matriculaFutura = { ...matriculaFutura[0] }.fechaVencimiento;
+        if (matriculaFutura === undefined) {
+            matriculaFutura = "No tenes una matricula a futuro";
+        }
     } else {
         matriculaActiva = "";
     }
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            {/* <DialogTitle>Set backup account</DialogTitle> */}
-            <DialogContent dividers>
-                {/* {props.userMatriculas
-                    .filter((unaMatricula) => unaMatricula.matriculaEstado === "ACTIVA")
-                    .map((matriculaActual)=>
-                        <InformeMatriculaActual fechaVencimiento={matriculaActual.fechaVencimiento} />
-                    )} */}
-                {/* {matriculaActiva ? ( */}
+            <DialogContent
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    justifyItems: "center",
+                    alignItems: "center",
+                }}
+            >
                 <InformeMatriculaActual fechaVencimiento={matriculaActiva} />
-                <InformeMatriculaFutura inicio={{ ...matriculaFutura[0] }.fechaVencimiento} />
-                {/* ) : ( */}
-                {/* <></> */}
-                {/* )} */}
+                <InformeMatriculaFutura fechaInicio={matriculaFutura} />
+                <Button variant="contained" sx={{ width: "40%", mt: "7%" }} onClick={handleClose}>
+                    Aceptar
+                </Button>
             </DialogContent>
         </Dialog>
     );
