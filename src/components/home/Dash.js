@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Avatar, Box, Typography, useMediaQuery, Paper, Stack } from "@mui/material";
+import React, { useContext } from "react";
+import { Avatar, Box, Typography, useMediaQuery, Paper, Stack, Badge } from "@mui/material";
 
 import {
     AdminPanelSettings,
@@ -15,7 +15,6 @@ import { Container } from "@mui/system";
 import Card from "./Card";
 import logo from "../../images/logo.png";
 import { menuItem } from "../drawer/Drawer";
-
 import clientsService from "../../services/users.service";
 import matriculasService from "../../services/matriculas.service";
 import usersHooks from "../../services/usersHooks";
@@ -85,10 +84,31 @@ function Dash(props) {
         color: "white",
     };
 
+    const feedbackPlanesPendientes = loadingNotificaciones
+        ? 0
+        : notificaciones.filter((notificacion) => notificacion.id === "FEEDBACK_PLANES")[0]?.valor;
+
     const styledIcons = [
         {
-            text: "Mis Planes",
+            text: "Plan Vigente",
             icon: <Mail {...iconStyle} />,
+        },
+        {
+            text: "Historico Planes",
+            icon: (
+                <Badge
+                    badgeContent={feedbackPlanesPendientes}
+                    color="warning"
+                    component="span"
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                    }}
+                    sx={{ mx: 2.79 }}
+                >
+                    <FolderCopy sx={iconLargeStyle} />
+                </Badge>
+            ),
         },
         {
             text: "Clientes",

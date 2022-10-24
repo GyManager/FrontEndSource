@@ -181,6 +181,18 @@ const getUserInfo = () => {
     })
 }
 
+const getUserNotificaciones = () => {
+    return axios.get(API_URL + '/notificaciones', {
+        headers: { 
+            'Authorization': `Bearer ${access_token}` 
+        }
+    }).then((response) => {
+        return response.data
+    }).catch((err) => {
+         handleError(err)
+    })
+}
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -211,7 +223,8 @@ const clientsService = {
     getAllRoles,
     getUserInfo,
     putUserPassword,
-    putUserPasswordReset
+    putUserPasswordReset,
+    getUserNotificaciones,
 };
 
 
