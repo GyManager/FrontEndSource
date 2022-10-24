@@ -8,22 +8,63 @@ import {
     Person,
     ListAlt,
     Lock,
-    FolderCopy,
+    Receipt,
 } from "@mui/icons-material";
 
 import { Container } from "@mui/system";
 import Card from "./Card";
 import logo from "../../images/logo.png";
 import { menuItem } from "../drawer/Drawer";
-
-// import userService from "../../services/users.service";
-
-import useFetchUserInfo from "./servicesHooks";
-import { UserContext } from "../../context/UserContext";
+import clientsService from "../../services/users.service";
+import matriculasService from "../../services/matriculas.service";
+import usersHooks from "../../services/usersHooks";
+import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
+// import useFetchActiveUserMatriculas from "../../services/usersHooks";
 
 function Dash(props) {
-    const { userInfo } = useFetchUserInfo();
-    const { notificaciones, loadingNotificaciones } = useContext(UserContext);
+    const [userInfo, setUserInfo] = useState({});
+    const [matriculas, setMatriculas] = useState([]);
+    const [tieneClienteAsociado, setTieneClienteAsociado] = useState(()=>{});
+    const [idCliente, setIdCliente] = useState(()=>{});
+    console.log("dash:");
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const userInfo = await clientsService.getActiveUser();
+            console.log("dash res:", userInfo);
+            setUserInfo(userInfo);
+            setTieneClienteAsociado(userInfo.cliente ? true : false);
+            const idCliente = userInfo.cliente?.idCliente;
+            setIdCliente(idCliente);
+        };
+        fetchUserInfo();
+    }, []);
+    console.log("tieneClienteAsociado:", tieneClienteAsociado);
+
+    useEffect(() => {
+        const fecthMatriculas = async () => {
+            if (await tieneClienteAsociado) {
+                const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
+                setMatriculas(await res);
+                console.log("res: ", await res);
+            }
+        };
+        fecthMatriculas();
+    }, [idCliente, tieneClienteAsociado]);
+
+    console.log("dash: idCliente:", idCliente);
+    console.log("dash: userInfo:", userInfo);
+    console.log("dash: matriculas", matriculas);
+
+
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (value) => {
+        setOpen(false);
+    };
 
     const iconMediumStyle = {
         width: "40%",
@@ -84,6 +125,10 @@ function Dash(props) {
         {
             text: "Usuarios",
             icon: <AdminPanelSettings {...iconStyle} />,
+        },
+        {
+            text: "Mi Matricula",
+            icon: <Receipt {...iconStyle} />,
         },
         {
             text: "Cambiar Contraseña",
@@ -149,6 +194,9 @@ function Dash(props) {
                             {menuItem
                                 .filter(
                                     (object) =>
+                                        !(
+                                            !tieneClienteAsociado && object.text === "Mi Matricula"
+                                        ) &&
                                         object.text !== "Inicio" &&
                                         (props.token.permisos.includes(object.permiso) ||
                                             object.permiso === "")
@@ -160,6 +208,7 @@ function Dash(props) {
                                             description={item.descripcion}
                                             isMediumDevice={isMediumDevice}
                                             url={item.url}
+                                            handleClickOpen={handleClickOpen}
                                         >
                                             {
                                                 styledIcons.filter(
@@ -172,6 +221,16 @@ function Dash(props) {
                         </Box>
                     </Stack>
                 </Paper>
+                { tieneClienteAsociado && matriculas!== undefined? (
+                    <MiMatriculaDialog
+                        open={open}
+                        handleClickOpen={handleClickOpen}
+                        onClose={handleClose}
+                        userMatriculas={matriculas}
+                    />
+                ) : (
+                    <></>
+                )}
             </Container>
         </>
     );
