@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import {
     Box, CssBaseline, Divider, Drawer, IconButton, List, Stack,
     Typography, Toolbar, ListItemButton, ListItemIcon, ListItem, ListItemText, Avatar
+    
 } from '@mui/material/';
 
 import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, Lock, FolderCopy
+    Logout, Person, ListAlt, Lock, Receipt, FolderCopy
+
 } from '@mui/icons-material';
 
 import DrawerItem from './DrawerItem';
@@ -74,6 +76,13 @@ export const menuItem = [
         url: "/usuarios",
         permiso: "gestion-usuarios",
         descripcion: "consulta los usuarios y modifica permisos"
+    },
+    {
+        text: "Mi Matricula",
+        icon: <Receipt/>,
+        url: "/home",
+        permiso: "mis-matriculas",
+        descripcion: "Como esta mi matricula?"
     },
     {
         text: "Mis datos",
