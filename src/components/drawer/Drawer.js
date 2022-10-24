@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import {
     Box, CssBaseline, Divider, Drawer, IconButton, List, Stack,
     Typography, Toolbar, ListItemButton, ListItemIcon, ListItem, ListItemText, Avatar
+    
 } from '@mui/material/';
 
 import MuiAppBar from '@mui/material/AppBar';
 
 import {
     AdminPanelSettings, ChevronLeft, ChevronRight, FitnessCenter, Home, Mail, Menu,
-    Logout, Person, ListAlt, Lock, Receipt
+    Logout, Person, ListAlt, Lock, Receipt, FolderCopy
 
 } from '@mui/icons-material';
 

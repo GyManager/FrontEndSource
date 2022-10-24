@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Avatar, Box, Typography, useMediaQuery, Paper, Stack, Badge } from "@mui/material";
 
 import {
@@ -9,6 +9,7 @@ import {
     ListAlt,
     Lock,
     Receipt,
+    FolderCopy
 } from "@mui/icons-material";
 
 import { Container } from "@mui/system";
@@ -19,10 +20,12 @@ import clientsService from "../../services/users.service";
 import matriculasService from "../../services/matriculas.service";
 import usersHooks from "../../services/usersHooks";
 import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
+import { UserContext } from "../../context/UserContext";
 // import useFetchActiveUserMatriculas from "../../services/usersHooks";
 
 function Dash(props) {
     const [userInfo, setUserInfo] = useState({});
+    const { notificaciones, loadingNotificaciones } = useContext(UserContext);
     const [matriculas, setMatriculas] = useState([]);
     const [tieneClienteAsociado, setTieneClienteAsociado] = useState(()=>{});
     const [idCliente, setIdCliente] = useState(()=>{});
