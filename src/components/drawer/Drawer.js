@@ -85,6 +85,13 @@ export const menuItem = [
         descripcion: "Como esta mi matricula?"
     },
     {
+        text: "Mis datos",
+        icon: <Person/>,
+        url: "/mis-datos",
+        permiso: "",
+        descripcion: "Mis datos personales"
+    },
+    {
         text: "Cambiar Contraseña",
         icon: <Lock/>,
         url: "/password",
