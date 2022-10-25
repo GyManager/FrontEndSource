@@ -23,7 +23,6 @@ export default function StickyHeadTable(props) {
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            {/* <TableContainer sx={{ minHeight:'40vh', maxHeight: '90vh', backgroundColor:'yellow' }}> */}
             <TableContainer
                 sx={{ height: { xs: '69vh', md: '62vh', lg: '48vh', xl: '52vh' } }}
             >

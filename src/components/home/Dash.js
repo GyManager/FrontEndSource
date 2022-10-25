@@ -9,7 +9,8 @@ import {
     ListAlt,
     Lock,
     Receipt,
-    FolderCopy
+    FolderCopy,
+    SquareFoot,
 } from "@mui/icons-material";
 
 import { Container } from "@mui/system";
@@ -27,8 +28,8 @@ function Dash(props) {
     const [userInfo, setUserInfo] = useState({});
     const { notificaciones, loadingNotificaciones } = useContext(UserContext);
     const [matriculas, setMatriculas] = useState([]);
-    const [tieneClienteAsociado, setTieneClienteAsociado] = useState(()=>{});
-    const [idCliente, setIdCliente] = useState(()=>{});
+    const [tieneClienteAsociado, setTieneClienteAsociado] = useState(() => {});
+    const [idCliente, setIdCliente] = useState(() => {});
     console.log("dash:");
 
     useEffect(() => {
@@ -58,7 +59,6 @@ function Dash(props) {
     console.log("dash: idCliente:", idCliente);
     console.log("dash: userInfo:", userInfo);
     console.log("dash: matriculas", matriculas);
-
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -128,6 +128,10 @@ function Dash(props) {
         {
             text: "Usuarios",
             icon: <AdminPanelSettings {...iconStyle} />,
+        },
+        {
+            text: "Mis Medidas",
+            icon: <SquareFoot {...iconStyle}/>,
         },
         {
             text: "Mi Matricula",
@@ -224,7 +228,7 @@ function Dash(props) {
                         </Box>
                     </Stack>
                 </Paper>
-                { tieneClienteAsociado && matriculas!== undefined? (
+                {tieneClienteAsociado && matriculas !== undefined ? (
                     <MiMatriculaDialog
                         open={open}
                         handleClickOpen={handleClickOpen}

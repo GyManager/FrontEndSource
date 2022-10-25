@@ -20,6 +20,7 @@ import MicroPlanesPage from './pages/MicroPlanesPage';
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
 import Dash from './components/home/Dash'
+import MisMedidasPage from './pages/MisMedidasPage'
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -94,6 +95,9 @@ console.log(token)
                     {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
+
+                    {/* CORREGIR PERMISOS MIS MEDIDAS */}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-Medidas/:idUsuario" element={<MisMedidasPage/>} />}
 
                     {token && <Route path="/password" element={<PasswordChange/>} />}
                     <Route path="/home" element={<Dash token={token}/>}  />
