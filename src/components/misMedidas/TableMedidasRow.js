@@ -2,7 +2,6 @@ import { Button, TableCell, TableRow, TextField, Typography } from "@mui/materia
 import TimelineIcon from "@mui/icons-material/Timeline";
 
 export default function TableMedidasRow(props) {
-
     return (
         <TableRow
             hover
