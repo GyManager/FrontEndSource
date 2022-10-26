@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-
+import _ from "lodash";
 import {
     Paper,
     TableBody,
@@ -19,23 +19,35 @@ import {
 import TableMedidasRow from "./TableMedidasRow";
 import { useMediaQuery } from "@mui/material";
 
-const medidas = [
-    { medida: "Peso", valor: "85" },
-    { medida: "Altura", valor: "85" },
-    { medida: "Cervical", valor: "85" },
-    { medida: "Dorsal", valor: "85" },
-    { medida: "Lumbar", valor: "85" },
-    { medida: "Coxal Pelvica", valor: "52" },
-    { medida: "Cadera", valor: "52" },
-    { medida: "Muslo Izquierdo", valor: "52" },
-    { medida: "Muslo Derecho", valor: "52" },
-    { medida: "Rodilla Izquierda", valor: "52" },
-    { medida: "Rodilla Derecha", valor: "52" },
-    { medida: "Gemelo Izquierdo", valor: "52" },
-    { medida: "Gemelo Derecho", valor: "52" },
-];
 
-export default function StickyHeadTable(props) {
+export default function TablaMedidas(props) {
+    const pairs = _.toPairs(props.ultimasMedidas);
+    console.log(_.keys(props.ultimasMedidas))
+    console.log('pairs',pairs)
+// elimino los valores que no necesito
+    const filteredPairs = pairs.filter(
+        (unPar) => unPar[0] !== "idMedidas" && unPar[0] !== "fecha" && unPar[0] !== "foto"
+    );
+    // console.log('filteredPairs', filteredPairs)
+
+    const nombresDeMedida = [
+        "Peso",
+        "Altura",
+        "Cervical",
+        "Dorsal",
+        "Lumbar",
+        "Coxal Pelvica",
+        "Cadera",
+        "Muslo Izquierdo",
+        "Muslo Derecho",
+        "Rodillas Izquierda",
+        "Rodillas Derecha",
+        "Gemelo Izquierdo",
+        "Gemelo Derecho",
+        "Brazo Izquierdo",
+        "Brazo Derecho"
+    ];
+
     const navigate = useNavigate();
     const isMediumDevice = useMediaQuery("(max-width:900px");
 
@@ -59,9 +71,11 @@ export default function StickyHeadTable(props) {
                     </TableHead>
 
                     <TableBody id="tbMedidas">
-                        {medidas.map((row) => (
-                            <TableMedidasRow key={row.idEjercicio}
-                                {...row}
+                        {filteredPairs.map((par, index) => (
+                            <TableMedidasRow
+                                key={par[0]}
+                                nombreDeMedida={nombresDeMedida[index]}
+                                valorDeMedida={par[1]}
                                 handleRowClick={handleRowClick}
                             />
                         ))}
