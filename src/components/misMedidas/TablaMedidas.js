@@ -61,10 +61,10 @@ export default function TablaMedidas(props) {
                     <TableHead>
                         <TableRow>
                             <TableCell align="left" style={{ minWidth: 80 }}>
-                                Ejercicio
+                                Medida
                             </TableCell>
                             <TableCell align="left" style={{ minWidth: 80 }}>
-                                Tipo de Ejercicio
+                                Valor
                             </TableCell>
                         </TableRow>
                     </TableHead>

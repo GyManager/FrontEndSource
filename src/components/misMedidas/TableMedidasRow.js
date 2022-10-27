@@ -2,6 +2,8 @@ import { Button, TableCell, TableRow, TextField, Typography } from "@mui/materia
 import TimelineIcon from "@mui/icons-material/Timeline";
 
 export default function TableMedidasRow(props) {
+    const unidadMedida =
+        props.nombreDeMedida === "Altura" ? "m" : props.nombreDeMedida === "Peso" ? "kg" : "cm";
     return (
         <TableRow
             hover
@@ -18,14 +20,14 @@ export default function TableMedidasRow(props) {
                         </Button>
                     </TableCell>
                     <TableCell>
-                        <TextField value={props.valorDeMedida}></TextField>
+                        <TextField value={props.valorDeMedida + ' ' + unidadMedida}></TextField>
                     </TableCell>
                 </>
             ) : (
                 <>
                     <TableCell>{props.nombreDeMedida}</TableCell>
                     <TableCell>
-                        <TextField value={props.valorDeMedida}></TextField>
+                        <TextField value={props.valorDeMedida + " " + unidadMedida}></TextField>
                     </TableCell>
                 </>
             )}
