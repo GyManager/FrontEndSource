@@ -10,7 +10,6 @@ import {
     Table,
     TableContainer,
     TableHead,
-    TablePagination,
     TableRow,
     Skeleton,
     Grid,
@@ -68,10 +67,10 @@ export default function TablaMedidas(props) {
                             </TableCell>
                         </TableRow>
                     </TableHead>
-
                     <TableBody id="tbMedidas">
                         {filteredPairs.map((par, index) => (
                             <TableMedidasRow
+                                editable={props.editable}
                                 key={par[0]}
                                 nombreDeMedida={nombresDeMedida[index]}
                                 valorDeMedida={par[1]}

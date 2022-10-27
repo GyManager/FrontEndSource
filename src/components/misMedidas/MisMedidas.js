@@ -44,6 +44,7 @@ function MisMedidas() {
     const handleSubmit = () => {};
     const params = useParams();
     const idCliente = params.idCliente;
+    const [editable, setEditable] = useState(true);
 
     const fetchFechasComboBox = async () => {
         const fechasMediciones = await medidasService.getFechasMediciones(idCliente);
@@ -116,7 +117,9 @@ function MisMedidas() {
                         />
                     </Box>
                 </Box>
-                <TablaMedidas ultimasMedidas={formik.values.medidas} />
+                <TablaMedidas 
+                ultimasMedidas={formik.values.medidas}
+                editable={editable} />
             </Paper>
         </Container>
     );
