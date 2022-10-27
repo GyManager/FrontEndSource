@@ -45,13 +45,13 @@ function MisMedidas() {
     const params = useParams();
     const idCliente = params.idCliente;
 
-    const fetchComboFechas = async () => {
+    const fetchFechasComboBox = async () => {
         const fechasMediciones = await medidasService.getFechasMediciones(idCliente);
         formik.setFieldValue("fechasMediciones" || "", await fechasMediciones, false);
         return await fechasMediciones;
     };
 
-    const cargarUltimaFecha = async (res) => {
+    const setUltimaFecha = async (res) => {
         const ultimaFecha = await _.maxBy(res, "fecha");
         formik.setFieldValue("fecha" || "", await ultimaFecha.fecha, false);
         formik.setFieldValue("idMedidas" || "", await ultimaFecha.idMedidas, false);
@@ -64,13 +64,27 @@ function MisMedidas() {
         formik.setFieldValue("medidas" || "", await medidas, true);
     };
 
+    const getIdMedidasPorFecha = async (fechaSeleccionada) => {
+        const fechas = formik.values.fechasMediciones;
+        const fecha = fechas.filter((unaFecha) => unaFecha.fecha === fechaSeleccionada);
+        const idMedidas = fecha[0].idMedidas;
+        return idMedidas;
+    };
+
     useEffect(() => {
-        fetchComboFechas().then((fechasMediciones) => {
-            cargarUltimaFecha(fechasMediciones).then((idMedidas) => {
+        fetchFechasComboBox().then((fechasMediciones) => {
+            setUltimaFecha(fechasMediciones).then((idMedidas) => {
                 fetchMedidas(idMedidas);
             });
         });
     }, []);
+
+    useEffect(() => {
+        getIdMedidasPorFecha(formik.values.fecha).then((idMedidas) => {
+            fetchMedidas(idMedidas);
+        });
+    }, [formik.values.fecha]);
+
     return (
         <Container maxWidth="md" disableGutters>
             <Paper sx={{ mx: 1, p: 1, my: 2 }} elevation={2}>

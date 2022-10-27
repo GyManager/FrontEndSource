@@ -19,12 +19,11 @@ import {
 import TableMedidasRow from "./TableMedidasRow";
 import { useMediaQuery } from "@mui/material";
 
-
 export default function TablaMedidas(props) {
+    // Paso el objeto medida a un array de pares de medidas o sea:
+    // {altura: 179,...} to [[altura,179],...]
     const pairs = _.toPairs(props.ultimasMedidas);
-    // console.log(_.keys(props.ultimasMedidas))
-    // console.log('pairs',pairs)
-// elimino los valores que no necesito
+    // Elimino los valores que no necesito
     const filteredPairs = pairs.filter(
         (unPar) => unPar[0] !== "idMedidas" && unPar[0] !== "fecha" && unPar[0] !== "foto"
     );
@@ -45,7 +44,7 @@ export default function TablaMedidas(props) {
         "Gemelo Izquierdo",
         "Gemelo Derecho",
         "Brazo Izquierdo",
-        "Brazo Derecho"
+        "Brazo Derecho",
     ];
 
     const navigate = useNavigate();
