@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { AxiosError } from "axios";
 
 // Imports Vista
-import { Typography, Box, Paper, Stack, TextField } from "@mui/material";
+import { Typography, Box, Paper, Stack, TextField, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { AlertDialog, Breadcumbs, GenericComboBox } from "../reusable";
 
 // import { , Breadcumbs, GenericComboBox, Modal } from '../reusable/'
@@ -59,6 +59,7 @@ function Client() {
   let { clienteId } = useParams();
   const [editable, setEditable] = useState(false);
   const [clienteEstado, setClienteEstado] = useState("")
+  const [reactivate, setReactivate] = useState(() => false)
   const logicalDelete = process.env.REACT_APP_LOGICAL_DELETE;
 
   const getClientById = async () => {
@@ -122,7 +123,8 @@ function Client() {
     } else {
       const respuesta = await clientsService.putClient(
         clienteSubmit,
-        clienteId
+        clienteId,
+        reactivate
       );
       handleRespuesta(respuesta, "El cliente ha sido modificado con exito");
     }
@@ -223,6 +225,15 @@ function Client() {
             />
           </div>
         </Stack>
+
+        {clienteEstado === "Desactivado" && editable &&
+          <Box sx={{display: "flex", justifyContent:"flex-end"}}>
+            <FormGroup>
+              <FormControlLabel control={<Checkbox onChange={(e) => setReactivate(e.target.checked)}/>} label="Reactivar este cliente desactivado" />
+            </FormGroup>
+          </Box>
+        }
+        
         <Box display="flex" flexWrap="flexwrap" justifyContent="center">
           <div>
             <Paper {...paperStyle}>
