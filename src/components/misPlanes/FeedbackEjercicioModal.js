@@ -49,8 +49,8 @@ export default function FeedbackEjercicioModal(props) {
             } else {
                 props.reload();
             }
-            props.setClose();
         }
+        props.setClose();
     }
 
     const open = props.idEjercicioAplicado !== null && props.idEjercicioAplicado !== undefined;
