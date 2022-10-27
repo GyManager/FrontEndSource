@@ -16,15 +16,13 @@ export default function FeedbackEjercicioModal(props) {
         },
         validationSchema: yup.object({
             cargaReal: yup
-                .number()
-                .typeError("La carga debe ser un numero")
-                .positive("La carga debe debe ser un valor positivo")
-                .max(9999999999, "Maximo de 10 caracteres"),
+                .string()
+                .matches(/^\d+[\.\d]*$/, "La carga debe ser un numero")
+                .max(10, "Maximo de 10 caracteres"),
             tiempoReal: yup
-                .number()
-                .typeError("El tiempo debe ser un numero")
-                .positive("El tiempo debe debe ser un valor positivo")
-                .max(9999999999, "Maximo de 10 caracteres"),
+                .string()
+                .matches(/^[\d\.]+\d*$/, "El tiempo debe ser un numero")
+                .max(10, "Maximo de 10 caracteres"),
         }),
         onSubmit: () => {
             handleSubmit();
