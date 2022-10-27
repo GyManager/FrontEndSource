@@ -44,69 +44,33 @@ function MisMedidas() {
     const handleSubmit = () => {};
     const params = useParams();
     const idCliente = params.idCliente;
-    // const [fechasMediciones, setFechasMediciones] = useState([]);
-    const [ultimaFecha, setUltimaFecha] = useState({});
-    // const [fechaSeleccionada, setFechaSeleccionada] = useState("");
-    const [ultimasMedidas, setUltimasMedidas] = useState({});
 
-    const fetchFechas = async () => {
-        const res = await medidasService.getFechasMediciones(idCliente);
-        // setFechasMediciones(await res);
-        await formik.setFieldValue("fechasMediciones" || "", await res, false);
-        // formik.setFieldValue(unPar[0], unPar[1] || "", false);
+    const fetchComboFechas = async () => {
+        const fechasMediciones = await medidasService.getFechasMediciones(idCliente);
+        formik.setFieldValue("fechasMediciones" || "", await fechasMediciones, false);
+        return await fechasMediciones;
     };
-    const cargarUltimaFecha = async () => {
-        const ultimaFecha = await _.maxBy(formik.values.fechasMediciones, "fecha");
-        setUltimaFecha(await ultimaFecha);
-        // console.log("fechasMediciones", await res);
-        console.log("ultimaFecha", await ultimaFecha);
-        await formik.setFieldValue(
-            "fecha" || "",
-            await ultimaFecha.fecha,
-            false
-        );
-        console.log("formik.values.fecha", await formik.values.fecha);
-    };
-    const fetchMedidas = async (idFecha) => {
-        const medidas = await medidasService.getMedidasPorIdClientePorIdFecha(
-            idCliente,
-            // await ultimaFecha.idMedidas
-            await idFecha
-        );
-        setUltimasMedidas(await medidas);
-        console.log("medidas", medidas);
 
-        const ultimasMedidasParesArray = _.toPairs(await medidas);
-        const filteredPairs = ultimasMedidasParesArray.filter(
-            (unPar) => unPar[0] !== "idMedidas" && unPar[0] !== "fecha" && unPar[0] !== "foto"
-        );
-        console.log("filteredPairs", filteredPairs);
-        await filteredPairs.forEach((unPar, index) => {
-            // formik.setFieldValue(unPar[0], unPar[1] || "", false);
-            // formik.setFieldValue(medidas[index], unPar[1] || "", false);
-            // formik.setFieldValue(unPar[0], unPar[1] || "", false);
-            console.log(unPar[0]);
+    const cargarUltimaFecha = async (res) => {
+        const ultimaFecha = await _.maxBy(res, "fecha");
+        formik.setFieldValue("fecha" || "", await ultimaFecha.fecha, false);
+        formik.setFieldValue("idMedidas" || "", await ultimaFecha.idMedidas, false);
+        return ultimaFecha.idMedidas;
+    };
+
+    const fetchMedidas = async (idMedidas) => {
+        const medidas = medidasService.getMedidasPorIdClientePorIdFecha(idCliente, await idMedidas);
+        console.log(await medidas);
+        formik.setFieldValue("medidas" || "", await medidas, true);
+    };
+
+    useEffect(() => {
+        fetchComboFechas().then((fechasMediciones) => {
+            cargarUltimaFecha(fechasMediciones).then((idMedidas) => {
+                fetchMedidas(idMedidas);
+            });
         });
-        console.log(formik);
-    };
-    useEffect(() => {
-        // Para hacer
-        // fetchFechasMedidas(idCliente)
-        // fetchUltimaFecha(Medidas)
-        // fetchMedidas(unaFecha)
-        fetchFechas();
-        cargarUltimaFecha();
-        fetchMedidas(ultimaFecha.idFecha);
-    }, [idCliente]);
-
-    useEffect(() => {
-        fetchMedidas();
-    }, [formik.values.fecha]);
-    // console.log('fechasMediciones',fechasMediciones)
-    // console.log('ultimaFecha',ultimaFecha)
-    // console.log('ultimasMedidas',ultimasMedidas)
-    // console.log(fechasMediciones.map((unaMedicion)=>{return unaMedicion.fecha }))
-    console.log("formik.values.medidas", formik.values.medidas[0]);
+    }, []);
     return (
         <Container maxWidth="md" disableGutters>
             <Paper sx={{ mx: 1, p: 1, my: 2 }} elevation={2}>
@@ -122,7 +86,6 @@ function MisMedidas() {
                     <Typography variant="h5" align="center">
                         Mis Medidas
                     </Typography>
-
                     <Box sx={{ width: "40vw", mt: 2 }}>
                         <GenericComboBox
                             label="Medicion"
@@ -139,8 +102,7 @@ function MisMedidas() {
                         />
                     </Box>
                 </Box>
-                <TablaMedidas ultimasMedidas={ultimasMedidas} />
-                {/* <TablaMedidas ultimasMedidas={formik.values.medidas} /> */}
+                <TablaMedidas ultimasMedidas={formik.values.medidas} />
             </Paper>
         </Container>
     );

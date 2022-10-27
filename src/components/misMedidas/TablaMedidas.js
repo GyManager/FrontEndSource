@@ -22,8 +22,8 @@ import { useMediaQuery } from "@mui/material";
 
 export default function TablaMedidas(props) {
     const pairs = _.toPairs(props.ultimasMedidas);
-    console.log(_.keys(props.ultimasMedidas))
-    console.log('pairs',pairs)
+    // console.log(_.keys(props.ultimasMedidas))
+    // console.log('pairs',pairs)
 // elimino los valores que no necesito
     const filteredPairs = pairs.filter(
         (unPar) => unPar[0] !== "idMedidas" && unPar[0] !== "fecha" && unPar[0] !== "foto"
