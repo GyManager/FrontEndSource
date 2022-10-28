@@ -3,6 +3,7 @@ import { Box, Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import TablaMedidas from "./TablaMedidas";
 import GenericComboBox from "../reusable/GenericComboBox";
+import ButtonMedidasMobile from "./ButtonMedidasMobile";
 
 import { useParams } from "react-router-dom";
 import medidasSchema from "./medidasSchema";
@@ -44,7 +45,8 @@ function MisMedidas() {
     const handleSubmit = () => {};
     const params = useParams();
     const idCliente = params.idCliente;
-    const [editable, setEditable] = useState(true);
+    const [editable, setEditable] = useState(false);
+    const [openAlertDialog, setOpenAlertDialog] = useState(false);
 
     const fetchFechasComboBox = async () => {
         const fechasMediciones = await medidasService.getFechasMediciones(idCliente);
@@ -71,6 +73,18 @@ function MisMedidas() {
         const idMedidas = fecha[0].idMedidas;
         return idMedidas;
     };
+    const deleteMedidas = async () => {
+        await medidasService.deleteMedidasPorIdClientePorIdMedida(
+            idCliente,
+            formik.values.idMedidas
+        );
+        const fechasMediciones = await fetchFechasComboBox();
+        setUltimaFecha(fechasMediciones);
+    };
+    const handleDeleteClick = () => {
+        setOpenAlertDialog(true);
+        console.log(formik.values.idMedidas);
+    };
 
     useEffect(() => {
         fetchFechasComboBox().then((fechasMediciones) => {
@@ -80,9 +94,12 @@ function MisMedidas() {
         });
     }, []);
 
+    // Este useEffect se ejecuta al seleccionar una nueva fecha en el combobox
     useEffect(() => {
         getIdMedidasPorFecha(formik.values.fecha).then((idMedidas) => {
+            //Ejecuto en paralelo porque ya tengo idMedidas
             fetchMedidas(idMedidas);
+            formik.setFieldValue("idMedidas" || "", idMedidas, false);
         });
     }, [formik.values.fecha]);
 
@@ -117,10 +134,20 @@ function MisMedidas() {
                         />
                     </Box>
                 </Box>
-                <TablaMedidas 
-                ultimasMedidas={formik.values.medidas}
-                editable={editable} />
+                <TablaMedidas ultimasMedidas={formik.values.medidas} editable={editable} />
             </Paper>
+            <ButtonMedidasMobile
+                editable={editable}
+                handleEditClick={() => setEditable(true)}
+                handleDeleteClick={handleDeleteClick}
+                deleteMedidas={deleteMedidas}
+                handleCancelEdit={() => setEditable(false)}
+                clienteId={formik.values.idMedidas}
+                handleSubmit={formik.handleSubmit}
+                formik={formik}
+                openAlertDialog={openAlertDialog}
+                setOpenAlertDialog={setOpenAlertDialog}
+            />
         </Container>
     );
 }
