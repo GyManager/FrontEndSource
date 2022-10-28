@@ -16,26 +16,22 @@ import { Container } from "@mui/system";
 import Card from "./Card";
 import logo from "../../images/logo.png";
 import { menuItem } from "../drawer/Drawer";
-import clientsService from "../../services/users.service";
 import matriculasService from "../../services/matriculas.service";
-import usersHooks from "../../services/usersHooks";
 import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
 import { UserContext } from "../../context/UserContext";
 // import useFetchActiveUserMatriculas from "../../services/usersHooks";
 
 function Dash(props) {
     const [userInfo, setUserInfo] = useState({});
-    const { notificaciones, loadingNotificaciones } = useContext(UserContext);
+    const { notificaciones, loadingNotificaciones, user, loadingUser } = useContext(UserContext);
     const [matriculas, setMatriculas] = useState([]);
     const [tieneClienteAsociado, setTieneClienteAsociado] = useState(()=>{});
     const [clienteMatriculado, setClienteMatriculado] = useState(() => false);
     const [idCliente, setIdCliente] = useState(()=>{});
-    console.log("dash:");
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            const userInfo = await clientsService.getActiveUser();
-            console.log("dash res:", userInfo);
+            const userInfo = user !== undefined ? user : {};
             setUserInfo(userInfo);
             setTieneClienteAsociado(userInfo.cliente ? true : false);
             if(userInfo.cliente){
@@ -45,24 +41,18 @@ function Dash(props) {
             setIdCliente(idCliente);
         };
         fetchUserInfo();
-    }, []);
-    console.log("tieneClienteAsociado:", tieneClienteAsociado);
+
+    }, [loadingUser]);
 
     useEffect(() => {
         const fecthMatriculas = async () => {
             if (await tieneClienteAsociado) {
                 const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
                 setMatriculas(await res);
-                console.log("res: ", await res);
             }
         };
         fecthMatriculas();
     }, [idCliente, tieneClienteAsociado]);
-
-    console.log("dash: idCliente:", idCliente);
-    console.log("dash: userInfo:", userInfo);
-    console.log("dash: matriculas", matriculas);
-
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -147,7 +137,6 @@ function Dash(props) {
         },
     ];
 
-    console.log(clienteMatriculado)
     return (
         <>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
@@ -222,6 +211,7 @@ function Dash(props) {
                                 .map((item) => {
                                     return (
                                         <Card
+                                            key={item.text}
                                             title={item.text}
                                             description={item.descripcion}
                                             isMediumDevice={isMediumDevice}

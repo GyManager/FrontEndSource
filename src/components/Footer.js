@@ -29,6 +29,7 @@ function footer() {
                         sx={{backgroundColor: 'navbar.main'}}
                         component="a"
                         href="https://www.instagram.com/core.gimnasio/"
+                        target="_blank"
                     />
                 </BottomNavigation>
             </Paper>

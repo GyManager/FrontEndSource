@@ -5,7 +5,7 @@ import clientsService from "../services/users.service";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState(() => {});
     const [loadingUser, setLoadingUser] = useState(() => true);
     const [notificaciones, setNotificaciones] = useState();
     const [loadingNotificaciones, setLoadingNotificaciones] = useState(() => true);
