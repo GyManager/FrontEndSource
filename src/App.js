@@ -48,7 +48,7 @@ function App() {
   const token = AuthService.getStoredSession();
 
   const theme = createTheme(gymanagerTheme);
-console.log(token)
+
   if (!token) {
     return (
       <ThemeProvider theme={theme}>

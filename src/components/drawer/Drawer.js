@@ -22,6 +22,7 @@ import { animateScroll as scroll} from 'react-scroll';
 import AuthService from '../../services/auth.service'
 
 import logo from '../../images/logo.png'
+import { UserContext } from '../../context/UserContext';
 
 const drawerWidth = 240;
 
@@ -39,7 +40,8 @@ export const menuItem = [
         iconName: "Mail",
         url: "/mis-planes",
         permiso: "mis-planes",
-        descripcion: "Entrta al plan que tenes vigente y entrena!"
+        descripcion: "Entrta al plan que tenes vigente y entrena!",
+        requiereMatricula: true
     },
     {
         text: "Historico Planes",
@@ -47,7 +49,8 @@ export const menuItem = [
         iconName: "FolderCopy",
         url: "/historico-planes",
         permiso: "mis-planes",
-        descripcion: "Revisa los planes que finalizaste y los que vienen"
+        descripcion: "Revisa los planes que finalizaste y los que vienen",
+        requiereMatricula: true
     },
     {
         text: "Clientes",
@@ -82,7 +85,8 @@ export const menuItem = [
         icon: <Receipt/>,
         url: "/home",
         permiso: "mis-matriculas",
-        descripcion: "Como esta mi matricula?"
+        descripcion: "Como esta mi matricula?",
+        requiereMatricula: true
     },
     {
         text: "Mis datos",
@@ -148,6 +152,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft({ showMenu, token }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const { user, loadingUser } = React.useContext(UserContext);
     const navigate = useNavigate()
 
     const handleDrawerOpen = () => {
@@ -212,11 +217,13 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                 <List>
                     {menuItem.filter((object) =>
                         token.permisos.includes(object.permiso) || object.permiso == "")
+                        //.filter((object) => !object.requiereMatricula || user?.cliente?.clienteEstado !== "No matriculado")
                         .map((object) => (
                             <DrawerItem
                                 key={object.text}
                                 {...object}
                                 handleDrawerClose={handleDrawerClose}
+                                disabled={object.requiereMatricula && user?.cliente?.clienteEstado === "No matriculado"}
                             />
                         ))}
                     <Divider />

@@ -28,6 +28,7 @@ function Dash(props) {
     const { notificaciones, loadingNotificaciones } = useContext(UserContext);
     const [matriculas, setMatriculas] = useState([]);
     const [tieneClienteAsociado, setTieneClienteAsociado] = useState(()=>{});
+    const [clienteMatriculado, setClienteMatriculado] = useState(() => false);
     const [idCliente, setIdCliente] = useState(()=>{});
     console.log("dash:");
 
@@ -37,6 +38,9 @@ function Dash(props) {
             console.log("dash res:", userInfo);
             setUserInfo(userInfo);
             setTieneClienteAsociado(userInfo.cliente ? true : false);
+            if(userInfo.cliente){
+                setClienteMatriculado(userInfo.cliente.clienteEstado !== "No matriculado")
+            }
             const idCliente = userInfo.cliente?.idCliente;
             setIdCliente(idCliente);
         };
@@ -143,20 +147,18 @@ function Dash(props) {
         },
     ];
 
+    console.log(clienteMatriculado)
     return (
         <>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
-                <Paper
+            <Paper sx={{p: 2, display: "flex", flexDirection:"column", width: isMediumDevice ? "90vw" : "70vw",}}>
+                <Box
                     sx={{
-                        width: isMediumDevice ? "90vw" : "70vw",
-                        height: "20vh",
                         minHeight: "145px",
-                        maxHeight: "200px",
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "center",
                         alignItems: "center",
-                        p: 2,
                     }}
                 >
                     <Avatar
@@ -176,6 +178,15 @@ function Dash(props) {
                         <Typography variant="h5">Bienvenido a CoreE</Typography>
                         <Typography variant="h5">{userInfo.nombre}</Typography>
                     </Box>
+                </Box>
+                { 
+                    userInfo && userInfo.cliente && userInfo.cliente.clienteEstado === "No matriculado" &&
+                    <Typography variant="h6" align="center">Usted no posee matricula vigente, no podra acceder a las funciones de entrenamiento.</Typography>
+                }
+                { 
+                    userInfo && userInfo.cliente && userInfo.cliente.clienteEstado === "Desactivado" &&
+                    <Typography variant="h6" align="center">Su usuario esta desactivado, no podra acceder a las funciones de entrenamiento.</Typography>                            
+                }
                 </Paper>
             </Container>
             <Container sx={{ display: "flex", justifyContent: "center" }}>
@@ -216,6 +227,7 @@ function Dash(props) {
                                             isMediumDevice={isMediumDevice}
                                             url={item.url}
                                             handleClickOpen={handleClickOpen}
+                                            disabled={item.requiereMatricula && !clienteMatriculado}
                                         >
                                             {
                                                 styledIcons.filter(

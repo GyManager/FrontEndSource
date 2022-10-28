@@ -30,7 +30,7 @@ export default function ActionAreaCard(props) {
     };
 
     return (
-        <LightTooltip title={_.capitalize(props.description)}>
+        <LightTooltip title={_.capitalize(props.disabled ? "Debe estar matriculado para acceder a esta funcion" : props.description)} >
             <Card
                 sx={{
                     width: props.isMediumDevice ? "80vw" : 200,
@@ -40,9 +40,9 @@ export default function ActionAreaCard(props) {
                     backgroundColor: "white",
                 }}
                 variant="outlined"
-                onClick={handleClick}
+                onClick={props.disabled ? () => {} : handleClick}
             >
-                <CardActionArea>
+                <CardActionArea disabled={props.disabled} color="secondary">
                     <Stack direction={props.isMediumDevice ? "row" : "column"} alignItems="center">
                         {props.children}
                         <Typography gutterBottom variant="h6" component="div" color="black">

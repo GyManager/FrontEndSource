@@ -6,9 +6,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 
 export default function DrawerItem(props) {
   return (
-    <Link to={props.url} onClick={props.handleDrawerClose} className={'Link'} >
+    <Link to={props.disabled ? '#' : props.url} onClick={props.handleDrawerClose} className={'Link'} >
       <ListItem disablePadding>
-        <ListItemButton>
+        <ListItemButton disabled={props.disabled}>
           <ListItemIcon>
             {props.icon}
           </ListItemIcon>
