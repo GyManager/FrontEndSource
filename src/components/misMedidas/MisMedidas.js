@@ -2,7 +2,7 @@ import { React, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { Info, InfoOutlined } from "@mui/icons-material";
+import { InfoOutlined } from "@mui/icons-material";
 import TablaMedidas from "./TablaMedidas";
 import GenericComboBox from "../reusable/GenericComboBox";
 import ButtonMedidasMobile from "./ButtonMedidasMobile";
@@ -52,11 +52,21 @@ function MisMedidas() {
             handleSubmit();
         },
     });
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (idMedidas === "new") {
-            const res = medidasService.postMedidasPorIdCliente(idCliente, formik.values.medidas)
-            handleRespuesta(res, 'Medidas registradas correctamente')
-
+            const res = await medidasService.postMedidasPorIdCliente(
+                idCliente,
+                formik.values.medidas
+            );
+            handleRespuesta(await res, "Medidas registradas correctamente");
+            handleClose();
+        } else {
+            const res = await medidasService.putMedidasPorIdClientePorIdMedidas(
+                idCliente,
+                formik.values.medidas,
+                formik.values.idMedidas
+            );
+            handleRespuesta(await res, "Medidas modificadas correctamente");
         }
     };
     const params = useParams();
@@ -90,6 +100,12 @@ function MisMedidas() {
         resetFormikFields();
     };
 
+    const handleEditClick = () => {
+        navigate("../mis-medidas/" + idCliente + "/" + formik.values.idMedidas);
+        setEditable(true);
+        // resetFormikFields();
+    };
+
     const handleRespuesta = (res, msj) => {
         if (res instanceof AxiosError) {
             processErrorMessage(res.response.data);
@@ -116,7 +132,6 @@ function MisMedidas() {
 
     const fetchMedidas = async (idMedidas) => {
         const medidas = medidasService.getMedidasPorIdClientePorIdFecha(idCliente, await idMedidas);
-        // console.log(await medidas);
         formik.setFieldValue("medidas" || "", await medidas, true);
     };
 
@@ -179,7 +194,9 @@ function MisMedidas() {
                     <Typography variant="h5" align="center">
                         Mis Medidas
                     </Typography>
-                    {idMedidas === "new" ? (
+                    {editable ? (
+                        <>
+                        <Typography>{formik.values.fecha}</Typography>
                         <IconButton
                             edge="end"
                             size="large"
@@ -189,6 +206,7 @@ function MisMedidas() {
                         >
                             <InfoOutlined />
                         </IconButton>
+                        </>
                     ) : (
                         <Box sx={{ width: "40vw", mt: 2 }}>
                             <GenericComboBox
@@ -215,7 +233,7 @@ function MisMedidas() {
             </Paper>
             <ButtonMedidasMobile
                 editable={editable}
-                handleEditClick={() => setEditable(true)}
+                handleEditClick={handleEditClick}
                 handleDeleteClick={handleDeleteClick}
                 deleteMedidas={deleteMedidas}
                 handleCancelEdit={handleClose}
