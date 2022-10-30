@@ -4,7 +4,7 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import AlertDialog from "../reusable/AlertDialog";
 
-import { Edit, Delete, Save, Cancel } from "@mui/icons-material/";
+import { Add, Edit, Delete, Save, Cancel } from "@mui/icons-material/";
 
 export default function ButtonClientMobile(props) {
     const [open, setOpen] = useState(false);
@@ -50,7 +50,19 @@ export default function ButtonClientMobile(props) {
                     />
                 )}
 
-                {props.clienteId !== "new" && !props.editable && (
+                {!props.editable && (
+                    <SpeedDialAction
+                        key="Nuevo"
+                        icon={<Add />}
+                        tooltipTitle="Nuevo"
+                        onClick={() => {
+                            props.handleAddClick();
+                            handleClose();
+                        }}
+                    />
+                )}
+
+                {!props.editable !== "new" && !props.editable && (
                     <SpeedDialAction
                         key="Editar"
                         icon={<Edit />}
@@ -70,6 +82,7 @@ export default function ButtonClientMobile(props) {
                         onClick={props.handleDeleteClick}
                     />
                 )}
+
             </SpeedDial>
             <AlertDialog
                 open={props.openAlertDialog}

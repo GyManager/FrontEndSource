@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import _ from "lodash";
 import {
     Paper,
     TableBody,
@@ -16,17 +15,8 @@ import {
 } from "@mui/material";
 
 import TableMedidasRow from "./TableMedidasRow";
-import { useMediaQuery } from "@mui/material";
-
 export default function TablaMedidas(props) {
-    // Paso el objeto medida a un array de pares de medidas o sea:
-    // {altura: 179,...} to [[altura,179],...]
-    const pairs = _.toPairs(props.ultimasMedidas);
-    // Elimino los valores que no necesito
-    const filteredPairs = pairs.filter(
-        (unPar) => unPar[0] !== "idMedidas" && unPar[0] !== "fecha" && unPar[0] !== "foto"
-    );
-    // console.log('filteredPairs', filteredPairs)
+    const navigate = useNavigate();
 
     const nombresVisualesDeMedida = [
         "Peso",
@@ -45,32 +35,14 @@ export default function TablaMedidas(props) {
         "Brazo Izquierdo",
         "Brazo Derecho",
     ];
-    // const nombresDatosDeMedida= props.formik.values.keys
-    console.log('formik.values', props.formik.values.medidas)
-    // console.log('nombresDatosDeMedida',props.nombresDatosDeMedida)
-    const nombresKeys = props.formik.values.keys
-    console.log('nombresKeys',nombresKeys)
+    const medidasKeys = Object.keys(props.formik.values.medidas)
 
-    const nombresDatosDeMedida= [
-	"peso",
-	"altura",
-	"cervical",
-	"dorsal",
-	"lumbar",
-	"coxalPelvica",
-	"cadera",
-	"muslosIzq",
-	"muslosDer",
-	"rodillasIzq",
-	"rodillasDer",
-	"gemelosIzq",
-	"gemelosDer",
-	"brazoIzq",
-	"brazoDer"
-    ]
+    const filteredMedidasKeys = medidasKeys.filter(
+        (unaKey) => unaKey !== "idMedidas" && unaKey !== "fecha" && unaKey !== "foto"
+    );
 
-    const navigate = useNavigate();
-    const isMediumDevice = useMediaQuery("(max-width:900px");
+    const nombresDatosDeMedida = filteredMedidasKeys
+
 
     const handleRowClick = (id) => {
         navigate("/ejercicios/" + id);
@@ -91,15 +63,12 @@ export default function TablaMedidas(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody id="tbMedidas">
-                        {filteredPairs.map((par, index) => (
+                        {nombresVisualesDeMedida.map((unNombreVisualDeMedida, index) => (
                             <TableMedidasRow
                                 editable={props.editable}
-                                key={par[0]}
-                                nombreVisualDeMedida={nombresVisualesDeMedida[index]}
+                                key={unNombreVisualDeMedida}
+                                nombreVisualDeMedida={unNombreVisualDeMedida}
                                 nombreDatoDeMedida={nombresDatosDeMedida[index]}
-                                // valueTextField={props.formik.values}
-                                // valorDeMedida={par[1]}
-                                // valorDeMedida={par[1]}
                                 handleRowClick={handleRowClick}
                                 formik={props.formik}
                             />

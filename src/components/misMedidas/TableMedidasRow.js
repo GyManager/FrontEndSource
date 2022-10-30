@@ -38,7 +38,7 @@ export default function TableMedidasRow(props) {
                                 // Paso un propiedad pero definida atraves de una variable [props.nombreDatoDeMedida]
                                 value={props.formik.values.medidas[props.nombreDatoDeMedida]}
                                 onChange={props.formik.handleChange}
-                                inputProps={{ readOnly: Boolean(!props.editable) }}
+                                // inputProps={{ readOnly: Boolean(!props.editable) }}
                                 error={
                                     props.formik.touched[props.nombreDatoDeMedida] &&
                                     Boolean(props.formik.errors[props.nombreDatoDeMedida])

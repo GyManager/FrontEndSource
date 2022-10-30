@@ -17,30 +17,34 @@ import medidasService from "../../services/medidas.service";
 import medidasSchema from "./medidasSchema";
 
 function MisMedidas() {
+    const misMedidasEmptyObject = {
+        fechasMediciones: [],
+        idMedidas: "",
+        fecha: "",
+        medidas: [
+            {
+                peso: "",
+                altura: "",
+                cervical: "",
+                dorsal: "",
+                lumbar: "",
+                coxalPelvica: "",
+                cadera: "",
+                muslosIzq: "",
+                muslosDer: "",
+                rodillasIzq: "",
+                rodillasDer: "",
+                gemelosIzq: "",
+                gemelosDer: "",
+                brazoIzq: "",
+                brazoDer: "",
+            },
+        ],
+    };
+
     const formik = useFormik({
         initialValues: {
-            fechasMediciones: [],
-            idMedidas: "",
-            fecha: "",
-            medidas: [
-                {
-                    peso: "",
-                    altura: "",
-                    cervical: "",
-                    dorsal: "",
-                    lumbar: "",
-                    coxalPelvica: "",
-                    cadera: "",
-                    muslosIzq: "",
-                    muslosDer: "",
-                    rodillasIzq: "",
-                    rodillasDer: "",
-                    gemelosIzq: "",
-                    gemelosDer: "",
-                    brazoIzq: "",
-                    brazoDer: "",
-                },
-            ],
+            ...misMedidasEmptyObject,
         },
         validationSchema: medidasSchema.validationSchema,
         onSubmit: () => {
@@ -55,6 +59,12 @@ function MisMedidas() {
     const { addSnackbar } = useContext(SnackbarContext);
     const { processErrorMessage } = useContext(ErrorContext);
     const navigate = useNavigate();
+
+    const handleAddClick = () => {
+        formik.resetForm();
+        setEditable(true);
+        // const newMedidas = misMedidasEmptyObject;
+    };
 
     const handleRespuesta = (res, msj) => {
         if (res instanceof AxiosError) {
@@ -158,10 +168,11 @@ function MisMedidas() {
                         />
                     </Box>
                 </Box>
-                <TablaMedidas 
+                <TablaMedidas
                     ultimasMedidas={formik.values.medidas}
                     editable={editable}
-                    formik={formik}/>
+                    formik={formik}
+                />
             </Paper>
             <ButtonMedidasMobile
                 editable={editable}
@@ -169,6 +180,7 @@ function MisMedidas() {
                 handleDeleteClick={handleDeleteClick}
                 deleteMedidas={deleteMedidas}
                 handleCancelEdit={() => setEditable(false)}
+                handleAddClick={handleAddClick}
                 clienteId={formik.values.idMedidas}
                 handleSubmit={formik.handleSubmit}
                 formik={formik}
