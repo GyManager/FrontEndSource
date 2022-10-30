@@ -28,7 +28,7 @@ export default function TablaMedidas(props) {
     );
     // console.log('filteredPairs', filteredPairs)
 
-    const nombresDeMedida = [
+    const nombresVisualesDeMedida = [
         "Peso",
         "Altura",
         "Cervical",
@@ -45,6 +45,29 @@ export default function TablaMedidas(props) {
         "Brazo Izquierdo",
         "Brazo Derecho",
     ];
+    // const nombresDatosDeMedida= props.formik.values.keys
+    console.log('formik.values', props.formik.values.medidas)
+    // console.log('nombresDatosDeMedida',props.nombresDatosDeMedida)
+    const nombresKeys = props.formik.values.keys
+    console.log('nombresKeys',nombresKeys)
+
+    const nombresDatosDeMedida= [
+	"peso",
+	"altura",
+	"cervical",
+	"dorsal",
+	"lumbar",
+	"coxalPelvica",
+	"cadera",
+	"muslosIzq",
+	"muslosDer",
+	"rodillasIzq",
+	"rodillasDer",
+	"gemelosIzq",
+	"gemelosDer",
+	"brazoIzq",
+	"brazoDer"
+    ]
 
     const navigate = useNavigate();
     const isMediumDevice = useMediaQuery("(max-width:900px");
@@ -72,9 +95,13 @@ export default function TablaMedidas(props) {
                             <TableMedidasRow
                                 editable={props.editable}
                                 key={par[0]}
-                                nombreDeMedida={nombresDeMedida[index]}
-                                valorDeMedida={par[1]}
+                                nombreVisualDeMedida={nombresVisualesDeMedida[index]}
+                                nombreDatoDeMedida={nombresDatosDeMedida[index]}
+                                // valueTextField={props.formik.values}
+                                // valorDeMedida={par[1]}
+                                // valorDeMedida={par[1]}
                                 handleRowClick={handleRowClick}
+                                formik={props.formik}
                             />
                         ))}
                     </TableBody>

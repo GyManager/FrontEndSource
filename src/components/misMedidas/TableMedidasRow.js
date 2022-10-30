@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 
 export default function TableMedidasRow(props) {
     const unidadMedida =
-        props.nombreDeMedida === "Altura" ? "m" : props.nombreDeMedida === "Peso" ? "kg" : "cm";
+        props.nombreVisualDeMedida === "Altura" ? "m" : props.nombreVisualDeMedida === "Peso" ? "kg" : "cm";
     const handleClick = () => {};
     return (
         <TableRow
@@ -15,26 +15,47 @@ export default function TableMedidasRow(props) {
         >
             <>
                 <TableCell>
-                    {props.nombreDeMedida === "Peso" ? (
+                    {props.nombreVisualDeMedida === "Peso" ? (
                         <Button
                             variant="outlined"
                             endIcon={<TimelineIcon />}
-                            onClick={() => handleClick(props.nombreDeMedida)}
+                            onClick={() => handleClick(props.nombreVisualDeMedida)}
                         >
                             Peso
                         </Button>
                     ) : (
-                        props.nombreDeMedida
+                        <Typography variant="body1">{props.nombreVisualDeMedida}</Typography>
                     )}
                 </TableCell>
                 <TableCell>
                     {props.editable ? (
-                        <Box sx={{display:'flex', flexDirection:'row', alignItems:'center'}}>
-                            <TextField value={props.valorDeMedida} />
-                            <Typography variant='body2' sx={{ml:1}}>{unidadMedida}</Typography>
+                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <TextField
+                                sx={{ minWidth: "100px", maxWidth: "250px" }}
+                                variant="standard"
+                                id={`medidas.$(props.nombreDatoDeMedida)`}
+                                name={`medidas.${props.nombreDatoDeMedida}`}
+                                // Paso un propiedad pero definida atraves de una variable [props.nombreDatoDeMedida]
+                                value={props.formik.values.medidas[props.nombreDatoDeMedida]}
+                                onChange={props.formik.handleChange}
+                                inputProps={{ readOnly: Boolean(!props.editable) }}
+                                error={
+                                    props.formik.touched[props.nombreDatoDeMedida] &&
+                                    Boolean(props.formik.errors[props.nombreDatoDeMedida])
+                                }
+                                helperText={
+                                    props.formik.touched[props.nombreDatoDeMedida] && props.formik.errors[props.nombreDatoDeMedida]
+                                }
+                            />
+                            <Typography variant="body1" sx={{ ml: 1 }}>
+                                {unidadMedida}
+                            </Typography>
                         </Box>
                     ) : (
-                        props.valorDeMedida + " " + unidadMedida
+                        <Typography variant="body1">
+                            {" "}
+                            {props.formik.values.medidas[props.nombreDatoDeMedida] + " " + unidadMedida}
+                        </Typography>
                     )}
                 </TableCell>
             </>

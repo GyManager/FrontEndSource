@@ -1,15 +1,20 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import TablaMedidas from "./TablaMedidas";
 import GenericComboBox from "../reusable/GenericComboBox";
 import ButtonMedidasMobile from "./ButtonMedidasMobile";
 
-import { useParams } from "react-router-dom";
-import medidasSchema from "./medidasSchema";
-import medidasService from "../../services/medidas.service";
 import _ from "lodash";
 import { useFormik } from "formik";
+import { SnackbarContext } from "../../context/SnackbarContext";
+import { ErrorContext } from "../../context/ErrorContext";
+
+import { useParams } from "react-router-dom";
+import { AxiosError } from "axios";
+import medidasService from "../../services/medidas.service";
+import medidasSchema from "./medidasSchema";
 
 function MisMedidas() {
     const formik = useFormik({
@@ -47,6 +52,20 @@ function MisMedidas() {
     const idCliente = params.idCliente;
     const [editable, setEditable] = useState(false);
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
+    const { addSnackbar } = useContext(SnackbarContext);
+    const { processErrorMessage } = useContext(ErrorContext);
+    const navigate = useNavigate();
+
+    const handleRespuesta = (res, msj) => {
+        if (res instanceof AxiosError) {
+            processErrorMessage(res.response.data);
+        } else {
+            setEditable(false);
+            addSnackbar({ message: msj, severity: "success", duration: 3000 });
+            navigate("/home");
+        }
+        return;
+    };
 
     const fetchFechasComboBox = async () => {
         const fechasMediciones = await medidasService.getFechasMediciones(idCliente);
@@ -74,12 +93,17 @@ function MisMedidas() {
         return idMedidas;
     };
     const deleteMedidas = async () => {
-        await medidasService.deleteMedidasPorIdClientePorIdMedida(
+        const res = await medidasService.deleteMedidasPorIdClientePorIdMedida(
             idCliente,
             formik.values.idMedidas
         );
-        const fechasMediciones = await fetchFechasComboBox();
-        setUltimaFecha(fechasMediciones);
+        handleRespuesta(res, "Medidas eliminadas exitosamente");
+
+        // const fechasMediciones = await fetchFechasComboBox();
+        // setUltimaFecha(fechasMediciones);
+        // setEditable(false);
+        // addSnackbar({ message: msj, severity: "success", duration: 3000 });
+        // navigate("/ejercicios");
     };
     const handleDeleteClick = () => {
         setOpenAlertDialog(true);
@@ -134,7 +158,10 @@ function MisMedidas() {
                         />
                     </Box>
                 </Box>
-                <TablaMedidas ultimasMedidas={formik.values.medidas} editable={editable} />
+                <TablaMedidas 
+                    ultimasMedidas={formik.values.medidas}
+                    editable={editable}
+                    formik={formik}/>
             </Paper>
             <ButtonMedidasMobile
                 editable={editable}
