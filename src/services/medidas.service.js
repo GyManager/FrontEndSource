@@ -36,7 +36,8 @@ const getMedidasPorIdClientePorIdFecha = (idCliente, idFecha) => {
 
 const deleteMedidasPorIdClientePorIdMedida = (idCliente, idMedida) => {
     return axios
-        .delete(API_URL + API_PATH + "/" + idCliente + "/medidas/" + idMedida, {
+        .delete(API_URL + API_PATH + "/" + idCliente + "/medidas/" + idMedida, 
+        {
             headers: {
                 Authorization: `Bearer ${authService.getStoredSession().access_token}`,
             },
@@ -48,6 +49,24 @@ const deleteMedidasPorIdClientePorIdMedida = (idCliente, idMedida) => {
             return handleError(error);
         });
 };
+
+const postMedidasPorIdCliente = (idCliente, medidas) => {
+    return axios.post(
+        API_URL + API_PATH + "/" + idCliente + "/medidas",{...medidas},
+        {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+        }
+    )
+    .then((response) => {
+        return response.data;
+    })
+    .catch((error)=> {
+        return handleError(error);
+    })
+};
+
 const handleError = (error) => {
     if (error.response) {
         console.log("Error in response, message: ", error.response.data);
@@ -67,7 +86,8 @@ const handleError = (error) => {
 const medidasService = {
     getFechasMediciones,
     getMedidasPorIdClientePorIdFecha,
-    deleteMedidasPorIdClientePorIdMedida
+    deleteMedidasPorIdClientePorIdMedida,
+    postMedidasPorIdCliente,
 };
 
 export default medidasService;

@@ -33,8 +33,8 @@ export default function ButtonClientMobile(props) {
                         icon={<Save />}
                         tooltipTitle="Guardar"
                         onClick={() => {
-                            handleClose();
                             props.handleSubmit();
+                            handleClose();
                         }}
                     />
                 )}
@@ -87,7 +87,7 @@ export default function ButtonClientMobile(props) {
             <AlertDialog
                 open={props.openAlertDialog}
                 setOpen={props.setOpenAlertDialog}
-                title={"Está por eliminar al las medidas de la fecha: " + props.formik.values.fecha}
+                title={"Está por eliminar las medidas de la fecha: " + props.formik.values.fecha}
                 content="¿Seguro desea eliminarlas?"
                 buttonTextAccept="Borrar"
                 buttonTextDeny="Cancelar"

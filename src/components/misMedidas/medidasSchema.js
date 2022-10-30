@@ -3,9 +3,9 @@ import * as yup from "yup";
 const validationSchema = yup.object({
     fechaMedicionSeleccionada: yup.string("La fecha de medicion debe ser en formato de texto"),
     // idMedidas: "",
-    fecha: yup
-        .string("La fecha de medicion debe ser en formato de texto")
-        .required("La fecha de medicion es obligatoria"),
+    // fecha: yup
+        // .string("La fecha de medicion debe ser en formato de texto"),
+        // .required("La fecha de medicion es obligatoria"),
     peso: yup
         .number("El peso debe ser un numero")
         .positive("El peso debe ser un valor positivo")

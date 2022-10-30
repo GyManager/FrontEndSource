@@ -52,12 +52,16 @@ function MisMedidas() {
             handleSubmit();
         },
     });
-    const handleSubmit = () => {};
+    const handleSubmit = () => {
+        if (idMedidas === "new") {
+            const res = medidasService.postMedidasPorIdCliente(idCliente, formik.values.medidas)
+            handleRespuesta(res, 'Medidas registradas correctamente')
+
+        }
+    };
     const params = useParams();
     const idCliente = params.idCliente;
     const idMedidas = params.idMedidas;
-    console.log("idCliente", idCliente);
-    console.log("idMedidas", idMedidas);
     const [editable, setEditable] = useState(false);
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
     const { addSnackbar } = useContext(SnackbarContext);
@@ -72,6 +76,12 @@ function MisMedidas() {
         formik.setFieldValue("fecha", "");
         formik.setFieldValue("idMedidas", "");
         resetFields();
+    };
+
+    const handleClose = () => {
+        navigate("../mis-medidas/" + idCliente);
+        setEditable(false);
+        cargaInicial();
     };
 
     const handleAddClick = () => {
@@ -106,7 +116,7 @@ function MisMedidas() {
 
     const fetchMedidas = async (idMedidas) => {
         const medidas = medidasService.getMedidasPorIdClientePorIdFecha(idCliente, await idMedidas);
-        console.log(await medidas);
+        // console.log(await medidas);
         formik.setFieldValue("medidas" || "", await medidas, true);
     };
 
@@ -208,11 +218,7 @@ function MisMedidas() {
                 handleEditClick={() => setEditable(true)}
                 handleDeleteClick={handleDeleteClick}
                 deleteMedidas={deleteMedidas}
-                handleCancelEdit={() => {
-                    navigate("../mis-medidas/" + idCliente);
-                    setEditable(false);
-                    cargaInicial();
-                }}
+                handleCancelEdit={handleClose}
                 handleAddClick={handleAddClick}
                 clienteId={formik.values.idMedidas}
                 handleSubmit={formik.handleSubmit}
