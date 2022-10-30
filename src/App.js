@@ -98,6 +98,7 @@ console.log(token)
 
                     {/* CORREGIR PERMISOS MIS MEDIDAS */}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-Medidas/:idCliente" element={<MisMedidasPage/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/mis-Medidas/:idCliente/:idMedidas" element={<MisMedidasPage/>} />}
 
                     {token && <Route path="/password" element={<PasswordChange/>} />}
                     <Route path="/home" element={<Dash token={token}/>}  />

@@ -1,7 +1,8 @@
 import { React, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
+import { Info, InfoOutlined } from "@mui/icons-material";
 import TablaMedidas from "./TablaMedidas";
 import GenericComboBox from "../reusable/GenericComboBox";
 import ButtonMedidasMobile from "./ButtonMedidasMobile";
@@ -54,16 +55,29 @@ function MisMedidas() {
     const handleSubmit = () => {};
     const params = useParams();
     const idCliente = params.idCliente;
+    const idMedidas = params.idMedidas;
+    console.log("idCliente", idCliente);
+    console.log("idMedidas", idMedidas);
     const [editable, setEditable] = useState(false);
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
     const { addSnackbar } = useContext(SnackbarContext);
     const { processErrorMessage } = useContext(ErrorContext);
     const navigate = useNavigate();
 
+    const resetFormikFields = () => {
+        const medidasKeys = Object.keys(formik.values.medidas);
+        const resetFields = medidasKeys.map((unField) =>
+            formik.setFieldValue(`medidas.${unField}`, "", true)
+        );
+        formik.setFieldValue("fecha", "");
+        formik.setFieldValue("idMedidas", "");
+        resetFields();
+    };
+
     const handleAddClick = () => {
-        formik.resetForm();
+        navigate("../mis-medidas/" + idCliente + "/new");
         setEditable(true);
-        // const newMedidas = misMedidasEmptyObject;
+        resetFormikFields();
     };
 
     const handleRespuesta = (res, msj) => {
@@ -120,12 +134,15 @@ function MisMedidas() {
         console.log(formik.values.idMedidas);
     };
 
-    useEffect(() => {
+    const cargaInicial = () => {
         fetchFechasComboBox().then((fechasMediciones) => {
             setUltimaFecha(fechasMediciones).then((idMedidas) => {
                 fetchMedidas(idMedidas);
             });
         });
+    };
+    useEffect(() => {
+        cargaInicial();
     }, []);
 
     // Este useEffect se ejecuta al seleccionar una nueva fecha en el combobox
@@ -152,21 +169,33 @@ function MisMedidas() {
                     <Typography variant="h5" align="center">
                         Mis Medidas
                     </Typography>
-                    <Box sx={{ width: "40vw", mt: 2 }}>
-                        <GenericComboBox
-                            label="Medicion"
-                            id="fecha"
-                            value={formik.values.fecha}
-                            handleChange={formik.handleChange}
-                            editable={true}
-                            valueForNone=""
-                            labelForNone="Seleccionar fecha"
-                            values={formik.values.fechasMediciones.map((unaMedicion) => {
-                                return unaMedicion.fecha;
-                            })}
-                            minWidth={150}
-                        />
-                    </Box>
+                    {idMedidas === "new" ? (
+                        <IconButton
+                            edge="end"
+                            size="large"
+                            aria-label="info"
+                            sx={{ mr: 2 }}
+                            onClick={() => {}}
+                        >
+                            <InfoOutlined />
+                        </IconButton>
+                    ) : (
+                        <Box sx={{ width: "40vw", mt: 2 }}>
+                            <GenericComboBox
+                                label="Medicion"
+                                id="fecha"
+                                value={formik.values.fecha}
+                                handleChange={formik.handleChange}
+                                editable={true}
+                                valueForNone=""
+                                labelForNone="Seleccionar fecha"
+                                values={formik.values.fechasMediciones.map((unaMedicion) => {
+                                    return unaMedicion.fecha;
+                                })}
+                                minWidth={150}
+                            />
+                        </Box>
+                    )}
                 </Box>
                 <TablaMedidas
                     ultimasMedidas={formik.values.medidas}
@@ -179,7 +208,11 @@ function MisMedidas() {
                 handleEditClick={() => setEditable(true)}
                 handleDeleteClick={handleDeleteClick}
                 deleteMedidas={deleteMedidas}
-                handleCancelEdit={() => setEditable(false)}
+                handleCancelEdit={() => {
+                    navigate("../mis-medidas/" + idCliente);
+                    setEditable(false);
+                    cargaInicial();
+                }}
                 handleAddClick={handleAddClick}
                 clienteId={formik.values.idMedidas}
                 handleSubmit={formik.handleSubmit}
