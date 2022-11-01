@@ -68,7 +68,7 @@ export default function Grafico(props) {
             }}
         >
             <Box
-            sx={{ width: "900px" }}
+            sx={{ width: props.visualMode? "900px" : null }}
             >
                 <Line options={options} data={data} />
             </Box>
