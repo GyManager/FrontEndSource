@@ -1,11 +1,22 @@
 import { Button, TableCell, TableRow, TextField, Typography } from "@mui/material";
 import TimelineIcon from "@mui/icons-material/Timeline";
 import { Box } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 export default function TableMedidasRow(props) {
+    const navigate = useNavigate();
     const unidadMedida =
-        props.nombreVisualDeMedida === "Altura" ? "m" : props.nombreVisualDeMedida === "Peso" ? "kg" : "cm";
-    const handleClick = () => {};
+        props.nombreVisualDeMedida === "Altura"
+            ? "m"
+            : props.nombreVisualDeMedida === "Peso"
+            ? "kg"
+            : "cm";
+    const handleClick = () => {
+        navigate(".//informe/" + props.nombreDatoDeMedida);
+    };
+    // console.log(props.formik.touched.medidas[props.nombreDatoDeMedida] && Boolean(props.formik.errors.medidas[props.nombreDatoDeMedida]))
+    console.log(props.formik);
+
     return (
         <TableRow
             hover
@@ -19,7 +30,7 @@ export default function TableMedidasRow(props) {
                         <Button
                             variant="outlined"
                             endIcon={<TimelineIcon />}
-                            onClick={() => handleClick(props.nombreVisualDeMedida)}
+                            onClick={() => handleClick()}
                         >
                             Peso
                         </Button>
@@ -33,18 +44,19 @@ export default function TableMedidasRow(props) {
                             <TextField
                                 sx={{ minWidth: "100px", maxWidth: "250px" }}
                                 variant="standard"
-                                id={`medidas.$(props.nombreDatoDeMedida)`}
+                                id={`medidas.${props.nombreDatoDeMedida}`}
                                 name={`medidas.${props.nombreDatoDeMedida}`}
                                 // Paso un propiedad pero definida atraves de una variable [props.nombreDatoDeMedida]
                                 value={props.formik.values.medidas[props.nombreDatoDeMedida]}
                                 onChange={props.formik.handleChange}
                                 // inputProps={{ readOnly: Boolean(!props.editable) }}
                                 error={
-                                    props.formik.touched[props.nombreDatoDeMedida] &&
-                                    Boolean(props.formik.errors[props.nombreDatoDeMedida])
+                                    props.formik.touched.medidas?.[props.nombreDatoDeMedida] &&
+                                    Boolean(props.formik.errors.medidas?.[props.nombreDatoDeMedida])
                                 }
                                 helperText={
-                                    props.formik.touched[props.nombreDatoDeMedida] && props.formik.errors[props.nombreDatoDeMedida]
+                                    props.formik.touched.medidas?.[props.nombreDatoDeMedida] &&
+                                    props.formik.errors.medidas?.[props.nombreDatoDeMedida]
                                 }
                             />
                             <Typography variant="body1" sx={{ ml: 1 }}>
@@ -54,7 +66,9 @@ export default function TableMedidasRow(props) {
                     ) : (
                         <Typography variant="body1">
                             {" "}
-                            {props.formik.values.medidas[props.nombreDatoDeMedida] + " " + unidadMedida}
+                            {props.formik.values.medidas[props.nombreDatoDeMedida] +
+                                " " +
+                                unidadMedida}
                         </Typography>
                     )}
                 </TableCell>

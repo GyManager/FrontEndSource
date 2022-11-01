@@ -18,12 +18,14 @@ import medidasService from "../../services/medidas.service";
 import medidasSchema from "./medidasSchema";
 
 function MisMedidas() {
-    const misMedidasEmptyObject = {
-        fechasMediciones: [],
-        idMedidas: "",
-        fecha: "",
-        medidas: [
-            {
+    const misMedidasEmptyObject = {};
+
+    const formik = useFormik({
+        initialValues: {
+            fechasMediciones: [],
+            idMedidas: "",
+            fecha: "",
+            medidas: {
                 peso: "",
                 altura: "",
                 cervical: "",
@@ -40,12 +42,6 @@ function MisMedidas() {
                 brazoIzq: "",
                 brazoDer: "",
             },
-        ],
-    };
-
-    const formik = useFormik({
-        initialValues: {
-            ...misMedidasEmptyObject,
         },
         validationSchema: medidasSchema.validationSchema,
         onSubmit: () => {
@@ -196,16 +192,16 @@ function MisMedidas() {
                     </Typography>
                     {editable ? (
                         <>
-                        <Typography>{formik.values.fecha}</Typography>
-                        <IconButton
-                            edge="end"
-                            size="large"
-                            aria-label="info"
-                            sx={{ mr: 2 }}
-                            onClick={() => {}}
-                        >
-                            <InfoOutlined />
-                        </IconButton>
+                            <Typography>{formik.values.fecha}</Typography>
+                            <IconButton
+                                edge="end"
+                                size="large"
+                                aria-label="info"
+                                sx={{ mr: 2 }}
+                                onClick={() => {}}
+                            >
+                                <InfoOutlined />
+                            </IconButton>
                         </>
                     ) : (
                         <Box sx={{ width: "40vw", mt: 2 }}>

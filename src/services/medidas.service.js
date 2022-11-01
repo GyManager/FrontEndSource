@@ -36,8 +36,7 @@ const getMedidasPorIdClientePorIdFecha = (idCliente, idFecha) => {
 
 const deleteMedidasPorIdClientePorIdMedida = (idCliente, idMedida) => {
     return axios
-        .delete(API_URL + API_PATH + "/" + idCliente + "/medidas/" + idMedida, 
-        {
+        .delete(API_URL + API_PATH + "/" + idCliente + "/medidas/" + idMedida, {
             headers: {
                 Authorization: `Bearer ${authService.getStoredSession().access_token}`,
             },
@@ -51,37 +50,55 @@ const deleteMedidasPorIdClientePorIdMedida = (idCliente, idMedida) => {
 };
 
 const postMedidasPorIdCliente = (idCliente, medidas) => {
-    return axios.post(
-        API_URL + API_PATH + "/" + idCliente + "/medidas",{...medidas},
-        {
-            headers: {
-                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
-            },
-        }
-    )
-    .then((response) => {
-        return response.data;
-    })
-    .catch((error)=> {
-        return handleError(error);
-    })
+    return axios
+        .post(
+            API_URL + API_PATH + "/" + idCliente + "/medidas",
+            { ...medidas },
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
 };
 
-
 const putMedidasPorIdClientePorIdMedidas = (idCliente, medidas, idMedidas) => {
-    return axios.put(
-        API_URL + API_PATH + "/" + idCliente + "/medidas/" + idMedidas,{...medidas},
+    return axios
+        .put(
+            API_URL + API_PATH + "/" + idCliente + "/medidas/" + idMedidas,
+            { ...medidas },
+            {
+                headers: {
+                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+// api/clientes/263/medidas-summary?medidasTipo=PESO
+const getMedidasSummary = (idCliente, medidaTipo) => {
+    return axios.get(
+        API_URL + API_PATH + "/" + idCliente + "/medidas-summary?medidasTipo=" + medidaTipo.toUpperCase(),
         {
             headers: {
                 Authorization: `Bearer ${authService.getStoredSession().access_token}`,
             },
         }
-    )
-    .then((response) => {
-        return response.data;
-    })
-    .catch((error)=> {
-        return handleError(error);
+    ).then((res)=>{
+        return res.data
+    }).catch((error)=>{
+        return handleError(error)
     })
 };
 
@@ -107,6 +124,7 @@ const medidasService = {
     deleteMedidasPorIdClientePorIdMedida,
     postMedidasPorIdCliente,
     putMedidasPorIdClientePorIdMedidas,
+    getMedidasSummary,
 };
 
 export default medidasService;
