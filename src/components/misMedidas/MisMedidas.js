@@ -18,7 +18,6 @@ import medidasService from "../../services/medidas.service";
 import medidasSchema from "./medidasSchema";
 
 function MisMedidas() {
-    const misMedidasEmptyObject = {};
 
     const formik = useFormik({
         initialValues: {
@@ -114,7 +113,8 @@ function MisMedidas() {
     };
 
     const fetchFechasComboBox = async () => {
-        const fechasMediciones = await medidasService.getFechasMediciones(idCliente);
+        let fechasMediciones = await medidasService.getFechasMediciones(idCliente);
+        fechasMediciones = _.orderBy(fechasMediciones, 'fecha')
         formik.setFieldValue("fechasMediciones" || "", await fechasMediciones, false);
         return await fechasMediciones;
     };
@@ -132,9 +132,10 @@ function MisMedidas() {
     };
 
     const getIdMedidasPorFecha = async (fechaSeleccionada) => {
-        const fechas = formik.values.fechasMediciones;
-        const fecha = fechas.filter((unaFecha) => unaFecha.fecha === fechaSeleccionada);
-        const idMedidas = fecha[0].idMedidas;
+        const fechas = await formik.values.fechasMediciones;
+        const fecha = await fechas.filter((unaFecha) => unaFecha.fecha === fechaSeleccionada);
+        console.log('probando', fechaSeleccionada)
+        const idMedidas = await fecha[0].idMedidas;
         return idMedidas;
     };
     const deleteMedidas = async () => {

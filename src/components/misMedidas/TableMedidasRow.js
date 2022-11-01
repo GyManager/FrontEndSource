@@ -14,8 +14,6 @@ export default function TableMedidasRow(props) {
     const handleClick = () => {
         navigate(".//informe/" + props.nombreDatoDeMedida);
     };
-    // console.log(props.formik.touched.medidas[props.nombreDatoDeMedida] && Boolean(props.formik.errors.medidas[props.nombreDatoDeMedida]))
-    console.log(props.formik);
 
     return (
         <TableRow
