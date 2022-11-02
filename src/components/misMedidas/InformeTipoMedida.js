@@ -1,13 +1,16 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { Box, Button, Paper, Typography } from "@mui/material";
+import { Container } from "@mui/system";
 import Grafico from "./Grafico";
 import DatePicker from "../reusable/DatePicker";
-import FitScreenIcon from "@mui/icons-material/FitScreen";
+import { FitScreen, Fullscreen } from "@mui/icons-material/";
 
 import medidasService from "../../services/medidas.service";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
+import { useFullscreen } from "rooks";
 import _ from "lodash";
+import FullscreenComp from "./Fullscreen";
 
 function InformeTipoMedida(props) {
     const d = new Date();
@@ -23,12 +26,16 @@ function InformeTipoMedida(props) {
     const [medidasClienteHistory, setMedidasClienteHistory] = useState([]);
     const [filteredMedidas, setFilteredMedidas] = useState([medidasClienteHistory]);
     const [visualMode, setVisualMode] = useState(false);
+    const fullscreenContainerRef = useRef(null);
+    const { isFullscreenAvailable, isFullscreenEnabled, toggleFullscreen } = useFullscreen({
+        target: fullscreenContainerRef,
+    });
 
     const fetchMedidasHistoricas = async () => {
         const res = await medidasService.getMedidasSummary(idCliente, tipoMedida);
         setMedidasClienteHistory(await res.medidasClienteHistory);
-        console.log('fectch: medidasClienteHistory', await res)
-        return await res.medidasClienteHistory
+        console.log("fectch: medidasClienteHistory", await res);
+        return await res.medidasClienteHistory;
     };
 
     const dateToString = (date) => {
@@ -39,7 +46,7 @@ function InformeTipoMedida(props) {
         return stringDate;
     };
 
-    const filtrarMedidasPorFecha = async(unaFecha, medidasClienteHistory) => {
+    const filtrarMedidasPorFecha = async (unaFecha, medidasClienteHistory) => {
         const filteredMedidas = await medidasClienteHistory.filter((unaMedida) => {
             return unaMedida.fecha >= unaFecha;
         });
@@ -49,10 +56,13 @@ function InformeTipoMedida(props) {
     useEffect(() => {
         fetchMedidasHistoricas()
             .then((medidasClienteHistory) => {
-                return [dateToString(formik.values.fechaDesde), medidasClienteHistory] ;
+                return [dateToString(formik.values.fechaDesde), medidasClienteHistory];
             })
             .then(([fechaDesdeFormated, medidasClienteHistory]) => {
-                const medidasFilt = filtrarMedidasPorFecha(fechaDesdeFormated, medidasClienteHistory);
+                const medidasFilt = filtrarMedidasPorFecha(
+                    fechaDesdeFormated,
+                    medidasClienteHistory
+                );
                 return medidasFilt;
             })
             .then((filteredMedida) => {
@@ -61,49 +71,61 @@ function InformeTipoMedida(props) {
     }, [formik.values.fechaDesde]);
 
     return (
-        <Box>
-            <Box sx={{ mx: 2, }}>
-                <Paper sx={{ width: "90vw", mt: { xs: "90px", sm: "100px", lg: "250px" }, p: 1 }}>
-                    <Typography variant="h4" textAlign="center" gutterBottom>
-                        Historico de {tipoMedida}
-                    </Typography>
-                    <Box sx={{ display: "flex", flexDirection: "row" }}>
-                        <DatePicker
-                            value={formik.values.fechaDesde || ""}
-                            id="fechaDesde"
-                            name="fechaDesde"
-                            label="Fecha desde"
-                            editable={true}
-                            onChange={formik.setFieldValue}
-                            errorProp={
-                                formik.touched.fechaDesde && Boolean(formik.errors.fechaDesde)
-                            }
-                            helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
-                        />
-                        <Button
-                            variant="outlined"
-                            endIcon={<FitScreenIcon />}
-                            sx={{ ml: 2 }}
+        <Container>
+            <Paper sx={{ p: 1 }} fullWidth>
+                <Typography variant="h4" textAlign="center" gutterBottom>
+                    Historico de {tipoMedida}
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                    <DatePicker
+                        value={formik.values.fechaDesde || ""}
+                        id="fechaDesde"
+                        name="fechaDesde"
+                        label="Fecha desde"
+                        editable={true}
+                        onChange={formik.setFieldValue}
+                        errorProp={formik.touched.fechaDesde && Boolean(formik.errors.fechaDesde)}
+                        helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
+                    />
+                    <Button
+                        variant="outlined"
+                        endIcon={<FitScreen />}
+                        sx={{ ml: 2 }}
+                        onClick={() => {
+                            setVisualMode(!visualMode);
+                        }}
+                    >
+                        {visualMode ? "Ancho" : "Alto"}
+                    </Button>
+                    {/* <FullscreenComp /> */}
+                </Box>
+            </Paper>
+            <div ref={fullscreenContainerRef}>
+                <Paper
+                    sx={{
+                        mt: 2,
+                        // maxHeight:'550px',
+                        backgroundColor: "lightGrey",
+                    }}
+                >
+                    {isFullscreenAvailable ? (
+                        <button
                             onClick={() => {
-                                setVisualMode(!visualMode);
+                                setVisualMode(false);
+                                toggleFullscreen();
                             }}
                         >
-                            {visualMode ? "Ajustar" : "Desplazar"}
-                        </Button>
-                    </Box>
+                            {isFullscreenEnabled
+                                ? "Cerrar Pantalla Completa"
+                                : "Abrir Pantalla Completa"}
+                        </button>
+                    ) : (
+                        <p>Fullscreen API is not available.</p>
+                    )}
+                    <Grafico mediciones={filteredMedidas} visualMode={visualMode} />
                 </Paper>
-            </Box>
-            <Box sx={{ m: 2 }}>
-            <Paper
-                sx={{
-                    width: "90vw",
-                    backgroundColor: "lightGrey",
-                }}
-            >
-                <Grafico mediciones={filteredMedidas} visualMode={visualMode} />
-            </Paper>
-            </Box>
-        </Box>
+            </div>
+        </Container>
     );
 }
 

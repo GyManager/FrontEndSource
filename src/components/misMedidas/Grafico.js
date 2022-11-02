@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Box } from "@mui/material";
-import _ from 'lodash'
+import _ from "lodash";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -30,10 +30,8 @@ export const options = {
 };
 
 export default function Grafico(props) {
+    let mediciones = _.orderBy(props.mediciones, "fecha");
 
-
-    let mediciones = _.orderBy(props.mediciones, 'fecha')
-    
     const labels = mediciones.map((unaMedicion) => {
         return unaMedicion.fecha;
     });
@@ -67,9 +65,9 @@ export default function Grafico(props) {
                 // justifyContent="flex-end" # DO NOT USE THIS WITH 'scroll'
             }}
         >
-            <Box
-            sx={{ width: props.visualMode? "900px" : null }}
-            >
+            <Box sx={{ width: props.visualMode ? "900px" : null,
+            //  maxHeight: "400px" 
+             }}>
                 <Line options={options} data={data} />
             </Box>
         </Box>
