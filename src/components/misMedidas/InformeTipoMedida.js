@@ -4,17 +4,19 @@ import Grafico from "./Grafico";
 import DatePicker from "../reusable/DatePicker";
 import FitScreenIcon from "@mui/icons-material/FitScreen";
 
-import { Line } from "react-chartjs-2";
-
 import medidasService from "../../services/medidas.service";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import _ from "lodash";
 
 function InformeTipoMedida(props) {
+    const d = new Date();
+    d.setMonth("00");
+    d.setDate("01");
+
     const formik = useFormik({
         initialValues: {
-            fechaDesde: new Date(),
+            fechaDesde: d,
         },
     });
     const { idCliente, tipoMedida } = useParams();
@@ -22,41 +24,46 @@ function InformeTipoMedida(props) {
     const [filteredMedidas, setFilteredMedidas] = useState([medidasClienteHistory]);
     const [visualMode, setVisualMode] = useState(false);
 
-    useEffect(() => {
-        const fetchMedidasHistoricas = async () => {
-            const res = await medidasService.getMedidasSummary(idCliente, tipoMedida);
-            setMedidasClienteHistory(res.medidasClienteHistory);
-        };
-        fetchMedidasHistoricas();
-    }, []);
+    const fetchMedidasHistoricas = async () => {
+        const res = await medidasService.getMedidasSummary(idCliente, tipoMedida);
+        setMedidasClienteHistory(await res.medidasClienteHistory);
+        console.log('fectch: medidasClienteHistory', await res)
+        return await res.medidasClienteHistory
+    };
+
+    const dateToString = (date) => {
+        const año = date.getFullYear();
+        const mes = _.padStart(date.getMonth() + 1, 2, "0");
+        const dia = _.padStart(date.getDate(), 2, "0");
+        const stringDate = año + "-" + mes + "-" + dia;
+        return stringDate;
+    };
+
+    const filtrarMedidasPorFecha = async(unaFecha, medidasClienteHistory) => {
+        const filteredMedidas = await medidasClienteHistory.filter((unaMedida) => {
+            return unaMedida.fecha >= unaFecha;
+        });
+        return await filteredMedidas;
+    };
 
     useEffect(() => {
-        const fechaDesde = formik.values.fechaDesde;
-        const año = fechaDesde.getFullYear();
-        const mes = _.padStart(fechaDesde.getMonth() + 1, 2, "0");
-        const dia = _.padStart(fechaDesde.getDate(), 2, "0");
-        const fechaDesdeFormated = año + "-" + mes + "-" + dia;
-        console.log("fechaDesdeFormated", fechaDesdeFormated);
-        console.log(medidasClienteHistory.fecha >= fechaDesdeFormated);
-        const filteredMedida = medidasClienteHistory.filter((unaMedida) => {
-            console.log(
-                unaMedida.fecha +
-                    "   " +
-                    fechaDesdeFormated +
-                    "  " +
-                    (unaMedida.fecha >= fechaDesdeFormated)
-            );
-            return unaMedida.fecha >= fechaDesdeFormated;
-        });
-        setFilteredMedidas(filteredMedida);
-        console.log("filteredMedida", filteredMedida);
+        fetchMedidasHistoricas()
+            .then((medidasClienteHistory) => {
+                return [dateToString(formik.values.fechaDesde), medidasClienteHistory] ;
+            })
+            .then(([fechaDesdeFormated, medidasClienteHistory]) => {
+                const medidasFilt = filtrarMedidasPorFecha(fechaDesdeFormated, medidasClienteHistory);
+                return medidasFilt;
+            })
+            .then((filteredMedida) => {
+                setFilteredMedidas(filteredMedida);
+            });
     }, [formik.values.fechaDesde]);
 
-    console.log(visualMode)
     return (
         <Box>
-            <Box sx={{ m: 2 }}>
-                <Paper sx={{ width: "95vw", mt: { xs: "90px", sm: "100px", lg: "250px" }, p: 1 }}>
+            <Box sx={{ mx: 2, }}>
+                <Paper sx={{ width: "90vw", mt: { xs: "90px", sm: "100px", lg: "250px" }, p: 1 }}>
                     <Typography variant="h4" textAlign="center" gutterBottom>
                         Historico de {tipoMedida}
                     </Typography>
@@ -73,31 +80,29 @@ function InformeTipoMedida(props) {
                             }
                             helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
                         />
-                        <Button variant="outlined" endIcon={<FitScreenIcon />} sx={{ ml: 2 }} onClick={()=>{setVisualMode(!visualMode)}}>
-                            {visualMode? 'Ajustar' : 'Desplazar'}
+                        <Button
+                            variant="outlined"
+                            endIcon={<FitScreenIcon />}
+                            sx={{ ml: 2 }}
+                            onClick={() => {
+                                setVisualMode(!visualMode);
+                            }}
+                        >
+                            {visualMode ? "Ajustar" : "Desplazar"}
                         </Button>
                     </Box>
                 </Paper>
             </Box>
+            <Box sx={{ m: 2 }}>
             <Paper
                 sx={{
-                    width: "95vw",
-                    // height: "85vh",
+                    width: "90vw",
                     backgroundColor: "lightGrey",
-                    mx: 2,
-                    mt: 3,
-                    mb: 10,
                 }}
             >
                 <Grafico mediciones={filteredMedidas} visualMode={visualMode} />
             </Paper>
-            {/* <DatePicker
-                    value={(true ? fechaHasta : formik.values.fechaHasta) || ""}
-                    id="fechaHasta"
-                    name="fechaHasta"
-                    label="Fecha hasta"
-                    editable={false}
-                /> */}
+            </Box>
         </Box>
     );
 }
