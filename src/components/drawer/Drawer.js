@@ -60,7 +60,7 @@ export const menuItem = [
         iconName: "Mail",
         url: "/mis-planes",
         permiso: "mis-planes",
-        descripcion: "Entrta al plan que tenes vigente y entrena!",
+        descripcion: "Entra al plan que tenes vigente y entrena!",
     },
     {
         text: "Historico Planes",
