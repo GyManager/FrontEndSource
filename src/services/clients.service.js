@@ -97,10 +97,15 @@ const postClient = (cliente) => {
 }
 
 
-const putClient = (cliente, idCliente) => {
+const putClient = (cliente, idCliente, reactivate) => {
+    let params = {}
+    if(reactivate !== undefined){
+        params['reactivate'] = reactivate;
+    }
     return axios.put(API_URL + '/clientes/' + idCliente, {...cliente}, 
         {
-            headers: {'Authorization': `Bearer ${access_token}`}
+            headers: {'Authorization': `Bearer ${access_token}`},
+            params
         }
     ).then((response) => {
         console.log('Recibida correctamente')

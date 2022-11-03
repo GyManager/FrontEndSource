@@ -138,6 +138,10 @@ function Dash(props) {
             icon: <Receipt {...iconStyle} />,
         },
         {
+            text: "Mis datos",
+            icon: <Person {...iconStyle} />,
+        },
+        {
             text: "Cambiar Contraseña",
             icon: <Lock {...iconStyle} />,
         },

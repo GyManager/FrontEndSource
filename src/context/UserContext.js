@@ -9,10 +9,7 @@ export const UserProvider = ({ children }) => {
     const [notificaciones, setNotificaciones] = useState();
     const [loadingNotificaciones, setLoadingNotificaciones] = useState(() => true);
 
-    async function getUserInfo() {
-        if (user !== null && user !== undefined) {
-            return user;
-        }
+    async function loadUserInfo() {
         const respuesta = await clientsService.getUserInfo();
         if (respuesta instanceof AxiosError) {
             console.log(respuesta);
@@ -20,6 +17,13 @@ export const UserProvider = ({ children }) => {
             setUser(respuesta);
             return respuesta;
         }
+    }
+
+    async function getUserInfo() {
+        if (user !== null && user !== undefined) {
+            return user;
+        }
+        return loadUserInfo();
     }
 
     async function getNotificaciones() {
@@ -41,6 +45,7 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider
             value={{
                 getUserInfo,
+                loadUserInfo,
                 notificaciones,
                 loadingNotificaciones,
             }}
