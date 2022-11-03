@@ -20,6 +20,9 @@ import MicroPlanesPage from './pages/MicroPlanesPage';
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
 import Dash from './components/home/Dash'
+import MisMedidasPage from './pages/MisMedidasPage'
+import InformeTipoMedidaPage from './pages/InformeTipoMedidaPage'
+import MisMedidasRedirect from './components/misMedidas/MisMedidasRedirect'
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -85,6 +88,7 @@ console.log(token)
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<MisPlanes/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/historico-planes" element={<HistoricoPlanes/>} />}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas" element={<MisMedidasRedirect/>} />}
                     <Route element={<MiPlanContextLayout />}>
                       {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
                       {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<MiMicroPlan/>} />}
@@ -96,7 +100,14 @@ console.log(token)
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
+
+                    {/* CORREGIR PERMISOS MIS MEDIDAS */}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente" element={<MisMedidasPage/>} />}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-Medidas/:idCliente/:idMedidas" element={<MisMedidasPage/>} />}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente//informe/:tipoMedida" element={<InformeTipoMedidaPage/>} />}
+
                     {token && <Route path="/mis-datos" element={<MisDatos/>} />}
+
                     {token && <Route path="/password" element={<PasswordChange/>} />}
                     <Route path="/home" element={<Dash token={token}/>}  />
                     <Route path="/*" element={<NoAutorizadoPage/>} />

@@ -28,7 +28,7 @@ const useFetchActiveUserInfo = () => {
         console.log('userhooks2')
         const fetchUserInfo = async () => {
             const res = await clientsService.getActiveUser();
-            setUserInfo(res);
+            setUserInfo(await res);
         };
         fetchUserInfo();
     }, []);
@@ -38,34 +38,8 @@ const useFetchActiveUserInfo = () => {
 };
 
 
-const useFetchActiveUserMatriculas = (idCliente) => {
-    // console.log("usersHooks: idCliente:", idCliente);
-    const [matriculas, setMatriculas] = useState([]);
-
-    useEffect(() => {
-        const fetchMatriculas = async () => {
-            const res = await matriculasService.getMatriculasByIdCliente(idCliente);
-            setMatriculas(res);
-        };
-
-        const tieneClienteAsociado = idCliente !== undefined ? true : false;
-        // console.log("usersHooks: idCliente ", idCliente);
-        // console.log("usersHooks: tieneClienteAsociado ", tieneClienteAsociado);
-        if (tieneClienteAsociado) {
-            // console.log("usersHooks: idCliente en rama true", idCliente);
-            // console.log("rama true el id deberia ser un numero: ", idCliente);
-            fetchMatriculas(idCliente);
-        } else {
-            // console.log("usersHooks: idCliente en rama false", idCliente);
-            setMatriculas("El usuario actual no tiene cliente asociado");
-        }
-    }, [idCliente]);
-    return [ matriculas ];
-};
-
 const usersHooks = {
-    useFetchActiveUserInfo,
-    useFetchActiveUserMatriculas,
+    useFetchActiveUserInfo
 };
 
 export default usersHooks;

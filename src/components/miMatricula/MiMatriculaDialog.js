@@ -55,7 +55,7 @@ function SimpleDialog(props) {
 }
 
 export default function SimpleDialogDemo(props) {
-    console.log("props.userMatriculas: ", props.userMatriculas);
+    // console.log("props.userMatriculas: ", props.userMatriculas);
     return (
         <div>
             <SimpleDialog
