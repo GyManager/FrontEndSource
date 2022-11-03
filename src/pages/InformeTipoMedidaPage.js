@@ -9,6 +9,7 @@ export default function InformePesoPage() {
             fixed
             sx={{
                 display: "flex",
+                flexDirection:'column',
                 justifyContent: "center",
                 alignItems: "center",
                 height: { xs: "90vh", sm: "90vh", md: "82vh" },

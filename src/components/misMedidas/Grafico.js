@@ -17,6 +17,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 export const options = {
     responsive: true,
+    maintainAspectRatio:false,
     plugins: {
         legend: {
             display: false,
@@ -65,7 +66,7 @@ export default function Grafico(props) {
                 // justifyContent="flex-end" # DO NOT USE THIS WITH 'scroll'
             }}
         >
-            <Box sx={{ width: props.visualMode ? "900px" : null,
+            <Box sx={{ width: props.visualMode ? "900px" : null, height:'55vh'
             //  maxHeight: "400px" 
              }}>
                 <Line options={options} data={data} />

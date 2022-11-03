@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useRef } from "react";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography, useMediaQuery } from "@mui/material";
 import { Container } from "@mui/system";
 import Grafico from "./Grafico";
 import DatePicker from "../reusable/DatePicker";
@@ -27,6 +27,7 @@ function InformeTipoMedida(props) {
     const [filteredMedidas, setFilteredMedidas] = useState([medidasClienteHistory]);
     const [visualMode, setVisualMode] = useState(false);
     const fullscreenContainerRef = useRef(null);
+    const isMediumDevice = useMediaQuery("(max-width:900px)");
     const { isFullscreenAvailable, isFullscreenEnabled, toggleFullscreen } = useFullscreen({
         target: fullscreenContainerRef,
     });
@@ -71,12 +72,19 @@ function InformeTipoMedida(props) {
     }, [formik.values.fechaDesde]);
 
     return (
-        <Container>
-            <Paper sx={{ p: 1 }} fullWidth>
+        // <Container sx={{ display: "flex", justifyContent: "center", flexDirection:'column'}}>
+        <>
+            <Paper
+                sx={{
+                    width: isMediumDevice ? "90vw" : "68vw",
+                    p: 1,
+                }}
+                fullWidth
+            >
                 <Typography variant="h4" textAlign="center" gutterBottom>
                     Historico de {tipoMedida}
                 </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <Box sx={{ display: "flex", flexDirection: "row", justifyContent:'space-around' }}>
                     <DatePicker
                         value={formik.values.fechaDesde || ""}
                         id="fechaDesde"
@@ -104,9 +112,16 @@ function InformeTipoMedida(props) {
                 <Paper
                     sx={{
                         mt: 2,
+                        width: isMediumDevice ? 
+                        isFullscreenEnabled?
+                        null
+                        :
+                        "90vw" 
+                        :
+                        "68vw",
                         // maxHeight:'550px',
                         backgroundColor: "lightGrey",
-                    }}
+                                }}
                 >
                     {isFullscreenAvailable ? (
                         <button
@@ -125,7 +140,8 @@ function InformeTipoMedida(props) {
                     <Grafico mediciones={filteredMedidas} visualMode={visualMode} />
                 </Paper>
             </div>
-        </Container>
+        {/* </Container> */}
+        </>
     );
 }
 
