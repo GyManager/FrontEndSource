@@ -15,10 +15,10 @@ import { ErrorContext } from "../../context/ErrorContext";
 import { useParams } from "react-router-dom";
 import { AxiosError } from "axios";
 import medidasService from "../../services/medidas.service";
+import clientsService from "../../services/users.service";
 import medidasSchema from "./medidasSchema";
 
 function MisMedidas() {
-
     const formik = useFormik({
         initialValues: {
             fechasMediciones: [],
@@ -98,7 +98,6 @@ function MisMedidas() {
     const handleEditClick = () => {
         navigate("../mis-medidas/" + idCliente + "/" + formik.values.idMedidas);
         setEditable(true);
-        // resetFormikFields();
     };
 
     const handleRespuesta = (res, msj) => {
@@ -114,7 +113,7 @@ function MisMedidas() {
 
     const fetchFechasComboBox = async () => {
         let fechasMediciones = await medidasService.getFechasMediciones(idCliente);
-        fechasMediciones = _.orderBy(fechasMediciones, 'fecha')
+        fechasMediciones = _.orderBy(fechasMediciones, "fecha");
         formik.setFieldValue("fechasMediciones" || "", await fechasMediciones, false);
         return await fechasMediciones;
     };
@@ -134,7 +133,7 @@ function MisMedidas() {
     const getIdMedidasPorFecha = async (fechaSeleccionada) => {
         const fechas = await formik.values.fechasMediciones;
         const fecha = await fechas.filter((unaFecha) => unaFecha.fecha === fechaSeleccionada);
-        console.log('probando', fechaSeleccionada)
+        console.log("probando", fechaSeleccionada);
         const idMedidas = await fecha[0].idMedidas;
         return idMedidas;
     };
@@ -144,12 +143,6 @@ function MisMedidas() {
             formik.values.idMedidas
         );
         handleRespuesta(res, "Medidas eliminadas exitosamente");
-
-        // const fechasMediciones = await fetchFechasComboBox();
-        // setUltimaFecha(fechasMediciones);
-        // setEditable(false);
-        // addSnackbar({ message: msj, severity: "success", duration: 3000 });
-        // navigate("/ejercicios");
     };
     const handleDeleteClick = () => {
         setOpenAlertDialog(true);
@@ -163,6 +156,7 @@ function MisMedidas() {
             });
         });
     };
+
     useEffect(() => {
         cargaInicial();
     }, []);

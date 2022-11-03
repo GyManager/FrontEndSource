@@ -24,8 +24,6 @@ export default function ActionAreaCard(props) {
     const handleClick = () => {
         if (props.title === "Mi Matricula") {
             props.handleClickOpen()
-        } else if(props.title === "Mis Medidas") {
-            navigate(props.url+'/'+props.idCliente);
         } else {
             navigate(props.url);
         }
