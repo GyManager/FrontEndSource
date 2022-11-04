@@ -105,13 +105,9 @@ const handleError = (error) => {
     return error;
 };
 
-const seguimientoService = {
+const seguimientoAvancesService = {
     getSeguimientosUsuario,
-    postSeguimientoEjercicio,
-    getSeguimientoEjercicioByIdRutina,
-    postSeguimientoRutina,
-    getSeguimientoRutinaByIdMicroPlan,
-    putSeguimientoPlan,
+   
 };
 
-export default seguimientoService;
+export default seguimientoAvancesService;

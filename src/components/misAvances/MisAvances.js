@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import _ from 'lodash'
 import { Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
+import EjerciciosSeguidos from "./EjerciciosSeguidos";
+
 import AvisoSinRegistro from "./AvisoSinRegistro";
+
+import seguimientoAvancesService from "../../services/seguimiento.avances.service";
 
 function MisAvances() {
     const [tieneMedidasRegistradas, setTieneMedidasRegistradas] = useState(false);
-    const [tieneEjerciciosRegistrados, setTieneEjerciciosRegistrados] = useState(false);
+    const [tieneEjerciciosRegistrados, setTieneEjerciciosRegistrados] = useState(true);
+    const [avanceEjercicios, setAvanceEjercicios] = useState([]);
+    const { idCliente } = useParams();
+
     const paperStyle = {
         sx: {
             width: "100%",
@@ -20,6 +29,15 @@ function MisAvances() {
         sx: { textAlign: "center" },
     };
 
+    const fetchAvancesEjercicios = async () => {
+        const response = await seguimientoAvancesService.getSeguimientosUsuario(idCliente);
+        return _.sortBy(response,'nombre')
+    };
+    useEffect(() => {
+       fetchAvancesEjercicios()
+       .then((response)=>{setAvanceEjercicios(response)})
+    }, []);
+console.log(avanceEjercicios)
     return (
         <Container>
             <Paper {...paperStyle}>
@@ -35,11 +53,11 @@ function MisAvances() {
                     <AvisoSinRegistro tipo="medidas" />
                 )}
             </Paper>
-            <Paper {...paperStyle}>
+            <Paper {...paperStyle} sx={{mb:'10vh'}}>
                 <Typography {...titleStyle}>Avance de Ejercicios</Typography>
 
-                {tieneMedidasRegistradas ? (
-                    "Botones avance de medidas"
+                {tieneEjerciciosRegistrados ? (
+                    <EjerciciosSeguidos ejercicios={avanceEjercicios}/>
                 ) : (
                     <AvisoSinRegistro tipo="otro" />
                 )}
