@@ -22,7 +22,10 @@ import UserPage from './pages/UserPage'
 import Dash from './components/home/Dash'
 import MisMedidasPage from './pages/MisMedidasPage'
 import InformeTipoMedidaPage from './pages/InformeTipoMedidaPage'
+import MisAvancesPage from './pages/MisAvancesPage';
+
 import MisMedidasRedirect from './components/misMedidas/MisMedidasRedirect'
+import MisAvancesRedirect from './components/misAvances/MisAvancesRedirect'
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -101,10 +104,16 @@ console.log(token)
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
 
-                    {/* CORREGIR PERMISOS MIS MEDIDAS */}
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente" element={<MisMedidasPage/>} />}
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-Medidas/:idCliente/:idMedidas" element={<MisMedidasPage/>} />}
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente//informe/:tipoMedida" element={<InformeTipoMedidaPage/>} />}
+
+                    {/* CORREGIR PERMISOS MIS AVANCES */}
+
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-avances/" element={<MisAvancesRedirect/>} />}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-avances/:idCliente" element={<MisAvancesPage/>} />}
+
+
 
                     {token && <Route path="/mis-datos" element={<MisDatos/>} />}
 
