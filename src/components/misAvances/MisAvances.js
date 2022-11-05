@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import _ from "lodash";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
@@ -8,14 +8,16 @@ import EjerciciosSeguidos from "./EjerciciosSeguidos";
 
 import AvisoSinRegistro from "./AvisoSinRegistro";
 
-import seguimientoAvancesService from "../../services/seguimiento.avances.service";
+import { AvancesContext } from "../../context/AvancesContext";
+
+/* import seguimientoAvancesService from "../../services/seguimiento.avances.service"; */
 
 function MisAvances() {
     const [tieneMedidasRegistradas, setTieneMedidasRegistradas] = useState(true);
     const [tieneEjerciciosRegistrados, setTieneEjerciciosRegistrados] = useState(true);
-    const [avanceEjercicios, setAvanceEjercicios] = useState([]);
+    const { avanceEjercicios } = useContext(AvancesContext)
     const { idCliente } = useParams();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const paperStyle = {
         sx: {
@@ -27,6 +29,11 @@ function MisAvances() {
 
     const titleStyle = {
         variant: "h5",
+        sx: { textAlign: "center" },
+    };
+
+    const titleSeccionStyle = {
+        variant: "h4",
         sx: { textAlign: "center" },
     };
 
@@ -45,7 +52,7 @@ function MisAvances() {
         },
     };
 
-    const fetchAvancesEjercicios = async () => {
+    /* const fetchAvancesEjercicios = async () => {
         const response = await seguimientoAvancesService.getSeguimientosUsuario(idCliente);
         return _.sortBy(response, "nombre");
     };
@@ -53,12 +60,12 @@ function MisAvances() {
         fetchAvancesEjercicios().then((response) => {
             setAvanceEjercicios(response);
         });
-    }, []);
-    console.log(avanceEjercicios);
+    }, []); */
+    // console.log(avanceEjercicios);
     return (
         <Container>
             <Paper {...paperStyle}>
-                <Typography {...titleStyle} variant="h4">
+                <Typography {...titleSeccionStyle}>
                     Mis avances
                 </Typography>
             </Paper>
@@ -67,10 +74,12 @@ function MisAvances() {
                 <Typography {...titleStyle}>Avance de Medidas</Typography>
                 {tieneMedidasRegistradas ? (
                     <Box {...boxStyle}>
-                        <Button 
+                        <Button
                             {...buttonStyle}
-                            onClick={()=>{navigate('/mis-medidas/'+idCliente+'//informe/peso')}}
-                            >
+                            onClick={() => {
+                                navigate("/mis-medidas/" + idCliente + "//informe/peso");
+                            }}
+                        >
                             Peso
                         </Button>
                     </Box>

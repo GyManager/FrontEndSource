@@ -23,6 +23,7 @@ import Dash from './components/home/Dash'
 import MisMedidasPage from './pages/MisMedidasPage'
 import InformeTipoMedidaPage from './pages/InformeTipoMedidaPage'
 import MisAvancesPage from './pages/MisAvancesPage';
+import InformeEjercicioPage from './pages/InformeEjercicioPage';
 
 import MisMedidasRedirect from './components/misMedidas/MisMedidasRedirect'
 import MisAvancesRedirect from './components/misAvances/MisAvancesRedirect'
@@ -48,6 +49,7 @@ import MiPlanContextLayout from './context/MiPlanContextLayout';
 import PasswordChange from './components/password/PasswordChange';
 import HistoricoPlanes from './components/historicoPlanes/HistoricoPlanes';
 import MisDatos from './components/misDatos/MisDatos';
+import AvancesContextLayout from './context/AvancesContextLayout'
 
 function App() {
 
@@ -108,12 +110,11 @@ console.log(token)
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-Medidas/:idCliente/:idMedidas" element={<MisMedidasPage/>} />}
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente//informe/:tipoMedida" element={<InformeTipoMedidaPage/>} />}
 
-                    {/* CORREGIR PERMISOS MIS AVANCES */}
-
-                    {token.permisos.includes("mis-medidas") && <Route path="/mis-avances/" element={<MisAvancesRedirect/>} />}
-                    {token.permisos.includes("mis-medidas") && <Route path="/mis-avances/:idCliente" element={<MisAvancesPage/>} />}
-
-
+                    <Route element={<AvancesContextLayout/>} >
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/" element={<MisAvancesRedirect/>} />}
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente" element={<MisAvancesPage/>} />}
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente/ejercicio/:idEjercicio" element={<InformeEjercicioPage/>} />}
+                    </Route>
 
                     {token && <Route path="/mis-datos" element={<MisDatos/>} />}
 
