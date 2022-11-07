@@ -4,21 +4,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
-import EjerciciosSeguidos from "./EjerciciosSeguidos";
+import EjerciciosSeguidos from "./ButtonsEjerciciosSeguidos";
 
 import AvisoSinRegistro from "./AvisoSinRegistro";
 
 import { AvancesContext } from "../../context/AvancesContext";
 
-/* import seguimientoAvancesService from "../../services/seguimiento.avances.service"; */
+import seguimientoAvancesService from "../../services/seguimiento.avances.service";
+
+
 
 function MisAvances() {
     const [tieneMedidasRegistradas, setTieneMedidasRegistradas] = useState(true);
     const [tieneEjerciciosRegistrados, setTieneEjerciciosRegistrados] = useState(true);
-    const { avanceEjercicios } = useContext(AvancesContext)
+    const { avanceEjercicios, setAvanceEjercicios, fetchAvancesEjercicios } = useContext(AvancesContext)
     const { idCliente } = useParams();
     const navigate = useNavigate();
-
+    
     const paperStyle = {
         sx: {
             width: "100%",
@@ -26,17 +28,17 @@ function MisAvances() {
             px: 2,
         },
     };
-
+    
     const titleStyle = {
         variant: "h5",
         sx: { textAlign: "center" },
     };
-
+    
     const titleSeccionStyle = {
         variant: "h4",
         sx: { textAlign: "center" },
     };
-
+    
     const buttonStyle = {
         variant: "contained",
         sx: {
@@ -44,7 +46,7 @@ function MisAvances() {
             mx: 3,
         },
     };
-
+    
     const boxStyle = {
         sx: {
             display: "flex",
@@ -52,16 +54,12 @@ function MisAvances() {
         },
     };
 
-    /* const fetchAvancesEjercicios = async () => {
-        const response = await seguimientoAvancesService.getSeguimientosUsuario(idCliente);
-        return _.sortBy(response, "nombre");
-    };
     useEffect(() => {
         fetchAvancesEjercicios().then((response) => {
             setAvanceEjercicios(response);
         });
-    }, []); */
-    // console.log(avanceEjercicios);
+    }, []);
+
     return (
         <Container>
             <Paper {...paperStyle}>

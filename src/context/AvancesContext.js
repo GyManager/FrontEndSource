@@ -13,19 +13,17 @@ export const AvancesProvider = ({children}) => {
     const { idCliente } = useParams();
 
     const fetchAvancesEjercicios = async () => {
-        const response = await seguimientoAvancesService.getSeguimientosUsuario(idCliente);
+        const response = await seguimientoAvancesService.getSeguimientosUsuario(await idCliente);
         return _.sortBy(response, "nombre");
     };
-    useEffect(() => {
-        fetchAvancesEjercicios().then((response) => {
-            setAvanceEjercicios(response);
-        });
-    }, []);
+   
 
 
     return (
     <AvancesContext.Provider value={{
-        avanceEjercicios
+        avanceEjercicios,
+        setAvanceEjercicios,
+        fetchAvancesEjercicios,
     }}>
     {children}
     </AvancesContext.Provider>
