@@ -3,7 +3,7 @@ import React from 'react'
 import { Container } from '@mui/material/';
 import InformeEjercicio from '../components/misAvances/InformeEjercicio'
 
-export default function MisAvancesPage() {
+export default function InformeEjercicioPage() {
     return (
         <Container fixed
             sx={{

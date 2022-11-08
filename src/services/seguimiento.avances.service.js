@@ -71,7 +71,7 @@ const getSeguimientoRutinaByIdMicroPlan = (idPlan, idMicroPlan, seguimientosFilt
 */
 // api/cliente/263/seguimientos-ejercicios/
 const getSeguimientosUsuario = async (idCliente) => {
-    const URL = API_URL + "/cliente/" + idCliente + /seguimientos-ejercicios/;
+    const URL = API_URL + "/cliente/" + idCliente + "/seguimientos-ejercicios/";
 
     return axios
         .get(URL, {
@@ -86,6 +86,24 @@ const getSeguimientosUsuario = async (idCliente) => {
             handleError(error);
         });
 };
+
+const getHistoricoEjercicio = async (idCliente, idEjercicio) => {
+    // api/cliente/263/seguimientos-ejercicios/32
+    const URL = API_URL + "/cliente/" + idCliente + "/seguimientos-ejercicios/" + idEjercicio
+    return axios
+    .get(URL, {
+        headers: {
+            Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+        },
+    })
+    .then((response) => {
+        // console.log('response', response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        handleError(error)
+    });
+}
 
 const handleError = (error) => {
     if (error.response) {
@@ -106,6 +124,7 @@ const handleError = (error) => {
 };
 
 const seguimientoAvancesService = {
+    getHistoricoEjercicio,
     getSeguimientosUsuario,
    
 };

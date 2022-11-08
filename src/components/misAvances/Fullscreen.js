@@ -1,7 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { useFullscreen } from "rooks";
+import {SnackbarContext} from '../../context/SnackbarContext';
 
 export default function UseFullscreenTest() {
+  const { snackbarMessage,
+    removeSnackbar,
+    addSnackbar} = useContext(SnackbarContext)
   const fullscreenContainerRef = useRef(null);
   const {
     isFullscreenAvailable,
@@ -9,6 +13,7 @@ export default function UseFullscreenTest() {
     toggleFullscreen,
   } = useFullscreen({ target: fullscreenContainerRef });
 
+  addSnackbar('Disponga la pantalla de forma horizontal')
   return (
     <>
       <div ref={fullscreenContainerRef}>

@@ -17,7 +17,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 export const options = {
     responsive: true,
-    maintainAspectRatio:false,
+    maintainAspectRatio: false,
     plugins: {
         legend: {
             display: false,
@@ -33,6 +33,16 @@ export const options = {
 export default function Grafico(props) {
     let mediciones = _.orderBy(props.mediciones, "fecha");
 
+    const boxStyle =
+        props.tipoAjuste === "horizontal"
+            ? {
+                  width: "100%",
+                //   height:"90%"
+              }
+            : {
+                  height:"80vh"
+              };
+
     const labels = mediciones.map((unaMedicion) => {
         return unaMedicion.fecha;
     });
@@ -43,7 +53,7 @@ export default function Grafico(props) {
         labels,
         datasets: [
             {
-                label: "Peso",
+                label: props.label,
                 //   data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
                 data: mediciones.map((unaMedicion) => {
                     return unaMedicion.valor;
@@ -59,16 +69,19 @@ export default function Grafico(props) {
             sx={{
                 ml: 0,
                 mb: 0,
-                display: "flex",
-                flexDirection: "column",
+                // display: "flex",
+                // flexDirection: "column",
+                // justifyContent:'center',
                 overflowY: "clip",
                 overflowX: "scroll",
                 // justifyContent="flex-end" # DO NOT USE THIS WITH 'scroll'
             }}
         >
-            <Box sx={{ width: props.visualMode ? "900px" : null, height:'55vh'
-            //  maxHeight: "400px" 
-             }}>
+            {/* <Box sx={{ 
+                width: props.tipoAjuste==='horizontal' ? "100vw" : null, height:'55vh' */}
+            {/* maxHeight: "400px"  */}
+            {/* }}> */}
+            <Box {...boxStyle} display='flex' justifyContent='center' alignItems='center'>
                 <Line options={options} data={data} />
             </Box>
         </Box>
