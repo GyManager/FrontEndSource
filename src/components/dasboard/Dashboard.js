@@ -6,6 +6,8 @@ import { ErrorContext } from "../../context/ErrorContext";
 import logo from "../../images/logo.png";
 import dashboardService from "../../services/dashboard.service";
 import GraficoClientesPorEstados from "./graficos/GraficoClientesPorEstados";
+import GraficoFinalRutinaPorEstados from "./graficos/GraficoFinalRutinaPorEstados";
+import GraficoFinalRutinaPorFecha from "./graficos/GraficoFinalRutinaPorFecha";
 import GraficoNumerico from "./graficos/GraficoNumerico";
 
 export default function Dashboard() {
@@ -77,6 +79,29 @@ export default function Dashboard() {
                             data={loading ? 0 : data.cantidadClientesSinFinalizarDia}
                             loading={loading}
                             maxWidth={"33%"}
+                        />
+                    </Stack>
+                </Paper>
+            </Container>
+
+            <Container maxWidth="lg" disableGutters>
+                <Paper sx={{ mx: 1, p: 1, my: 2, minHeight: "40vh" }} elevation={2}>
+                    <Stack
+                        direction={"row"}
+                        sx={{ minHeight: "40vh" }}
+                        flexWrap="wrap"
+                        alignContent="center"
+                        justifyContent="center"
+                    >
+                        <GraficoFinalRutinaPorEstados
+                            data={loading ? 0 : data.estadoSeguimientoCounts}
+                            loading={loading}
+                            maxWidth={"50%"}
+                        />
+                        <GraficoFinalRutinaPorFecha
+                            data={loading ? 0 : data.countByFechaNotOlderThanDays}
+                            loading={loading}
+                            maxWidth={"50%"}
                         />
                     </Stack>
                 </Paper>
