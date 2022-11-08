@@ -45,6 +45,7 @@ import MiPlanContextLayout from './context/MiPlanContextLayout';
 import PasswordChange from './components/password/PasswordChange';
 import HistoricoPlanes from './components/historicoPlanes/HistoricoPlanes';
 import MisDatos from './components/misDatos/MisDatos';
+import Dashboard from './components/dasboard/Dashboard';
 
 function App() {
 
@@ -81,6 +82,8 @@ console.log(token)
                   <Routes >
                     <Route path="/" element={<h1>Logeado</h1>} />
 
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard" element={<Dashboard />} />}
+                    
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
                     {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
