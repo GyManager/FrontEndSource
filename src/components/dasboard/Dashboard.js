@@ -65,15 +65,18 @@ export default function Dashboard() {
                             title="Clientes con vencimiento de Matricula pronto"
                             data={loading ? 0 : data.cantidadClientesConMatriculaProximoVencimiento}
                             loading={loading}
+                            maxWidth={"33%"}
                         />
                         <GraficoClientesPorEstados
                             data={loading ? {} : data.countClienteEstado}
                             loading={loading}
+                            maxWidth={"33%"}
                         />
                         <GraficoNumerico
                             title="Clientes matriculados sin finalizar rutina en los ultimos dias"
                             data={loading ? 0 : data.cantidadClientesSinFinalizarDia}
                             loading={loading}
+                            maxWidth={"33%"}
                         />
                     </Stack>
                 </Paper>
