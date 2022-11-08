@@ -83,7 +83,10 @@ console.log(token)
                     <Route path="/" element={<h1>Logeado</h1>} />
 
                     {token.permisos.includes("gestion-clientes") && <Route path="/dashboard" element={<Dashboard />} />}
-                    
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/vencimientos" element={<UnderConstructionPage title={"Vencimientos"} />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/sin-finalizar" element={<UnderConstructionPage title={"Sin finalizar"}  />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/estado-seguimiento" element={<UnderConstructionPage title={"Estado seguimiento"}  />} />}
+
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
                     {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
