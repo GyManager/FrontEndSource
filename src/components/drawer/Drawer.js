@@ -113,6 +113,13 @@ export const menuItem = [
         descripcion: "Como esta mi matricula?",
     },
     {
+        text: "Dashboard",
+        icon: <Receipt />,
+        url: "/dashboard",
+        permiso: "gestion-clientes",
+        descripcion: "Reportes e indicadores",
+    },
+    {
         text: "Mis datos",
         icon: <Person/>,
         url: "/mis-datos",
