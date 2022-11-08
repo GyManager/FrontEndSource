@@ -30,7 +30,7 @@ export default function GraficoClientesPorEstados(props) {
           };
 
     return (
-        <GraficoContainer title="Clientes" maxWidth={props.maxWidth}>
+        <GraficoContainer title="Clientes" maxWidth={props.maxWidth} link={props.link}>
             {props.loading ? (
                 <Skeleton variant="circular" height={300} width={300} />
             ) : (

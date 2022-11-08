@@ -68,6 +68,7 @@ export default function Dashboard() {
                             data={loading ? 0 : data.cantidadClientesConMatriculaProximoVencimiento}
                             loading={loading}
                             maxWidth={"33%"}
+                            link={"/dashboard/vencimientos"}
                         />
                         <GraficoClientesPorEstados
                             data={loading ? {} : data.countClienteEstado}
@@ -79,6 +80,7 @@ export default function Dashboard() {
                             data={loading ? 0 : data.cantidadClientesSinFinalizarDia}
                             loading={loading}
                             maxWidth={"33%"}
+                            link={"/dashboard/sin-finalizar"}
                         />
                     </Stack>
                 </Paper>
@@ -97,6 +99,7 @@ export default function Dashboard() {
                             data={loading ? 0 : data.estadoSeguimientoCounts}
                             loading={loading}
                             maxWidth={"50%"}
+                            link={"/dashboard/estado-seguimiento"}
                         />
                         <GraficoFinalRutinaPorFecha
                             data={loading ? 0 : data.countByFechaNotOlderThanDays}

@@ -32,7 +32,7 @@ export default function GraficoFinalRutinaPorFecha(props) {
           };
 
     return (
-        <GraficoContainer title="Feedback de rutinas en los ultimos dias" maxWidth={props.maxWidth}>
+        <GraficoContainer title="Feedback de rutinas en los ultimos dias" maxWidth={props.maxWidth} link={props.link}>
             {props.loading ? (
                 <Skeleton variant="circular" height={300} width={300} />
             ) : (
