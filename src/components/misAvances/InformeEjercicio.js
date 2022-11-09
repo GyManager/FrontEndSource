@@ -14,13 +14,14 @@ function InformeEjercicio() {
         idCliente,
         idEjercicio,
         historicoEjercicio,
+        setHistoricoEjercicio
     } = useContext(AvancesContext);
     // const { idEjercicio } = useParams();
-    const [data, setData] = useState([{}]);
+    const [titulo, setTitulo] = useState("");
     const [medidaComboBox, setMedidaComboBox] = useState("Carga");
-    const [ejercicioComboBox, setEjercicioComboBox] = useState('');
-    const [dataByType, setDataByType] = useState([{}]);
-    const navigate = useNavigate()
+    const [ejercicioComboBox, setEjercicioComboBox] = useState("");
+    const [dataByType, setDataByType] = useState(()=>[{}]);
+    const navigate = useNavigate();
 
     const boxStyle = {
         sx: {
@@ -54,39 +55,41 @@ function InformeEjercicio() {
         },
     };
 
-    const ejercicioListadoComboBox = avanceEjercicios.map((unEjercicio)=>{return unEjercicio.nombre})
-
-    const generarData = (dataType) => {
+    const generarData = async (dataType, resHistoricoEjercicio) => {
+        if(resHistoricoEjercicio){
+            setHistoricoEjercicio(resHistoricoEjercicio)
+        }
         const dataName = dataType === "Carga" ? "cargaReal" : "tiempoReal";
-        const dataByTypeArray = historicoEjercicio.map((unRegistro) => {
+        console.log('resHistoricoEjercicio', await resHistoricoEjercicio)
+        const dataByTypeArray = await resHistoricoEjercicio.map((unRegistro) => {
             return {
                 fecha: unRegistro.fechaCarga,
                 valor: unRegistro[dataName],
             };
         });
-        setDataByType(dataByTypeArray);
+        console.log('dataByTypeArray',dataByTypeArray)
+        setDataByType(await dataByTypeArray);
     };
-    const ejercicioByName = async(event) => { 
-        const ejercicioBuscado = 
-        avanceEjercicios.filter((unEjercicio) => {
-            console.log(unEjercicio.nombre + ' | ' + event.target.value + ' | ' + (unEjercicio.nombre === event.target.value))
-        return unEjercicio.nombre === event.target.value})
-        return ejercicioBuscado
+
+    const ejercicioByName = async (event) => {
+        const ejercicioBuscado = avanceEjercicios.filter((unEjercicio) => {
+            return unEjercicio.nombre === event.target.value;
+        });
+        return ejercicioBuscado;
     };
 
     const ejercicioById = avanceEjercicios.filter((unEjercicio) => {
         return Number(unEjercicio.idEjercicio) === Number(idEjercicio);
     });
 
-    const handleChangeEjercicio = async(event) => {
-        await setEjercicioComboBox(await event.target.value)
-        const ejercicioSeleccionado = await ejercicioByName(event)
-        const idEjercicio = ejercicioSeleccionado[0].idEjercicio
-        navigate('/mis-avances/' + idCliente + '/ejercicio/' + idEjercicio   )
-        
-        await console.log('hoolaMundo',await ejercicioSeleccionado[0])
-
-    }
+    const handleChangeEjercicio = async (event) => {
+        await setEjercicioComboBox(await event.target.value);
+        const ejercicioSeleccionado = await ejercicioByName(event);
+        const idEjercicio = ejercicioSeleccionado[0].idEjercicio;
+        navigate("/mis-avances/" + idCliente + "/ejercicio/" + idEjercicio);
+        await console.log("hoolaMundo", await ejercicioSeleccionado[0]);
+        generarData(medidaComboBox);
+    };
 
     const handleChangeMedida = (event) => {
         setMedidaComboBox(event.target.value);
@@ -94,17 +97,34 @@ function InformeEjercicio() {
         generarData(event.target.value);
     };
 
-    const titulo = ejercicioById[0].nombre;
-
     console.log("ejercicioById", ejercicioById);
+    // useEffect(() => {
+    //     fetchHistoricoEjercicio(idCliente, idEjercicio).then(() => generarData("Carga"));
+    //     setTitulo(ejercicioById[0].nombre);
+    //     setEjercicioComboBox(titulo);
+    // }, [idCliente, idEjercicio, ejercicioComboBox]);
+
+    const cargaInicial = () => {
+        const ejercicioInicial = ejercicioById;
+        setTitulo(ejercicioInicial[0].nombre);
+        setEjercicioComboBox(ejercicioInicial[0].nombre);
+    };
+    // fetchHistoricoEjercicio(idCliente, idEjercicio).then(() => generarData("Carga"));
     useEffect(() => {
-        fetchHistoricoEjercicio(idCliente, idEjercicio).then(() => generarData("Carga"));
-        setEjercicioComboBox(titulo)
-    }, [idCliente, idEjercicio]);
-
-  
-
-    console.log("historicoEjercicio", historicoEjercicio);
+        generarData(medidaComboBox, historicoEjercicio)}
+    , [medidaComboBox]);
+    
+    useEffect(() => {
+        cargaInicial()
+        fetchHistoricoEjercicio(idCliente, idEjercicio)
+        .then((response) => {generarData(medidaComboBox, response)})}
+    , [idEjercicio]);
+    
+    useEffect(() => {
+        cargaInicial()
+        fetchHistoricoEjercicio(idCliente, idEjercicio)
+        .then((response) => {generarData("Carga", response)})}
+    , []);
 
     return (
         <Container>
@@ -119,7 +139,7 @@ function InformeEjercicio() {
                         {" "}
                         {titulo}
                     </Typography>
-                    <Box sx={{ display:'flex', justifyContent:'center',mt: 1 }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
                         <GenericComboBox
                             label="Ejercicio"
                             id="ejercicioComboBox"
@@ -128,22 +148,24 @@ function InformeEjercicio() {
                             editable={true}
                             valueForNone=""
                             labelForNone="Seleccionar ejercicio"
-                            values={avanceEjercicios.map((unEjercicio)=>{return unEjercicio.nombre})}
+                            values={avanceEjercicios.map((unEjercicio) => {
+                                return unEjercicio.nombre;
+                            })}
                             minWidth={250}
                         />
                     </Box>
-                    <Box sx={{ display:'flex', justifyContent:'center',mt: 1 }}>
-                    <GenericComboBox
-                        label="Medida"
-                        id="medidaComboBox"
-                        value={medidaComboBox}
-                        handleChange={handleChangeMedida}
-                        editable={true}
-                        valueForNone=""
-                        labelForNone="Seleccionar medida"
-                        values={["Tiempo", "Carga"]}
-                        minWidth={250}
-                    />
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
+                        <GenericComboBox
+                            label="Medida"
+                            id="medidaComboBox"
+                            value={medidaComboBox}
+                            handleChange={handleChangeMedida}
+                            editable={true}
+                            valueForNone=""
+                            labelForNone="Seleccionar medida"
+                            values={["Tiempo", "Carga"]}
+                            minWidth={250}
+                        />
                     </Box>
                 </Paper>
             </Box>

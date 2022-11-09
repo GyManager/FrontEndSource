@@ -24,12 +24,10 @@ export const AvancesProvider = ({ children }) => {
             await idCliente,
             await idEjercicio
         );
-        console.log('response', await response)
+        console.log('fetchHistoricoEjercicio response:', await response)
         const orderedResponse = await _.sortBy(await response, "fechaCarga");
-        // setHistoricoEjercicio(await _.sortBy(await response, "fechaCarga"))
         setHistoricoEjercicio(await orderedResponse)
-        // setHistoricoEjercicio('await orderedResponse')
-        return;
+        return orderedResponse;
     };
 
     return (

@@ -47,14 +47,11 @@ export default function Grafico(props) {
         return unaMedicion.fecha;
     });
 
-    // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
     const data = {
         labels,
         datasets: [
             {
                 label: props.label,
-                //   data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
                 data: mediciones.map((unaMedicion) => {
                     return unaMedicion.valor;
                 }),
