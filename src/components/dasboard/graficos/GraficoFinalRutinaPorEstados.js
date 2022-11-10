@@ -41,6 +41,7 @@ export default function GraficoFinalRutinaPorEstados(props) {
             maxWidth={props.maxWidth}
             link={props.link}
             hideTitle={props.hideTitle}
+            containerSxOverride={props.containerSxOverride}
         >
             {props.loading ? (
                 <Skeleton variant="circular" />

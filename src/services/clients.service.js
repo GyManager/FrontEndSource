@@ -82,6 +82,35 @@ const getClients = (fuzzySearch, pageSize, page) => {
     })
 }
 
+const getClientsConSeguimientos = (fuzzySearch, pageSize, page, cantidadDias, idEstadoSeguimientoList) => {
+    let params = {}
+    if(fuzzySearch !== undefined){
+        params['fuzzySearch'] = fuzzySearch;
+    }
+    if(pageSize !== undefined){
+        params['pageSize'] = pageSize;
+    }
+    if(page !== undefined){
+        params['page'] = page;
+    }
+    if(cantidadDias !== undefined){
+        params['cantidadDias'] = cantidadDias;
+    }
+    if(idEstadoSeguimientoList !== undefined){
+        params['idEstadoSeguimientoList'] = idEstadoSeguimientoList;
+    }
+    return axios.get(API_URL + '/clientes/ultimos-seguimientos', {
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+        },
+        params
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        return handleError(error);
+    })
+}
+
 
 const postClient = (cliente) => {
     return axios.post(API_URL + '/clientes', {...cliente}, 
@@ -199,7 +228,8 @@ const clientsService = {
     getClientById,
     putClient,
     deleteClientById,
-    postClient
+    postClient,
+    getClientsConSeguimientos
 }
 
 export default clientsService
