@@ -46,7 +46,7 @@ export default function ReporteEstadoSeguimientoTable(props) {
             }
         }
         fetchData();
-    }, [props.estadoSeguimientoSeleccionado]);
+    }, [props.estadoSeguimientoSeleccionado, page, pageSize]);
 
     const tableRows = clientes.map((cliente) => (
         <TableRow
