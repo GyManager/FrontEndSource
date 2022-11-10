@@ -6,11 +6,24 @@ const access_token = authService.getStoredSession()
     ? authService.getStoredSession().access_token
     : "";
 
-const getSummary = () => {
+const getSummary = (
+    dayCountVencimientoMatricula,
+    dayOverdueVencimientoMatricula,
+    dayCountSinFinalizarDia,
+    dayCountSeguimientoFinDiaEstado,
+    dayCountSeguimientoFinDiaFecha
+) => {
     const options = {
         headers: {
             Authorization: `Bearer ${access_token}`,
         },
+        params: {
+            dayCountVencimientoMatricula: dayCountVencimientoMatricula? dayCountVencimientoMatricula : 7,
+            dayOverdueVencimientoMatricula: dayOverdueVencimientoMatricula? dayOverdueVencimientoMatricula : 0,
+            dayCountSinFinalizarDia: dayCountSinFinalizarDia? dayCountSinFinalizarDia : 7,
+            dayCountSeguimientoFinDiaEstado: dayCountSeguimientoFinDiaEstado? dayCountSeguimientoFinDiaEstado : 7,
+            dayCountSeguimientoFinDiaFecha: dayCountSeguimientoFinDiaFecha? dayCountSeguimientoFinDiaFecha : 30
+        }
     };
 
     return axios
