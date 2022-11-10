@@ -40,11 +40,12 @@ export default function GraficoFinalRutinaPorEstados(props) {
             title="Feedback de rutinas en los ultimos dias"
             maxWidth={props.maxWidth}
             link={props.link}
+            hideTitle={props.hideTitle}
         >
             {props.loading ? (
                 <Skeleton variant="circular" />
             ) : (
-                <div style={{ position: "relative", margin: "auto", height: "87%" }}>
+                <div style={{ position: "relative", margin: "auto", height: props.hideTitle ? "98%" : "87%" }}>
                     <Bar
                         data={data}
                         options={{
