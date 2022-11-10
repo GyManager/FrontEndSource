@@ -35,6 +35,7 @@ import {
     Receipt,
     FolderCopy,
     SquareFoot,
+    Timeline
 } from "@mui/icons-material";
 
 import DrawerItem from "./DrawerItem";
@@ -97,6 +98,13 @@ export const menuItem = [
         url: "/usuarios",
         permiso: "gestion-usuarios",
         descripcion: "consulta los usuarios y modifica permisos",
+    },
+    {
+        text: "Mis Avances",
+        icon: <Timeline />,
+        url: "/mis-avances",
+        permiso: "mis-medidas",
+        descripcion: "Consulta tus avances en cada ejercicio",
     },
     {
         text: "Mis Medidas",

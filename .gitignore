@@ -164,3 +164,4 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij
 
 100%
+.vscode/settings.json
