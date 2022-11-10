@@ -5,12 +5,14 @@ import { ErrorContext } from "../../../context/ErrorContext";
 import dashboardService from "../../../services/dashboard.service";
 import GraficoFinalRutinaPorEstados from "../graficos/GraficoFinalRutinaPorEstados";
 import ReporteEstadoSeguimientoFiltros from "./ReporteEstadoSeguimientoFiltros";
+import ReporteEstadoSeguimientoModal from "./ReporteEstadoSeguimientoModal";
 import ReporteEstadoSeguimientoTable from "./ReporteEstadoSeguimientoTable";
 
 export default function ReporteEstadoSeguimiento() {
     const [data, setData] = useState(() => {});
     const [loading, setLoading] = useState(() => true);
     const [estadoSeguimientoSeleccionado, setEstadoSeguimientoSeleccionado] = useState(() => []);
+    const [clienteSeleccionado, setClienteSeleccionado] = useState();
     const { processErrorMessage } = useContext(ErrorContext);
 
     useEffect(() => {
@@ -53,10 +55,18 @@ export default function ReporteEstadoSeguimiento() {
                     <Grid item xs={12} md={12}>
                         <ReporteEstadoSeguimientoTable
                             estadoSeguimientoSeleccionado={estadoSeguimientoSeleccionado}
+                            setClienteSeleccionado={setClienteSeleccionado}
                         />
                     </Grid>
                 </Grid>
             </Paper>
+            {clienteSeleccionado !== null && clienteSeleccionado !== undefined && (
+                <ReporteEstadoSeguimientoModal
+                    open={clienteSeleccionado !== null && clienteSeleccionado !== undefined}
+                    handleClose={() => setClienteSeleccionado(null)}
+                    {...clienteSeleccionado}
+                />
+            )}
         </Container>
     );
 }

@@ -49,7 +49,12 @@ export default function ReporteEstadoSeguimientoTable(props) {
     }, [props.estadoSeguimientoSeleccionado]);
 
     const tableRows = clientes.map((cliente) => (
-        <TableRow hover key={cliente.idCliente} sx={{ cursor: "pointer" }}>
+        <TableRow
+            hover
+            key={cliente.idCliente}
+            sx={{ cursor: "pointer" }}
+            onClick={() => props.setClienteSeleccionado(cliente)}
+        >
             {!isMediumDevice && (
                 <TableCell>
                     <AvatarProfilePic idUsuario={cliente.usuario.idUsuario} />

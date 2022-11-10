@@ -69,6 +69,27 @@ const getSeguimientoRutinaByIdMicroPlan = (idPlan, idMicroPlan, seguimientosFilt
         });
 };
 
+const getSeguimientoRutinaByIdCliente = (idCliente, cantidadDias) => {
+    let params = {};
+    if (cantidadDias !== undefined) {
+        params["cantidadDias"] = cantidadDias;
+    }
+
+    return axios
+        .get(`${API_URL}/clientes/${idCliente}/seguimientos-rutinas`, {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+            params,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina) => {
     return axios
         .post(
@@ -128,7 +149,8 @@ const seguimientoService = {
     getSeguimientoEjercicioByIdRutina,
     postSeguimientoRutina,
     getSeguimientoRutinaByIdMicroPlan,
-    putSeguimientoPlan
+    putSeguimientoPlan,
+    getSeguimientoRutinaByIdCliente,
 };
 
 export default seguimientoService;
