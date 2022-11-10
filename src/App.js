@@ -47,7 +47,6 @@ import HistoricoPlanes from './components/historicoPlanes/HistoricoPlanes';
 import MisDatos from './components/misDatos/MisDatos';
 import Dashboard from './components/dasboard/Dashboard';
 import ReporteEstadoSeguimiento from './components/dasboard/reportes/ReporteEstadoSeguimiento';
-import ReporteNumerico from './components/dasboard/reportes/numericos/ReporteNumerico';
 import ReporteClientesVencimientoPronto from './components/dasboard/reportes/numericos/ReporteClientesVencimientoPronto';
 import ReporteClientesSinFinalizar from './components/dasboard/reportes/numericos/ReporteClientesSinFinalizar';
 
