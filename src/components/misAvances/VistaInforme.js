@@ -1,13 +1,14 @@
 import { Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFullscreen, useWindowSize } from "rooks";
 import Grafico from "./Grafico";
 import VistaInformeButtons from "./VistaInformeButtons";
+import {ScreenRotation} from '@mui/icons-material'
 
 function VistaInforme(props) {
-    const [visualMode, setVisualMode] = useState(false);
-    const [tipoAjuste, setTipoAjuste] = useState("horizontal");
+    // const [tipoAjuste, setTipoAjuste] = useState("horizontal");
+    const [isExpanded, setIsExpanded] = useState(false);
     const fullscreenContainerRef = useRef(null);
     const { innerWidth, innerHeight, outerHeight, outerWidth } = useWindowSize();
     const isWideScreen = innerWidth > innerHeight;
@@ -15,10 +16,7 @@ function VistaInforme(props) {
         target: fullscreenContainerRef,
     });
 
-    // console.log(props.data[0].nombre)
-    // const nombreEjercicio = props.title[0].nombre
-    console.log(props.title);
-    const titulo = props.title;
+    const alturaPaper = (innerHeight - 120) + 'px'
 
     const paperStyle = {
         sx: {
@@ -27,7 +25,7 @@ function VistaInforme(props) {
             justifyContent: "center",
             mt: 2,
             width: isFullscreenEnabled ? "100vw" : "100%",
-            height: isFullscreenEnabled ? "100vh" : "100%",
+            height: isFullscreenEnabled ? "100vh" : alturaPaper,
             backgroundColor: "lightGrey",
         },
     };
@@ -35,40 +33,48 @@ function VistaInforme(props) {
     const graficoParametros = {
         mediciones: props.data,
         label: props.label,
-        visualMode: visualMode,
-        tipoAjuste: tipoAjuste,
+        isFullscreenEnabled: isFullscreenEnabled,
+        isExpanded: isExpanded,
     };
 
     const buttonsParameters = {
         toggleFullscreen: toggleFullscreen,
         isFullscreenEnabled: isFullscreenEnabled,
-        setTipoAjuste: setTipoAjuste,
-        tipoAjuste: tipoAjuste,
+        setIsExpanded: setIsExpanded,
+        isExpanded: isExpanded,
+        isWideScreen: isWideScreen
     };
     return (
-        <Paper>
+        <Box>
             <div ref={fullscreenContainerRef}>
                 <Paper {...paperStyle}>
                     {isFullscreenEnabled ? (
                         isWideScreen ? (
                             <>
-                                <VistaInformeButtons {...buttonsParameters} />
+                            <Typography>{props.title}</Typography>
+                                <VistaInformeButtons {...buttonsParameters} fullscreenButton fixButton />
                                 <Grafico {...graficoParametros} />
                             </>
                         ) : (
-                            <Typography variant="h6" textAlign="center">
-                                Por favor gire la pantalla
-                            </Typography>
+                            <>
+                                <VistaInformeButtons {...buttonsParameters}  fullscreenButton/>
+                                <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', }}>
+                                <Typography variant="h6" textAlign="center">
+                                    Por favor gire la pantalla  <p>
+                                    <ScreenRotation fontSize="large"/></p>
+                                </Typography>
+                                </Box>
+                            </>
                         )
                     ) : (
                         <>
-                            <VistaInformeButtons {...buttonsParameters} />
+                            <VistaInformeButtons {...buttonsParameters} fullscreenButton fixButton/>
                             <Grafico {...graficoParametros} />
                         </>
                     )}
                 </Paper>
             </div>
-        </Paper>
+        </Box>
     );
 }
 

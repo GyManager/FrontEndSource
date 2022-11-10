@@ -31,17 +31,33 @@ export const options = {
 };
 
 export default function Grafico(props) {
+
+
+    const anchoExpandido = props.mediciones.length * 1000 + "px";
+    console.log('anchoExpandido',anchoExpandido)
+    const fullAnchoExpandido = props.mediciones.length * 400 + "px";
+    console.log("fullAnchoExpandido", fullAnchoExpandido);
+
     let mediciones = _.orderBy(props.mediciones, "fecha");
 
-    const boxStyle =
-        props.tipoAjuste === "horizontal"
-            ? {
-                  width: "100%",
-                //   height:"90%"
-              }
-            : {
-                  height:"80vh"
-              };
+    const boxStyle = props.isFullscreenEnabled
+        ? props.isExpanded
+            ? 
+            {width: {fullAnchoExpandido},
+            height: "100%",}
+            : 
+            {height: "95%",}
+
+
+
+        : props.isExpanded
+        ? {
+              width: {anchoExpandido} ,
+              height: "95%",
+          }
+        : {
+              height: "95%",
+          };
 
     const labels = mediciones.map((unaMedicion) => {
         return unaMedicion.fecha;
@@ -74,12 +90,15 @@ export default function Grafico(props) {
                 // justifyContent="flex-end" # DO NOT USE THIS WITH 'scroll'
             }}
         >
-            {/* <Box sx={{ 
-                width: props.tipoAjuste==='horizontal' ? "100vw" : null, height:'55vh' */}
-            {/* maxHeight: "400px"  */}
-            {/* }}> */}
-            <Box {...boxStyle} display='flex' justifyContent='center' alignItems='center'>
-                <Line options={options} data={data} />
+            <Box
+                sx={{
+                    width: props.isExpanded ? "400%" : null,
+                    height: "70vh",
+                }}
+            >
+                <Box {...boxStyle} display="flex" justifyContent="center" alignItems="center">
+                    <Line options={options} data={data} />
+                </Box>
             </Box>
         </Box>
     );

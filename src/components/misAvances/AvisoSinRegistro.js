@@ -1,7 +1,6 @@
 import { React } from "react";
-import { Typography } from "@mui/material";
-import {ArrowRightAlt, Warning  } from "@mui/icons-material/";
-import { flexbox } from "@mui/system";
+import { Box, Typography } from "@mui/material";
+import { ArrowRightAlt, Warning } from "@mui/icons-material/";
 
 const AvisoSinRegistro = (props) => {
     const textStyle = {
@@ -10,29 +9,45 @@ const AvisoSinRegistro = (props) => {
             textAlign: "center",
         },
     };
+
+    const boxWithArrowStyle = {
+        sx: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+        },
+    };
     return (
-        <>
-        <Typography sx={{textAlign:'center'}}>
-            <Warning fontSize="large" color='warning'/>
+        <Box sx={{ p: 1 }}>
+            <Typography sx={{ textAlign: "center" }}>
+                <Warning fontSize="large" color="warning" />
             </Typography>
             {props.tipo === "medidas" ? (
                 <Typography {...textStyle}>
                     <p>No tenes ninguna medida registrada.</p>
-                    <p>Para registrar tus medidas accede a la opcion
-                    de "Mis medidas" desde la pantalla principal.</p>
+                    <p>
+                        Para registrar tus medidas accede a la opcion de "Mis medidas" desde la
+                        pantalla principal.
+                    </p>
                 </Typography>
             ) : (
                 <Typography {...textStyle}>
-                <p>No tenes registrado tus avances en ningun ejercicio.</p>
-                <p> Para registrar tus avances podes hacerlo desde cada rutina 
-                que estes haciendo.</p>
-                <p
-                sx={{display:'flex', flexDirection:'row', justifyContent:'center' }}
-                ><ArrowRightAlt/> Seleccionando el ejercicio</p> 
-                <p><ArrowRightAlt/>Opcion "ANOTAR RESULTADOS"</p>
+                    <p>No tenes registrado tus avances en ningun ejercicio.</p>
+                    <p>
+                        {" "}
+                        Para registrar tus avances podes hacerlo desde cada rutina que estes
+                        haciendo.
+                    </p>
+                    <Box {...boxWithArrowStyle}>
+                        <ArrowRightAlt /> <Typography>Seleccionando el ejercicio</Typography>
+                    </Box>
+                    <Box {...boxWithArrowStyle}>
+                        <ArrowRightAlt /> <Typography>Opcion "ANOTAR RESULTADOS"</Typography>
+                    </Box>
                 </Typography>
             )}
-        </>
+        </Box>
     );
 };
 export default AvisoSinRegistro;

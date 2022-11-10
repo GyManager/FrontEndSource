@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { createContext } from "react";
 import { useParams } from "react-router-dom";
 import _ from "lodash";
 
 import seguimientoAvancesService from "../services/seguimiento.avances.service";
+import medidasService from "../services/medidas.service";
 
 export const AvancesContext = createContext();
 
@@ -30,6 +31,13 @@ export const AvancesProvider = ({ children }) => {
         return orderedResponse;
     };
 
+    const fetchHistoricoPeso = async () => {
+        const response = await medidasService.getMedidasSummary(idCliente,'peso')
+        console.log(response)
+        return response
+
+    }
+
     return (
         <AvancesContext.Provider
             value={{
@@ -41,6 +49,7 @@ export const AvancesProvider = ({ children }) => {
                 setAvanceEjercicios,
                 fetchAvancesEjercicios,
                 fetchHistoricoEjercicio,
+                fetchHistoricoPeso,
             }}
         >
             {children}

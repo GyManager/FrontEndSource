@@ -10,17 +10,14 @@ import AvisoSinRegistro from "./AvisoSinRegistro";
 
 import { AvancesContext } from "../../context/AvancesContext";
 
-import seguimientoAvancesService from "../../services/seguimiento.avances.service";
-
-
-
 function MisAvances() {
     const [tieneMedidasRegistradas, setTieneMedidasRegistradas] = useState(true);
     const [tieneEjerciciosRegistrados, setTieneEjerciciosRegistrados] = useState(true);
-    const { avanceEjercicios, setAvanceEjercicios, fetchAvancesEjercicios } = useContext(AvancesContext)
+    const { avanceEjercicios, setAvanceEjercicios, fetchAvancesEjercicios, fetchHistoricoPeso } =
+        useContext(AvancesContext);
     const { idCliente } = useParams();
     const navigate = useNavigate();
-    
+
     const paperStyle = {
         sx: {
             width: "100%",
@@ -28,47 +25,55 @@ function MisAvances() {
             px: 2,
         },
     };
-    
+
     const titleStyle = {
         variant: "h5",
         sx: { textAlign: "center" },
     };
-    
+
     const titleSeccionStyle = {
         variant: "h4",
         sx: { textAlign: "center" },
     };
-    
+
     const buttonStyle = {
-        variant: "contained",
+        variant: "outlined",
         sx: {
             mb: 2,
             mx: 3,
+            minWidth:'220px',
+            width:'50%',
         },
     };
-    
+
     const boxStyle = {
         sx: {
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
         },
     };
 
     useEffect(() => {
         fetchAvancesEjercicios().then((response) => {
             setAvanceEjercicios(response);
+            if (response.length === 0){
+                setTieneEjerciciosRegistrados(false)}
         });
+        fetchHistoricoPeso().then((response) => {
+            if (response.medidasClienteHistory.length === 0){
+                setTieneMedidasRegistradas(false)
+            }
+        })
     }, []);
 
     return (
         <Container>
             <Paper {...paperStyle}>
-                <Typography {...titleSeccionStyle}>
-                    Mis avances
-                </Typography>
+                <Typography {...titleSeccionStyle}>Mis avances</Typography>
             </Paper>
 
-            <Paper {...paperStyle}>
+            <Paper {...paperStyle} display="flex" flexDirection="column" justyfyContent="center">
                 <Typography {...titleStyle}>Avance de Medidas</Typography>
                 {tieneMedidasRegistradas ? (
                     <Box {...boxStyle}>

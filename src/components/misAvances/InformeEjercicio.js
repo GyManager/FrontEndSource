@@ -14,13 +14,13 @@ function InformeEjercicio() {
         idCliente,
         idEjercicio,
         historicoEjercicio,
-        setHistoricoEjercicio
+        setHistoricoEjercicio,
     } = useContext(AvancesContext);
     // const { idEjercicio } = useParams();
     const [titulo, setTitulo] = useState("");
     const [medidaComboBox, setMedidaComboBox] = useState("Carga");
     const [ejercicioComboBox, setEjercicioComboBox] = useState("");
-    const [dataByType, setDataByType] = useState(()=>[{}]);
+    const [dataByType, setDataByType] = useState(() => [{}]);
     const navigate = useNavigate();
 
     const boxStyle = {
@@ -34,7 +34,7 @@ function InformeEjercicio() {
         sx: {
             width: "100%",
             mb: 3,
-            px: 2,
+            // px: 2,
         },
     };
     const titleSeccionStyle = {
@@ -56,18 +56,18 @@ function InformeEjercicio() {
     };
 
     const generarData = async (dataType, resHistoricoEjercicio) => {
-        if(resHistoricoEjercicio){
-            setHistoricoEjercicio(resHistoricoEjercicio)
+        if (resHistoricoEjercicio) {
+            setHistoricoEjercicio(resHistoricoEjercicio);
         }
         const dataName = dataType === "Carga" ? "cargaReal" : "tiempoReal";
-        console.log('resHistoricoEjercicio', await resHistoricoEjercicio)
+        console.log("resHistoricoEjercicio", await resHistoricoEjercicio);
         const dataByTypeArray = await resHistoricoEjercicio.map((unRegistro) => {
             return {
                 fecha: unRegistro.fechaCarga,
                 valor: unRegistro[dataName],
             };
         });
-        console.log('dataByTypeArray',dataByTypeArray)
+        console.log("dataByTypeArray", dataByTypeArray);
         setDataByType(await dataByTypeArray);
     };
 
@@ -87,7 +87,6 @@ function InformeEjercicio() {
         const ejercicioSeleccionado = await ejercicioByName(event);
         const idEjercicio = ejercicioSeleccionado[0].idEjercicio;
         navigate("/mis-avances/" + idCliente + "/ejercicio/" + idEjercicio);
-        await console.log("hoolaMundo", await ejercicioSeleccionado[0]);
         generarData(medidaComboBox);
     };
 
@@ -97,34 +96,29 @@ function InformeEjercicio() {
         generarData(event.target.value);
     };
 
-    console.log("ejercicioById", ejercicioById);
-    // useEffect(() => {
-    //     fetchHistoricoEjercicio(idCliente, idEjercicio).then(() => generarData("Carga"));
-    //     setTitulo(ejercicioById[0].nombre);
-    //     setEjercicioComboBox(titulo);
-    // }, [idCliente, idEjercicio, ejercicioComboBox]);
-
     const cargaInicial = () => {
         const ejercicioInicial = ejercicioById;
         setTitulo(ejercicioInicial[0].nombre);
         setEjercicioComboBox(ejercicioInicial[0].nombre);
     };
-    // fetchHistoricoEjercicio(idCliente, idEjercicio).then(() => generarData("Carga"));
+
     useEffect(() => {
-        generarData(medidaComboBox, historicoEjercicio)}
-    , [medidaComboBox]);
-    
+        generarData(medidaComboBox, historicoEjercicio);
+    }, [medidaComboBox]);
+
     useEffect(() => {
-        cargaInicial()
-        fetchHistoricoEjercicio(idCliente, idEjercicio)
-        .then((response) => {generarData(medidaComboBox, response)})}
-    , [idEjercicio]);
-    
+        cargaInicial();
+        fetchHistoricoEjercicio(idCliente, idEjercicio).then((response) => {
+            generarData(medidaComboBox, response);
+        });
+    }, [idEjercicio]);
+
     useEffect(() => {
-        cargaInicial()
-        fetchHistoricoEjercicio(idCliente, idEjercicio)
-        .then((response) => {generarData("Carga", response)})}
-    , []);
+        cargaInicial();
+        fetchHistoricoEjercicio(idCliente, idEjercicio).then((response) => {
+            generarData("Carga", response);
+        });
+    }, []);
 
     return (
         <Container>
@@ -172,7 +166,10 @@ function InformeEjercicio() {
             <Box>
                 <Paper {...paperStyle}>
                     {/* <VistaInforme title={ejercicioById} data={historicoEjercicio} /> */}
-                    <VistaInforme title={titulo} data={dataByType} label={medidaComboBox} />
+                    <VistaInforme 
+                    title={'Ejercicio: ' + titulo + ' - Medida: ' + medidaComboBox} 
+                    data={dataByType} 
+                    label={medidaComboBox} />
                 </Paper>
             </Box>
         </Container>
