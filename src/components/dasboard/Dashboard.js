@@ -1,4 +1,4 @@
-import { Avatar, Container, Paper, Stack, Typography } from "@mui/material";
+import { Avatar, Container, Grid, Paper, Stack, Typography } from "@mui/material";
 import { AxiosError } from "axios";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { ErrorContext } from "../../context/ErrorContext";
@@ -32,21 +32,9 @@ export default function Dashboard() {
     return (
         <Fragment>
             <Container maxWidth="md" disableGutters>
-                <Paper sx={{ mx: 1, p: 1, my: 2 }} elevation={2}>
+                <Paper sx={{ mx: 1, p: 1 }} elevation={2}>
                     <Stack direction="row" justifyContent="center" alignItems="center">
-                        <Avatar
-                            alt="Logo"
-                            src={logo}
-                            sx={{
-                                mr: 2,
-                                width: "15vw",
-                                height: "15vw",
-                                minWidth: "130px",
-                                minHeight: "130px",
-                                maxWidth: "140px",
-                                maxHeight: "140px",
-                            }}
-                        />
+                        <Avatar alt="Logo" src={logo} sx={{ height: 50, width: 50, mr: 3 }} />
                         <Typography variant="h4" align="center">
                             Dashboard CorE
                         </Typography>
@@ -54,60 +42,44 @@ export default function Dashboard() {
                 </Paper>
             </Container>
 
-            <Container maxWidth="lg" disableGutters>
-                <Paper sx={{ mx: 1, p: 1, my: 2, minHeight: "40vh" }} elevation={2}>
-                    <Stack
-                        direction={"row"}
-                        sx={{ minHeight: "40vh" }}
-                        flexWrap="wrap"
-                        alignContent="center"
-                        justifyContent="center"
-                    >
+            <Container maxWidth="lg" disableGutters sx={{ mb: 1 }}>
+                <Grid container spacing={1}>
+                    <Grid item xs={12} md={4}>
                         <GraficoNumerico
                             title="Clientes con vencimiento de Matricula pronto"
                             data={loading ? 0 : data.cantidadClientesConMatriculaProximoVencimiento}
                             loading={loading}
-                            maxWidth={"33%"}
                             link={"/dashboard/vencimientos"}
                         />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
                         <GraficoClientesPorEstados
                             data={loading ? {} : data.countClienteEstado}
                             loading={loading}
-                            maxWidth={"33%"}
                         />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
                         <GraficoNumerico
                             title="Clientes matriculados sin finalizar rutina en los ultimos dias"
                             data={loading ? 0 : data.cantidadClientesSinFinalizarDia}
                             loading={loading}
-                            maxWidth={"33%"}
                             link={"/dashboard/sin-finalizar"}
                         />
-                    </Stack>
-                </Paper>
-            </Container>
-
-            <Container maxWidth="lg" disableGutters>
-                <Paper sx={{ mx: 1, p: 1, my: 2, minHeight: "40vh" }} elevation={2}>
-                    <Stack
-                        direction={"row"}
-                        sx={{ minHeight: "40vh" }}
-                        flexWrap="wrap"
-                        alignContent="center"
-                        justifyContent="center"
-                    >
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <GraficoFinalRutinaPorEstados
                             data={loading ? 0 : data.estadoSeguimientoCounts}
                             loading={loading}
-                            maxWidth={"50%"}
                             link={"/dashboard/estado-seguimiento"}
                         />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <GraficoFinalRutinaPorFecha
                             data={loading ? 0 : data.countByFechaNotOlderThanDays}
                             loading={loading}
-                            maxWidth={"50%"}
                         />
-                    </Stack>
-                </Paper>
+                    </Grid>
+                </Grid>
             </Container>
         </Fragment>
     );

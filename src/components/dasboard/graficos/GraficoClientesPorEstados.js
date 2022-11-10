@@ -32,13 +32,11 @@ export default function GraficoClientesPorEstados(props) {
     return (
         <GraficoContainer title="Clientes" maxWidth={props.maxWidth} link={props.link}>
             {props.loading ? (
-                <Skeleton variant="circular" height={300} width={300} />
+                <Skeleton variant="circular" />
             ) : (
-                <Pie
-                    data={data}
-                    height={325}
-                    options={{ maintainAspectRatio: false, responsive: true }}
-                />
+                <div style={{ position: "relative", margin: "auto", height: "87%" }}>
+                    <Pie data={data} options={{ responsive: true, maintainAspectRatio: false }} />
+                </div>
             )}
         </GraficoContainer>
     );

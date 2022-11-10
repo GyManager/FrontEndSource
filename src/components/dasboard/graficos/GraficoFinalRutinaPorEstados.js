@@ -36,19 +36,24 @@ export default function GraficoFinalRutinaPorEstados(props) {
           };
 
     return (
-        <GraficoContainer title="Feedback de rutinas en los ultimos dias" maxWidth={props.maxWidth} link={props.link}>
+        <GraficoContainer
+            title="Feedback de rutinas en los ultimos dias"
+            maxWidth={props.maxWidth}
+            link={props.link}
+        >
             {props.loading ? (
-                <Skeleton variant="circular" height={300} width={300} />
+                <Skeleton variant="circular" />
             ) : (
-                <Bar
-                    data={data}
-                    height={325}
-                    options={{
-                        maintainAspectRatio: false,
-                        responsive: true,
-                        plugins: { legend: { display: false, position: "top" } },
-                    }}
-                />
+                <div style={{ position: "relative", margin: "auto", height: "87%" }}>
+                    <Bar
+                        data={data}
+                        options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false, position: "top" } },
+                        }}
+                    />
+                </div>
             )}
         </GraficoContainer>
     );

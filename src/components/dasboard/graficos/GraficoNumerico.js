@@ -4,15 +4,21 @@ import GraficoContainer from "./GraficoContainer";
 export default function GraficoNumerico(props) {
     return (
         <GraficoContainer title={props.title} maxWidth={props.maxWidth} link={props.link}>
-            <Stack alignItems="center" sx={{ minHeight: "100%", height: "100%", py: 8.9 }}>
-                {props.loading ? (
-                    <Skeleton variant="circular" height={145} width={145}/>
-                ) : (
-                    <Avatar sx={{ bgcolor: "rgba(54, 162, 235, 0.8)", width: 150, height: 150 }}>
-                        <Typography variant="h3">{props.data}</Typography>
-                    </Avatar>
-                )}
-            </Stack>
+            {props.loading ? (
+                <Skeleton variant="circular" />
+            ) : (
+                <Avatar
+                    sx={{
+                        bgcolor: "rgba(54, 162, 235, 0.8)",
+                        width: { xs: "30vh", md: "15vh" },
+                        height: { xs: "30vh", md: "15vh" },
+                        m: "auto",
+                        my: "5vh",
+                    }}
+                >
+                    <Typography variant="h3">{props.data}</Typography>
+                </Avatar>
+            )}
         </GraficoContainer>
     );
 }
