@@ -11,6 +11,7 @@ import {
     Receipt,
     FolderCopy,
     SquareFoot,
+    Timeline,
 } from "@mui/icons-material";
 
 import { Container } from "@mui/system";
@@ -19,7 +20,6 @@ import logo from "../../images/logo.png";
 import { menuItem } from "../drawer/Drawer";
 import clientsService from "../../services/users.service";
 import matriculasService from "../../services/matriculas.service";
-import usersHooks from "../../services/usersHooks";
 import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
 import { UserContext } from "../../context/UserContext";
 // import useFetchActiveUserMatriculas from "../../services/usersHooks";
@@ -129,6 +129,11 @@ function Dash(props) {
             text: "Usuarios",
             icon: <AdminPanelSettings {...iconStyle} />,
         },
+        {
+            text: "Mis Avances",
+            icon: <Timeline {...iconStyle} />,
+        },
+
         {
             text: "Mis Medidas",
             icon: <SquareFoot {...iconStyle}/>,

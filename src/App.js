@@ -22,7 +22,11 @@ import UserPage from './pages/UserPage'
 import Dash from './components/home/Dash'
 import MisMedidasPage from './pages/MisMedidasPage'
 import InformeTipoMedidaPage from './pages/InformeTipoMedidaPage'
+import MisAvancesPage from './pages/MisAvancesPage';
+import InformeEjercicioPage from './pages/InformeEjercicioPage';
+
 import MisMedidasRedirect from './components/misMedidas/MisMedidasRedirect'
+import MisAvancesRedirect from './components/misAvances/MisAvancesRedirect'
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -49,6 +53,7 @@ import Dashboard from './components/dasboard/Dashboard';
 import ReporteEstadoSeguimiento from './components/dasboard/reportes/ReporteEstadoSeguimiento';
 import ReporteClientesVencimientoPronto from './components/dasboard/reportes/numericos/ReporteClientesVencimientoPronto';
 import ReporteClientesSinFinalizar from './components/dasboard/reportes/numericos/ReporteClientesSinFinalizar';
+import AvancesContextLayout from './context/AvancesContextLayout'
 
 function App() {
 
@@ -110,10 +115,15 @@ console.log(token)
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
 
 
-                    {/* CORREGIR PERMISOS MIS MEDIDAS */}
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente" element={<MisMedidasPage/>} />}
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-Medidas/:idCliente/:idMedidas" element={<MisMedidasPage/>} />}
                     {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente//informe/:tipoMedida" element={<InformeTipoMedidaPage/>} />}
+
+                    <Route element={<AvancesContextLayout/>} >
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/" element={<MisAvancesRedirect/>} />}
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente" element={<MisAvancesPage/>} />}
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente/ejercicio/:idEjercicio" element={<InformeEjercicioPage/>} />}
+                    </Route>
 
                     {token && <Route path="/mis-datos" element={<MisDatos/>} />}
 
