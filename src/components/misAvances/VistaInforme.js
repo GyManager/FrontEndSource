@@ -15,6 +15,7 @@ function VistaInforme(props) {
     const { isFullscreenAvailable, isFullscreenEnabled, toggleFullscreen } = useFullscreen({
         target: fullscreenContainerRef,
     });
+    const [showButton, setShowButton] = useState(false);
 
     const alturaPaper = innerHeight - 120 + "px";
 
@@ -28,7 +29,7 @@ function VistaInforme(props) {
             height: isFullscreenEnabled ? "100vh" : null,
             px: 1,
             py: 2,
-            backgroundColor: "lightGrey",
+            backgroundColor: "white",
         },
     };
 
@@ -45,9 +46,18 @@ function VistaInforme(props) {
         setIsExpanded: setIsExpanded,
         isExpanded: isExpanded,
         isWideScreen: isWideScreen,
+        showButton: showButton,
     };
+
+    const handleMouseMove = () => {
+        if (!showButton) {
+            setShowButton(true);
+            setTimeout(()=> {setShowButton(false)}, 2300);
+        }
+    };
+
     return (
-        <Box>
+        <Box onMouseMove={handleMouseMove} onTouchMove={handleMouseMove}>
             <div ref={fullscreenContainerRef}>
                 <Paper {...paperStyle}>
                     {isFullscreenEnabled ? (

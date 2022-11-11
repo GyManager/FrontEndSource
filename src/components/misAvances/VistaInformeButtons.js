@@ -21,7 +21,7 @@ function VistaInformeButtons(props) {
     );
 
     return (
-        <Box sx={{ display: "flex", justifyContent: "flex-end", px: 1 }}>
+        <Box sx={{ display: props.showButton? "flex" : 'none', justifyContent: "flex-end", px: 1 }}>
             {props.fullscreenButton ? (
                 <>
                     <Tooltip title={fullscreenTooltipTitle} placement="bottom" sx={{ mx: 2 }}>
@@ -37,6 +37,7 @@ function VistaInformeButtons(props) {
                                 bottom: 23,
                                 right: 10,
                                 display: { md: "none", lg: "none", xl: "none" },
+                                
                             }}
                         >
                             {fullscreenIcon}
