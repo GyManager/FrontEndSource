@@ -222,6 +222,7 @@ function Client() {
               handleCancelEdit={handleCancelEdit}
               clienteId={clienteId}
               handleSubmit={formik.handleSubmit}
+              hideDelete={clienteEstado === "Desactivado"}
             />
           </div>
         </Stack>
@@ -436,6 +437,7 @@ function Client() {
           handleCancelEdit={handleCancelEdit}
           clienteId={clienteId}
           handleSubmit={formik.handleSubmit}
+          hideDelete={clienteEstado === "Desactivado"}
         />
       </form>
 
