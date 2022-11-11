@@ -17,7 +17,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 export const options = {
     responsive: true,
-    maintainAspectRatio:false,
+    maintainAspectRatio: false,
     plugins: {
         legend: {
             display: false,
@@ -31,20 +31,43 @@ export const options = {
 };
 
 export default function Grafico(props) {
+
+
+    const anchoExpandido = props.mediciones.length * 1000 + "px";
+    console.log('anchoExpandido',anchoExpandido)
+    const fullAnchoExpandido = props.mediciones.length * 400 + "px";
+    console.log("fullAnchoExpandido", fullAnchoExpandido);
+
     let mediciones = _.orderBy(props.mediciones, "fecha");
+
+    const boxStyle = props.isFullscreenEnabled
+        ? props.isExpanded
+            ? 
+            {width: {fullAnchoExpandido},
+            height: "100%",}
+            : 
+            {height: "100%",}
+
+
+
+        : props.isExpanded
+        ? {
+              width: {anchoExpandido} ,
+              height: "100%",
+          }
+        : {
+              height: "100%",
+          };
 
     const labels = mediciones.map((unaMedicion) => {
         return unaMedicion.fecha;
     });
 
-    // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
     const data = {
         labels,
         datasets: [
             {
-                label: "Peso",
-                //   data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+                label: props.label,
                 data: mediciones.map((unaMedicion) => {
                     return unaMedicion.valor;
                 }),
@@ -59,17 +82,23 @@ export default function Grafico(props) {
             sx={{
                 ml: 0,
                 mb: 0,
-                display: "flex",
-                flexDirection: "column",
+                // display: "flex",
+                // flexDirection: "column",
+                // justifyContent:'center',
                 overflowY: "clip",
                 overflowX: "scroll",
                 // justifyContent="flex-end" # DO NOT USE THIS WITH 'scroll'
             }}
         >
-            <Box sx={{ width: props.visualMode ? "900px" : null, height:'55vh'
-            //  maxHeight: "400px" 
-             }}>
-                <Line options={options} data={data} />
+            <Box
+                sx={{
+                    width: props.isExpanded ? "400%" : null,
+                    height: "70vh",
+                }}
+            >
+                <Box {...boxStyle} display="flex" justifyContent="center" alignItems="center">
+                    <Line options={options} data={data} />
+                </Box>
             </Box>
         </Box>
     );
