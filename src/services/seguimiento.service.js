@@ -69,12 +69,14 @@ const getSeguimientoRutinaByIdMicroPlan = (idPlan, idMicroPlan, seguimientosFilt
         });
 };
 
-const getSeguimientoRutinaByIdCliente = (idCliente, cantidadDias) => {
+const getSeguimientoRutinaByIdCliente = (idCliente, cantidadDias, idEstadoSeguimientoList) => {
     let params = {};
     if (cantidadDias !== undefined) {
         params["cantidadDias"] = cantidadDias;
     }
-
+    if (idEstadoSeguimientoList !== undefined) {
+        params["idEstadoSeguimientoList"] = idEstadoSeguimientoList;
+    }
     return axios
         .get(`${API_URL}/clientes/${idCliente}/seguimientos-rutinas`, {
             headers: {

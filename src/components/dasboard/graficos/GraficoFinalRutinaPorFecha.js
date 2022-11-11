@@ -33,7 +33,7 @@ export default function GraficoFinalRutinaPorFecha(props) {
 
     return (
         <GraficoContainer
-            title="Feedback de rutinas en los ultimos dias"
+            title="Concurrencia - Cantidad de clientes que finalizaron una rutina"
             maxWidth={props.maxWidth}
             link={props.link}
         >

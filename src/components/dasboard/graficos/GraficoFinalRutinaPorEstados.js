@@ -37,7 +37,7 @@ export default function GraficoFinalRutinaPorEstados(props) {
 
     return (
         <GraficoContainer
-            title="Feedback de rutinas en los ultimos dias"
+            title="Estados Final de rutinas en los ultimos dias"
             maxWidth={props.maxWidth}
             link={props.link}
             hideTitle={props.hideTitle}

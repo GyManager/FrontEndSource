@@ -64,6 +64,7 @@ export default function ReporteEstadoSeguimiento() {
                 <ReporteEstadoSeguimientoModal
                     open={clienteSeleccionado !== null && clienteSeleccionado !== undefined}
                     handleClose={() => setClienteSeleccionado(null)}
+                    estadoSeguimientoSeleccionado={estadoSeguimientoSeleccionado}
                     {...clienteSeleccionado}
                 />
             )}

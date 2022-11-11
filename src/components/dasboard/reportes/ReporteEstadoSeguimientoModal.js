@@ -14,17 +14,20 @@ export default function ReporteEstadoSeguimientoModal(props) {
             setLoading(true);
             const response = await seguimientoService.getSeguimientoRutinaByIdCliente(
                 props.idCliente,
-                7
+                7,
+                props.estadoSeguimientoSeleccionado.join(",")
             );
             if (response instanceof AxiosError) {
                 processErrorMessage(response.response.data);
             } else {
-                setSeguimientos(response);
+                setSeguimientos(response.sort((a, b) => (Date.parse(a.fechaCarga) < Date.parse(b.fechaCarga) ? 1 : -1)));
                 setLoading(false);
             }
         }
         fetchData();
     }, [props.idCliente]);
+
+    console.log(seguimientos)
 
     return (
         <Modal
