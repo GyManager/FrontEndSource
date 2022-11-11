@@ -25,7 +25,7 @@ export default function NoAutorizadoPage(props) {
                 </Typography>
             </Box>
             <Typography sx={{fontSize: {xs: 18, md: 18, lg: 20, xl: 24}, width:'80%'}} align='center'>
-                Es posbiel que usted no este autorizado a acceder a esta seccion
+                Es posible que usted no este autorizado a acceder a esta seccion
             </Typography>
         </Container>
     )

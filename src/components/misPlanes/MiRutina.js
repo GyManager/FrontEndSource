@@ -13,12 +13,35 @@ import ModalFinDia from "./modalFinDia/ModalFinDia";
 export default function MiRutina() {
     let { idPlan, idMicroPlan, idRutina } = useParams();
 
-    const { plan, loading } = useContext(MiPlanContext);
+    const { plan, loading, esCompletado } = useContext(MiPlanContext);
     let [searchParams, setSearchParams] = useSearchParams();
     const ejercicioSeleccionado = searchParams.get("idEjercicioAplicado");
     const [cargarSeguimiento, setCargarSeguimiento] = useState();
     const [seguimientos, setSeguimientos] = useState(() => []);
     const [openModalFinDia, setOpenModalFinDia] = useState(() => false);
+    const [seguimientoRutina, setSeguimientoRutinas] = useState();
+    const [loadingState, setLoadingState] = useState(() => false);
+
+    async function getSeguimientoRutina() {
+        setLoadingState(true);
+        const respuesta = await seguimientoService.getSeguimientoRutinaByIdMicroPlan(
+            idPlan,
+            idMicroPlan,
+            "HOY"
+        );
+        if (respuesta instanceof AxiosError) {
+            console.log(respuesta); // TODO IMPROVE
+        } else {
+            setSeguimientoRutinas(
+                respuesta.filter((seguimiento) => seguimiento.idRutina == idRutina)[0]
+            );
+            setLoadingState(false);
+        }
+    }
+
+    useEffect(() => {
+        getSeguimientoRutina();
+    }, []);
 
     async function getSeguimientos() {
         const respuesta = await seguimientoService.getSeguimientoEjercicioByIdRutina(
@@ -72,6 +95,7 @@ export default function MiRutina() {
                 {...bloque}
                 cargarSeguimiento={setCargarSeguimiento}
                 seguimientos={seguimientos}
+                disableInput={esCompletado}
             />
         ));
     }
@@ -95,6 +119,11 @@ export default function MiRutina() {
                     <Typography variant="h5" align="center">
                         {loading ? <Skeleton></Skeleton> : `Rutina ${rutina.nombre}`}
                     </Typography>
+                    <Typography variant="h6" align="center">
+                        {seguimientoRutina !== undefined &&
+                            seguimientoRutina !== null &&
+                            " Ya completaste esta rutina hoy"}
+                    </Typography>
                 </Paper>
 
                 <Container maxWidth="md">{ejerciciosAplicados}</Container>
@@ -111,21 +140,29 @@ export default function MiRutina() {
                                     ejercicioACargarSeguimiento.idEjercicioAplicado
                             )[0]
                         }
+                        hideResultados={esCompletado}
                     />
                 )}
+                {!esCompletado && !loadingState && (
+                    <Container maxWidth="md" align="center" sx={{ mt: 2 }}>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            onClick={() => setOpenModalFinDia(true)}
+                            color={seguimientoRutina ? "secondary" : "primary"}
+                        >
+                            {seguimientoRutina
+                                ? "Volver a ingresar mi comentario"
+                                : "Terminar dia de entrenamiento"}
+                        </Button>
+                    </Container>
+                )}
 
-                <Container maxWidth="md" align="center" sx={{ mt: 2 }}>
-                    <Button size="large" variant="contained" onClick={() => setOpenModalFinDia(true)}>
-                        Terminar dia de entrenamiento
-                    </Button>
-                </Container>
-                
                 <ModalFinDia
                     open={openModalFinDia}
                     setClose={() => setOpenModalFinDia(false)}
+                    seguimientoRutina={seguimientoRutina}
                 />
-
-                
             </Collapse>
 
             <Collapse

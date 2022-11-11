@@ -170,7 +170,7 @@ export default function Observaciones(props){
 
                 <Box sx={{display:'flex', justifyContent:'end', mt:2, gap:2}}>
                     <Button
-                        variant='outlined' 
+                        variant="contained"
                         size='medium' 
                         startIcon={<Save />}
                         onClick={saveObservaciones}
@@ -178,7 +178,7 @@ export default function Observaciones(props){
                         Guardar
                     </Button>
                     <Button
-                        variant='outlined'
+                        variant="contained"
                         size='medium' 
                         color='secondary'
                         startIcon={<Cancel/>}

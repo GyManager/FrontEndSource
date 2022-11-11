@@ -1,21 +1,73 @@
-import React, { useEffect, useState } from "react";
-import { Avatar, Box, Typography, useMediaQuery, Paper, Stack } from "@mui/material";
+import React, { useEffect, useState, useContext } from "react";
+import { Avatar, Box, Typography, useMediaQuery, Paper, Stack, Badge } from "@mui/material";
 
-import { AdminPanelSettings, FitnessCenter, Mail, Person, ListAlt, Lock } from "@mui/icons-material";
+import {
+    AdminPanelSettings,
+    FitnessCenter,
+    Mail,
+    Person,
+    ListAlt,
+    Lock,
+    Receipt,
+    FolderCopy,
+    SquareFoot,
+    Timeline,
+} from "@mui/icons-material";
 
 import { Container } from "@mui/system";
 import Card from "./Card";
 import logo from "../../images/logo.png";
 import { menuItem } from "../drawer/Drawer";
-
-// import userService from "../../services/users.service";
-
-import useFetchUserInfo from "./servicesHooks"
+import clientsService from "../../services/users.service";
+import matriculasService from "../../services/matriculas.service";
+import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
+import { UserContext } from "../../context/UserContext";
+// import useFetchActiveUserMatriculas from "../../services/usersHooks";
 
 function Dash(props) {
-    const { userInfo } = useFetchUserInfo();
-    
+    const [userInfo, setUserInfo] = useState({});
+    const { notificaciones, loadingNotificaciones } = useContext(UserContext);
+    const [matriculas, setMatriculas] = useState([]);
+    const [tieneClienteAsociado, setTieneClienteAsociado] = useState(() => {});
+    const [idCliente, setIdCliente] = useState(() => {});
+    console.log("dash:");
 
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const userInfo = await clientsService.getActiveUser();
+            console.log("dash res:", userInfo);
+            setUserInfo(userInfo);
+            setTieneClienteAsociado(userInfo.cliente ? true : false);
+            const idCliente = userInfo.cliente?.idCliente;
+            setIdCliente(idCliente);
+        };
+        fetchUserInfo();
+    }, []);
+    console.log("tieneClienteAsociado:", tieneClienteAsociado);
+
+    useEffect(() => {
+        const fecthMatriculas = async () => {
+            if (await tieneClienteAsociado) {
+                const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
+                setMatriculas(await res);
+                console.log("res: ", await res);
+            }
+        };
+        fecthMatriculas();
+    }, [idCliente, tieneClienteAsociado]);
+
+    console.log("dash: idCliente:", idCliente);
+    console.log("dash: userInfo:", userInfo);
+    console.log("dash: matriculas", matriculas);
+
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (value) => {
+        setOpen(false);
+    };
 
     const iconMediumStyle = {
         width: "40%",
@@ -35,10 +87,31 @@ function Dash(props) {
         color: "white",
     };
 
+    const feedbackPlanesPendientes = loadingNotificaciones
+        ? 0
+        : notificaciones.filter((notificacion) => notificacion.id === "FEEDBACK_PLANES")[0]?.valor;
+
     const styledIcons = [
         {
-            text: "Mis Planes",
+            text: "Plan Vigente",
             icon: <Mail {...iconStyle} />,
+        },
+        {
+            text: "Historico Planes",
+            icon: (
+                <Badge
+                    badgeContent={feedbackPlanesPendientes}
+                    color="warning"
+                    component="span"
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                    }}
+                    sx={{ mx: 2.79 }}
+                >
+                    <FolderCopy sx={iconLargeStyle} />
+                </Badge>
+            ),
         },
         {
             text: "Clientes",
@@ -57,9 +130,30 @@ function Dash(props) {
             icon: <AdminPanelSettings {...iconStyle} />,
         },
         {
+            text: "Mis Avances",
+            icon: <Timeline {...iconStyle} />,
+        },
+
+        {
+            text: "Mis Medidas",
+            icon: <SquareFoot {...iconStyle}/>,
+        },
+        {
+            text: "Mi Matricula",
+            icon: <Receipt {...iconStyle} />,
+        },
+        {
+            text: "Dashboard",
+            icon: <Receipt {...iconStyle} />,
+        },
+        {
+            text: "Mis datos",
+            icon: <Person {...iconStyle} />,
+        },
+        {
             text: "Cambiar Contraseña",
             icon: <Lock {...iconStyle} />,
-        }
+        },
     ];
 
     return (
@@ -91,7 +185,7 @@ function Dash(props) {
                             maxHeight: "140px",
                         }}
                     />
-                    <Box sx={{ display: 'block', justifyContent: "center" }}>
+                    <Box sx={{ display: "block", justifyContent: "center" }}>
                         <Typography variant="h5">Bienvenido a CoreE</Typography>
                         <Typography variant="h5">{userInfo.nombre}</Typography>
                     </Box>
@@ -120,6 +214,9 @@ function Dash(props) {
                             {menuItem
                                 .filter(
                                     (object) =>
+                                        !(
+                                            !tieneClienteAsociado && object.text === "Mi Matricula"
+                                        ) &&
                                         object.text !== "Inicio" &&
                                         (props.token.permisos.includes(object.permiso) ||
                                             object.permiso === "")
@@ -131,6 +228,8 @@ function Dash(props) {
                                             description={item.descripcion}
                                             isMediumDevice={isMediumDevice}
                                             url={item.url}
+                                            idCliente={idCliente}
+                                            handleClickOpen={handleClickOpen}
                                         >
                                             {
                                                 styledIcons.filter(
@@ -143,6 +242,16 @@ function Dash(props) {
                         </Box>
                     </Stack>
                 </Paper>
+                {tieneClienteAsociado && matriculas !== undefined ? (
+                    <MiMatriculaDialog
+                        open={open}
+                        handleClickOpen={handleClickOpen}
+                        onClose={handleClose}
+                        userMatriculas={matriculas}
+                    />
+                ) : (
+                    <></>
+                )}
             </Container>
         </>
     );

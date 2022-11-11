@@ -78,6 +78,7 @@ export default function MultipleSelectChip(props) {
               key={unaOpcion}
               value={unaOpcion}
               style={getStyles(unaOpcion, opcionesSeleccionadas, theme)}
+              disabled={unaOpcion === "CLIENTE"}
             >
               <Checkbox checked={opcionesSeleccionadas.indexOf(unaOpcion) > -1} />
               <ListItemText primary={unaOpcion} />

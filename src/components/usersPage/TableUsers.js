@@ -52,6 +52,7 @@ export default function TableUsers(props) {
         <Grid item xs={8} >
           <TablePagination
             id='paginacionUsuarios'
+            labelRowsPerPage="Filas"
             rowsPerPageOptions={isMediumDevice ? [] : [15, 25, 100]}
             component="div"
             count={props.usuariosTotal}

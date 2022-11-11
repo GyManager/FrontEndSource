@@ -4,7 +4,9 @@ import authService from "./auth.service";
 //TODO IMPLEMENTAR DOTENV PARA API_URL
 
 const API_URL = process.env.REACT_APP_API_URL;
-const access_token = authService.getStoredSession() ?  authService.getStoredSession().access_token : '';
+const access_token = authService.getStoredSession()
+    ? authService.getStoredSession().access_token
+    : "";
 
 const getActiveUser = () => {
     return axios
@@ -85,14 +87,34 @@ const putUser = (usuario, idUsuario) => {
         });
 };
 
-const putUserPassword = (passwords, idUsuario) => {
-    return axios.put(`${API_URL}/usuarios/${idUsuario}/password`, passwords,
+const putMyUser = (usuario) => {
+    return axios
+        .put(
+            API_URL + "/usuarios/mis-datos",
+            { ...usuario },
             {
-                headers: {
-                    Authorization: `Bearer ${authService.getStoredSession().access_token}`,
-                },
+                headers: { Authorization: `Bearer ${access_token}` },
             }
         )
+        .then((response) => {
+            console.log("Recibida correctamente");
+            console.log(response.data);
+            return response.data;
+        })
+        .catch((error) => {
+            console.log("Hubo un error en la peticion put");
+            console.log(error);
+            return handleError(error);
+        });
+};
+
+const putUserPassword = (passwords, idUsuario) => {
+    return axios
+        .put(`${API_URL}/usuarios/${idUsuario}/password`, passwords, {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+        })
         .then((response) => {
             return response.data;
         })
@@ -101,9 +123,11 @@ const putUserPassword = (passwords, idUsuario) => {
         });
 };
 
-
-const putUserPasswordReset = ( idUsuario) => {
-    return axios.put(`${API_URL}/usuarios/${idUsuario}/password-reset`, {},
+const putUserPasswordReset = (idUsuario) => {
+    return axios
+        .put(
+            `${API_URL}/usuarios/${idUsuario}/password-reset`,
+            {},
             {
                 headers: {
                     Authorization: `Bearer ${authService.getStoredSession().access_token}`,
@@ -170,16 +194,68 @@ const getAllRoles = () => {
 };
 
 const getUserInfo = () => {
-    return axios.get(API_URL + '/usuarios/info', {
-        headers: { 
-            'Authorization': `Bearer ${access_token}` 
-        }
-    }).then((response) => {
-        return response.data
-    }).catch((err) => {
-         handleError(err)
-    })
-}
+    return axios
+        .get(API_URL + "/usuarios/info", {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((err) => {
+            handleError(err);
+        });
+};
+
+const getUserNotificaciones = () => {
+    return axios
+        .get(API_URL + "/notificaciones", {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((err) => {
+            handleError(err);
+        });
+};
+
+const getUserAvatar = (idUsuario) => {
+    return axios
+        .get(API_URL + `/usuarios/${idUsuario}/avatar`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((err) => {
+            handleError(err);
+        });
+};
+
+const putUserAvatar = (imagen, idUsuario) => {
+    return axios
+        .put(
+            API_URL + `/usuarios/${idUsuario}/avatar`,
+            { imagen: imagen },
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((err) => {
+            handleError(err);
+        });
+};
 
 const handleError = (error) => {
     if (error.response) {
@@ -206,13 +282,16 @@ const clientsService = {
     getUsers,
     getUserById,
     putUser,
+    putMyUser,
     deleteUserById,
     postUser,
     getAllRoles,
     getUserInfo,
     putUserPassword,
-    putUserPasswordReset
+    putUserPasswordReset,
+    getUserNotificaciones,
+    getUserAvatar,
+    putUserAvatar,
 };
-
 
 export default clientsService;

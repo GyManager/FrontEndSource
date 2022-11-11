@@ -49,7 +49,7 @@ export default function ButtonsUser(props) {
                 </Button>
             }
 
-            {props.clienteId !== 'new' && !props.editable &&
+            {props.clienteId !== 'new' && !props.editable && !props.hideDelete &&
                 <Button
                 id='borrarUsuario'
                     {...buttonCommonProperties}

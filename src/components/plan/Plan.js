@@ -463,8 +463,8 @@ export default function Plan() {
                     </Stack>
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: "space-between" }}>
-                    <Button onClick={() => setShowAlertPlanVigente(false)}>Cancelar</Button>
-                    <Button onClick={handleSubmit}>
+                    <Button variant="contained" onClick={() => setShowAlertPlanVigente(false)} color="secondary">Cancelar</Button>
+                    <Button variant="contained" onClick={handleSubmit}>
                         Confirmar!
                     </Button>
                 </DialogActions>

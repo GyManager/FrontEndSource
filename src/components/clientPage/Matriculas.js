@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { ErrorContext } from "../../context/ErrorContext";
 import { SnackbarContext } from "../../context/SnackbarContext";
+import clientsService from "../../services/clients.service";
 import matriculasService from "../../services/matriculas.service";
 import Matricula from "./Matricula";
 import MatriculaModal from "./MatriculaModal";
@@ -37,22 +38,28 @@ export default function Matriculas(props) {
         } else {
             setMatriculas(respuesta);
         }
-    };
+    }
 
     async function postMatricula(matricula, idCliente) {
-        const respuesta = await matriculasService.postMatricula(
-            matricula,
-            idCliente
-        );
+        const respuesta = await matriculasService.postMatricula(matricula, idCliente);
         handleRespuesta(respuesta, "La matricula se ha cargado con exito");
+        reloadEstadoCliente();
     }
 
     async function deleteMatricula(idCliente, idMatricula) {
-        const respuesta = await matriculasService.deleteMatriculaById(
-            idCliente,
-            idMatricula
-        );
+        const respuesta = await matriculasService.deleteMatriculaById(idCliente, idMatricula);
         handleRespuesta(respuesta, "La matricula se ha eliminado con exito");
+        reloadEstadoCliente();
+    }
+
+    async function reloadEstadoCliente() {
+        try {
+            await clientsService.getClientById(props.idCliente).then((persona) => {
+                props.setClienteEstado(persona.clienteEstado);
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleRespuesta = (respuesta, mensaje) => {
@@ -67,8 +74,7 @@ export default function Matriculas(props) {
 
     const matriculaVigente = matriculas.filter(
         (matricula) =>
-            matricula.matriculaEstado !== "VENCIDA" &&
-            matricula.matriculaEstado !== "NO_INICIADA"
+            matricula.matriculaEstado !== "VENCIDA" && matricula.matriculaEstado !== "NO_INICIADA"
     )[0];
     const matriculasFuturas = matriculas.filter(
         (matricula) => matricula.matriculaEstado === "NO_INICIADA"
@@ -76,24 +82,20 @@ export default function Matriculas(props) {
 
     return (
         <Fragment>
-            <Typography sx={{ fontSize: { xs: 20, md: 24 } }}>
-                Matricula del cliente
-            </Typography>
+            <Typography sx={{ fontSize: { xs: 20, md: 24 } }}>Matricula del cliente</Typography>
             <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
                 Estado: {props.clienteEstado}
             </Typography>
 
             {loading && <Skeleton />}
 
-            {!loading &&
-                matriculaVigente !== null &&
-                matriculaVigente !== undefined && (
-                    <Matricula
-                        title="Matricula Vigente"
-                        deleteMatricula={deleteMatricula}
-                        {...matriculaVigente}
-                    />
-                )}
+            {!loading && matriculaVigente !== null && matriculaVigente !== undefined && (
+                <Matricula
+                    title="Matricula Vigente"
+                    deleteMatricula={deleteMatricula}
+                    {...matriculaVigente}
+                />
+            )}
 
             {!loading &&
                 matriculasFuturas !== null &&

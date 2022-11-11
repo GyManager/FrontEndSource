@@ -1,14 +1,16 @@
-import { Container, LinearProgress, Paper, Skeleton, Typography } from "@mui/material";
+import { Comment } from "@mui/icons-material";
+import { Button, Container, LinearProgress, Paper, Skeleton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { MiPlanContext } from "../../context/MiPlanContext";
+import FeedbackPlan from "./FeedbackPlan";
 import MicroPlanCard from "./MicroPlanCard";
 
 export default function MiPlan() {
     let { idPlan } = useParams();
 
-    const { plan, loading } = useContext(MiPlanContext);
+    const { plan, loading, esCompletado } = useContext(MiPlanContext);
 
     const semanaActual = loading
         ? ""
@@ -20,6 +22,8 @@ export default function MiPlan() {
 
     const porcentajeCompletado = loading
         ? 0
+        : esCompletado
+        ? 100
         : Math.floor(((semanaActual - 1) / totalSemanas) * 100);
 
     const paperStyles = {
@@ -43,6 +47,7 @@ export default function MiPlan() {
                     semanaFin={acumSemanas - 1}
                     semanaActual={semanaActual}
                     route={`/mis-planes/${idPlan}/micro-plan/${microPlan.idMicroPlan}`}
+                    esCompletado={esCompletado}
                 />
             );
         })
@@ -54,7 +59,8 @@ export default function MiPlan() {
         microPlanes.filter((microPlan) => {
             return (
                 microPlan.props.semanaInicio <= semanaActual &&
-                microPlan.props.semanaFin >= semanaActual
+                microPlan.props.semanaFin >= semanaActual &&
+                !esCompletado
             );
         })
     );
@@ -63,12 +69,12 @@ export default function MiPlan() {
         <Container maxWidth="md" disableGutters>
             <Paper {...paperStyles}>
                 <Typography variant="h4" align="center">
-                    Plan Vigente: <br />
+                    Plan{!esCompletado && " Vigente"}: <br />
                     {loading ? <Skeleton></Skeleton> : plan.objetivo}
                 </Typography>
 
                 <Typography variant="body2" align="center">
-                    Fecha estimada de finalizacion:{" "}
+                    Fecha {!esCompletado && "estimada"} de finalizacion:{" "}
                     {loading ? (
                         <Skeleton></Skeleton>
                     ) : (
@@ -76,9 +82,11 @@ export default function MiPlan() {
                     )}
                 </Typography>
 
-                <Typography variant="body2" align="center">
-                    {!loading && `Semana ${semanaActual} de ${totalSemanas}`}
-                </Typography>
+                {!esCompletado && (
+                    <Typography variant="body2" align="center">
+                        {!loading && `Semana ${semanaActual} de ${totalSemanas}`}
+                    </Typography>
+                )}
 
                 <Box sx={{ mt: 2 }}>
                     <LinearProgress
@@ -98,6 +106,9 @@ export default function MiPlan() {
             </Paper>
 
             {microPlanActivo}
+            {esCompletado && plan.estadoSeguimientoDto === null && (
+                <FeedbackPlan paperStyles={paperStyles} />
+            )}
 
             <Paper {...paperStyles}>
                 <Typography variant="h5">Actividades del plan</Typography>

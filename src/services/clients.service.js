@@ -82,6 +82,35 @@ const getClients = (fuzzySearch, pageSize, page) => {
     })
 }
 
+const getClientsConSeguimientos = (fuzzySearch, pageSize, page, cantidadDias, idEstadoSeguimientoList) => {
+    let params = {}
+    if(fuzzySearch !== undefined){
+        params['fuzzySearch'] = fuzzySearch;
+    }
+    if(pageSize !== undefined){
+        params['pageSize'] = pageSize;
+    }
+    if(page !== undefined){
+        params['page'] = page;
+    }
+    if(cantidadDias !== undefined){
+        params['cantidadDias'] = cantidadDias;
+    }
+    if(idEstadoSeguimientoList !== undefined){
+        params['idEstadoSeguimientoList'] = idEstadoSeguimientoList;
+    }
+    return axios.get(API_URL + '/clientes/ultimos-seguimientos', {
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+        },
+        params
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        return handleError(error);
+    })
+}
+
 
 const postClient = (cliente) => {
     return axios.post(API_URL + '/clientes', {...cliente}, 
@@ -97,10 +126,15 @@ const postClient = (cliente) => {
 }
 
 
-const putClient = (cliente, idCliente) => {
+const putClient = (cliente, idCliente, reactivate) => {
+    let params = {}
+    if(reactivate !== undefined){
+        params['reactivate'] = reactivate;
+    }
     return axios.put(API_URL + '/clientes/' + idCliente, {...cliente}, 
         {
-            headers: {'Authorization': `Bearer ${access_token}`}
+            headers: {'Authorization': `Bearer ${access_token}`},
+            params
         }
     ).then((response) => {
         console.log('Recibida correctamente')
@@ -194,7 +228,8 @@ const clientsService = {
     getClientById,
     putClient,
     deleteClientById,
-    postClient
+    postClient,
+    getClientsConSeguimientos
 }
 
 export default clientsService
