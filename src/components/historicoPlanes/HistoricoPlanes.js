@@ -41,7 +41,15 @@ export default function HistoricoPlanes() {
         <Skeleton variant="rectangular" height={108} sx={{ m: 1 }} />
     ) : (
         planes
-            .sort((a, b) => (Date.parse(a.fechaDesde) < Date.parse(b.fechaDesde) ? -1 : 1))
+            .sort((a, b) =>
+                Date.parse(a.fechaDesde) === Date.parse(b.fechaDesde)
+                    ? Date.parse(a.fechaHasta) < Date.parse(b.fechaHasta)
+                        ? -1
+                        : 1
+                    : Date.parse(a.fechaDesde) < Date.parse(b.fechaDesde)
+                    ? -1
+                    : 1
+            )
             .map((plan) => (
                 <PlanCard {...plan} key={plan.idPlan} route={`/mis-planes/${plan.idPlan}`} />
             ))
