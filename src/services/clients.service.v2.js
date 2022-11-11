@@ -12,7 +12,8 @@ const getClients = (
     page,
     matriculaVenceEn,
     matriculaVenceEnOverdue,
-    sinFinalizarRutinaEn
+    sinFinalizarRutinaEn,
+    doExport
 ) => {
     let params = {};
     if (fuzzySearch !== undefined) {
@@ -33,15 +34,21 @@ const getClients = (
     if (sinFinalizarRutinaEn !== undefined) {
         params["sinFinalizarRutinaEn"] = sinFinalizarRutinaEn;
     }
+
+    let options = {
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+        params,
+    };
+    
+    if (doExport) {
+        options["responseType"] = "blob";
+    }
     return axios
-        .get(API_URL + "/clientes", {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            },
-            params,
-        })
+        .get(API_URL + `/clientes${doExport ? "-export" : ""}`, options)
         .then((response) => {
-            return response.data;
+            return response;
         })
         .catch((error) => {
             return handleError(error);

@@ -30,7 +30,8 @@ export default function ReporteClientesSinFinalizar() {
         page,
         matriculaVenceEn,
         matriculaVenceEnOverdue,
-        sinFinalizarRutinaEn
+        sinFinalizarRutinaEn,
+        doExport
     ) {
         return clientsServiceV2.getClients(
             fuzzySearch,
@@ -38,7 +39,8 @@ export default function ReporteClientesSinFinalizar() {
             page,
             null,
             null,
-            sinFinalizarRutinaEn ? sinFinalizarRutinaEn : 7
+            sinFinalizarRutinaEn ? sinFinalizarRutinaEn : 7,
+            doExport
         );
     }
     return (
@@ -47,6 +49,7 @@ export default function ReporteClientesSinFinalizar() {
             loading={loading}
             title="Clientes matriculados sin finalizar rutina en los ultimos dias"
             fetchClientes={fetchClientes}
+            enableExport
             reversed
         />
     );

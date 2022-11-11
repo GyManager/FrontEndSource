@@ -30,7 +30,8 @@ export default function ReporteClientesVencimientoPronto() {
         page,
         matriculaVenceEn,
         matriculaVenceEnOverdue,
-        sinFinalizarRutinaEn
+        sinFinalizarRutinaEn,
+        doExport
     ) {
         return clientsServiceV2.getClients(
             fuzzySearch,
@@ -38,7 +39,8 @@ export default function ReporteClientesVencimientoPronto() {
             page,
             matriculaVenceEn ? matriculaVenceEn : 7,
             matriculaVenceEnOverdue ? matriculaVenceEnOverdue : 0,
-            sinFinalizarRutinaEn ? sinFinalizarRutinaEn : null
+            sinFinalizarRutinaEn ? sinFinalizarRutinaEn : null,
+            doExport
         );
     }
     return (
@@ -47,6 +49,7 @@ export default function ReporteClientesVencimientoPronto() {
             loading={loading}
             title="Clientes con vencimiento de Matricula pronto"
             fetchClientes={fetchClientes}
+            enableExport
         />
     );
 }

@@ -35,15 +35,15 @@ export default function ReporteNumericoTable(props) {
             if (response instanceof AxiosError) {
                 processErrorMessage(response.response.data);
             } else {
-                setClientes(response.content);
-                setClientesTotal(response.totalElements);
+                setClientes(response.data.content);
+                setClientesTotal(response.data.totalElements);
                 setLoading(false);
             }
         }
         fetchData();
     }, [page, pageSize]);
 
-    const tableRows = clientes.map((cliente) => (
+    const tableRows = loading ? [] : clientes.map((cliente) => (
         <TableRow
             hover
             key={cliente.idCliente}
