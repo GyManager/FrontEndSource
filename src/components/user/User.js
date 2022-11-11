@@ -327,12 +327,14 @@ function User() {
                             />
                         </Paper>
 
-                        <SeccionPassword
-                            idUsuario={idUsuario}
-                            paperStyle={paperStyle}
-                            nombre={formik.values.nombre}
-                            apellido={formik.values.apellido}
-                        />
+                        { idUsuario !== 'new' &&
+                            <SeccionPassword
+                                idUsuario={idUsuario}
+                                paperStyle={paperStyle}
+                                nombre={formik.values.nombre}
+                                apellido={formik.values.apellido}
+                            />
+                        }
 
                     </div>
                 </Box>
