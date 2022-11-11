@@ -46,17 +46,17 @@ export default function Grafico(props) {
             {width: {fullAnchoExpandido},
             height: "100%",}
             : 
-            {height: "95%",}
+            {height: "100%",}
 
 
 
         : props.isExpanded
         ? {
               width: {anchoExpandido} ,
-              height: "95%",
+              height: "100%",
           }
         : {
-              height: "95%",
+              height: "100%",
           };
 
     const labels = mediciones.map((unaMedicion) => {

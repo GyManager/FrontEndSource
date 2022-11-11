@@ -1,4 +1,4 @@
-import { Box, Button, Fab, Tooltip } from "@mui/material";
+import { Box, Fab, Tooltip } from "@mui/material";
 import { Fullscreen, FullscreenExit, ZoomIn, ZoomOut } from "@mui/icons-material/";
 import React from "react";
 
@@ -7,7 +7,7 @@ function VistaInformeButtons(props) {
         ? "Cerrar Pantalla Completa"
         : "Abrir Pantalla Completa";
     const fullscreenIcon = props.isFullscreenEnabled ? (
-        <FullscreenExit fontSize="large"/>
+        <FullscreenExit fontSize="large" />
     ) : (
         <Fullscreen fontSize="large" />
     );
@@ -15,22 +15,28 @@ function VistaInformeButtons(props) {
     const fitGraphicTitle = props.isExpanded ? "Contraer grafico" : "Expandir grafico";
 
     const fitGraphicIcon = props.isExpanded ? (
-        <ZoomOut fontSize="large"/>
+        <ZoomOut fontSize="large" />
     ) : (
-        <ZoomIn  fontSize="large"/>
+        <ZoomIn fontSize="large" />
     );
 
     return (
-        <Box sx={{ display: "flex", justifyContent: "flex-end",px:1}}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", px: 1 }}>
             {props.fullscreenButton ? (
                 <>
-                    <Tooltip title={fullscreenTooltipTitle} placement="bottom" sx={{mx:2}}>
+                    <Tooltip title={fullscreenTooltipTitle} placement="bottom" sx={{ mx: 2 }}>
                         <Fab
-                            size="large"
+                            size="medium"
                             color="primary"
                             aria-label="add"
                             onClick={() => {
                                 props.toggleFullscreen();
+                            }}
+                            sx={{
+                                position: "fixed",
+                                bottom: 23,
+                                right: 10,
+                                display: { md: "none", lg: "none", xl: "none" },
                             }}
                         >
                             {fullscreenIcon}
@@ -48,11 +54,17 @@ function VistaInformeButtons(props) {
             {props.fixButton ? (
                 <Tooltip title={fitGraphicTitle} placement="bottom">
                     <Fab
-                        size="large"
+                        size="medium"
                         color="primary"
                         aria-label="add"
                         onClick={() => {
                             props.setIsExpanded(!props.isExpanded);
+                        }}
+                        sx={{
+                            position: "fixed",
+                            bottom: 23,
+                            right: 68,
+                            display: { md: "none", lg: "none", xl: "none" },
                         }}
                     >
                         {fitGraphicIcon}

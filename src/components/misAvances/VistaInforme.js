@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { useFullscreen, useWindowSize } from "rooks";
 import Grafico from "./Grafico";
 import VistaInformeButtons from "./VistaInformeButtons";
-import {ScreenRotation} from '@mui/icons-material'
+import { ScreenRotation } from "@mui/icons-material";
 
 function VistaInforme(props) {
     // const [tipoAjuste, setTipoAjuste] = useState("horizontal");
@@ -16,7 +16,7 @@ function VistaInforme(props) {
         target: fullscreenContainerRef,
     });
 
-    const alturaPaper = (innerHeight - 120) + 'px'
+    const alturaPaper = innerHeight - 120 + "px";
 
     const paperStyle = {
         sx: {
@@ -25,7 +25,9 @@ function VistaInforme(props) {
             justifyContent: "center",
             mt: 2,
             width: isFullscreenEnabled ? "100vw" : "100%",
-            height: isFullscreenEnabled ? "100vh" : alturaPaper,
+            height: isFullscreenEnabled ? "100vh" : null,
+            px: 1,
+            py: 2,
             backgroundColor: "lightGrey",
         },
     };
@@ -42,7 +44,7 @@ function VistaInforme(props) {
         isFullscreenEnabled: isFullscreenEnabled,
         setIsExpanded: setIsExpanded,
         isExpanded: isExpanded,
-        isWideScreen: isWideScreen
+        isWideScreen: isWideScreen,
     };
     return (
         <Box>
@@ -51,24 +53,40 @@ function VistaInforme(props) {
                     {isFullscreenEnabled ? (
                         isWideScreen ? (
                             <>
-                            <Typography>{props.title}</Typography>
-                                <VistaInformeButtons {...buttonsParameters} fullscreenButton fixButton />
+                                <Typography>{props.title}</Typography>
+                                <VistaInformeButtons
+                                    {...buttonsParameters}
+                                    fullscreenButton
+                                    fixButton
+                                />
                                 <Grafico {...graficoParametros} />
                             </>
                         ) : (
                             <>
-                                <VistaInformeButtons {...buttonsParameters}  fullscreenButton/>
-                                <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', }}>
-                                <Typography variant="h6" textAlign="center">
-                                    Por favor gire la pantalla  <p>
-                                    <ScreenRotation fontSize="large"/></p>
-                                </Typography>
+                                <VistaInformeButtons {...buttonsParameters} fullscreenButton />
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <Typography variant="h6" textAlign="center">
+                                        Por favor gire la pantalla{" "}
+                                        <p>
+                                            <ScreenRotation fontSize="large" />
+                                        </p>
+                                    </Typography>
                                 </Box>
                             </>
                         )
                     ) : (
                         <>
-                            <VistaInformeButtons {...buttonsParameters} fullscreenButton fixButton/>
+                            <VistaInformeButtons
+                                {...buttonsParameters}
+                                fullscreenButton
+                                fixButton
+                            />
                             <Grafico {...graficoParametros} />
                         </>
                     )}
