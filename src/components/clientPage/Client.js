@@ -410,10 +410,6 @@ function Client() {
               </Stack>
             </Paper>
 
-            <Paper elevation={12} hidden>
-              <Typography>Input - Medidas</Typography>
-            </Paper>
-
             {clienteId !== "new" && (
               <Paper {...paperStyle}>
                 <Planes idCliente={clienteId} tipo="vigentes" />
@@ -427,6 +423,7 @@ function Client() {
                 <Matriculas 
                   idCliente={clienteId}
                   clienteEstado={clienteEstado}
+                  setClienteEstado={setClienteEstado}
                 />
               </Paper>
             )}
