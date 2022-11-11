@@ -50,6 +50,7 @@ export default function StickyHeadTable(props) {
                         id='paginacionEjercicios'
                         rowsPerPageOptions={isMediumDevice ? [] : [10, 25, 100]}
                         component="div"
+                        labelRowsPerPage="Filas"
                         count={props.ejerciciosTotal}
                         rowsPerPage={props.rowsPerPage}
                         page={props.page}
