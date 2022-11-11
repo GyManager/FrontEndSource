@@ -4,8 +4,9 @@ export const ErrorContext = createContext();
 
 export const ErrorProvider = ({ children }) => {
     const [errorMessage, setErrorMessage] = useState();
+    const [redirect, setRedirect] = useState();
 
-    function processErrorMessage(response) {
+    function processErrorMessage(response, red) {
 
         if (response.hasOwnProperty("errors")
             && Array.isArray(response.errors)
@@ -21,6 +22,7 @@ export const ErrorProvider = ({ children }) => {
         } else {
             setErrorMessage(response)
         }
+        setRedirect(red? true : false)
     }
 
     return (
@@ -29,6 +31,8 @@ export const ErrorProvider = ({ children }) => {
                 setErrorMessage,
                 processErrorMessage,
                 errorMessage,
+                redirect,
+                setRedirect
             }}
         >
             {children}
