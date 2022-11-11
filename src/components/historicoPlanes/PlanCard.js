@@ -99,7 +99,7 @@ export default function PlanCard(props) {
                     </Stack>
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: "center" }}>
-                    <Button onClick={() => setOpen(false)}>Aceptar</Button>
+                    <Button variant="contained" onClick={() => setOpen(false)}>Aceptar</Button>
                 </DialogActions>
             </Dialog>
         </Fragment>

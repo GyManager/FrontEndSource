@@ -54,8 +54,8 @@ export default function ButtonWithAlert(props) {
                     </Stack>
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: "space-between" }}>
-                    <Button onClick={() => setOpen(false)}>Cancelar</Button>
-                    <Button onClick={handleAcceptButton}>
+                    <Button variant="contained" color="secondary" onClick={() => setOpen(false)}>Cancelar</Button>
+                    <Button variant="contained" onClick={handleAcceptButton}>
                         {props.buttonText}
                     </Button>
                 </DialogActions>
