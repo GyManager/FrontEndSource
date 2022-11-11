@@ -4,7 +4,7 @@ import { Container } from "@mui/system";
 import { Fragment, useState } from "react";
 
 export default function ModalViewComments(props) {
-    const [comentario, setComentario] = useState(() => "");
+    const [comentario, setComentario] = useState(() => props.observacion || "");
 
     return (
         <Fragment>

@@ -19,7 +19,7 @@ export default function MiMicroPlan(props) {
         const respuesta = await seguimientoService.getSeguimientoRutinaByIdMicroPlan(
             idPlan,
             idMicroPlan,
-            "HOY"
+            "ESTA_SEMANA"
         );
         if (respuesta instanceof AxiosError) {
             console.log(respuesta); // TODO IMPROVE
@@ -42,7 +42,6 @@ export default function MiMicroPlan(props) {
         elevation: 2,
     };
 
-    // TODO: cuando tengamos feedback de las rutinas, tenemos que meter el estado completado aca segun si tiene feedback en esta semana - BE y FE
     const rutinas = loading ? (
         <Skeleton variant="rectangular" height={80} sx={{ m: 1 }} />
     ) : (
