@@ -6,7 +6,7 @@ import Grafico from "./Grafico";
 import VistaInformeButtons from "./VistaInformeButtons";
 import { ScreenRotation } from "@mui/icons-material";
 
-function VistaInforme(props) {
+function ContenedorCharts(props) {
     // const [tipoAjuste, setTipoAjuste] = useState("horizontal");
     const [isExpanded, setIsExpanded] = useState(false);
     const fullscreenContainerRef = useRef(null);
@@ -108,4 +108,4 @@ function VistaInforme(props) {
     );
 }
 
-export default VistaInforme;
+export default ContenedorCharts;

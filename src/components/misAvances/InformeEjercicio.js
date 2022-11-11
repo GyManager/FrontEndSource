@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Container, Paper, Typography } from "@mui/material";
 import GenericComboBox from "../reusable/GenericComboBox";
-import VistaInforme from "./ContenedorCharts/VistaInforme";
+import ContenedorCharts from "../reusable/ContenedorCharts/ContenedorCharts";
 
 import { AvancesContext } from "../../context/AvancesContext";
 
@@ -16,7 +16,6 @@ function InformeEjercicio() {
         historicoEjercicio,
         setHistoricoEjercicio,
     } = useContext(AvancesContext);
-    // const { idEjercicio } = useParams();
     const [titulo, setTitulo] = useState("");
     const [medidaComboBox, setMedidaComboBox] = useState("Carga");
     const [ejercicioComboBox, setEjercicioComboBox] = useState("");
@@ -40,19 +39,6 @@ function InformeEjercicio() {
     const titleSeccionStyle = {
         variant: "h4",
         sx: { textAlign: "center" },
-    };
-
-    const titleStyle = {
-        variant: "h5",
-        sx: { textAlign: "center" },
-    };
-
-    const buttonStyle = {
-        variant: "contained",
-        sx: {
-            mb: 2,
-            mx: 3,
-        },
     };
 
     const generarData = async (dataType, resHistoricoEjercicio) => {
@@ -121,7 +107,7 @@ function InformeEjercicio() {
     }, []);
 
     return (
-        <Container>
+        <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
             <Box {...boxStyle}>
                 <Paper {...paperStyle}>
                     <Typography {...titleSeccionStyle}>Avance de ejercicio</Typography>
@@ -174,7 +160,7 @@ function InformeEjercicio() {
             </Box>
             <Box>
                 <Paper {...paperStyle} sx={{ mb: { xs: "30px", md: "80px" } }}>
-                    <VistaInforme
+                    <ContenedorCharts
                         title={"Ejercicio: " + titulo + " - Medida: " + medidaComboBox}
                         data={dataByType}
                         label={medidaComboBox}
