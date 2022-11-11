@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from "react";
 import { useFullscreen } from "rooks";
-import {SnackbarContext} from '../../context/SnackbarContext';
+import {SnackbarContext} from '../../../context/SnackbarContext';
 
 
 export default function UseFullscreenTest() {

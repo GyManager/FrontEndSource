@@ -36,7 +36,7 @@ function VistaInformeButtons(props) {
                                 position: "fixed",
                                 bottom: 23,
                                 right: 10,
-                                display: { md: "none", lg: "none", xl: "none" },
+                                // display: { md: "none", lg: "none", xl: "none" },
                                 
                             }}
                         >
@@ -65,7 +65,7 @@ function VistaInformeButtons(props) {
                             position: "fixed",
                             bottom: 23,
                             right: 68,
-                            display: { md: "none", lg: "none", xl: "none" },
+                            // display: { md: "none", lg: "none", xl: "none" },
                         }}
                     >
                         {fitGraphicIcon}

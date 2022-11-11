@@ -52,7 +52,9 @@ function VistaInforme(props) {
     const handleMouseMove = () => {
         if (!showButton) {
             setShowButton(true);
-            setTimeout(()=> {setShowButton(false)}, 2300);
+            setTimeout(() => {
+                setShowButton(false);
+            }, 2300);
         }
     };
 
