@@ -1,10 +1,10 @@
 import { Warning } from "@mui/icons-material";
-import { Box, List, ListItem, ListItemIcon, ListItemText, Modal, Paper, Stack, Typography } from "@mui/material";
+import { List, ListItem, ListItemIcon, ListItemText, Modal, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ErrorContext } from "../../context/ErrorContext";
 
 export default function ErrorModalSystem() {
-    const { setErrorMessage, errorMessage } = useContext(ErrorContext);
+    const { setErrorMessage, errorMessage, redirect, setRedirect } = useContext(ErrorContext);
     const [open, setOpen] = useState(() => false);
 
     useEffect(() => {
@@ -16,6 +16,10 @@ export default function ErrorModalSystem() {
     function handleClose() {
         setOpen(false);
         setErrorMessage(null);
+        if(redirect){
+            setRedirect(false)
+            window.location.href = "/home"
+        }
     }
 
     if (errorMessage === undefined || errorMessage === null || !open) {

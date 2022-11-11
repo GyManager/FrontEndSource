@@ -48,7 +48,7 @@ export default function ButtonClientMobile(props) {
             />
             }
 
-            { props.clienteId !== 'new' && !props.editable &&
+            { props.clienteId !== 'new' && !props.editable && !props.hideDelete && 
             <SpeedDialAction
                 key='Borrar'
                 icon={<Delete />}

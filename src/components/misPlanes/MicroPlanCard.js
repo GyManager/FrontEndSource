@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 export default function MicroPlanCard(props) {
     const navigate = useNavigate();
 
-    const esFuturo = props.semanaInicio > props.semanaActual;
-    const esVigente =
+    const esFuturo = !props.esCompletado && props.semanaInicio > props.semanaActual;
+    const esVigente = !props.esCompletado &&
         props.semanaInicio <= props.semanaActual && props.semanaFin >= props.semanaActual;
 
     const color = esFuturo ? "#e2dbdb" : esVigente ? "#FFFFFF" : "#cce2cd";

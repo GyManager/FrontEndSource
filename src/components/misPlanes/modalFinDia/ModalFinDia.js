@@ -85,6 +85,7 @@ export default function ModalFinDia(props) {
 
                 <Collapse in={modalPage === 2}>
                     <ModalViewComments
+                        observacion={props.seguimientoRutina?.observacion}
                         handleEnviar={handleEnviar}
                         handleCancelar={handleCancelar}
                     />

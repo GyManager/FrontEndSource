@@ -133,8 +133,8 @@ export default function MatriculaModal(props) {
                     justifyContent="space-between"
                     alignItems="center"
                 >
-                    <Button onClick={formik.handleSubmit}>Guardar</Button>
-                    <Button onClick={() => props.setOpen(false)}>
+                    <Button variant="contained" onClick={formik.handleSubmit}>Guardar</Button>
+                    <Button variant="contained" color="secondary" onClick={() => props.setOpen(false)}>
                         Cancelar
                     </Button>
                 </Stack>

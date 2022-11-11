@@ -196,6 +196,7 @@ function User() {
                             handleCancelEdit={handleCancelEdit}
                             idUsuario={idUsuario}
                             handleSubmit={formik.handleSubmit}
+                            hideDelete={formik.values.roles.length === 0}
                         />
                     </div>
                 </Stack>
@@ -326,12 +327,14 @@ function User() {
                             />
                         </Paper>
 
-                        <SeccionPassword
-                            idUsuario={idUsuario}
-                            paperStyle={paperStyle}
-                            nombre={formik.values.nombre}
-                            apellido={formik.values.apellido}
-                        />
+                        { idUsuario !== 'new' &&
+                            <SeccionPassword
+                                idUsuario={idUsuario}
+                                paperStyle={paperStyle}
+                                nombre={formik.values.nombre}
+                                apellido={formik.values.apellido}
+                            />
+                        }
 
                     </div>
                 </Box>
@@ -342,6 +345,7 @@ function User() {
                     handleCancelEdit={handleCancelEdit}
                     clienteId={idUsuario}
                     handleSubmit={formik.handleSubmit}
+                    hideDelete={formik.values.roles.length === 0}
                 />
             </form>
 

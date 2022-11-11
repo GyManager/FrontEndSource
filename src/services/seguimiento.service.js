@@ -69,6 +69,29 @@ const getSeguimientoRutinaByIdMicroPlan = (idPlan, idMicroPlan, seguimientosFilt
         });
 };
 
+const getSeguimientoRutinaByIdCliente = (idCliente, cantidadDias, idEstadoSeguimientoList) => {
+    let params = {};
+    if (cantidadDias !== undefined) {
+        params["cantidadDias"] = cantidadDias;
+    }
+    if (idEstadoSeguimientoList !== undefined) {
+        params["idEstadoSeguimientoList"] = idEstadoSeguimientoList;
+    }
+    return axios
+        .get(`${API_URL}/clientes/${idCliente}/seguimientos-rutinas`, {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+            params,
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
 const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina) => {
     return axios
         .post(
@@ -82,6 +105,21 @@ const postSeguimientoRutina = (seguimientoRutina, idPlan, idMicroPlan, idRutina)
                 },
             }
         )
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            return handleError(error);
+        });
+};
+
+const putSeguimientoPlan = (seguimientoRutina, idPlan) => {
+    return axios
+        .put(API_URL + API_PATH_PLANES + `/${idPlan}/seguimientos`, seguimientoRutina, {
+            headers: {
+                Authorization: `Bearer ${authService.getStoredSession().access_token}`,
+            },
+        })
         .then((response) => {
             return response.data;
         })
@@ -113,6 +151,8 @@ const seguimientoService = {
     getSeguimientoEjercicioByIdRutina,
     postSeguimientoRutina,
     getSeguimientoRutinaByIdMicroPlan,
+    putSeguimientoPlan,
+    getSeguimientoRutinaByIdCliente,
 };
 
 export default seguimientoService;

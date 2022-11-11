@@ -20,6 +20,13 @@ import MicroPlanesPage from './pages/MicroPlanesPage';
 import UsersPage from './pages/UsersPage'
 import UserPage from './pages/UserPage'
 import Dash from './components/home/Dash'
+import MisMedidasPage from './pages/MisMedidasPage'
+import InformeTipoMedidaPage from './pages/InformeTipoMedidaPage'
+import MisAvancesPage from './pages/MisAvancesPage';
+import InformeEjercicioPage from './pages/InformeEjercicioPage';
+
+import MisMedidasRedirect from './components/misMedidas/MisMedidasRedirect'
+import MisAvancesRedirect from './components/misAvances/MisAvancesRedirect'
 
 //Probando context below
 import { DataProvider } from "./context/DataContext";
@@ -40,6 +47,13 @@ import MiMicroPlan from './components/misPlanes/MiMicroPlan';
 import MiRutina from './components/misPlanes/MiRutina';
 import MiPlanContextLayout from './context/MiPlanContextLayout';
 import PasswordChange from './components/password/PasswordChange';
+import HistoricoPlanes from './components/historicoPlanes/HistoricoPlanes';
+import MisDatos from './components/misDatos/MisDatos';
+import Dashboard from './components/dasboard/Dashboard';
+import ReporteEstadoSeguimiento from './components/dasboard/reportes/ReporteEstadoSeguimiento';
+import ReporteClientesVencimientoPronto from './components/dasboard/reportes/numericos/ReporteClientesVencimientoPronto';
+import ReporteClientesSinFinalizar from './components/dasboard/reportes/numericos/ReporteClientesSinFinalizar';
+import AvancesContextLayout from './context/AvancesContextLayout'
 
 function App() {
 
@@ -76,12 +90,19 @@ console.log(token)
                   <Routes >
                     <Route path="/" element={<h1>Logeado</h1>} />
 
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard" element={<Dashboard />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/vencimientos" element={<ReporteClientesVencimientoPronto />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/sin-finalizar" element={<ReporteClientesSinFinalizar  />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/estado-seguimiento" element={<ReporteEstadoSeguimiento title={"Estado seguimiento"}  />} />}
+
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
                     {token.permisos.includes("gestion-planes") && <Route path="/clientes/:clienteId/planes/:idPlan" element={<PlanPage />} />}
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes" element={<MicroPlanesPage/>} />}
                     {token.permisos.includes("gestion-micro-planes") && <Route path="/micro-planes/:idMicroPlan" element={<MicroPlanPage/>} />}
                     {token.permisos.includes("mis-planes") && <Route path="/mis-planes" element={<MisPlanes/>} />}
+                    {token.permisos.includes("mis-planes") && <Route path="/historico-planes" element={<HistoricoPlanes/>} />}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas" element={<MisMedidasRedirect/>} />}
                     <Route element={<MiPlanContextLayout />}>
                       {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan" element={<MiPlan/>} />}
                       {token.permisos.includes("mis-planes") && <Route path="/mis-planes/:idPlan/micro-plan/:idMicroPlan" element={<MiMicroPlan/>} />}
@@ -92,6 +113,19 @@ console.log(token)
                     {token.permisos.includes("gestion-ejercicios") && <Route path="/ejercicios/:idEjercicio" element={<EjercicioPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios" element={<UsersPage/>} />}
                     {token.permisos.includes("gestion-usuarios") && <Route path="/usuarios/:idUsuario" element={<UserPage/>} />}
+
+
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente" element={<MisMedidasPage/>} />}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-Medidas/:idCliente/:idMedidas" element={<MisMedidasPage/>} />}
+                    {token.permisos.includes("mis-medidas") && <Route path="/mis-medidas/:idCliente//informe/:tipoMedida" element={<InformeTipoMedidaPage/>} />}
+
+                    <Route element={<AvancesContextLayout/>} >
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/" element={<MisAvancesRedirect/>} />}
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente" element={<MisAvancesPage/>} />}
+                    {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente/ejercicio/:idEjercicio" element={<InformeEjercicioPage/>} />}
+                    </Route>
+
+                    {token && <Route path="/mis-datos" element={<MisDatos/>} />}
 
                     {token && <Route path="/password" element={<PasswordChange/>} />}
                     <Route path="/home" element={<Dash token={token}/>}  />

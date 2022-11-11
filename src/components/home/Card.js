@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Stack } from "@mui/material";
 
@@ -11,9 +9,8 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
 import _ from "lodash";
 
-
 export default function ActionAreaCard(props) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const LightTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
     ))(({ theme }) => ({
@@ -24,9 +21,12 @@ export default function ActionAreaCard(props) {
             fontSize: 11,
         },
     }));
-
-    const cardMediumStyle = {
-        width: "80vw",
+    const handleClick = () => {
+        if (props.title === "Mi Matricula") {
+            props.handleClickOpen()
+        } else {
+            navigate(props.url);
+        }
     };
 
     return (
@@ -40,13 +40,12 @@ export default function ActionAreaCard(props) {
                     backgroundColor: "white",
                 }}
                 variant="outlined"
-                onClick={()=>{navigate(props.url)}}
+                onClick={handleClick}
             >
                 <CardActionArea>
                     <Stack direction={props.isMediumDevice ? "row" : "column"} alignItems="center">
                         {props.children}
-
-                        <Typography gutterBottom variant="h6" component="div" color="black">
+                        <Typography gutterBottom variant="h6" component="div" color="black" textAlign={'center'}>
                             {_.startCase(props.title)}
                         </Typography>
                     </Stack>
