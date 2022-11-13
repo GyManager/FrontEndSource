@@ -9,7 +9,7 @@ export default function DrawerItem(props) {
     <Link to={props.url} onClick={props.handleDrawerClose} className={'Link'} >
       <ListItem disablePadding>
         <ListItemButton>
-          <ListItemIcon>
+          <ListItemIcon sx={{color: "primary.main"}}>
             {props.icon}
           </ListItemIcon>
           <ListItemText primary={props.text} sx={{color:'black'}}/>

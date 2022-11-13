@@ -5,14 +5,9 @@ import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 
 function InformeMatriculaActual(props) {
-    let tieneMatriculaVigente;
-    tieneMatriculaVigente =
-        ( props.fechaVencimiento !== "No tenes una matricula vigente" 
-        || 
-        props.fechaVencimiento !== "No tenes una matricula pronto a vencer") ? true : false;
 
     const fechaVencimientoMatriculaActual = props.fechaVencimiento.split("T", 1);
-    
+
 
     const boxTypographyStyle = {
         sx: { display: "flex", flexDirection: "column", width: "100%", ml: 3 },

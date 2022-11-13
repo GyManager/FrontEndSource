@@ -30,12 +30,10 @@ function Dash(props) {
     const [matriculas, setMatriculas] = useState([]);
     const [tieneClienteAsociado, setTieneClienteAsociado] = useState(() => {});
     const [idCliente, setIdCliente] = useState(() => {});
-    console.log("dash:");
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             const userInfo = await clientsService.getActiveUser();
-            console.log("dash res:", userInfo);
             setUserInfo(userInfo);
             setTieneClienteAsociado(userInfo.cliente ? true : false);
             const idCliente = userInfo.cliente?.idCliente;
@@ -43,22 +41,21 @@ function Dash(props) {
         };
         fetchUserInfo();
     }, []);
-    console.log("tieneClienteAsociado:", tieneClienteAsociado);
 
     useEffect(() => {
         const fecthMatriculas = async () => {
             if (await tieneClienteAsociado) {
                 const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
                 setMatriculas(await res);
-                console.log("res: ", await res);
+                console.log("res: matriculas ", await res);
             }
         };
         fecthMatriculas();
     }, [idCliente, tieneClienteAsociado]);
 
-    console.log("dash: idCliente:", idCliente);
-    console.log("dash: userInfo:", userInfo);
-    console.log("dash: matriculas", matriculas);
+    // console.log("dash: idCliente:", idCliente);
+    // console.log("dash: userInfo:", userInfo);
+    // console.log("dash: matriculas", matriculas);
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -147,7 +144,7 @@ function Dash(props) {
             icon: <Receipt {...iconStyle} />,
         },
         {
-            text: "Mis datos",
+            text: "Mis Datos",
             icon: <Person {...iconStyle} />,
         },
         {

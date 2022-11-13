@@ -35,16 +35,20 @@ import {
     Receipt,
     FolderCopy,
     SquareFoot,
-    Timeline
+    Timeline,
 } from "@mui/icons-material";
 
 import DrawerItem from "./DrawerItem";
+import UserInfo from "./UserInfo";
+import AvatarProfilePic from "../reusable/AvatarProfilePic";
+import userService from "../../services/users.service";
 
 import { animateScroll as scroll } from "react-scroll";
 
 import AuthService from "../../services/auth.service";
 
 import logo from "../../images/logo.png";
+import { Container } from '@mui/material'
 
 const drawerWidth = 240;
 
@@ -128,11 +132,11 @@ export const menuItem = [
         descripcion: "Reportes e indicadores",
     },
     {
-        text: "Mis datos",
-        icon: <Person/>,
+        text: "Mis Datos",
+        icon: <Person />,
         url: "/mis-datos",
         permiso: "",
-        descripcion: "Mis datos personales"
+        descripcion: "Mis datos personales",
     },
     {
         text: "Cambiar Contraseña",
@@ -188,6 +192,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     justifyContent: "flex-end",
 }));
 export default function PersistentDrawerLeft({ showMenu, token }) {
+    // React.useEffect(() => {
+
+    //     };
+    //     getAvatar()
+    // }, []);
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -246,11 +256,18 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                         anchor="left"
                         open={open}
                     >
+                        {/* <Divider /> */}
                         <DrawerHeader>
                             <IconButton onClick={handleDrawerClose}>
                                 {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
                             </IconButton>
                         </DrawerHeader>
+                        <Container fullwidth>
+                        <Box sx={{ display: 'flex', flexDirection:'column', alignItems:'center',width:'100%', mt:-5  }}>
+                            <AvatarProfilePic size={{xs:80, md:105}} currentUser />
+                            <UserInfo />
+                        </Box>
+                        </Container>
                         <Divider />
                         <List>
                             {menuItem
@@ -266,10 +283,10 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                                         handleDrawerClose={handleDrawerClose}
                                     />
                                 ))}
-                            <Divider />
+                        <Divider />
                             <ListItem disablePadding onClick={handleLogout}>
                                 <ListItemButton>
-                                    <ListItemIcon>
+                                    <ListItemIcon sx={{color: "primary.main"}}>
                                         <Logout />
                                     </ListItemIcon>
                                     <ListItemText primary={"Cerrar sesion"} />
@@ -280,6 +297,7 @@ export default function PersistentDrawerLeft({ showMenu, token }) {
                     </Drawer>
                 </div>
             )}
+                        {/* <Divider /> */}
             <Main open={open}>
                 <DrawerHeader />
             </Main>
