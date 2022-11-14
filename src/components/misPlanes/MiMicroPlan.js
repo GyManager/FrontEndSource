@@ -10,7 +10,7 @@ import RutinaCard from "./RutinaCard";
 export default function MiMicroPlan(props) {
     let { idPlan, idMicroPlan } = useParams();
 
-    const { plan, loading, esCompletado } = useContext(MiPlanContext);
+    const { plan, loading, esCompletado, microPlanSemanaActual } = useContext(MiPlanContext);
     const [seguimientoRutinas, setSeguimientoRutinas] = useState(() => []);
     const [loadingState, setLoadingState] = useState(() => false);
 
@@ -36,6 +36,10 @@ export default function MiMicroPlan(props) {
     const microPlan = plan
         ? plan.microPlans.filter((microPlan) => microPlan.idMicroPlan === parseInt(idMicroPlan))[0]
         : {};
+
+    const semanaActualData = loading
+        ? {}
+        : microPlanSemanaActual.filter((data) => data.id === parseInt(idMicroPlan))[0];
 
     const paperStyles = {
         sx: { mx: 1, p: 1, my: 2 },
@@ -70,6 +74,17 @@ export default function MiMicroPlan(props) {
                     {loading ? <Skeleton></Skeleton> : microPlan.nombre}
                 </Typography>
             </Paper>
+            {semanaActualData && semanaActualData.observacion && !esCompletado && (
+                <Paper {...paperStyles}>
+                    <Typography variant="h5" align="center">
+                        {loading ? (
+                            <Skeleton></Skeleton>
+                        ) : (
+                            `Observaciones para esta semana: ${semanaActualData.observacion}`
+                        )}
+                    </Typography>
+                </Paper>
+            )}
             {rutinas}
         </Container>
     );

@@ -90,10 +90,10 @@ console.log(token)
                   <Routes >
                     <Route path="/" element={<h1>Logeado</h1>} />
 
-                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard" element={<Dashboard />} />}
-                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/vencimientos" element={<ReporteClientesVencimientoPronto />} />}
-                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/sin-finalizar" element={<ReporteClientesSinFinalizar  />} />}
-                    {token.permisos.includes("gestion-clientes") && <Route path="/dashboard/estado-seguimiento" element={<ReporteEstadoSeguimiento title={"Estado seguimiento"}  />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/tablero" element={<Dashboard />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/tablero/vencimientos" element={<ReporteClientesVencimientoPronto />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/tablero/sin-finalizar" element={<ReporteClientesSinFinalizar  />} />}
+                    {token.permisos.includes("gestion-clientes") && <Route path="/tablero/estado-seguimiento" element={<ReporteEstadoSeguimiento title={"Estado seguimiento"}  />} />}
 
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes" element={<ClientsPage />} />}
                     {token.permisos.includes("gestion-clientes") && <Route path="/clientes/:clienteId" element={<ClientPage />} />}
@@ -124,6 +124,7 @@ console.log(token)
                     {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente" element={<MisAvancesPage/>} />}
                     {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente/ejercicio/:idEjercicio" element={<InformeEjercicioPage/>} />}
                     </Route>
+                    {token.permisos.includes("mis-matriculas") && <Route path="/home/mi-matricula/:showMatricula" element={<Dash token={token}/>} />}
 
                     {token && <Route path="/mis-datos" element={<MisDatos/>} />}
 

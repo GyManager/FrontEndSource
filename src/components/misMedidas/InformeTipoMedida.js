@@ -1,16 +1,14 @@
 import { React, useState, useEffect, useRef } from "react";
-import { Box, Button, Paper, Typography, useMediaQuery } from "@mui/material";
+import { Box, Paper, Typography, useMediaQuery } from "@mui/material";
 import { Container } from "@mui/system";
-import Grafico from "./Grafico";
 import DatePicker from "../reusable/DatePicker";
-import { FitScreen, Fullscreen } from "@mui/icons-material/";
 
 import medidasService from "../../services/medidas.service";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { useFullscreen } from "rooks";
 import _ from "lodash";
-import FullscreenComp from "./Fullscreen";
+
+import ContenedorCharts from "../reusable/ContenedorCharts/ContenedorCharts";
 
 function InformeTipoMedida(props) {
     const d = new Date();
@@ -25,12 +23,24 @@ function InformeTipoMedida(props) {
     const { idCliente, tipoMedida } = useParams();
     const [medidasClienteHistory, setMedidasClienteHistory] = useState([]);
     const [filteredMedidas, setFilteredMedidas] = useState([medidasClienteHistory]);
-    const [visualMode, setVisualMode] = useState(false);
-    const fullscreenContainerRef = useRef(null);
-    const isMediumDevice = useMediaQuery("(max-width:900px)");
-    const { isFullscreenAvailable, isFullscreenEnabled, toggleFullscreen } = useFullscreen({
-        target: fullscreenContainerRef,
-    });
+
+    const boxStyle = {
+        sx: {
+            display: "flex",
+            flexDirection: "column",
+        },
+    };
+
+    const paperStyle = {
+        sx: {
+            width: "100%",
+            mb: 3,
+        },
+    };
+    const titleSeccionStyle = {
+        variant: "h4",
+        sx: { textAlign: "center" },
+    };
 
     const fetchMedidasHistoricas = async () => {
         const res = await medidasService.getMedidasSummary(idCliente, tipoMedida);
@@ -72,79 +82,45 @@ function InformeTipoMedida(props) {
     }, [formik.values.fechaDesde]);
 
     return (
-        // <Container sx={{ display: "flex", justifyContent: "center", flexDirection:'column'}}>
-        <>
-            <Paper
-                sx={{
-                    width: isMediumDevice ? "90vw" : "68vw",
-                    p: 1,
-                }}
-                fullWidth
-            >
-                <Typography variant="h4" textAlign="center" gutterBottom>
-                    Historico de {tipoMedida}
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", justifyContent:'space-around' }}>
-                    <DatePicker
-                        value={formik.values.fechaDesde || ""}
-                        id="fechaDesde"
-                        name="fechaDesde"
-                        label="Fecha desde"
-                        editable={true}
-                        onChange={formik.setFieldValue}
-                        errorProp={formik.touched.fechaDesde && Boolean(formik.errors.fechaDesde)}
-                        helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
-                    />
-                    <Button
-                        variant="outlined"
-                        endIcon={<FitScreen />}
-                        sx={{ ml: 2 }}
-                        onClick={() => {
-                            setVisualMode(!visualMode);
+        <Container
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                mt: { xs: "90px", md: "180px" },
+            }}
+        >
+            <Box {...boxStyle}>
+                <Paper {...paperStyle}>
+                    <Typography {...titleSeccionStyle}>Historico de {tipoMedida}</Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            my: 1,
                         }}
                     >
-                        {visualMode ? "Ancho" : "Alto"}
-                    </Button>
-                    {/* <FullscreenComp /> */}
-                </Box>
-            </Paper>
-            <div ref={fullscreenContainerRef}>
-                <Paper
-                    sx={{
-                        mt: 2,
-                        width: isMediumDevice ? 
-                        isFullscreenEnabled?
-                        null
-                        :
-                        "90vw" 
-                        :
-                        "68vw",
-                        // maxHeight:'550px',
-                        backgroundColor: "lightGrey",
-                                }}
-                >
-                    {isFullscreenAvailable ? (
-                        <button
-                            onClick={() => {
-                                setVisualMode(false);
-                                toggleFullscreen();
-                            }}
-                        >
-                            {isFullscreenEnabled
-                                ? "Cerrar Pantalla Completa"
-                                : "Abrir Pantalla Completa"}
-                        </button>
-                    ) : (
-                        <p>Fullscreen API is not available.</p>
-                    )}
-                    <Grafico mediciones={filteredMedidas} visualMode={visualMode} />
+                        <DatePicker
+                            value={formik.values.fechaDesde || ""}
+                            id="fechaDesde"
+                            name="fechaDesde"
+                            label="Fecha desde"
+                            editable={true}
+                            onChange={formik.setFieldValue}
+                            errorProp={
+                                formik.touched.fechaDesde && Boolean(formik.errors.fechaDesde)
+                            }
+                            helperTextProp={formik.touched.fechaDesde && formik.errors.fechaDesde}
+                        />
+                    </Box>
                 </Paper>
-            </div>
-        {/* </Container> */}
-        </>
+            </Box>
+            <Paper {...paperStyle} sx={{ mb: { xs: "30px", md: "80px" } }}>
+                <ContenedorCharts title={"Peso: "} data={filteredMedidas} label={"kg"} />
+            </Paper>
+        </Container>
     );
 }
 
 export default InformeTipoMedida;
-
-//

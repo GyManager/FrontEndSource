@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Container, Paper, Typography } from "@mui/material";
 import GenericComboBox from "../reusable/GenericComboBox";
-import VistaInforme from "./VistaInforme";
+import ContenedorCharts from "../reusable/ContenedorCharts/ContenedorCharts";
 
 import { AvancesContext } from "../../context/AvancesContext";
 
@@ -16,7 +16,6 @@ function InformeEjercicio() {
         historicoEjercicio,
         setHistoricoEjercicio,
     } = useContext(AvancesContext);
-    // const { idEjercicio } = useParams();
     const [titulo, setTitulo] = useState("");
     const [medidaComboBox, setMedidaComboBox] = useState("Carga");
     const [ejercicioComboBox, setEjercicioComboBox] = useState("");
@@ -40,19 +39,6 @@ function InformeEjercicio() {
     const titleSeccionStyle = {
         variant: "h4",
         sx: { textAlign: "center" },
-    };
-
-    const titleStyle = {
-        variant: "h5",
-        sx: { textAlign: "center" },
-    };
-
-    const buttonStyle = {
-        variant: "contained",
-        sx: {
-            mb: 2,
-            mx: 3,
-        },
     };
 
     const generarData = async (dataType, resHistoricoEjercicio) => {
@@ -121,7 +107,7 @@ function InformeEjercicio() {
     }, []);
 
     return (
-        <Container>
+        <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
             <Box {...boxStyle}>
                 <Paper {...paperStyle}>
                     <Typography {...titleSeccionStyle}>Avance de ejercicio</Typography>
@@ -133,7 +119,15 @@ function InformeEjercicio() {
                         {" "}
                         {titulo}
                     </Typography>
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: { xs: "column", md: "row" },
+                            justifyContent: { md: "space-around" },
+                            alignItems: "center",
+                            mt: 1,
+                        }}
+                    >
                         <GenericComboBox
                             label="Ejercicio"
                             id="ejercicioComboBox"
@@ -146,30 +140,31 @@ function InformeEjercicio() {
                                 return unEjercicio.nombre;
                             })}
                             minWidth={250}
+                            // fullwidth
                         />
-                    </Box>
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
-                        <GenericComboBox
-                            label="Medida"
-                            id="medidaComboBox"
-                            value={medidaComboBox}
-                            handleChange={handleChangeMedida}
-                            editable={true}
-                            valueForNone=""
-                            labelForNone="Seleccionar medida"
-                            values={["Tiempo", "Carga"]}
-                            minWidth={250}
-                        />
+                        <Box sx={{ mt: { xs: 2, md: "none" } }}>
+                            <GenericComboBox
+                                label="Medida"
+                                id="medidaComboBox"
+                                value={medidaComboBox}
+                                handleChange={handleChangeMedida}
+                                editable={true}
+                                valueForNone=""
+                                labelForNone="Seleccionar medida"
+                                values={["Tiempo", "Carga"]}
+                                minWidth={250}
+                            />
+                        </Box>
                     </Box>
                 </Paper>
             </Box>
             <Box>
-                <Paper {...paperStyle}>
-                    {/* <VistaInforme title={ejercicioById} data={historicoEjercicio} /> */}
-                    <VistaInforme 
-                    title={'Ejercicio: ' + titulo + ' - Medida: ' + medidaComboBox} 
-                    data={dataByType} 
-                    label={medidaComboBox} />
+                <Paper {...paperStyle} sx={{ mb: { xs: "30px", md: "80px" } }}>
+                    <ContenedorCharts
+                        title={"Ejercicio: " + titulo + " - Medida: " + medidaComboBox}
+                        data={dataByType}
+                        label={medidaComboBox}
+                    />
                 </Paper>
             </Box>
         </Container>
