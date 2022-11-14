@@ -35,6 +35,7 @@ const LoginFormWithFormik = () => {
     const handleCloseBackdrop = () => {
         setOpenBackdrop(false);
     };
+    const [remember, setRemember] = useState(() => localStorage.getItem("rememberMe")? true : false);
 
     const navigate = useNavigate();
 
@@ -46,6 +47,11 @@ const LoginFormWithFormik = () => {
         try {
             await AuthService.login(mail, pass).then(
                 () => {
+                    if(remember){
+                        localStorage.setItem("rememberMe", formik.values.email);
+                    } else {
+                        localStorage.setItem("rememberMe", "");
+                    }
                     navigate("/home")
                     window.location.reload();
                     setOpenBackdrop(false)
@@ -68,7 +74,7 @@ const LoginFormWithFormik = () => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
+            email: localStorage.getItem("rememberMe") || '',
             password: '',
         },
         validationSchema: validationSchema,
@@ -143,6 +149,8 @@ const LoginFormWithFormik = () => {
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 14 } }}
                                 value="checkBox"
                                 color="primary"
+                                checked={remember}
+                                onChange={(e) => setRemember(e.target.checked)}
                             />
                         }
                     />
