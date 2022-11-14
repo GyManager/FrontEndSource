@@ -125,9 +125,9 @@ export const menuItem = [
         descripcion: "Como esta mi matricula?",
     },
     {
-        text: "Dashboard",
+        text: "Tablero",
         icon: <Receipt />,
-        url: "/dashboard",
+        url: "/tablero",
         permiso: "gestion-clientes",
         descripcion: "Reportes e indicadores",
     },

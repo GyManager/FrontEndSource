@@ -173,7 +173,7 @@ function Dash(props) {
             ),
         },
         {
-            text: "Dashboard",
+            text: "Tablero",
             icon: <Receipt {...iconStyle} />,
         },
         {
