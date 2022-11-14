@@ -35,13 +35,39 @@ export const MiPlanProvider = ({ children }) => {
 
     const esCompletado = loading ? false : new Date(plan.fechaHasta) < new Date();
 
+    const semanaActual = loading
+        ? ""
+        : Math.ceil((new Date() - new Date(plan.fechaDesde)) / 86400000 / 7);
+
+    let acumSemanas = 0;
+    const microPlanSemanaActual = loading
+        ? []
+        : plan.microPlans.map((microPlan) => {
+              let semanaInicio = acumSemanas;
+              acumSemanas += microPlan.observaciones.length;
+              if (semanaActual >= semanaInicio && semanaActual <= acumSemanas) {
+                  return {
+                      id: microPlan.idMicroPlan,
+                      observacion: microPlan.observaciones.filter(
+                          (observacion) => observacion.numeroSemana === semanaActual - semanaInicio
+                      )[0]?.observacion,
+                  };
+              } else {
+                  return {
+                      id: microPlan.idMicroPlan,
+                      observacion: "",
+                  };
+              }
+          });
+
     return (
         <MiPlanContext.Provider
             value={{
                 plan,
                 loading,
                 esCompletado,
-                getPlanById
+                getPlanById,
+                microPlanSemanaActual,
             }}
         >
             {children}
