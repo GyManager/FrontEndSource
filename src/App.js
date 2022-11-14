@@ -124,6 +124,7 @@ console.log(token)
                     {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente" element={<MisAvancesPage/>} />}
                     {token.permisos.includes("mis-avances") && <Route path="/mis-avances/:idCliente/ejercicio/:idEjercicio" element={<InformeEjercicioPage/>} />}
                     </Route>
+                    {token.permisos.includes("mis-matriculas") && <Route path="/home/mi-matricula/:showMatricula" element={<Dash token={token}/>} />}
 
                     {token && <Route path="/mis-datos" element={<MisDatos/>} />}
 

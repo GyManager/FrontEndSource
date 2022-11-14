@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback, useMemo } from "react";
 import { Avatar, Box, Typography, useMediaQuery, Paper, Stack, Badge } from "@mui/material";
 
 import {
@@ -22,7 +22,7 @@ import clientsService from "../../services/users.service";
 import matriculasService from "../../services/matriculas.service";
 import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
 import { UserContext } from "../../context/UserContext";
-// import useFetchActiveUserMatriculas from "../../services/usersHooks";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Dash(props) {
     const [userInfo, setUserInfo] = useState({});
@@ -30,35 +30,9 @@ function Dash(props) {
     const [matriculas, setMatriculas] = useState([]);
     const [tieneClienteAsociado, setTieneClienteAsociado] = useState(() => {});
     const [idCliente, setIdCliente] = useState(() => {});
-    console.log("dash:");
-
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            const userInfo = await clientsService.getActiveUser();
-            console.log("dash res:", userInfo);
-            setUserInfo(userInfo);
-            setTieneClienteAsociado(userInfo.cliente ? true : false);
-            const idCliente = userInfo.cliente?.idCliente;
-            setIdCliente(idCliente);
-        };
-        fetchUserInfo();
-    }, []);
-    console.log("tieneClienteAsociado:", tieneClienteAsociado);
-
-    useEffect(() => {
-        const fecthMatriculas = async () => {
-            if (await tieneClienteAsociado) {
-                const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
-                setMatriculas(await res);
-                console.log("res: ", await res);
-            }
-        };
-        fecthMatriculas();
-    }, [idCliente, tieneClienteAsociado]);
-
-    console.log("dash: idCliente:", idCliente);
-    console.log("dash: userInfo:", userInfo);
-    console.log("dash: matriculas", matriculas);
+    const [notificacionMatricula, setNotificacionMatricula] = useState({ estado: 0 });
+    const { showMatricula } = useParams();
+    const navigate = useNavigate("");
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -66,8 +40,51 @@ function Dash(props) {
     };
 
     const handleClose = (value) => {
+        navigate("/home");
         setOpen(false);
     };
+
+    useEffect(() => {
+        showMatricula !== undefined ? setOpen(true) : handleClose();
+    }, [showMatricula]);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const userInfo = await clientsService.getActiveUser();
+            setUserInfo(userInfo);
+            setTieneClienteAsociado(userInfo.cliente ? true : false);
+            const idCliente = userInfo.cliente?.idCliente;
+            setIdCliente(idCliente);
+        };
+        fetchUserInfo();
+    }, []);
+
+    const verificarMatriculas = useCallback(async(matriculas) => {
+        const matriculaProntoAVencer = await matriculas.filter(
+            (unaMatricula) => unaMatricula.matriculaEstado === "PRONTO_A_VENCER"
+        );
+        const matriculaActiva = await matriculas.filter(
+            (unaMatricula) => unaMatricula.matriculaEstado === "ACTIVA"
+        );
+        if ( await matriculaProntoAVencer.length !== 0) {
+            await setNotificacionMatricula({ estado: "1", color: "warning" });
+        }
+        if ( await matriculaProntoAVencer.length === 0 &&  await matriculaActiva.length === 0) {
+            await setNotificacionMatricula({ estado: "!", color: "error" });
+        }
+    },[]);
+    
+
+    useEffect(() => {
+        const fecthMatriculas = async () => {
+            if (await tieneClienteAsociado) {
+                const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
+                await setMatriculas(await res);
+                await verificarMatriculas(await res);
+            }
+        };
+        fecthMatriculas();
+    }, [idCliente, tieneClienteAsociado, verificarMatriculas]);
 
     const iconMediumStyle = {
         width: "40%",
@@ -136,18 +153,31 @@ function Dash(props) {
 
         {
             text: "Mis Medidas",
-            icon: <SquareFoot {...iconStyle}/>,
+            icon: <SquareFoot {...iconStyle} />,
         },
         {
             text: "Mi Matricula",
-            icon: <Receipt {...iconStyle} />,
+            icon: (
+                <Badge
+                    badgeContent={notificacionMatricula.estado}
+                    color={notificacionMatricula.color}
+                    component="span"
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                    }}
+                    sx={{ mx: 2.79 }}
+                >
+                    <Receipt sx={iconLargeStyle} />
+                </Badge>
+            ),
         },
         {
             text: "Dashboard",
             icon: <Receipt {...iconStyle} />,
         },
         {
-            text: "Mis datos",
+            text: "Mis Datos",
             icon: <Person {...iconStyle} />,
         },
         {

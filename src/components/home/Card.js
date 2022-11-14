@@ -46,7 +46,7 @@ export default function ActionAreaCard(props) {
                     <Stack direction={props.isMediumDevice ? "row" : "column"} alignItems="center">
                         {props.children}
                         <Typography gutterBottom variant="h6" component="div" color="black" textAlign={'center'}>
-                            {_.startCase(props.title)}
+                            {(props.title)}
                         </Typography>
                     </Stack>
                     <Typography gutterBottom variant="caption" component="div" color="black">
