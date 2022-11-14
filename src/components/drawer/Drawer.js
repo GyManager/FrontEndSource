@@ -120,7 +120,7 @@ export const menuItem = [
     {
         text: "Mi Matricula",
         icon: <Receipt />,
-        url: "/home",
+        url: "/home/mi-matricula/true",
         permiso: "mis-matriculas",
         descripcion: "Como esta mi matricula?",
     },

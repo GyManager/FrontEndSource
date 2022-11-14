@@ -22,6 +22,7 @@ import clientsService from "../../services/users.service";
 import matriculasService from "../../services/matriculas.service";
 import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate, useParams } from "react-router-dom";
 // import useFetchActiveUserMatriculas from "../../services/usersHooks";
 
 function Dash(props) {
@@ -31,6 +32,22 @@ function Dash(props) {
     const [tieneClienteAsociado, setTieneClienteAsociado] = useState(() => {});
     const [idCliente, setIdCliente] = useState(() => {});
     const [notificacionMatricula, setNotificacionMatricula] = useState({ estado: 0 });
+    const { showMatricula } = useParams();
+    const navigate = useNavigate("");
+
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (value) => {
+        navigate("/home");
+        setOpen(false);
+    };
+
+    useEffect(() => {
+        showMatricula !== undefined ? setOpen(true) : handleClose();
+    }, [showMatricula]);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -67,16 +84,7 @@ function Dash(props) {
             }
         };
         fecthMatriculas();
-    }, [idCliente, tieneClienteAsociado]);
-
-    const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (value) => {
-        setOpen(false);
-    };
+    }, [idCliente, tieneClienteAsociado, notificacionMatricula]);
 
     const iconMediumStyle = {
         width: "40%",
