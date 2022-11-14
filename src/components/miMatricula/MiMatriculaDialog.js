@@ -1,14 +1,17 @@
 import { React, useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import { Button, DialogContent } from "@mui/material";
-import InformeMatriculaActual from "./InformeMatriculaActual";
-import InformeMatriculaFutura from "./InformeMatriculaFutura";
+import InformeMatricula from "./InformeMatricula";
 
 function SimpleDialog(props) {
     const { onClose, selectedValue, open } = props;
     const [tieneMatriculaProximaAVencer, setTieneMatriculaProximaAVencer] = useState(false);
     const [tieneMatriculaActiva, setTieneMatriculaActiva] = useState(false);
     const [tieneMatriculaFutura, setTieneMatriculaFutura] = useState(false);
+    
+
+    const [mensaje1, setMensaje1] = useState("");
+    const [mensaje2, setMensaje2] = useState("");
 
     const handleClose = () => {
         onClose(selectedValue);
@@ -24,10 +27,11 @@ function SimpleDialog(props) {
             );
 
             if ((await matriculaActiva[0]) === undefined) {
-                setMatriculaActiva("No tenes una matricula vigente");
+                setTieneMatriculaActiva(false);
             } else {
                 setTieneMatriculaActiva(true);
                 setMatriculaActiva({ ...matriculaActiva[0] }.fechaVencimiento);
+                setMensaje1("Tu matricula actual vence el: ");
             }
 
             const matriculaFutura = await props.userMatriculas.filter(
@@ -35,21 +39,24 @@ function SimpleDialog(props) {
             );
 
             if ((await matriculaFutura[0]) === undefined) {
-                setMatriculaFutura("No tenes una matricula a futuro");
+                setTieneMatriculaFutura(false);
             } else {
-                setMatriculaFutura(true)
+                setTieneMatriculaFutura(true);
                 setMatriculaFutura({ ...matriculaFutura[0] }.fechaVencimiento);
+                // console.log("🚀 ~ file: MiMatriculaDialog.js ~ line 47 ~ setMatriculas ~ matriculaFutura", matriculaFutura)
+                setMensaje2("Tenes una matricula futura desde : " + matriculaFutura[0].fechaInicio.split("T", 1) + ' al:') ;
             }
 
-            const matriculaProntoAVencer = await props.userMatriculas.filter((unaMatricula) => {
-                return unaMatricula.matriculaEstado === "PRONTO_A_VENCER";
-            });
+            const matriculaProntoAVencer = await props.userMatriculas.filter(
+                (unaMatricula) => unaMatricula.matriculaEstado === "PRONTO_A_VENCER"
+            );
 
             if ((await matriculaProntoAVencer[0]) === undefined) {
-                setMatriculaProntoAVencer("No tenes una matricula pronto a vencer");
+                setMatriculaProntoAVencer(false);
             } else {
                 setTieneMatriculaProximaAVencer(true);
                 setMatriculaProntoAVencer({ ...matriculaProntoAVencer[0] }.fechaVencimiento);
+                setMensaje1("Tu matricula está proxima a vencer");
             }
         };
         // console.log(
@@ -77,21 +84,32 @@ function SimpleDialog(props) {
                     alignItems: "center",
                 }}
             >
-                {tieneMatriculaProximaAVencer ? (
-                    <InformeMatriculaActual
-                        fechaVencimiento={matriculaProntoAVencer}
-                        mensaje={"Tienes una matricula proxima a vencer:"}
-                        tieneMatriculaProximaAVencer={tieneMatriculaProximaAVencer}
-                    />
+                {tieneMatriculaActiva ? (
+                    <InformeMatricula check mensaje={mensaje1} fechaVencimiento={matriculaActiva} />
                 ) : (
-                    <InformeMatriculaActual
-                        mensaje={"Tu matricula actual vence el:"}
-                        fechaVencimiento={matriculaActiva}
+                    !tieneMatriculaProximaAVencer ?
+                    <InformeMatricula close mensaje={'No tenes matricula vigente'} fechaVencimiento={matriculaActiva} />
+                    :
+                    null
+                )}
+                {tieneMatriculaProximaAVencer ? (
+                    <InformeMatricula
+                        warning
+                        mensaje={mensaje1}
+                        fechaVencimiento={matriculaProntoAVencer}
+                    />
+                ) : null}
+                {tieneMatriculaFutura ? (
+                    <InformeMatricula check mensaje={mensaje2} fechaVencimiento={matriculaFutura} />
+                ) : (
+                    <InformeMatricula
+                        close
+                        mensaje={"No tenes matricula a futuro. \n Recorda matricularte a tiempo"}
+                        fechaVencimiento={matriculaFutura}
                     />
                 )}
 
-                {/* <InformeMatriculaActual fechaVencimiento={matriculaActiva} /> */}
-                <InformeMatriculaFutura fechaInicio={matriculaFutura} />
+
                 <Button variant="contained" sx={{ width: "40%", mt: "7%" }} onClick={handleClose}>
                     Aceptar
                 </Button>

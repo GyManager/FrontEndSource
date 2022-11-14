@@ -30,6 +30,7 @@ function Dash(props) {
     const [matriculas, setMatriculas] = useState([]);
     const [tieneClienteAsociado, setTieneClienteAsociado] = useState(() => {});
     const [idCliente, setIdCliente] = useState(() => {});
+    const [notificacionMatricula, setNotificacionMatricula] = useState({ estado: 0 });
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -42,20 +43,31 @@ function Dash(props) {
         fetchUserInfo();
     }, []);
 
+    const verificarMatriculas = async () => {
+        const matriculaProntoAVencer = matriculas.filter(
+            (unaMatricula) => unaMatricula.matriculaEstado === "PRONTO_A_VENCER"
+        );
+        const matriculaActiva = matriculas.filter(
+            (unaMatricula) => unaMatricula.matriculaEstado === "ACTIVA"
+        );
+        if (matriculaProntoAVencer.length !== 0) {
+            setNotificacionMatricula({ estado: "1", color: "warning" });
+        }
+        if (matriculaProntoAVencer.length === 0 && matriculaActiva.length === 0) {
+            setNotificacionMatricula({ estado: "!", color: "error" });
+        }
+    };
+
     useEffect(() => {
         const fecthMatriculas = async () => {
             if (await tieneClienteAsociado) {
                 const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
                 setMatriculas(await res);
-                console.log("res: matriculas ", await res);
+                verificarMatriculas();
             }
         };
         fecthMatriculas();
     }, [idCliente, tieneClienteAsociado]);
-
-    // console.log("dash: idCliente:", idCliente);
-    // console.log("dash: userInfo:", userInfo);
-    // console.log("dash: matriculas", matriculas);
 
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
@@ -133,11 +145,24 @@ function Dash(props) {
 
         {
             text: "Mis Medidas",
-            icon: <SquareFoot {...iconStyle}/>,
+            icon: <SquareFoot {...iconStyle} />,
         },
         {
             text: "Mi Matricula",
-            icon: <Receipt {...iconStyle} />,
+            icon: (
+                <Badge
+                    badgeContent={notificacionMatricula.estado}
+                    color={notificacionMatricula.color}
+                    component="span"
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                    }}
+                    sx={{ mx: 2.79 }}
+                >
+                    <Receipt sx={iconLargeStyle} />
+                </Badge>
+            ),
         },
         {
             text: "Dashboard",

@@ -1,34 +1,31 @@
 import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import { Warning } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 
 function InformeMatriculaActual(props) {
 
-    const fechaVencimientoMatriculaActual = props.fechaVencimiento.split("T", 1);
+    const fecha = props.fechaVencimiento.split("T", 1);
 
 
     const boxTypographyStyle = {
         sx: { display: "flex", flexDirection: "column", width: "100%", ml: 3 },
     };
 
-    const siTiene = (
+    const Informe = (
         <>
-            <CheckIcon fontSize="large" />
-            <Box {...boxTypographyStyle}>
+        { props.check &&  <CheckIcon fontSize="large" /> }
+        { props.close &&  <CloseIcon fontSize="large" /> }
+        { props.warning &&  <Warning fontSize="large" /> }
+        
+            <Box {...boxTypographyStyle} >
                 <Typography align="center">{props.mensaje}</Typography>
-                <Typography align="center">{fechaVencimientoMatriculaActual}</Typography>
+                <Typography align="center" >{fecha}</Typography>
             </Box>
         </>
-    );
-    const noTiene = (
-        <>
-            <CloseIcon fontSize="large" />
-            <Box {...boxTypographyStyle}>
-                <Typography align="center">No tenes una matricula vigente</Typography>
-            </Box>
-        </>
+   
     );
     return (
         <Box
@@ -37,10 +34,10 @@ function InformeMatriculaActual(props) {
                 justifyContent: "flex-start",
                 alignItems: "center",
                 mt: "7%",
-                width: "100%",
+                width: "300px",
             }}
         >
-            {tieneMatriculaVigente ? siTiene : noTiene}
+            {Informe}
         </Box>
     );
 }
