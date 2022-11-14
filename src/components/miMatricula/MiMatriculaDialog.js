@@ -43,7 +43,6 @@ function SimpleDialog(props) {
             } else {
                 setTieneMatriculaFutura(true);
                 setMatriculaFutura({ ...matriculaFutura[0] }.fechaVencimiento);
-                // console.log("🚀 ~ file: MiMatriculaDialog.js ~ line 47 ~ setMatriculas ~ matriculaFutura", matriculaFutura)
                 setMensaje2("Tenes una matricula futura desde : " + matriculaFutura[0].fechaInicio.split("T", 1) + ' al:') ;
             }
 
@@ -59,18 +58,6 @@ function SimpleDialog(props) {
                 setMensaje1("Tu matricula está proxima a vencer");
             }
         };
-        // console.log(
-        // "🚀 ~ file: MiMatriculaDialog.js ~ line 52 ~ setMatriculas ~ matriculaProntoAVencer",
-        // matriculaProntoAVencer
-        // );
-        // console.log(
-        // "🚀 ~ file: MiMatriculaDialog.js ~ line 53 ~ setMatriculas ~ matriculaFutura",
-        // matriculaFutura
-        // );
-        // console.log(
-        // "🚀 ~ file: MiMatriculaDialog.js ~ line 54 ~ setMatriculas ~ matriculaActiva",
-        // matriculaActiva
-        // );
         setMatriculas();
     }, [props.userMatriculas]);
     return (

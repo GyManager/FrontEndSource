@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback, useMemo } from "react";
 import { Avatar, Box, Typography, useMediaQuery, Paper, Stack, Badge } from "@mui/material";
 
 import {
@@ -23,7 +23,6 @@ import matriculasService from "../../services/matriculas.service";
 import MiMatriculaDialog from "../miMatricula/MiMatriculaDialog";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
-// import useFetchActiveUserMatriculas from "../../services/usersHooks";
 
 function Dash(props) {
     const [userInfo, setUserInfo] = useState({});
@@ -60,31 +59,32 @@ function Dash(props) {
         fetchUserInfo();
     }, []);
 
-    const verificarMatriculas = async () => {
-        const matriculaProntoAVencer = matriculas.filter(
+    const verificarMatriculas = useCallback(async(matriculas) => {
+        const matriculaProntoAVencer = await matriculas.filter(
             (unaMatricula) => unaMatricula.matriculaEstado === "PRONTO_A_VENCER"
         );
-        const matriculaActiva = matriculas.filter(
+        const matriculaActiva = await matriculas.filter(
             (unaMatricula) => unaMatricula.matriculaEstado === "ACTIVA"
         );
-        if (matriculaProntoAVencer.length !== 0) {
-            setNotificacionMatricula({ estado: "1", color: "warning" });
+        if ( await matriculaProntoAVencer.length !== 0) {
+            await setNotificacionMatricula({ estado: "1", color: "warning" });
         }
-        if (matriculaProntoAVencer.length === 0 && matriculaActiva.length === 0) {
-            setNotificacionMatricula({ estado: "!", color: "error" });
+        if ( await matriculaProntoAVencer.length === 0 &&  await matriculaActiva.length === 0) {
+            await setNotificacionMatricula({ estado: "!", color: "error" });
         }
-    };
+    },[]);
+    
 
     useEffect(() => {
         const fecthMatriculas = async () => {
             if (await tieneClienteAsociado) {
                 const res = await matriculasService.getMatriculasByIdCliente(await idCliente);
-                setMatriculas(await res);
-                verificarMatriculas();
+                await setMatriculas(await res);
+                await verificarMatriculas(await res);
             }
         };
         fecthMatriculas();
-    }, [idCliente, tieneClienteAsociado, notificacionMatricula]);
+    }, [idCliente, tieneClienteAsociado, verificarMatriculas]);
 
     const iconMediumStyle = {
         width: "40%",
