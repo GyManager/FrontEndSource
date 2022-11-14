@@ -38,7 +38,7 @@ export default function ReporteEstadoSeguimiento() {
                             hideTitle
                             data={loading ? 0 : data.estadoSeguimientoCounts}
                             loading={loading}
-                            link={"/dashboard/estado-seguimiento"}
+                            link={"/tablero/estado-seguimiento"}
                             containerSxOverride={{
                                 minHeight: "100%",
                                 height: { xs: "50vh", md: "100%" },

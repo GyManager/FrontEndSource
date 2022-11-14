@@ -15,11 +15,14 @@ import { Line } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function GraficoFinalRutinaPorFecha(props) {
+    const data2 = props.loading
+        ? {}
+        : props.data.map((element) => console.log(new Date(element.fechaCarga)));
     const data = props.loading
         ? {}
         : {
               labels: props.data.map((element) =>
-                  new Date(element.fechaCarga).toLocaleDateString()
+                  new Date(element.fechaCarga.replace("+00:00", "")).toLocaleDateString()
               ),
               datasets: [
                   {

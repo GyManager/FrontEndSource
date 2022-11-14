@@ -13,7 +13,7 @@ import ModalFinDia from "./modalFinDia/ModalFinDia";
 export default function MiRutina() {
     let { idPlan, idMicroPlan, idRutina } = useParams();
 
-    const { plan, loading, esCompletado } = useContext(MiPlanContext);
+    const { plan, loading, esCompletado, microPlanSemanaActual } = useContext(MiPlanContext);
     let [searchParams, setSearchParams] = useSearchParams();
     const ejercicioSeleccionado = searchParams.get("idEjercicioAplicado");
     const [cargarSeguimiento, setCargarSeguimiento] = useState();
@@ -42,6 +42,10 @@ export default function MiRutina() {
     useEffect(() => {
         getSeguimientoRutina();
     }, []);
+
+    const semanaActualData = loading
+        ? {}
+        : microPlanSemanaActual.filter((data) => data.id === parseInt(idMicroPlan))[0];
 
     async function getSeguimientos() {
         const respuesta = await seguimientoService.getSeguimientoEjercicioByIdRutina(
@@ -125,6 +129,17 @@ export default function MiRutina() {
                             " Ya completaste esta rutina hoy"}
                     </Typography>
                 </Paper>
+                {semanaActualData && semanaActualData.observacion && !esCompletado &&(
+                    <Paper {...paperStyles}>
+                        <Typography variant="h5" align="center">
+                            {loading ? (
+                                <Skeleton></Skeleton>
+                            ) : (
+                                `Observaciones para esta semana: ${semanaActualData.observacion}`
+                            )}
+                        </Typography>
+                    </Paper>
+                )}
 
                 <Container maxWidth="md">{ejerciciosAplicados}</Container>
 

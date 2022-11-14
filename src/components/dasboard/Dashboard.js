@@ -36,7 +36,7 @@ export default function Dashboard() {
                     <Stack direction="row" justifyContent="center" alignItems="center">
                         <Avatar alt="Logo" src={logo} sx={{ height: 50, width: 50, mr: 3 }} />
                         <Typography variant="h4" align="center">
-                            Dashboard CorE
+                            Tablero CorE
                         </Typography>
                     </Stack>
                 </Paper>
@@ -49,7 +49,7 @@ export default function Dashboard() {
                             title="Clientes con vencimiento de Matricula pronto"
                             data={loading ? 0 : data.cantidadClientesConMatriculaProximoVencimiento}
                             loading={loading}
-                            link={"/dashboard/vencimientos"}
+                            link={"/tablero/vencimientos"}
                         />
                     </Grid>
                     <Grid item xs={12} md={4}>
@@ -63,14 +63,14 @@ export default function Dashboard() {
                             title="Clientes matriculados sin finalizar rutina en los ultimos dias"
                             data={loading ? 0 : data.cantidadClientesSinFinalizarDia}
                             loading={loading}
-                            link={"/dashboard/sin-finalizar"}
+                            link={"/tablero/sin-finalizar"}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <GraficoFinalRutinaPorEstados
                             data={loading ? 0 : data.estadoSeguimientoCounts}
                             loading={loading}
-                            link={"/dashboard/estado-seguimiento"}
+                            link={"/tablero/estado-seguimiento"}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
