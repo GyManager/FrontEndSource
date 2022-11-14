@@ -22,9 +22,9 @@ export default function ButtonClientMobile(props) {
                 open={open}
                 sx={{
                     position: "fixed",
-                    bottom: 16,
-                    right: 16,
-                    display: { md: "none", lg: "none", xl: "none" },
+                    bottom: {xs: 16, md:65,lg:90,xl:110},
+                    right: {xs: 16, md:65,lg:'17vw',xl:'28vw'},
+                    // display: { md: "none", lg: "none", xl: "none" },
                 }}
             >
                 {props.editable && (

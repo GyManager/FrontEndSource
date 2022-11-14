@@ -171,7 +171,7 @@ function MisMedidas() {
     }, [formik.values.fecha]);
 
     return (
-        <Container maxWidth="md" disableGutters>
+        <Container maxWidth="md"  disableGutters>
             <Paper sx={{ mx: 1, p: 1, my: 2 }} elevation={2}>
                 <Box
                     sx={{
