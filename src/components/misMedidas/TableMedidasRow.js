@@ -64,7 +64,10 @@ export default function TableMedidasRow(props) {
                     ) : (
                         <Typography variant="body1">
                             {" "}
-                            {props.formik.values.medidas[props.nombreDatoDeMedida] +
+                            {props.formik.values.medidas[props.nombreDatoDeMedida] === null ?
+                            '- ' + unidadMedida
+                            :
+                            props.formik.values.medidas[props.nombreDatoDeMedida] +
                                 " " +
                                 unidadMedida}
                         </Typography>
