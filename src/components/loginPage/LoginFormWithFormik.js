@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 
 import { Backdrop, GenericModal } from '../reusable';
+import RecoverPasswordModal from './recoverPassword/RecoverPasswordModal';
 
 const validationSchema = yup.object({
     email: yup
@@ -35,6 +36,8 @@ const LoginFormWithFormik = () => {
     const handleCloseBackdrop = () => {
         setOpenBackdrop(false);
     };
+    const [remember, setRemember] = useState(() => localStorage.getItem("rememberMe")? true : false);
+    const [recover, setRecover] = useState(() => false);
 
     const navigate = useNavigate();
 
@@ -46,6 +49,11 @@ const LoginFormWithFormik = () => {
         try {
             await AuthService.login(mail, pass).then(
                 () => {
+                    if(remember){
+                        localStorage.setItem("rememberMe", formik.values.email);
+                    } else {
+                        localStorage.setItem("rememberMe", "");
+                    }
                     navigate("/home")
                     window.location.reload();
                     setOpenBackdrop(false)
@@ -68,7 +76,7 @@ const LoginFormWithFormik = () => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
+            email: localStorage.getItem("rememberMe") || '',
             password: '',
         },
         validationSchema: validationSchema,
@@ -76,6 +84,11 @@ const LoginFormWithFormik = () => {
             connectToServices(values.email, values.password)
         },
     });
+
+    function recoverPassword(e){
+        e.preventDefault()
+        setRecover(true);
+    }
 
     return (
         <Fragment>
@@ -143,6 +156,8 @@ const LoginFormWithFormik = () => {
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 14 } }}
                                 value="checkBox"
                                 color="primary"
+                                checked={remember}
+                                onChange={(e) => setRemember(e.target.checked)}
                             />
                         }
                     />
@@ -162,7 +177,7 @@ const LoginFormWithFormik = () => {
                         align="right"
                         component="div"
                     >
-                        <Link href="">Olvido su contraseña?</Link>
+                        <Link href="" onClick={(e) => recoverPassword(e)}>Olvido su contraseña?</Link>
                     </Typography>
                 </Container>
             </Paper>
@@ -173,6 +188,11 @@ const LoginFormWithFormik = () => {
             <Backdrop
                 show={openBackdrop}
                 hide={handleCloseBackdrop} />
+            <RecoverPasswordModal
+                open={recover} 
+                close={() => setRecover(false)} 
+                mail={formik.values.email}
+            />
 
         </Fragment>
     )
