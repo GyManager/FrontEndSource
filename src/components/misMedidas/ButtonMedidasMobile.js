@@ -1,16 +1,17 @@
-import {React, useState}  from "react";
+import { React, useState } from "react";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import AlertDialog from "../reusable/AlertDialog";
 
 import { Add, Edit, Delete, Save, Cancel } from "@mui/icons-material/";
+import { useParams } from "react-router-dom";
 
 export default function ButtonClientMobile(props) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    
+    const { idMedidas } = useParams();
 
     return (
         <>
@@ -22,9 +23,8 @@ export default function ButtonClientMobile(props) {
                 open={open}
                 sx={{
                     position: "fixed",
-                    bottom: {xs: 16, md:65,lg:90,xl:110},
-                    right: {xs: 16, md:65,lg:'17vw',xl:'28vw'},
-                    // display: { md: "none", lg: "none", xl: "none" },
+                    bottom: { xs: 16, md: 65, lg: 90, xl: 110 },
+                    right: { xs: 16, md: 65, lg: "17vw", xl: "28vw" },
                 }}
             >
                 {props.editable && (
@@ -62,7 +62,7 @@ export default function ButtonClientMobile(props) {
                     />
                 )}
 
-                {!props.editable !== "new" && !props.editable && (
+                {!props.editable !== "new" && !props.editable && idMedidas!=='new' && (
                     <SpeedDialAction
                         key="Editar"
                         icon={<Edit />}
@@ -74,7 +74,7 @@ export default function ButtonClientMobile(props) {
                     />
                 )}
 
-                {props.clienteId !== "new" && !props.editable && (
+                {props.clienteId !== "new" && !props.editable && idMedidas!=='new' && (
                     <SpeedDialAction
                         key="Borrar"
                         icon={<Delete />}
@@ -82,7 +82,6 @@ export default function ButtonClientMobile(props) {
                         onClick={props.handleDeleteClick}
                     />
                 )}
-
             </SpeedDial>
             <AlertDialog
                 open={props.openAlertDialog}
