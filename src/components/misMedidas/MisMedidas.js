@@ -84,9 +84,13 @@ function MisMedidas() {
     };
 
     const handleClose = () => {
-        navigate("../mis-medidas/" + idCliente);
-        setEditable(false);
-        cargaInicial();
+        if (editable === "new") {
+            navigate("../home/");
+        } else {
+            navigate("../mis-medidas/" + idCliente);
+            setEditable(false);
+            cargaInicial();
+        }
     };
 
     const handleAddClick = () => {
@@ -137,6 +141,7 @@ function MisMedidas() {
         const idMedidas = await fecha[0].idMedidas;
         return idMedidas;
     };
+
     const deleteMedidas = async () => {
         const res = await medidasService.deleteMedidasPorIdClientePorIdMedida(
             idCliente,
@@ -150,11 +155,20 @@ function MisMedidas() {
     };
 
     const cargaInicial = () => {
-        fetchFechasComboBox().then((fechasMediciones) => {
-            setUltimaFecha(fechasMediciones).then((idMedidas) => {
-                fetchMedidas(idMedidas);
+        fetchFechasComboBox()
+            .then((fechasMediciones) => {
+                if (fechasMediciones.length === 0) {
+                    navigate("../mis-medidas/" + idCliente + "/new");
+                }
+                return fechasMediciones;
+            })
+            .then((fechasMediciones) => {
+                setUltimaFecha(fechasMediciones).then((idMedidas) => {
+                    fetchMedidas(idMedidas);
+
+                    return idMedidas;
+                });
             });
-        });
     };
 
     useEffect(() => {
@@ -163,11 +177,13 @@ function MisMedidas() {
 
     // Este useEffect se ejecuta al seleccionar una nueva fecha en el combobox
     useEffect(() => {
-        getIdMedidasPorFecha(formik.values.fecha).then((idMedidas) => {
-            //Ejecuto en paralelo porque ya tengo idMedidas
-            fetchMedidas(idMedidas);
-            formik.setFieldValue("idMedidas" || "", idMedidas, false);
-        });
+        getIdMedidasPorFecha(formik.values.fecha)
+            .then((idMedidas) => {
+                //Ejecuto en paralelo porque ya tengo idMedidas
+                fetchMedidas(idMedidas);
+                formik.setFieldValue("idMedidas" || "", idMedidas, false);
+            })
+            .then();
     }, [formik.values.fecha]);
 
     return (
@@ -207,7 +223,7 @@ function MisMedidas() {
                                 handleChange={formik.handleChange}
                                 editable={true}
                                 valueForNone=""
-                                labelForNone="Seleccionar fecha"
+                                labelForNone="Sin seleccion"
                                 values={formik.values.fechasMediciones.map((unaMedicion) => {
                                     return unaMedicion.fecha;
                                 })}

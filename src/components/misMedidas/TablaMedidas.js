@@ -50,7 +50,7 @@ export default function TablaMedidas(props) {
 
     return (
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
-            <TableContainer sx={{ height: { xs: "69vh", md: "62vh", lg: "48vh", xl: "52vh" } }}>
+            <TableContainer sx={{ height: { xs: "69vh", md: "62vh", lg: "62vh", xl: "70vh" } }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
